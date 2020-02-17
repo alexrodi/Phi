@@ -35,6 +35,7 @@ private:
 
     OwnedArray<ModuleBox> modules;
     SelectedItemSet<ModuleBox*> selectedModules;
+    LookAndFeel_V4 lookandfeel;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

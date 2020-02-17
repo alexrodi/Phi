@@ -23,8 +23,6 @@ headerHeight(27)
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
     
-    setLookAndFeel(&lookandfeel);
-    
     powerButton.addListener(this);
     
     moduleSelection->addChangeListener(this);
@@ -40,6 +38,8 @@ headerHeight(27)
     addAndMakeVisible(resizer);
     
     resizer.setSize(8,8);
+    
+    setLookAndFeel(&lookandfeel);
     
     lookandfeel.setColour(phi_Dial::thumbColourId, Colours::cyan.brighter());
     lookandfeel.setColour(phi_Dial::rotarySliderFillColourId, Colour::greyLevel(0.17));

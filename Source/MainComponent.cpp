@@ -13,11 +13,16 @@ MainComponent::MainComponent()
 {
     setSize (600, 400);
     
+    setLookAndFeel(&lookandfeel);
+    lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
+    lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
     
+    sendLookAndFeelChange();
 }
 
 MainComponent::~MainComponent()
 {
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -40,7 +45,9 @@ void MainComponent::mouseDown(const MouseEvent& e)
 
         PopupMenu mainMenu;
         mainMenu.addSubMenu ("Add Module...", subMenu);
-
+        
+        mainMenu.setLookAndFeel(&lookandfeel);
+        
         const int result = mainMenu.show();
         
         if (result){
