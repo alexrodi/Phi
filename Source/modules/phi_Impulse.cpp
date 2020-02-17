@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Oscillator.cpp
+    phi_Impulse.cpp
     Created: 9 Feb 2020 11:02:38pm
     Author:  Alexandre Rodrigues
 
@@ -9,26 +9,29 @@
 */
 
 #include <JuceHeader.h>
-#include "phi_Oscillator.h"
+#include "phi_Impulse.h"
 
 //==============================================================================
-phi_Oscillator::phi_Oscillator() :
-frequencySlider(50, 5000.0, " Hz", 2, this),
-shapeSlider(0, 100, " %", 0, this)
+phi_Impulse::phi_Impulse() :
+decaySlider(5, 100, " ms", 2, this),
+shapeSlider(0, 1, " %", 0, this)
 {
+    
+    shapeSlider.textFromValueFunction = [] (float f) -> String { return String(f*100); };
 
     setPaintingIsUnclipped(true);
 
-    addAndMakeVisible(frequencySlider);
+    addAndMakeVisible(decaySlider);
     addAndMakeVisible(shapeSlider);
 }
 
-phi_Oscillator::~phi_Oscillator()
+phi_Impulse::~phi_Impulse()
 {
 }
 
 //==============================================================================
-static void drawSine(juce::Graphics &g, const Rectangle<float> &viewPort, float shape) {
+const float PI = MathConstants<float>::pi;
+static void drawSine(juce::Graphics &g, const Rectangle<float> &viewPort, float shape, float decay) {
     
     const float yRange = (viewPort.getHeight() * 0.5) - 3;
     
@@ -40,6 +43,8 @@ static void drawSine(juce::Graphics &g, const Rectangle<float> &viewPort, float 
         const float width = viewPort.getWidth();
         const float maxX = x+width;
         const float phaseIncrement = (6.2831853072/width)*pixelsPerPoint;
+        const float shapeValue = 1.006 - shape;
+        
         
         Path wavePath;
         
@@ -47,7 +52,8 @@ static void drawSine(juce::Graphics &g, const Rectangle<float> &viewPort, float 
         
         float phase = 0;
         for (int pixel=x; pixel<maxX; pixel += pixelsPerPoint){
-            wavePath.lineTo (pixel, sin(sin(phase) * (1+shape*0.1))*yRange + centreY);
+            const float lengthPhase = phase*decay;
+            wavePath.lineTo (pixel, sin( sin(lengthPhase) / (shapeValue * (lengthPhase-PI)) ) * yRange + centreY);
             phase += phaseIncrement;
         }
         
@@ -56,39 +62,39 @@ static void drawSine(juce::Graphics &g, const Rectangle<float> &viewPort, float 
 }
 
 //==============================================================================
-void phi_Oscillator::paint (Graphics& g)
+void phi_Impulse::paint (Graphics& g)
 {
     g.setColour(findColour(Slider::thumbColourId));
     
-    drawSine(g, waveViewPort, shapeSlider.getValue());
+    drawSine(g, waveViewPort, shapeSlider.getValue(), decaySlider.getValue());
 }
 
-void phi_Oscillator::resized()
+void phi_Impulse::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
     Rectangle<int> moduleBounds = getLocalBounds();
     Rectangle<int> sliderBounds = moduleBounds.removeFromLeft(getWidth()*0.3);
-    frequencySlider.setBounds( sliderBounds.removeFromTop(getHeight()*0.5) );
+    decaySlider.setBounds( sliderBounds.removeFromTop(getHeight()*0.5) );
     shapeSlider.setBounds( sliderBounds );
     
     waveViewPort = moduleBounds.reduced(10,0).toFloat();
 }
 
-void phi_Oscillator::frequencySliderChanged (float value)
+void phi_Impulse::decaySliderChanged (float value)
 {
 }
 
-void phi_Oscillator::shapeSliderChanged (float value)
+void phi_Impulse::shapeSliderChanged (float value)
 {
     repaint();
 }
 
-void phi_Oscillator::sliderValueChanged (Slider* slider)
+void phi_Impulse::sliderValueChanged (Slider* slider)
 {
-    if (slider == &frequencySlider){
-        frequencySliderChanged(slider->getValue());
+    if (slider == &decaySlider){
+        decaySliderChanged(slider->getValue());
         repaint();
     } else if (slider == &shapeSlider){
         shapeSliderChanged(slider->getValue()*0.01);

@@ -16,15 +16,12 @@
       <FILE id="DpTCj7" name="SinFormant.wav" compile="0" resource="1" file="Source/audio/SinFormant.wav"/>
     </GROUP>
     <GROUP id="{618A1D55-EE23-6EC3-F61C-BA6295338413}" name="modules">
-      <FILE id="BHEQ4h" name="phi_Oscillator.cpp" compile="1" resource="0"
-            file="Source/modules/phi_Oscillator.cpp"/>
-      <FILE id="j10Rse" name="phi_Oscillator.h" compile="0" resource="0"
-            file="Source/modules/phi_Oscillator.h"/>
+      <FILE id="BHEQ4h" name="phi_Impulse.cpp" compile="1" resource="0" file="Source/modules/phi_Impulse.cpp"/>
+      <FILE id="j10Rse" name="phi_Impulse.h" compile="0" resource="0" file="Source/modules/phi_Impulse.h"/>
     </GROUP>
     <GROUP id="{5B95B4BC-FBD0-5DDA-2A7E-D4FDCC2D4586}" name="objects">
       <FILE id="QbiAfJ" name="phi_Dial.cpp" compile="1" resource="0" file="Source/objects/phi_Dial.cpp"/>
       <FILE id="mKMvye" name="phi_Dial.h" compile="0" resource="0" file="Source/objects/phi_Dial.h"/>
-      <FILE id="O8DfD3" name="phi_PopupMenu.h" compile="0" resource="0" file="Source/objects/phi_PopupMenu.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

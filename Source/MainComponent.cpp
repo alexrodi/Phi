@@ -88,7 +88,7 @@ void MainComponent::mouseDown(const MouseEvent& e)
     
     if (e.mods.isRightButtonDown()){
         PopupMenu subMenu;
-        subMenu.addItem (1, "Oscillator");
+        subMenu.addItem (1, "Impulse");
 
         PopupMenu mainMenu;
         mainMenu.addSubMenu ("Add Module...", subMenu);

@@ -11,7 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "modules/phi_Oscillator.h"
+#include "modules/phi_Impulse.h"
 
 //==============================================================================
 /*
@@ -36,7 +36,7 @@ public:
     void changeListenerCallback (ChangeBroadcaster* source) override;
 
 private:
-    phi_Oscillator module;
+    phi_Impulse module;
     Rectangle<float> moduleRectangle;
     
     class PowerButton : public Button
