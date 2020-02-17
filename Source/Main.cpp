@@ -12,11 +12,11 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class ModulateApplication  : public JUCEApplication
+class PhiApplication  : public JUCEApplication
 {
 public:
     //==============================================================================
-    ModulateApplication() {}
+    PhiApplication() {}
 
     const String getApplicationName() override       { return ProjectInfo::projectName; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -103,4 +103,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (ModulateApplication)
+START_JUCE_APPLICATION (PhiApplication)
