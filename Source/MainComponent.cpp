@@ -36,6 +36,7 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     setLookAndFeel(nullptr);
+    
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
 }
