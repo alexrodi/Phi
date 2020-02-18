@@ -77,6 +77,10 @@ void ModuleBox::paint (Graphics& g)
 
 void ModuleBox::resized()
 {
+    // Check height to constrain size
+    if (getHeight() < 100)
+        setBounds(getX(), getY(), getWidth(), 30);
+    
     // Module Box area (padded)
     moduleRectangle = getLocalBounds().toFloat().reduced(1.5, 1.5);
     

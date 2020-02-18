@@ -22,6 +22,10 @@
     <GROUP id="{5B95B4BC-FBD0-5DDA-2A7E-D4FDCC2D4586}" name="objects">
       <FILE id="QbiAfJ" name="phi_Dial.cpp" compile="1" resource="0" file="Source/objects/phi_Dial.cpp"/>
       <FILE id="mKMvye" name="phi_Dial.h" compile="0" resource="0" file="Source/objects/phi_Dial.h"/>
+      <FILE id="gVmmPb" name="phi_Outlet.cpp" compile="1" resource="0" file="Source/objects/phi_Outlet.cpp"/>
+      <FILE id="mo0xrw" name="phi_Outlet.h" compile="0" resource="0" file="Source/objects/phi_Outlet.h"/>
+      <FILE id="ZPr7c6" name="phi_Inlet.cpp" compile="1" resource="0" file="Source/objects/phi_Inlet.cpp"/>
+      <FILE id="dpjNgv" name="phi_Inlet.h" compile="0" resource="0" file="Source/objects/phi_Inlet.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

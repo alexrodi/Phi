@@ -16,6 +16,8 @@ phi_Impulse::phi_Impulse() :
 decaySlider(5, 100, " ms", 2, this),
 shapeSlider(0, 1, " %", 0, this)
 {
+    const int numInlets = 2;
+    const int numOutlets = 3;
     
     shapeSlider.textFromValueFunction = [] (float f) -> String { return String(f*100); };
 
@@ -23,10 +25,18 @@ shapeSlider(0, 1, " %", 0, this)
 
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(shapeSlider);
+    
+    for (int i=0; i<numInlets; i++)
+        addAndMakeVisible( inlets.add( new phi_Inlet() ) );
+    
+    for (int i=0; i<numOutlets; i++)
+        addAndMakeVisible( outlets.add( new phi_Outlet() ) );
+
 }
 
 phi_Impulse::~phi_Impulse()
 {
+    
 }
 
 //==============================================================================
@@ -38,25 +48,26 @@ static void drawSine(juce::Graphics &g, const Rectangle<float> &viewPort, float 
     if(yRange > 5){
         const int pixelsPerPoint = 2;
         
-        const float x = viewPort.getX();
+        const float startX = viewPort.getX();
         const float centreY = viewPort.getCentreY();
         const float width = viewPort.getWidth();
-        const float maxX = x+width;
-        const float phaseIncrement = (6.2831853072/width)*pixelsPerPoint;
+        const float endX = startX+width;
+        const float phaseIncrement = (7/width)*pixelsPerPoint; // go up to x=7 as an arbitrary value
         const float shapeValue = 1.006 - shape;
         
         
         Path wavePath;
         
-        wavePath.startNewSubPath (x, centreY);
+        wavePath.startNewSubPath (startX, centreY);
         
         float phase = 0;
-        for (int pixel=x; pixel<maxX; pixel += pixelsPerPoint){
+        for (int x=startX; x<endX; x += pixelsPerPoint){
             const float lengthPhase = phase*decay;
-            wavePath.lineTo (pixel, sin( sin(lengthPhase) / (shapeValue * (lengthPhase-PI)) ) * yRange + centreY);
+            // This function is not safe for audio routines! it has a singularity at x=PI :)
+            const float y = (lengthPhase==PI) ? 0.f : sin( sin(lengthPhase) / (shapeValue * (lengthPhase-PI)) );
+            wavePath.lineTo (x, y * yRange + centreY);
             phase += phaseIncrement;
         }
-        
         g.strokePath (wavePath, PathStrokeType (2.0f));
     }
 }
@@ -75,6 +86,15 @@ void phi_Impulse::resized()
     // components that your component contains..
 
     Rectangle<int> moduleBounds = getLocalBounds();
+    
+    Rectangle<int> inletBounds = moduleBounds.removeFromLeft(30);
+    for (phi_Inlet* inlet : inlets)
+        inlet->setBounds( inletBounds.removeFromTop(moduleBounds.getHeight()/inlets.size()) );
+    
+    Rectangle<int> outletBounds = moduleBounds.removeFromRight(30);
+    for (phi_Outlet* outlet : outlets)
+        outlet->setBounds( outletBounds.removeFromTop(moduleBounds.getHeight()/outlets.size()) );
+    
     Rectangle<int> sliderBounds = moduleBounds.removeFromLeft(getWidth()*0.3);
     decaySlider.setBounds( sliderBounds.removeFromTop(getHeight()*0.5) );
     shapeSlider.setBounds( sliderBounds );

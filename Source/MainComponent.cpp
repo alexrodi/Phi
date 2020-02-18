@@ -101,7 +101,7 @@ void MainComponent::mouseDown(const MouseEvent& e)
             ModuleBox* module = new ModuleBox(&selectedModules);
             modules.add(module);
             addAndMakeVisible(module);
-            module->setBounds(e.x, e.y, 350, 200);
+            module->setBounds(e.x, e.y, 400, 200);
         }
     }
 }

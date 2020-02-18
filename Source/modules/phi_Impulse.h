@@ -12,6 +12,8 @@
 
 #include <JuceHeader.h>
 #include "../objects/phi_Dial.h"
+#include "../objects/phi_Inlet.h"
+#include "../objects/phi_Outlet.h"
 
 //==============================================================================
 /*
@@ -27,6 +29,9 @@ public:
     void resized() override;
 
 private:
+    
+    OwnedArray<phi_Inlet> inlets;
+    OwnedArray<phi_Outlet> outlets;
     
     phi_Dial decaySlider;
     phi_Dial shapeSlider;

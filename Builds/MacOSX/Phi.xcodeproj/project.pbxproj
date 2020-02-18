@@ -81,6 +81,14 @@
 			isa = PBXBuildFile;
 			fileRef = 93937CF6F2542FB14BDBED56;
 		};
+		953FF0417917A0E762CD8552 = {
+			isa = PBXBuildFile;
+			fileRef = D19DB62FF55265838E432E07;
+		};
+		E50E99079A743CE70452DFDB = {
+			isa = PBXBuildFile;
+			fileRef = 7589D90D0F9E6FDCD5F31276;
+		};
 		5B044C5BC2FB7EC8D2C0FFBD = {
 			isa = PBXBuildFile;
 			fileRef = 479726E3851AFBB96ACC79F6;
@@ -225,6 +233,13 @@
 			path = ../../Source/MainComponent.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		2BC9E42E0F77A8DF4414785F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "phi_Inlet.h";
+			path = "../../Source/objects/phi_Inlet.h";
+			sourceTree = "SOURCE_ROOT";
+		};
 		31CFF8A706671D42510E4B9D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -351,6 +366,13 @@
 			path = RecentFilesMenuTemplate.nib;
 			sourceTree = "SOURCE_ROOT";
 		};
+		7589D90D0F9E6FDCD5F31276 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "phi_Inlet.cpp";
+			path = "../../Source/objects/phi_Inlet.cpp";
+			sourceTree = "SOURCE_ROOT";
+		};
 		84837EC52CB7C65DD7BE5BE7 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -377,6 +399,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_gui_basics.mm";
 			path = "../../JuceLibraryCode/include_juce_gui_basics.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		8C967D91AC6A23CBA03978A3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "phi_Outlet.h";
+			path = "../../Source/objects/phi_Outlet.h";
 			sourceTree = "SOURCE_ROOT";
 		};
 		8E6F388451769A81811DE377 = {
@@ -469,6 +498,13 @@
 			name = "juce_core";
 			path = "/Applications/JUCE/modules/juce_core";
 			sourceTree = "<absolute>";
+		};
+		D19DB62FF55265838E432E07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "phi_Outlet.cpp";
+			path = "../../Source/objects/phi_Outlet.cpp";
+			sourceTree = "SOURCE_ROOT";
 		};
 		D42BF472D95E8C04106D14B5 = {
 			isa = PBXFileReference;
@@ -582,6 +618,10 @@
 			children = (
 				93937CF6F2542FB14BDBED56,
 				4B6EF038B2B88E851941D133,
+				D19DB62FF55265838E432E07,
+				8C967D91AC6A23CBA03978A3,
+				7589D90D0F9E6FDCD5F31276,
+				2BC9E42E0F77A8DF4414785F,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -913,6 +953,8 @@
 				EE14BFB1FF142C0EF24813DB,
 				3BC5E142C15CB87FC977E5D9,
 				CBCC65E79C4689352C4DFC2F,
+				953FF0417917A0E762CD8552,
+				E50E99079A743CE70452DFDB,
 				5B044C5BC2FB7EC8D2C0FFBD,
 				33BFE0A96862620B1EF15239,
 				0A79954CEBE1295D35B4A716,
