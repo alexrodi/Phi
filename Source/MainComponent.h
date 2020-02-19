@@ -18,12 +18,13 @@
 */
 class MainComponent   : public AudioAppComponent
 {
+//==============================================================================
 public:
-    //==============================================================================
+    
     MainComponent();
     ~MainComponent();
 
-    //==============================================================================
+    // Audio =======================================================================
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override;
     void releaseResources() override;
@@ -32,12 +33,10 @@ public:
     void paint (Graphics& g) override;
     void resized() override;
     
-    //==============================================================================
     void mouseDown(const MouseEvent& e) override;
 
+//==============================================================================
 private:
-    //==============================================================================
-    // Your private member variables go here...
 
     OwnedArray<ModuleBox> modules;
     SelectedItemSet<ModuleBox*> selectedModules;

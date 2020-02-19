@@ -32,12 +32,19 @@ public:
 
 private:
     
+    // This is how we keep our inlets & outlets,
+    // they belong to the module itself (not the box)
     OwnedArray<phi_Inlet> inlets;
     OwnedArray<phi_Outlet> outlets;
     
+    //Dials
     phi_Dial decaySlider;
     phi_Dial shapeSlider;
+    
+    //Waveform
     Rectangle<float> waveViewPort;
+    
+    //Listeners
     void sliderValueChanged (Slider*) override;
     void decaySliderChanged (float value);
     void shapeSliderChanged (float value);

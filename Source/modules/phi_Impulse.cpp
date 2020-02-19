@@ -20,10 +20,9 @@ shapeSlider(0, 1, " %", 0, this)
     const int numInlets = 2;
     const int numOutlets = 3;
     
-    shapeSlider.textFromValueFunction = [] (float f) -> String { return String(f*100); };
-
-    setPaintingIsUnclipped(true);
-
+    shapeSlider.textFromValueFunction = [] (float f) -> String { return String(int(f*100)); };
+    
+    //======================================================
     addAndMakeVisible(decaySlider);
     addAndMakeVisible(shapeSlider);
     
@@ -33,6 +32,7 @@ shapeSlider(0, 1, " %", 0, this)
     for (int i=0; i<numOutlets; i++)
         addAndMakeVisible( outlets.add( new phi_Outlet() ) );
 
+    setPaintingIsUnclipped(true);
 }
 
 phi_Impulse::~phi_Impulse()
