@@ -38,16 +38,16 @@ private:
     OwnedArray<phi_Outlet> outlets;
     
     //Dials
-    phi_Dial decaySlider;
-    phi_Dial shapeSlider;
+    phi_Dial decayDial;
+    phi_Dial shapeDial;
     
     //Waveform
     Rectangle<float> waveViewPort;
     
     //Listeners
     void sliderValueChanged (Slider*) override;
-    void decaySliderChanged (float value);
-    void shapeSliderChanged (float value);
+    void decayDialChanged (float value);
+    void shapeDialChanged (float value);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (phi_Impulse)
 };
