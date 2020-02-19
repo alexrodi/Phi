@@ -38,7 +38,17 @@ public:
 
 //==================================================================================
 private:
+   // Our LookAndFeel instance for this module box
+   LookAndFeel_V4 lookandfeel;
+   
+   // Layout
+   int contentPadding;
+   int headerHeight;
+   Rectangle<float> moduleRectangle;
+   Rectangle<float> headerLine;
+   Rectangle<float> nameRectangle;
     
+    //==================================================================================
     // Our Power button (this might be transported to its own file)
     class PowerButton : public Button
     {
@@ -76,17 +86,6 @@ private:
     // Variables to manage its own selection
     bool selectResult;
     bool isSelected;
-    
-    //==================================================================================
-    // Our LookAndFeel instance for this module box
-    LookAndFeel_V4 lookandfeel;
-    
-    // Layout
-    int contentPadding;
-    int headerHeight;
-    Rectangle<float> moduleRectangle;
-    Rectangle<float> headerLine;
-    Rectangle<float> nameRectangle;
     
     //==================================================================================
     // Dragger wrappers for selected items

@@ -13,6 +13,13 @@ MainComponent::MainComponent()
 {
     setSize (600, 400);
     
+    // Set the colors of PopupMenu
+    setLookAndFeel(&lookandfeel);
+    lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
+    lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
+    
+    sendLookAndFeelChange();
+    
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
         && ! RuntimePermissions::isGranted (RuntimePermissions::recordAudio))
@@ -26,11 +33,13 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
     
-    setLookAndFeel(&lookandfeel);
-    lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
-    lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
+    // Menu and submenus content
+    // Submenus must be filled before the main
+    modulesSubMenu.addItem (1, "Impulse");
+    rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
-    sendLookAndFeelChange();
+    // Apply our colors to the menu
+    rightClickMenu.setLookAndFeel(&lookandfeel);
 }
 
 MainComponent::~MainComponent()
@@ -84,22 +93,25 @@ void MainComponent::resized()
 
 void MainComponent::mouseDown(const MouseEvent& e)
 {
+    // Deselect all modules when clicking the window
     selectedModules.deselectAll();
     
+    // Right Click
     if (e.mods.isRightButtonDown()){
-        PopupMenu subMenu;
-        subMenu.addItem (1, "Impulse");
-
-        PopupMenu mainMenu;
-        mainMenu.addSubMenu ("Add Module...", subMenu);
         
-        mainMenu.setLookAndFeel(&lookandfeel);
+        // Displays the menu and returns the ID of the selected item (0 if clicked outside)
+        const int result = rightClickMenu.show();
         
-        const int result = mainMenu.show();
-        
-        if (result){
+        // There's only one possible result for now (1 - Impulse)
+        if (result)
+        {
+            // Create the module
             ModuleBox* module = new ModuleBox(&selectedModules);
+            
+            // Add it to the array
             modules.add(module);
+            
+            // Display and set its (initial) bounds
             addAndMakeVisible(module);
             module->setBounds(e.x, e.y, 400, 200);
         }

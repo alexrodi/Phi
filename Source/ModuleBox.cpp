@@ -13,32 +13,31 @@
 
 //==============================================================================
 ModuleBox::ModuleBox(SelectedItemSet<ModuleBox*>* selectionChangeSource) :
+contentPadding(10),
+headerHeight(27),
 powerButton{},
 module{},
 resizer(this, this),
-moduleSelection{selectionChangeSource},
-contentPadding(10),
-headerHeight(27)
+moduleSelection{selectionChangeSource}
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-    
+    // Listeners ======================================================
     powerButton.addListener(this);
     
     moduleSelection->addChangeListener(this);
     
-    setPaintingIsUnclipped(true);
-    setBroughtToFrontOnMouseClick(true);
-    
+    // Sizes ======================================================
     // Box size constraints are static
     setSizeLimits(200,headerHeight+5,500,300);
+    resizer.setSize(8,8);
     
+    // Visibles ======================================================
     addAndMakeVisible(module);
     addAndMakeVisible(powerButton);
     addAndMakeVisible(resizer);
+    setPaintingIsUnclipped(true);
+    setBroughtToFrontOnMouseClick(true);
     
-    resizer.setSize(8,8);
-    
+    // LookAndFeel ======================================================
     setLookAndFeel(&lookandfeel);
     
     lookandfeel.setColour(phi_Dial::thumbColourId, Colours::cyan.brighter());

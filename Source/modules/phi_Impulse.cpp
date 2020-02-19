@@ -45,33 +45,32 @@ phi_Impulse::~phi_Impulse()
 const float PI = MathConstants<float>::pi;
 static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, float shape, float decay) {
     
-    const float yRange = (viewPort.getHeight() * 0.5) - 3;
+    const int pixelsPerPoint = 2;
     
-    if(yRange > 5){
-        const int pixelsPerPoint = 2;
-        
-        const float startX = viewPort.getX();
-        const float centreY = viewPort.getCentreY();
-        const float width = viewPort.getWidth();
-        const float endX = startX+width;
-        const float phaseIncrement = (7/width)*pixelsPerPoint; // go up to x=7 as an arbitrary value
-        const float shapeValue = 1.006 - shape;
-        
-        
-        Path wavePath;
-        
-        wavePath.startNewSubPath (startX, centreY);
-        
-        float phase = 0;
-        for (int x=startX; x<endX; x += pixelsPerPoint){
-            const float lengthPhase = phase*decay;
-            // This function is not safe for audio routines! it has a singularity at x=PI :)
-            const float y = (lengthPhase==PI) ? 0.f : sin( sin(lengthPhase) / (shapeValue * (lengthPhase-PI)) );
-            wavePath.lineTo (x, y * yRange + centreY);
-            phase += phaseIncrement;
-        }
-        g.strokePath (wavePath, PathStrokeType (2.0f));
+    const float startX          =  viewPort.getX();
+    const float centreY         =  viewPort.getCentreY();
+    const float yRange          =  (viewPort.getHeight() * 0.5) - 3;
+    const float width           =  viewPort.getWidth();
+    const float endX            =  startX+width;
+    const float phaseIncrement  =  (7/width)*pixelsPerPoint; // go up to x=7 (arbitrary value)
+    const float shapeValue      =  1.006 - shape;
+    
+    float phase = 0;
+    
+    // Waveform path
+    Path wavePath;
+    wavePath.startNewSubPath (startX, centreY);
+
+    // Add lines to path
+    for (int x=startX; x<endX; x += pixelsPerPoint){
+        const float lengthPhase = phase*decay;
+        // This function is not safe for audio routines! it has a singularity at x=PI :)
+        const float y = (lengthPhase==PI) ? 0.f : sin( sin(lengthPhase) / (shapeValue * (lengthPhase-PI)) );
+        wavePath.lineTo (x, y * yRange + centreY);
+        phase += phaseIncrement;
     }
+
+    g.strokePath (wavePath, PathStrokeType (2.0f));
 }
 
 //==============================================================================

@@ -37,10 +37,21 @@ public:
 
 //==============================================================================
 private:
-
-    OwnedArray<ModuleBox> modules;
-    SelectedItemSet<ModuleBox*> selectedModules;
+    // Our LookAndFeel instance for the MainComponent
+    // this maintains certain colors in the window but any module can surpass it with its own
     LookAndFeel_V4 lookandfeel;
+
+    // The array of modules
+    OwnedArray<ModuleBox> modules;
+    
+    // The list of selected modules
+    // gets passed to each module because they subscribe themselves to the list
+    // they also use it for dragging all the selected modules at once
+    SelectedItemSet<ModuleBox*> selectedModules;
+    
+    // Right click menu and submenus
+    PopupMenu rightClickMenu;
+    PopupMenu modulesSubMenu;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
