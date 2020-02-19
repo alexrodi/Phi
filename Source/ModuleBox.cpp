@@ -72,7 +72,7 @@ void ModuleBox::paint (Graphics& g)
     g.drawRoundedRectangle(moduleRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
-    g.drawText(module.moduleName, nameRectangle, Justification::centredLeft, false);
+    g.drawText(module.moduleName, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
     g.setColour (Colours::grey);
