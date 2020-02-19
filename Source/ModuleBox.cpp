@@ -13,8 +13,8 @@
 
 //==============================================================================
 ModuleBox::ModuleBox(SelectedItemSet<ModuleBox*>* selectionChangeSource) :
-module{},
 powerButton{},
+module{},
 resizer(this, this),
 moduleSelection{selectionChangeSource},
 contentPadding(10),
@@ -58,6 +58,7 @@ ModuleBox::~ModuleBox()
 {
     setLookAndFeel (nullptr);
 }
+
 
 //==============================================================================
 void ModuleBox::paint (Graphics& g)
@@ -116,6 +117,8 @@ void ModuleBox::resized()
     module.setBounds(moduleRect.reduced(contentPadding));// (padded)
 }
 
+
+//==============================================================================
 void ModuleBox::startDraggingSelected(const MouseEvent& e){
     Array<ModuleBox*> selected = moduleSelection->getItemArray();
     for (ModuleBox* module : selected){
@@ -148,7 +151,7 @@ void ModuleBox::mouseDrag(const MouseEvent& e)
 }
 
 
-
+//==============================================================================
 void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == moduleSelection)
@@ -174,8 +177,3 @@ void ModuleBox::buttonStateChanged (Button* button)
     }
         
 }
-
-//void ModuleBox::buttonClicked (Button*)
-//{
-//    std::cout << "CLICKOU" << std::endl;
-//}
