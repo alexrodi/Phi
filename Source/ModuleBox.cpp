@@ -70,6 +70,9 @@ void ModuleBox::paint (Graphics& g)
     g.setColour (isSelected ? Colours::grey.brighter() : Colours::grey);
     g.drawRoundedRectangle(moduleRectangle, 2.f, isSelected ? 2 : 0.5);
     
+    // Module Name
+    g.drawText(module.moduleName, nameRectangle, Justification::centredLeft, false);
+    
     // Header Line
     g.setColour (Colours::grey);
     g.fillRect(headerLine);
@@ -105,6 +108,9 @@ void ModuleBox::resized()
     
     // Place Power button
     powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(contentPadding,6));
+    
+    // Place Text
+    nameRectangle = Rectangle<float>(boxHeader.toFloat());
     
     // Place Module
     module.setBounds(moduleRect.reduced(contentPadding));// (padded)

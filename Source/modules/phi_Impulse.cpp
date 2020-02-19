@@ -13,6 +13,7 @@
 
 //==============================================================================
 phi_Impulse::phi_Impulse() :
+moduleName("Impulse"),
 decaySlider(5, 100, " ms", 2, this),
 shapeSlider(0, 1, " %", 0, this)
 {

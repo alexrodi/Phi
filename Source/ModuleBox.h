@@ -22,6 +22,7 @@ class ModuleBox    : public Component,
                      public ComponentDragger,
                      public ComponentBoundsConstrainer
 {
+//==================================================================================
 public:
     ModuleBox(SelectedItemSet<ModuleBox*>*);
     ~ModuleBox();
@@ -35,10 +36,10 @@ public:
     
     void changeListenerCallback (ChangeBroadcaster* source) override;
 
+//==================================================================================
 private:
-    phi_Impulse module;
-    Rectangle<float> moduleRectangle;
     
+    // Our Power button (this might be transported to its own file)
     class PowerButton : public Button
     {
     public:
@@ -50,6 +51,7 @@ private:
             setToggleState(true, NotificationType());
         }
     private:
+        // Override the button's paint method
         void paintButton (Graphics& g,
                           bool shouldDrawButtonAsHighlighted,
                           bool shouldDrawButtonAsDown) override
@@ -63,23 +65,38 @@ private:
         
     } powerButton;
     
-    void startDraggingSelected(const MouseEvent& e);
-    void dragSelected(const MouseEvent& e);
+    // The hosted module
+    phi_Impulse module;
     
-    
-    void buttonStateChanged (Button*) override;
-    void buttonClicked (Button*) override {};
-
+    // Module resizer component
     ResizableCornerComponent resizer;
+    
+    // Pointer to the MainComponent's selection set
     SelectedItemSet<ModuleBox*>* moduleSelection;
+    // Variables to manage its own selection
     bool selectResult;
     bool isSelected;
     
+    //==================================================================================
+    // Our LookAndFeel instance for this module box
+    LookAndFeel_V4 lookandfeel;
+    
+    // Layout
     int contentPadding;
     int headerHeight;
+    Rectangle<float> moduleRectangle;
     Rectangle<float> headerLine;
+    Rectangle<float> nameRectangle;
     
-    LookAndFeel_V4 lookandfeel;
+    //==================================================================================
+    // Dragger wrappers for selected items
+    void startDraggingSelected(const MouseEvent& e);
+    void dragSelected(const MouseEvent& e);
+    
+    // Button Listeners
+    void buttonStateChanged (Button*) override;
+    void buttonClicked (Button*) override {};
+    
     
     //void buttonStateChanged (Button*) override {}
 
