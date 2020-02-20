@@ -9,7 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "ModuleBox.h"
+#include "../lib/ModuleBox.h"
 
 //==============================================================================
 /*
