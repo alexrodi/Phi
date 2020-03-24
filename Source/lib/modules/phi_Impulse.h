@@ -29,13 +29,13 @@ public:
     void resized() override;
     
     String moduleName;
-
-private:
     
-    // This is how we keep our inlets & outlets,
-    // they belong to the module itself (not the box)
+    /// This is how we keep our inlets & outlets,
+    /// they belong to the module itself (not the box) and they should be public
     OwnedArray<phi_Inlet> inlets;
     OwnedArray<phi_Outlet> outlets;
+
+private:
     
     //Dials
     phi_Dial decayDial;

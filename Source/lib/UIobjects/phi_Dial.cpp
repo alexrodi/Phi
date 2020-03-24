@@ -20,6 +20,8 @@ phi_Dial::phi_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int
     setTextBoxStyle(Slider::TextBoxBelow, true, 80, 20);
     setNumDecimalPlacesToDisplay(decimals);
     setTextBoxIsEditable(true);
+    
+    setPaintingIsUnclipped(true);
 }
 
  phi_Dial::~phi_Dial()

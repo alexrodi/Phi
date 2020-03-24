@@ -13,10 +13,10 @@
 
 //==============================================================================
 ModuleBox::ModuleBox(SelectedItemSet<ModuleBox*>* selectionChangeSource) :
+module{},
 contentPadding(10),
 headerHeight(27),
 powerButton{},
-module{},
 resizer(this, this),
 moduleSelection{selectionChangeSource}
 {
@@ -155,6 +155,8 @@ void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == moduleSelection)
     {
+        /// here we get a change from the selected modules list
+        /// so the module must update its UI accordingly
         isSelected = moduleSelection->isSelected(this);
         repaint();
     }

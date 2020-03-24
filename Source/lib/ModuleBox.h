@@ -30,11 +30,8 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-    void mouseDown(const MouseEvent& e) override;
-    void mouseUp(const MouseEvent& e) override;
-    void mouseDrag(const MouseEvent& e) override;
-    
-    void changeListenerCallback (ChangeBroadcaster* source) override;
+    // The hosted module
+    phi_Impulse module;
 
 //==================================================================================
 private:
@@ -75,8 +72,6 @@ private:
         
     } powerButton;
     
-    // The hosted module
-    phi_Impulse module;
     
     // Module resizer component
     ResizableCornerComponent resizer;
@@ -95,6 +90,12 @@ private:
     // Button Listeners
     void buttonStateChanged (Button*) override;
     void buttonClicked (Button*) override {};
+    
+    void mouseDown(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
+    
+    void changeListenerCallback (ChangeBroadcaster* source) override;
     
     
     //void buttonStateChanged (Button*) override {}

@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "../lib/ModuleBox.h"
+#include "../lib/Connections.h"
 
 //==============================================================================
 /*
@@ -33,7 +34,7 @@ public:
     void paint (Graphics& g) override;
     void resized() override;
     
-    void mouseDown(const MouseEvent& e) override;
+void mouseDown(const MouseEvent& e) override;
 
 //==============================================================================
 private:
@@ -52,6 +53,11 @@ private:
     // Right click menu and submenus
     PopupMenu rightClickMenu;
     PopupMenu modulesSubMenu;
+    
+    // The connections class
+    Connections connections;
+    
+    void registerInletsAndOutlets(ModuleBox *module);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

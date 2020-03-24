@@ -14,9 +14,7 @@
 //==============================================================================
 phi_Outlet::phi_Outlet()
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+    setPaintingIsUnclipped(true);
 }
 
 phi_Outlet::~phi_Outlet()
@@ -34,4 +32,22 @@ void phi_Outlet::paint (Graphics& g)
 void phi_Outlet::resized()
 {
      viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
+}
+
+void phi_Outlet::mouseDown(const MouseEvent& e)
+{
+    sendActionMessage("outlet mouseDown " + e.withNewPosition(getLocalBounds().getCentre()).getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString() + ", 1, 1");
+}
+
+void phi_Outlet::mouseUp(const MouseEvent& e)
+{
+    // this only notifies of a mouse-up event,
+    // it says nothing about where the connection was released
+    // or even IF it was released over a valid inlet
+    sendActionMessage("outlet mouseUp");
+}
+
+void phi_Outlet::mouseDrag(const MouseEvent& e)
+{
+    sendActionMessage("outlet mouseDrag " + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString() + ", 1, 1");
 }

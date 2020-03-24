@@ -111,7 +111,6 @@ void phi_Impulse::decayDialChanged (float value)
 
 void phi_Impulse::shapeDialChanged (float value)
 {
-    repaint();
 }
 
 void phi_Impulse::sliderValueChanged (Slider* slider)

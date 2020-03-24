@@ -11,15 +11,6 @@
 //==============================================================================
 MainComponent::MainComponent()
 {
-    setSize (600, 400);
-    
-    // Set the colors of PopupMenu
-    setLookAndFeel(&lookandfeel);
-    lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
-    lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
-    
-    sendLookAndFeelChange();
-    
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
         && ! RuntimePermissions::isGranted (RuntimePermissions::recordAudio))
@@ -33,6 +24,13 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
     
+    // Set the colors of PopupMenu
+    setLookAndFeel(&lookandfeel);
+    lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
+    lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
+    
+    sendLookAndFeelChange();
+    
     // Menu and submenus content
     // Submenus must be filled before the main
     modulesSubMenu.addItem (1, "Impulse");
@@ -40,6 +38,10 @@ MainComponent::MainComponent()
     
     // Apply our colors to the menu
     rightClickMenu.setLookAndFeel(&lookandfeel);
+    
+    addAndMakeVisible(connections);
+    
+    setSize (600, 400);
 }
 
 MainComponent::~MainComponent()
@@ -89,6 +91,24 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
+    connections.setBounds(getLocalBounds());
+}
+
+// Registers all inlets and outlets with the connections component
+void MainComponent::registerInletsAndOutlets(ModuleBox *module) {
+    
+    OwnedArray<phi_Inlet>& inlets = module->module.inlets;
+    for (phi_Inlet* inlet : inlets)
+    {
+        inlet->addActionListener(&connections);
+    }
+    
+    OwnedArray<phi_Outlet>& outlets = module->module.outlets;
+    for (phi_Outlet* outlet : outlets)
+    {
+        outlet->addActionListener(&connections);
+    }
+    
 }
 
 void MainComponent::mouseDown(const MouseEvent& e)
@@ -107,6 +127,8 @@ void MainComponent::mouseDown(const MouseEvent& e)
         {
             // Create the module
             ModuleBox* module = new ModuleBox(&selectedModules);
+            
+            registerInletsAndOutlets(module);
             
             // Add it to the array
             modules.add(module);
