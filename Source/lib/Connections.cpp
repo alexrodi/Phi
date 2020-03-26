@@ -108,13 +108,9 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("mouseUp"))
     {
-        if (message.containsWholeWord ("inlet"))
+        if (message.containsWholeWord ("inlet") || message.containsWholeWord ("outlet"))
         {
-               finishInletConnect();
-        }
-        else if (message.containsWholeWord ("outlet"))
-        {
-               finishOutletConnect();
+            finishConnect();
         }
     }
     else if (message.containsWholeWord ("mouseDrag"))
@@ -129,38 +125,43 @@ void Connections::actionListenerCallback (const String& message)
     }
 }
 
-void Connections::startInletConnect (Point<float> inletPosition)
+void Connections::startConnect(Point<float> inletPosition, Point<float> outletPosition,
+                               bool isInletBeingDragged, bool isOutletBeingDragged)
 {
     connections.add(new Connection);
     Connection* newConnection = connections.getLast();
-    newConnection->isOutletBeingDragged = true;
     newConnection->inletPosition = inletPosition;
-}
-void Connections::startOutletConnect (Point<float> outletPosition)
-{
-    connections.add(new Connection);
-    Connection* newConnection = connections.getLast();
-    newConnection->isInletBeingDragged = true;
     newConnection->outletPosition = outletPosition;
+    newConnection->isInletBeingDragged = isInletBeingDragged;
+    newConnection->isOutletBeingDragged = isOutletBeingDragged;
 }
 
-void Connections::finishInletConnect ()
+void Connections::finishConnect()
 {
     Connection* newConnection = connections.getLast();
+    
+    if (newConnection->isInletBeingDragged)
+    {
+        newConnection->inletPosition = mousePoint;
+    }
+    else if (newConnection->isOutletBeingDragged)
+    {
+        newConnection->outletPosition = mousePoint;
+    }
+    
+    newConnection->isInletBeingDragged = false;
     newConnection->isOutletBeingDragged = false;
     newConnection->path.clear();
     newConnection->path.startNewSubPath (newConnection->inletPosition);
-    newConnection->outletPosition = mousePoint;
     newConnection->path.lineTo(newConnection->outletPosition);
     newConnection->path.closeSubPath();
 }
-void Connections::finishOutletConnect ()
+
+void Connections::startInletConnect (Point<float> inletPosition)
 {
-    Connection* newConnection = connections.getLast();
-    newConnection->isInletBeingDragged = false;
-    newConnection->path.clear();
-    newConnection->path.startNewSubPath (newConnection->outletPosition);
-    newConnection->inletPosition = mousePoint;
-    newConnection->path.lineTo(newConnection->inletPosition);
-    newConnection->path.closeSubPath();
+    startConnect(inletPosition, mousePoint, false, true);
+}
+void Connections::startOutletConnect (Point<float> outletPosition)
+{
+    startConnect(mousePoint, outletPosition, true, false);
 }

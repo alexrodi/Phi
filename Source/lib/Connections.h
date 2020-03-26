@@ -50,10 +50,11 @@ private:
     
     void actionListenerCallback (const String& message) override;
     
+    void startConnect(Point<float>, Point<float>, bool, bool);
+    void finishConnect();
+    
     void startInletConnect (Point<float> inletBounds);
     void startOutletConnect (Point<float> outletBounds);
-    void finishInletConnect ();
-    void finishOutletConnect ();
     
     //void mouseDrag (const MouseEvent& e) override;
 //    bool hitTest (int x, int y) override;
