@@ -56,10 +56,12 @@ private:
     void startInletConnect (Point<float> inletBounds);
     void startOutletConnect (Point<float> outletBounds);
     
+    Path getConnectionPath (Connection*);
+    
     //void mouseDrag (const MouseEvent& e) override;
 //    bool hitTest (int x, int y) override;
     
-   Point<float> mousePoint;
+    Point<float> mousePoint;
 
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)

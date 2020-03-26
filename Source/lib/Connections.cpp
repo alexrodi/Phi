@@ -40,25 +40,24 @@ void Connections::paint (Graphics& g)
         g.setColour (Colours::red);
         for (Connection* connection : connections)
         {
-            if (connection->isInletBeingDragged)
-            {
-    //            std::cout << "mouse " << mousePoint.toString() << std::endl;
-    //            std::cout << "inlet " << newConnection->inletPosition.toString() << std::endl;
-                connection->path.clear();
-                connection->path.startNewSubPath (connection->outletPosition);
-                connection->path.lineTo(mousePoint);
-                connection->path.closeSubPath();
-            }
-            else if (connection->isOutletBeingDragged)
-            {
-                connection->path.clear();
-                connection->path.startNewSubPath (mousePoint);
-                connection->path.lineTo(connection->inletPosition);
-                connection->path.closeSubPath();
-            }
-            g.strokePath (connection->path, PathStrokeType (2.0f));
+            g.strokePath (
+                          getConnectionPath (connection)
+                          , PathStrokeType (2.0f)
+                          );
         }
     }
+}
+
+Path Connections::getConnectionPath (Connection* connection)
+{
+    if (connection->isInletBeingDragged || connection->isOutletBeingDragged)
+    {
+        connection->path.clear();
+        connection->path.startNewSubPath (connection->isInletBeingDragged ? mousePoint : connection->inletPosition);
+        connection->path.lineTo(connection->isOutletBeingDragged ? mousePoint : connection->outletPosition);
+        connection->path.closeSubPath();
+    }
+    return connection->path;
 }
 
 
