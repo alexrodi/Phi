@@ -31,14 +31,15 @@ void phi_Outlet::paint (Graphics& g)
 
 void phi_Outlet::resized()
 {
-     viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
+    viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
 void phi_Outlet::mouseDown(const MouseEvent& e)
 {
     sendActionMessage("outlet mouseDown "
                       + e.withNewPosition(getLocalBounds().getCentre())
-                      .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString()
+                      .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+                      .getPosition().toString()
                       + ", 1, 1");
 }
 
