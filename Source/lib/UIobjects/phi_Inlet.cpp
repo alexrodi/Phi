@@ -23,7 +23,6 @@ phi_Inlet::~phi_Inlet()
 
 void phi_Inlet::paint (Graphics& g)
 {
-    
     g.setColour(Colours::grey);
     g.fillEllipse(viewport);
     g.setColour(Colours::darkgrey);
@@ -37,7 +36,7 @@ void phi_Inlet::resized()
 
 void phi_Inlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("inlet mouseDown"
+    sendActionMessage("inlet mouseDown "
                       + e.withNewPosition(getLocalBounds().getCentre())
                       .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
                       .getPosition().toString()
