@@ -12,6 +12,15 @@
 #include "Connections.h"
 
 //==============================================================================
+/**
+     This whole file needs rethinking, the connections are being stored, but I'm not convinced on the method.
+      - The action messages are strings which need parsing
+      - The Inlets and outlets still cannot detect mouse-ups (then the mouse down was somewhere else)
+      - There seem to be drag-and-drop systems which could fit a lot better in doing this job
+       (it's essentially the same system but we should draw a patch cord instead of a ghost version of a UI element)
+ 
+ */
+
 Connections::Connections()
 {
     setPaintingIsUnclipped(true);
@@ -29,23 +38,26 @@ void Connections::paint (Graphics& g)
     if (connections.size())
     {
         g.setColour (Colours::red);
-        
-        Connection* newConnection = connections.getLast();
-        newConnection->path.clear();
-        
-        if (newConnection->isInletBeingDragged)
+        for (Connection* connection : connections)
         {
-//            std::cout << "mouse " << mousePoint.toString() << std::endl;
-//            std::cout << "inlet " << newConnection->inletPosition.toString() << std::endl;
-            newConnection->path.startNewSubPath (newConnection->outletPosition);
-            newConnection->path.lineTo(mousePoint);
+            if (connection->isInletBeingDragged)
+            {
+    //            std::cout << "mouse " << mousePoint.toString() << std::endl;
+    //            std::cout << "inlet " << newConnection->inletPosition.toString() << std::endl;
+                connection->path.clear();
+                connection->path.startNewSubPath (connection->outletPosition);
+                connection->path.lineTo(mousePoint);
+                connection->path.closeSubPath();
+            }
+            else if (connection->isOutletBeingDragged)
+            {
+                connection->path.clear();
+                connection->path.startNewSubPath (mousePoint);
+                connection->path.lineTo(connection->inletPosition);
+                connection->path.closeSubPath();
+            }
+            g.strokePath (connection->path, PathStrokeType (2.0f));
         }
-        else if (newConnection->isOutletBeingDragged)
-        {
-            newConnection->path.startNewSubPath (mousePoint);
-            newConnection->path.lineTo(newConnection->inletPosition);
-        }
-        g.strokePath (newConnection->path, PathStrokeType (2.0f));
     }
 }
 
@@ -134,13 +146,21 @@ void Connections::startOutletConnect (Point<float> outletPosition)
 
 void Connections::finishInletConnect ()
 {
-    std::cout << "finished inlet!"<< std::endl;
     Connection* newConnection = connections.getLast();
-    newConnection->isInletBeingDragged = false;
+    newConnection->isOutletBeingDragged = false;
+    newConnection->path.clear();
+    newConnection->path.startNewSubPath (newConnection->inletPosition);
+    newConnection->outletPosition = mousePoint;
+    newConnection->path.lineTo(newConnection->outletPosition);
+    newConnection->path.closeSubPath();
 }
 void Connections::finishOutletConnect ()
 {
-    std::cout << "finished outlet!"<< std::endl;
     Connection* newConnection = connections.getLast();
-    newConnection->isOutletBeingDragged = false;
+    newConnection->isInletBeingDragged = false;
+    newConnection->path.clear();
+    newConnection->path.startNewSubPath (newConnection->outletPosition);
+    newConnection->inletPosition = mousePoint;
+    newConnection->path.lineTo(newConnection->inletPosition);
+    newConnection->path.closeSubPath();
 }

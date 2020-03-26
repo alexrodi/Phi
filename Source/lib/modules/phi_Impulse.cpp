@@ -56,7 +56,7 @@ static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, fl
     const float width           =  viewPort.getWidth();
     const float endX            =  startX+width;
     const float shapeValue      =  1.006 - shape;
-    const int aaValue           =  8; // x4 AA
+    const int   aaValue         =  8; // x8 AA
     const float phaseIncrement  =  ((7/width)*pixelsPerPoint)/aaValue; // go up to x=7 (arbitrary value)
     
     float phase = 0;

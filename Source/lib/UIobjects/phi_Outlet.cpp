@@ -36,7 +36,10 @@ void phi_Outlet::resized()
 
 void phi_Outlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("outlet mouseDown " + e.withNewPosition(getLocalBounds().getCentre()).getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString() + ", 1, 1");
+    sendActionMessage("outlet mouseDown "
+                      + e.withNewPosition(getLocalBounds().getCentre())
+                      .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString()
+                      + ", 1, 1");
 }
 
 void phi_Outlet::mouseUp(const MouseEvent& e)
@@ -49,5 +52,8 @@ void phi_Outlet::mouseUp(const MouseEvent& e)
 
 void phi_Outlet::mouseDrag(const MouseEvent& e)
 {
-    sendActionMessage("outlet mouseDrag " + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString() + ", 1, 1");
+    sendActionMessage("outlet mouseDrag "
+                      + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+                      .getPosition().toString()
+                      + ", 1, 1");
 }

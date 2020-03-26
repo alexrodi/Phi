@@ -37,7 +37,11 @@ void phi_Inlet::resized()
 
 void phi_Inlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("inlet mouseDown " + e.withNewPosition(getLocalBounds().getCentre()).getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString() + ", 1, 1");
+    sendActionMessage("inlet mouseDown"
+                      + e.withNewPosition(getLocalBounds().getCentre())
+                      .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+                      .getPosition().toString()
+                      + ", 1, 1");
 }
 
 void phi_Inlet::mouseUp(const MouseEvent& e)
@@ -50,6 +54,9 @@ void phi_Inlet::mouseUp(const MouseEvent& e)
 
 void phi_Inlet::mouseDrag(const MouseEvent& e)
 {
-    sendActionMessage("inlet mouseDrag " + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent()).getPosition().toString() + ", 1, 1");
+    sendActionMessage("inlet mouseDrag "
+                      + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+                      .getPosition().toString()
+                      + ", 1, 1");
 }
 
