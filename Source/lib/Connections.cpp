@@ -16,6 +16,7 @@
      This whole file needs rethinking, the connections are being stored, but I'm not convinced on the method.
       - The action messages are strings which need parsing
       - The Inlets and outlets still cannot detect mouse-ups (then the mouse down was somewhere else)
+      - The whole system is action-based and sequential which makes it cumbersome to combine messages
       - There seem to be drag-and-drop systems which could fit a lot better in doing this job
        (it's essentially the same system but we should draw a patch cord instead of a ghost version of a UI element)
  
@@ -40,10 +41,7 @@ void Connections::paint (Graphics& g)
         g.setColour (Colours::red);
         for (Connection* connection : connections)
         {
-            g.strokePath (
-                          getConnectionPath (connection)
-                          , PathStrokeType (2.0f)
-                          );
+            g.strokePath ( getConnectionPath(connection), PathStrokeType (2.0f) );
         }
     }
 }
@@ -85,9 +83,10 @@ void Connections::resized ()
 //    return false;
 //}
 
-
 void Connections::actionListenerCallback (const String& message)
 {
+    
+    std::cout << message << std::endl;
     
     // Here we receive all clicks from all inlets and outlets
     if (message.containsWholeWord ("mouseDown"))

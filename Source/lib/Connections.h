@@ -59,7 +59,7 @@ private:
     Path getConnectionPath (Connection*);
     
     //void mouseDrag (const MouseEvent& e) override;
-//    bool hitTest (int x, int y) override;
+    //bool hitTest (int x, int y) override;
     
     Point<float> mousePoint;
 

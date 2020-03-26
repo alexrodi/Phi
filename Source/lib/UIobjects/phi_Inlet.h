@@ -28,9 +28,14 @@ public:
 private:
     Rectangle<float> viewport;
     
-    void mouseDown(const MouseEvent& e) override;
-    void mouseUp(const MouseEvent& e) override;
-    void mouseDrag(const MouseEvent& e) override;
+    String getCenterAsRectangleString (const MouseEvent&);
+    String getMouseAsRectangleString (const MouseEvent&);
+    
+    void mouseDown(const MouseEvent&) override;
+    void mouseUp(const MouseEvent&) override;
+    void mouseDrag(const MouseEvent&) override;
+    void mouseEnter(const MouseEvent&) override;
+    void mouseExit(const MouseEvent&) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (phi_Inlet)
 };

@@ -34,13 +34,24 @@ void phi_Outlet::resized()
     viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
+String phi_Outlet::getCenterAsRectangleString (const MouseEvent& e)
+{
+    return e.withNewPosition(getLocalBounds().getCentre())
+           .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+           .getPosition().toString()
+           + ", 1, 1";
+}
+
+String phi_Outlet::getMouseAsRectangleString (const MouseEvent& e)
+{
+    return e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+           .getPosition().toString()
+           + ", 1, 1";
+}
+
 void phi_Outlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("outlet mouseDown "
-                      + e.withNewPosition(getLocalBounds().getCentre())
-                      .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
-                      .getPosition().toString()
-                      + ", 1, 1");
+    sendActionMessage("outlet mouseDown " + getCenterAsRectangleString(e));
 }
 
 void phi_Outlet::mouseUp(const MouseEvent& e)
@@ -53,8 +64,17 @@ void phi_Outlet::mouseUp(const MouseEvent& e)
 
 void phi_Outlet::mouseDrag(const MouseEvent& e)
 {
-    sendActionMessage("outlet mouseDrag "
-                      + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
-                      .getPosition().toString()
-                      + ", 1, 1");
+    sendActionMessage("outlet mouseDrag " + getMouseAsRectangleString(e));
+}
+
+void phi_Outlet::mouseEnter(const MouseEvent& e)
+{
+    sendActionMessage("outlet mouseEnter " + getCenterAsRectangleString(e));
+
+}
+
+void phi_Outlet::mouseExit(const MouseEvent& e)
+{
+    sendActionMessage("outlet mouseExit " + getCenterAsRectangleString(e));
+
 }

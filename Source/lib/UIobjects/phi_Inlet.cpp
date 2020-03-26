@@ -34,13 +34,24 @@ void phi_Inlet::resized()
     viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
+String phi_Inlet::getCenterAsRectangleString (const MouseEvent& e)
+{
+    return e.withNewPosition(getLocalBounds().getCentre())
+           .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+           .getPosition().toString()
+           + ", 1, 1";
+}
+
+String phi_Inlet::getMouseAsRectangleString (const MouseEvent& e)
+{
+    return e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
+           .getPosition().toString()
+           + ", 1, 1";
+}
+
 void phi_Inlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("inlet mouseDown "
-                      + e.withNewPosition(getLocalBounds().getCentre())
-                      .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
-                      .getPosition().toString()
-                      + ", 1, 1");
+    sendActionMessage("inlet mouseDown " + getCenterAsRectangleString(e));
 }
 
 void phi_Inlet::mouseUp(const MouseEvent& e)
@@ -53,9 +64,18 @@ void phi_Inlet::mouseUp(const MouseEvent& e)
 
 void phi_Inlet::mouseDrag(const MouseEvent& e)
 {
-    sendActionMessage("inlet mouseDrag "
-                      + e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
-                      .getPosition().toString()
-                      + ", 1, 1");
+    sendActionMessage("inlet mouseDrag " + getMouseAsRectangleString(e));
+}
+
+void phi_Inlet::mouseEnter(const MouseEvent& e)
+{
+    sendActionMessage("inlet mouseEnter " + getCenterAsRectangleString(e));
+
+}
+
+void phi_Inlet::mouseExit(const MouseEvent& e)
+{
+    sendActionMessage("inlet mouseExit " + getCenterAsRectangleString(e));
+
 }
 
