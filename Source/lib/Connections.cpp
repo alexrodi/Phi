@@ -12,20 +12,11 @@
 #include "Connections.h"
 
 //==============================================================================
-/**
-     This whole file needs rethinking, the connections are being stored, but I'm not convinced on the method.
-      - The action messages are strings which need parsing
-      - The Inlets and outlets still cannot detect mouse-ups (then the mouse down was somewhere else)
-      - The whole system is action-based and sequential which makes it cumbersome to combine messages
-      - There seem to be drag-and-drop systems which could fit a lot better in doing this job
-       (it's essentially the same system but we should draw a patch cord instead of a ghost version of a UI element)
- 
- */
 
 Connections::Connections()
 {
+    setAlwaysOnTop(true);
     setPaintingIsUnclipped(true);
-    setRepaintsOnMouseActivity(true);
     setInterceptsMouseClicks(false, false);
 }
 
@@ -63,6 +54,31 @@ void Connections::resized ()
 {
 }
 
+long registerTo (OwnedArray<long>& idArray)
+{
+    long* id = new long(0);
+    
+    if (idArray.size())
+    {
+        *id = *idArray.getLast() + 1;
+    }
+    
+    return *idArray.add(id);
+}
+
+long Connections::registerInlet ()
+{
+    return registerTo (inletIDs);
+}
+
+long Connections::registerOutlet ()
+{
+    return registerTo (outletIDs);
+}
+
+
+
+
 //void Connections::mouseDrag (const MouseEvent& e)
 //{
 //    std::cout << e.x << e.y << std::endl;
@@ -83,18 +99,23 @@ void Connections::resized ()
 //    return false;
 //}
 
+Point<float> getTopRightFromString (String& coordString)
+{
+    Rectangle<int> ioBounds;
+    return ioBounds.fromString(coordString.removeCharacters(",")).getTopRight().toFloat();
+}
+
 void Connections::actionListenerCallback (const String& message)
 {
     
-    std::cout << message << std::endl;
+    //std::cout << message << std::endl;
     
     // Here we receive all clicks from all inlets and outlets
     if (message.containsWholeWord ("mouseDown"))
     {
         String coordString = message.fromFirstOccurrenceOf("mouseDown", false, false);
-        Rectangle<int> ioBounds;
-        Point<float> ioPosition = ioBounds.fromString(coordString.removeCharacters(",")).getTopRight().toFloat();
-        
+        Point<float> ioPosition = getTopRightFromString (coordString);
+
         if (message.containsWholeWord ("inlet"))
         {
             startInletConnect(ioPosition);
@@ -106,20 +127,25 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("mouseUp"))
     {
-        if (message.containsWholeWord ("inlet") || message.containsWholeWord ("outlet"))
+        Connection* newConnection = connections.getLast();
+        if (newConnection->isInletBeingDragged || newConnection->isOutletBeingDragged)
         {
-            finishConnect();
+            connections.removeLast();
+            repaint();
         }
     }
-    else if (message.containsWholeWord ("mouseDrag"))
+    else if (message.containsWholeWord ("draggingPatchCord"))
     {
-        String coordString = message.fromFirstOccurrenceOf("mouseDrag ", false, false);
-        Rectangle<int> mouseBounds;
-        
-        mousePoint = mouseBounds.fromString(coordString.removeCharacters(",")).getTopRight().toFloat();
-        
+        mousePoint = getMouseXYRelative().toFloat();
         repaint();
-        toFront(true);
+    }
+    else if (message.containsWholeWord ("dropped"))
+    {
+        String coordString = message.fromFirstOccurrenceOf("dropped", false, false);
+        Point<float> ioPosition = getTopRightFromString (coordString);
+        
+        finishConnect(ioPosition);
+        repaint();
     }
 }
 
@@ -134,17 +160,26 @@ void Connections::startConnect(Point<float> inletPosition, Point<float> outletPo
     newConnection->isOutletBeingDragged = isOutletBeingDragged;
 }
 
-void Connections::finishConnect()
+void Connections::startInletConnect (Point<float> inletPosition)
+{
+    startConnect(inletPosition, mousePoint, false, true);
+}
+void Connections::startOutletConnect (Point<float> outletPosition)
+{
+    startConnect(mousePoint, outletPosition, true, false);
+}
+
+void Connections::finishConnect(Point<float> ioPosition)
 {
     Connection* newConnection = connections.getLast();
     
     if (newConnection->isInletBeingDragged)
     {
-        newConnection->inletPosition = mousePoint;
+        newConnection->inletPosition = ioPosition;
     }
     else if (newConnection->isOutletBeingDragged)
     {
-        newConnection->outletPosition = mousePoint;
+        newConnection->outletPosition = ioPosition;
     }
     
     newConnection->isInletBeingDragged = false;
@@ -155,11 +190,3 @@ void Connections::finishConnect()
     newConnection->path.closeSubPath();
 }
 
-void Connections::startInletConnect (Point<float> inletPosition)
-{
-    startConnect(inletPosition, mousePoint, false, true);
-}
-void Connections::startOutletConnect (Point<float> outletPosition)
-{
-    startConnect(mousePoint, outletPosition, true, false);
-}

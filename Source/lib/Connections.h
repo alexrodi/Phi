@@ -27,6 +27,8 @@ public:
     void paint (Graphics&) override;
     void resized () override;
     
+    long registerInlet ();
+    long registerOutlet ();
 
 private:
     
@@ -46,15 +48,17 @@ private:
         bool isOutletBeingDragged = false;
     };
     
+    OwnedArray<long> inletIDs;
+    OwnedArray<long> outletIDs;
+    
     OwnedArray<Connection> connections;
     
     void actionListenerCallback (const String& message) override;
     
     void startConnect(Point<float>, Point<float>, bool, bool);
-    void finishConnect();
-    
-    void startInletConnect (Point<float> inletBounds);
-    void startOutletConnect (Point<float> outletBounds);
+    void startInletConnect (Point<float>);
+    void startOutletConnect (Point<float>);
+    void finishConnect(Point<float>);
     
     Path getConnectionPath (Connection*);
     

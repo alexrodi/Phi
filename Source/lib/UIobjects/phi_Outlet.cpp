@@ -12,7 +12,8 @@
 #include "phi_Outlet.h"
 
 //==============================================================================
-phi_Outlet::phi_Outlet()
+phi_Outlet::phi_Outlet() :
+outletID(time(NULL))
 {
     setPaintingIsUnclipped(true);
 }
@@ -23,9 +24,9 @@ phi_Outlet::~phi_Outlet()
 
 void phi_Outlet::paint (Graphics& g)
 {
-    g.setColour(Colours::darkgrey);
-    g.fillEllipse(viewport);
     g.setColour(Colours::grey);
+    g.fillEllipse(viewport);
+    g.setColour(Colours::darkgrey);
     g.drawEllipse(viewport, 3);
 }
 
@@ -34,47 +35,49 @@ void phi_Outlet::resized()
     viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
-String phi_Outlet::getCenterAsRectangleString (const MouseEvent& e)
-{
-    return e.withNewPosition(getLocalBounds().getCentre())
-           .getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
-           .getPosition().toString()
-           + ", 1, 1";
-}
-
-String phi_Outlet::getMouseAsRectangleString (const MouseEvent& e)
-{
-    return e.getEventRelativeTo(getParentComponent()->getParentComponent()->getParentComponent())
-           .getPosition().toString()
-           + ", 1, 1";
-}
-
 void phi_Outlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("outlet mouseDown " + getCenterAsRectangleString(e));
+    sendActionMessage("outlet mouseDown " + getCenterAsRectangleString());
 }
 
 void phi_Outlet::mouseUp(const MouseEvent& e)
 {
-    // this only notifies of a mouse-up event,
-    // it says nothing about where the connection was released
-    // or even IF it was released over a valid inlet
-    sendActionMessage("outlet mouseUp");
+    triggerAsyncUpdate ();
+}
+
+void phi_Outlet::handleAsyncUpdate()
+{
+    sendActionMessage("mouseUp");
 }
 
 void phi_Outlet::mouseDrag(const MouseEvent& e)
 {
-    sendActionMessage("outlet mouseDrag " + getMouseAsRectangleString(e));
+    DragAndDropContainer::findParentDragContainerFor(this)->
+    startDragging ("outlet" + String(outletID)
+                   , this
+                   , Image (Image::PixelFormat::RGB, 1, 1, true));
+    
+    sendActionMessage("draggingPatchCord");
 }
 
-void phi_Outlet::mouseEnter(const MouseEvent& e)
+bool phi_Outlet::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
 {
-    sendActionMessage("outlet mouseEnter " + getCenterAsRectangleString(e));
-
+    return dragSourceDetails.description.toString().contains("inlet");
 }
 
-void phi_Outlet::mouseExit(const MouseEvent& e)
+void phi_Outlet::itemDropped (const SourceDetails& dragSourceDetails)
 {
-    sendActionMessage("outlet mouseExit " + getCenterAsRectangleString(e));
+    sendActionMessage("dropped " + getCenterAsRectangleString());
+}
 
+String phi_Outlet::getCenterAsRectangleString ()
+{
+    return getTopLevelComponent()->getLocalPoint(this, getLocalBounds().getCentre()).toString() + ", 1, 1";
+}
+
+String phi_Outlet::getMouseAsRectangleString (const MouseEvent& e)
+{
+    return e.getEventRelativeTo(getTopLevelComponent())
+           .getPosition().toString()
+           + ", 1, 1";
 }

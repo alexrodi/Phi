@@ -16,7 +16,10 @@
 /*
 */
 class phi_Inlet    : public Component,
-                     public ActionBroadcaster
+                     public ActionBroadcaster,
+                     public DragAndDropTarget,
+                     public DragAndDropContainer,
+                     public AsyncUpdater
 {
 public:
     phi_Inlet();
@@ -24,18 +27,23 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    long inletID;
 
 private:
     Rectangle<float> viewport;
     
-    String getCenterAsRectangleString (const MouseEvent&);
+    String getCenterAsRectangleString ();
     String getMouseAsRectangleString (const MouseEvent&);
     
     void mouseDown(const MouseEvent&) override;
     void mouseUp(const MouseEvent&) override;
     void mouseDrag(const MouseEvent&) override;
-    void mouseEnter(const MouseEvent&) override;
-    void mouseExit(const MouseEvent&) override;
+    
+    bool isInterestedInDragSource (const SourceDetails&) override;
+    void itemDropped (const SourceDetails&) override;
+    
+    void handleAsyncUpdate () override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (phi_Inlet)
 };

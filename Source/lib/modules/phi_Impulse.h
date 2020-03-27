@@ -19,7 +19,7 @@
 /*
 */
 class phi_Impulse    : public Component,
-                               public Slider::Listener
+                       public Slider::Listener
 {
 public:
     phi_Impulse();

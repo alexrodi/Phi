@@ -100,12 +100,14 @@ void MainComponent::registerInletsAndOutlets(ModuleBox *module) {
     OwnedArray<phi_Inlet>& inlets = module->module.inlets;
     for (phi_Inlet* inlet : inlets)
     {
+        inlet->inletID = connections.registerInlet();
         inlet->addActionListener(&connections);
     }
     
     OwnedArray<phi_Outlet>& outlets = module->module.outlets;
     for (phi_Outlet* outlet : outlets)
     {
+        outlet->outletID = connections.registerOutlet();
         outlet->addActionListener(&connections);
     }
     
