@@ -114,6 +114,16 @@ void ModuleBox::resized()
     
     // Place Module
     module.setBounds(moduleRect.reduced(contentPadding));// (padded)
+    
+    
+    // Emmit action message for connections
+    sendActionMessage("changed");
+}
+
+void ModuleBox::moved()
+{
+    // Emmit action message for connections
+    sendActionMessage("changed");
 }
 
 

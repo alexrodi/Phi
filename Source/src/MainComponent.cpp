@@ -138,6 +138,7 @@ void MainComponent::mouseDown(const MouseEvent& e)
             // Display and set its (initial) bounds
             addAndMakeVisible(module);
             module->setBounds(e.x, e.y, 400, 200);
+            module->addActionListener(&connections);
         }
     }
 }

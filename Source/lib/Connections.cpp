@@ -28,7 +28,7 @@ void Connections::paint (Graphics& g)
 {
     if(! dragPath.isEmpty())
     {
-        g.strokePath ( dragPath, PathStrokeType (2.0f) );
+        g.strokePath ( dragPath, PathStrokeType (4.0f) );
     }
     
     if (connections.size())
@@ -36,13 +36,14 @@ void Connections::paint (Graphics& g)
         g.setColour (Colours::red);
         for (Connection* connection : connections)
         {
-            g.strokePath ( getConnectionPath(connection), PathStrokeType (2.0f) );
+            g.strokePath ( getConnectionPath(connection), PathStrokeType (4.0f) );
         }
     }
 }
 
 Path Connections::getConnectionPath (Connection* connection)
 {
+    //this is here for future compatibility with changing connections with the mouse
     if (connection->isInletBeingDragged)
     {
         connection->updateInlet(getMouseXYRelative().toFloat());
@@ -95,13 +96,27 @@ Point<float> Connections::getOutletCenterPositionFromString (String& outletId)
     return getLocalPoint(outlet, outlet->getLocalBounds().getCentre().toFloat()) ;
 }
 
+void Connections::updateAllConnectionPaths ()
+{
+    for (Connection* connection : connections)
+    {
+        connection->updateConnectionPath( getInletCenterPositionFromString(connection->inletId)
+                                         , getOutletCenterPositionFromString(connection->outletId));
+    }
+    repaint();
+}
+
 void Connections::actionListenerCallback (const String& message)
 {
     
     std::cout << message << std::endl;
     
     // Here we receive all clicks from all inlets and outlets
-    if (message.containsWholeWord ("mouseDown"))
+    if (message.containsWholeWord ("changed"))
+    {
+        updateAllConnectionPaths();
+    }
+    else if (message.containsWholeWord ("mouseDown"))
     {
         String coordString = message.fromFirstOccurrenceOf("mouseDown", false, false);
         Point<float> ioPosition = getTopRightFromString (coordString);

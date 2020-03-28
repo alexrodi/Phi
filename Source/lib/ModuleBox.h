@@ -20,7 +20,8 @@ class ModuleBox    : public Component,
                      public ChangeListener,
                      public Button::Listener,
                      public ComponentDragger,
-                     public ComponentBoundsConstrainer
+                     public ComponentBoundsConstrainer,
+                     public ActionBroadcaster
 {
 //==================================================================================
 public:
@@ -29,6 +30,7 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    void moved() override;
     
     // The hosted module
     phi_Impulse module;

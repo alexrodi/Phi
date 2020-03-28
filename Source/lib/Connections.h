@@ -119,6 +119,8 @@ private:
     Point<float> getInletCenterPositionFromString (String&);
     Point<float> getOutletCenterPositionFromString (String&);
     
+    void updateAllConnectionPaths ();
+    
     OwnedArray<Connection> connections;
     
     Path dragPath;

@@ -18,8 +18,8 @@ decayDial(5, 100, " ms", 2, this),
 shapeDial(0, 1, " %", 0, this)
 {
     // Declare the number of inlets & outlets here
-    const int numInlets = 10;
-    const int numOutlets = 13;
+    const int numInlets = 2;
+    const int numOutlets = 3;
     
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f*100)); };
     
