@@ -21,7 +21,8 @@ shapeDial(0, 1, " %", 0, this)
     const int numInlets = 2;
     const int numOutlets = 3;
     
-    shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f*100)); };
+    shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
+    shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
     
     //======================================================
     addAndMakeVisible(decayDial);
