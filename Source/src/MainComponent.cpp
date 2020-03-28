@@ -26,6 +26,7 @@ MainComponent::MainComponent()
     
     // Set the colors of PopupMenu
     setLookAndFeel(&lookandfeel);
+    lookandfeel.setColour(PopupMenu::textColourId, Colours::lightgrey);
     lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
     lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
     
@@ -125,7 +126,7 @@ void MainComponent::mouseDown(const MouseEvent& e)
     if (e.mods.isRightButtonDown()){
         
         // Displays the menu and returns the ID of the selected item (0 if clicked outside)
-        const int result = rightClickMenu.show();
+        const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(this));
         
         // There's only one possible result for now (1 - Impulse)
         if (result)
