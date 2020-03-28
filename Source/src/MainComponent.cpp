@@ -46,6 +46,9 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
+    rightClickMenu.dismissAllActiveMenus();
+    modulesSubMenu.dismissAllActiveMenus();
+    
     setLookAndFeel(nullptr);
     
     // This shuts down the audio device and clears the audio source.
