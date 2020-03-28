@@ -17,6 +17,7 @@
 //==============================================================================
 /*
 */
+
 class Connections : public Component,
                     public ActionListener
 {
@@ -31,6 +32,8 @@ public:
     long registerOutlet (phi_Outlet*);
 
 private:
+    
+    static void updateConnectionPath (Path&, Point<float>, Point<float>);
     
     class IdStore
     {
@@ -83,7 +86,7 @@ private:
         inletPosition(inletPosition),
         outletPosition(outletPosition)
         {
-            updateConnectionPath(inletPosition, outletPosition);
+            updateConnectionPath(path, inletPosition, outletPosition);
         }
         
         String inletId;
@@ -95,22 +98,14 @@ private:
         bool isInletBeingDragged = false;
         bool isOutletBeingDragged = false;
         
-        void updateConnectionPath(Point<float> inletPosition, Point<float> outletPosition)
-        {
-            path.clear();
-            path.startNewSubPath (inletPosition);
-            path.lineTo (outletPosition);
-            path.closeSubPath();
-        }
-        
         void updateInlet (Point<float> position)
         {
-            updateConnectionPath(position, outletPosition);
+            updateConnectionPath(path, position, outletPosition);
         }
         
         void updateOutlet (Point<float> position)
         {
-            updateConnectionPath(inletPosition, position);
+            updateConnectionPath(path, inletPosition, position);
         }
         
     };
@@ -125,7 +120,6 @@ private:
     
     Path dragPath;
     Point<float> dragPathAnchor;
-    void updatedragPath(Point<float>, Point<float>);
     
     void actionListenerCallback (const String& message) override;
     

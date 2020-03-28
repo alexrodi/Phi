@@ -23,9 +23,9 @@ phi_Outlet::~phi_Outlet()
 
 void phi_Outlet::paint (Graphics& g)
 {
-    g.setColour(Colours::grey);
-    g.fillEllipse(viewport);
     g.setColour(Colours::darkgrey);
+    g.fillEllipse(viewport);
+    g.setColour(Colours::grey);
     g.drawEllipse(viewport, 3);
 }
 

@@ -28,15 +28,20 @@ void Connections::paint (Graphics& g)
 {
     if(! dragPath.isEmpty())
     {
+        g.setColour (Colours::grey.withAlpha(0.5f));
         g.strokePath ( dragPath, PathStrokeType (4.0f) );
     }
     
     if (connections.size())
     {
-        g.setColour (Colours::red);
+        g.setColour (Colours::grey);
         for (Connection* connection : connections)
         {
-            g.strokePath ( getConnectionPath(connection), PathStrokeType (4.0f) );
+            g.strokePath ( getConnectionPath(connection)
+                          , PathStrokeType ( 4.0f
+                                            , PathStrokeType::JointStyle::mitered
+                                            , PathStrokeType::EndCapStyle::rounded )
+                          );
         }
     }
 }
@@ -100,8 +105,9 @@ void Connections::updateAllConnectionPaths ()
 {
     for (Connection* connection : connections)
     {
-        connection->updateConnectionPath( getInletCenterPositionFromString(connection->inletId)
-                                         , getOutletCenterPositionFromString(connection->outletId));
+        updateConnectionPath( connection->path
+                              , getInletCenterPositionFromString(connection->inletId)
+                              , getOutletCenterPositionFromString(connection->outletId));
     }
     repaint();
 }
@@ -125,7 +131,7 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("dragging"))
     {
-        updatedragPath(dragPathAnchor, getMouseXYRelative().toFloat());
+        updateConnectionPath (dragPath, dragPathAnchor, getMouseXYRelative().toFloat());
         repaint();
     }
     else if (message.containsWholeWord ("mouseUp"))
@@ -152,11 +158,14 @@ void Connections::createConnection(String& outletId, String& inletId)
     
 }
 
-
-void Connections::updatedragPath(Point<float> positionA, Point<float> positionB)
+Point<float> getMiddlePoint (Point<float> point1, Point<float> point2)
 {
-    dragPath.clear();
-    dragPath.startNewSubPath (positionA);
-    dragPath.lineTo (positionB);
-    dragPath.closeSubPath();
+    return point1.getPointOnCircumference(point1.getDistanceFrom(point2) * 0.5, point1.getAngleToPoint(point2));
+}
+
+void Connections::updateConnectionPath (Path& path, Point<float> positionA, Point<float> positionB)
+{
+    path.clear();
+    path.startNewSubPath (positionA);
+    path.cubicTo (positionA, getMiddlePoint(positionA, positionB).translated(0.0f, 30.0f), positionB);
 }
