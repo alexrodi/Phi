@@ -167,5 +167,5 @@ void Connections::updateConnectionPath (Path& path, Point<float> positionA, Poin
 {
     path.clear();
     path.startNewSubPath (positionA);
-    path.cubicTo (positionA, getMiddlePoint(positionA, positionB).translated(0.0f, 30.0f), positionB);
+    path.cubicTo (positionA, getMiddlePoint(positionA, positionB).translated(0.0f, CORD_GRAVITY), positionB);
 }

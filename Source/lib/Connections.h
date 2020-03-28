@@ -33,6 +33,8 @@ public:
 
 private:
     
+    #define CORD_GRAVITY 30.0f
+    
     static void updateConnectionPath (Path&, Point<float>, Point<float>);
     
     class IdStore
