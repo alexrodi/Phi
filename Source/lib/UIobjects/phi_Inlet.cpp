@@ -12,8 +12,7 @@
 #include "phi_Inlet.h"
 
 //==============================================================================
-phi_Inlet::phi_Inlet() :
-inletID(time(NULL))
+phi_Inlet::phi_Inlet()
 {
     setPaintingIsUnclipped(true);
 }
@@ -37,15 +36,10 @@ void phi_Inlet::resized()
 
 void phi_Inlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("inlet mouseDown " + getCenterAsRectangleString());
+    sendActionMessage("mouseDown " + getCenterAsRectangleString(this));
 }
 
 void phi_Inlet::mouseUp(const MouseEvent& e)
-{
-    triggerAsyncUpdate ();
-}
-
-void phi_Inlet::handleAsyncUpdate()
 {
     sendActionMessage("mouseUp");
 }
@@ -57,7 +51,7 @@ void phi_Inlet::mouseDrag(const MouseEvent& e)
                    , this
                    , Image (Image::PixelFormat::RGB, 1, 1, true));
     
-    sendActionMessage("draggingPatchCord");
+    sendActionMessage("dragging");
 }
 
 bool phi_Inlet::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
@@ -67,12 +61,14 @@ bool phi_Inlet::isInterestedInDragSource (const SourceDetails& dragSourceDetails
 
 void phi_Inlet::itemDropped (const SourceDetails& dragSourceDetails)
 {
-    sendActionMessage("dropped " + getCenterAsRectangleString());
+    sendActionMessage("connect "
+                      + String(inletID) + "&"
+                      + dragSourceDetails.description.toString().fromFirstOccurrenceOf("outlet", false, false));
 }
 
-String phi_Inlet::getCenterAsRectangleString ()
+String phi_Inlet::getCenterAsRectangleString(Component* component)
 {
-    return getTopLevelComponent()->getLocalPoint(this, getLocalBounds().getCentre()).toString() + ", 1, 1";
+    return getTopLevelComponent()->getLocalPoint(component, getLocalBounds().getCentre()).toString() + ", 1, 1";
 }
 
 String phi_Inlet::getMouseAsRectangleString (const MouseEvent& e)

@@ -18,8 +18,8 @@ decayDial(5, 100, " ms", 2, this),
 shapeDial(0, 1, " %", 0, this)
 {
     // Declare the number of inlets & outlets here
-    const int numInlets = 2;
-    const int numOutlets = 3;
+    const int numInlets = 10;
+    const int numOutlets = 13;
     
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f*100)); };
     
@@ -109,12 +109,12 @@ void phi_Impulse::resized()
     // Place the inlets (equidistant)
     Rectangle<int> inletBounds = moduleBounds.removeFromLeft(30);
     for (phi_Inlet* inlet : inlets)
-        inlet->setBounds( inletBounds.removeFromTop(moduleBounds.getHeight()/inlets.size()) );
+        inlet->setBounds( inletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)inlets.size()) );
     
     // Place the outlets (equidistant)
     Rectangle<int> outletBounds = moduleBounds.removeFromRight(30);
     for (phi_Outlet* outlet : outlets)
-        outlet->setBounds( outletBounds.removeFromTop(moduleBounds.getHeight()/outlets.size()) );
+        outlet->setBounds( outletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)outlets.size()) );
     
     // Place the Dials
     Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.3);
