@@ -81,20 +81,14 @@ long Connections::registerOutlet (phi_Outlet* outlet)
     return idNumber;
 }
 
-Point<float> getTopRightFromString (String& coordString)
-{
-    Rectangle<int> ioBounds;
-    return ioBounds.fromString(coordString.removeCharacters(",")).getTopRight().toFloat();
-}
-
-Point<float> Connections::getInletCenterPositionFromString (String& inletId)
+Point<float> Connections::getInletCenterPositionFromString (const String& inletId)
 {
     Component* inlet = idStore.inlets[inletId.toUTF8().getIntValue32()];
     
     return getLocalPoint(inlet, inlet->getLocalBounds().getCentre().toFloat()) ;
 }
 
-Point<float> Connections::getOutletCenterPositionFromString (String& outletId)
+Point<float> Connections::getOutletCenterPositionFromString (const String& outletId)
 {
     Component* outlet = idStore.outlets[outletId.toUTF8().getIntValue32()];
     
@@ -146,15 +140,15 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("connect"))
     {
-        String inletId = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
-        String outletId = message.fromFirstOccurrenceOf("&", false, false);
+        const String inletId = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
+        const String outletId = message.fromFirstOccurrenceOf("&", false, false);
         
         createConnection(outletId, inletId);
         repaint();
     }
 }
 
-void Connections::createConnection(String& outletId, String& inletId)
+void Connections::createConnection(const String& outletId, const String& inletId)
 {
     connections.add( new Connection( inletId
                                     , outletId
@@ -165,8 +159,8 @@ void Connections::createConnection(String& outletId, String& inletId)
 
 Point<float> getMiddlePoint (Point<float> point1, Point<float> point2)
 {
-    float distance = point1.getDistanceFrom(point2);
-    Point<float> middlePoint = point1.getPointOnCircumference(distance * 0.5, point1.getAngleToPoint(point2));
+    const float distance = point1.getDistanceFrom(point2);
+    const Point<float> middlePoint = point1.getPointOnCircumference(distance * 0.5, point1.getAngleToPoint(point2));
     
     return middlePoint.translated(0.0f, distance * CORD_WEIGHT);
 }

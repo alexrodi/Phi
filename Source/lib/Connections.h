@@ -82,7 +82,7 @@ private:
     class Connection
     {
     public:
-        Connection(String& inletId, String& outletId, Point<float> inletPosition, Point<float> outletPosition) :
+        Connection(const String& inletId, const String& outletId, Point<float> inletPosition, Point<float> outletPosition) :
         inletId(inletId),
         outletId(outletId),
         inletPosition(inletPosition),
@@ -113,8 +113,8 @@ private:
     };
     
     
-    Point<float> getInletCenterPositionFromString (String&);
-    Point<float> getOutletCenterPositionFromString (String&);
+    Point<float> getInletCenterPositionFromString (const String&);
+    Point<float> getOutletCenterPositionFromString (const String&);
     
     void updateAllConnectionPaths ();
     
@@ -125,11 +125,7 @@ private:
     
     void actionListenerCallback (const String& ) override;
     
-    void startConnect(Point<float>, Point<float>, bool, bool);
-    void startInletConnect (Point<float>);
-    void startOutletConnect (Point<float>);
-    
-    void createConnection  (String&, String&);
+    void createConnection  (const String&, const String&);
     
     Path getConnectionPath (Connection*);
 
