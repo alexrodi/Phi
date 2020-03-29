@@ -29,6 +29,8 @@
         </GROUP>
       </GROUP>
       <GROUP id="{37C4FECC-8C82-C393-89B9-EC3FDD7D3537}" name="src">
+        <FILE id="CGexeU" name="MainPatcher.cpp" compile="1" resource="0" file="Source/src/MainPatcher.cpp"/>
+        <FILE id="SprYtY" name="MainPatcher.h" compile="0" resource="0" file="Source/src/MainPatcher.h"/>
         <FILE id="q7FQvC" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
         <FILE id="ngfams" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/src/MainComponent.cpp"/>
