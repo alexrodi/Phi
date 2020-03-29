@@ -89,6 +89,6 @@ void MainPatcher::createModule(Point<float> position)
 
     // Display and set its (initial) bounds
     addAndMakeVisible(module);
-    module->setBounds(position.x, position.y, 400, 200);
+    module->setTopLeftPosition(position.toInt());
     module->addActionListener(&connections);
 }

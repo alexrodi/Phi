@@ -18,6 +18,8 @@
 /*
 */
 
+#define CORD_GRAVITY 30.0f
+
 class Connections : public Component,
                     public ActionListener
 {
@@ -32,8 +34,6 @@ public:
     long registerOutlet (phi_Outlet*);
 
 private:
-    
-    #define CORD_GRAVITY 30.0f
     
     static void updateConnectionPath (Path&, Point<float>, Point<float>);
     

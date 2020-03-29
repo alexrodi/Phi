@@ -16,8 +16,10 @@ Impulse::Impulse() :
 Module{{
     // All modules must initialize these properties
     .name =  "Impulse",
-    .inletNumber= 2,
-    .outletNumber= 3
+    .inletNumber = 2,
+    .outletNumber = 3,
+    .width = 400,
+    .height = 200
 }},
 decayDial(5, 100, " ms", 2, this),
 shapeDial(0, 1, " %", 0, this)
@@ -25,8 +27,7 @@ shapeDial(0, 1, " %", 0, this)
     
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
-    
-    //======================================================
+
     addAndMakeVisible(decayDial);
     addAndMakeVisible(shapeDial);
     
@@ -102,6 +103,7 @@ void Impulse::resized()
     // The local bounds
     Rectangle<int> moduleBounds = getLocalBounds();
     
+    // This line is mandatory for all modules with inlets/outlets
     moduleBounds = placeInletsOutlets( moduleBounds );
     
     // Place the Dials

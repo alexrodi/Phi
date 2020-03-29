@@ -14,7 +14,9 @@
 //==============================================================================
 
 Module::Module(Arguments arguments) :
-name{arguments.name}
+name{arguments.name},
+width{arguments.width},
+height{arguments.height}
 {
     for (int i=0; i<arguments.inletNumber; i++)
         addAndMakeVisible( inlets.add( new phi_Inlet() ) );
@@ -26,7 +28,7 @@ name{arguments.name}
 }
 
 
-Rectangle<int> Module::placeInletsOutlets(Rectangle<int> moduleBounds)
+const Rectangle<int> Module::placeInletsOutlets(Rectangle<int> moduleBounds)
 {
     // Place the inlets (equidistant)
     Rectangle<int> inletBounds = moduleBounds.removeFromLeft(30);

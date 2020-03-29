@@ -21,24 +21,29 @@
 class Module    : public Component
 {
 public:
+    
     struct Arguments
     {
         String name;
         int inletNumber;
         int outletNumber;
+        int width;
+        int height;
     };
     
-    Module(){};
-    explicit Module(Arguments);
+    Module(Arguments);
     
-    String name;
+    const String name;
+    
+    const int width;
+    const int height;
     
     /// This is how we keep our inlets & outlets,
     /// they belong to the module itself (not the box) and they should be public
     OwnedArray<phi_Inlet> inlets;
     OwnedArray<phi_Outlet> outlets;
     
-    Rectangle<int> placeInletsOutlets (Rectangle<int>);
+    const Rectangle<int> placeInletsOutlets (Rectangle<int>);
 
 private:
     

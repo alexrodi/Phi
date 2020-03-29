@@ -43,7 +43,7 @@ private:
    // Layout
    int contentPadding;
    int headerHeight;
-   Rectangle<float> moduleRectangle;
+   Rectangle<float> moduleBoxRectangle;
    Rectangle<float> headerLine;
    Rectangle<float> nameRectangle;
     

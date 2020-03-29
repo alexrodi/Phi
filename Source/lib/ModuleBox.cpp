@@ -51,6 +51,8 @@ moduleSelection{selectionChangeSource}
     lookandfeel.setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8));
     
     sendLookAndFeelChange();
+    
+    setSize(module->width, module->height);
 }
 
 ModuleBox::~ModuleBox()
@@ -65,11 +67,11 @@ void ModuleBox::paint (Graphics& g)
 {
     // Box
     g.setColour (Colours::darkgrey.darker());
-    g.fillRoundedRectangle(moduleRectangle, 2.f);
+    g.fillRoundedRectangle(moduleBoxRectangle, 2.f);
     
     // Outline
     g.setColour (isSelected ? Colours::grey.brighter() : Colours::grey);
-    g.drawRoundedRectangle(moduleRectangle, 2.f, isSelected ? 2 : 0.5);
+    g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
     g.drawText(module->name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
@@ -86,7 +88,7 @@ void ModuleBox::resized()
         setBounds(getX(), getY(), getWidth(), 30);
     
     // Module Box area (padded)
-    moduleRectangle = getLocalBounds().toFloat().reduced(1.5, 1.5);
+    moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5, 1.5);
     
     // Set box position constraints
     /**
