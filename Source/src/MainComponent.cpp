@@ -24,32 +24,30 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
     
-    // Set the colors of PopupMenu
     setLookAndFeel(&lookandfeel);
+    
+    // Set the colors of PopupMenu
     lookandfeel.setColour(PopupMenu::textColourId, Colours::lightgrey);
     lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
     lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
     
+    // Set the colors of Scrollbars
+    lookandfeel.setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
+    
     sendLookAndFeelChange();
     
-    // Menu and submenus content
-    // Submenus must be filled before the main
-    modulesSubMenu.addItem (1, "Impulse");
-    rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
-    
     // Apply our colors to the menu
-    rightClickMenu.setLookAndFeel(&lookandfeel);
-    
-    addAndMakeVisible(connections);
+    //rightClickMenu.setLookAndFeel(&lookandfeel);
     
     setSize (600, 400);
+    
+    addChildComponent(mainPatcher);
+    addAndMakeVisible(viewport);
+    viewport.setViewedComponent(&mainPatcher, false);
 }
 
 MainComponent::~MainComponent()
 {
-    rightClickMenu.dismissAllActiveMenus();
-    modulesSubMenu.dismissAllActiveMenus();
-    
     setLookAndFeel(nullptr);
     
     // This shuts down the audio device and clears the audio source.
@@ -95,54 +93,6 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
-    connections.setBounds(getLocalBounds());
-}
-
-// Registers all inlets and outlets with the connections component
-void MainComponent::registerInletsAndOutlets(ModuleBox *module) {
-    
-    OwnedArray<phi_Inlet>& inlets = module->module.inlets;
-    for (phi_Inlet* inlet : inlets)
-    {
-        inlet->inletID = connections.registerInlet(inlet);
-        inlet->addActionListener(&connections);
-    }
-    
-    OwnedArray<phi_Outlet>& outlets = module->module.outlets;
-    for (phi_Outlet* outlet : outlets)
-    {
-        outlet->outletID = connections.registerOutlet(outlet);
-        outlet->addActionListener(&connections);
-    }
-    
-}
-
-void MainComponent::mouseDown(const MouseEvent& e)
-{
-    // Deselect all modules when clicking the window
-    selectedModules.deselectAll();
-    
-    // Right Click
-    if (e.mods.isRightButtonDown()){
-        
-        // Displays the menu and returns the ID of the selected item (0 if clicked outside)
-        const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(this));
-        
-        // There's only one possible result for now (1 - Impulse)
-        if (result)
-        {
-            // Create the module
-            ModuleBox* module = new ModuleBox(&selectedModules);
-            
-            registerInletsAndOutlets(module);
-            
-            // Add it to the array
-            modules.add(module);
-            
-            // Display and set its (initial) bounds
-            addAndMakeVisible(module);
-            module->setBounds(e.x, e.y, 400, 200);
-            module->addActionListener(&connections);
-        }
-    }
+    viewport.setSize(getWidth(), getHeight());
+    mainPatcher.setSize(getWidth()*3, getHeight()*3);
 }
