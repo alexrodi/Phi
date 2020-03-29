@@ -165,12 +165,15 @@ void Connections::createConnection(String& outletId, String& inletId)
 
 Point<float> getMiddlePoint (Point<float> point1, Point<float> point2)
 {
-    return point1.getPointOnCircumference(point1.getDistanceFrom(point2) * 0.5, point1.getAngleToPoint(point2));
+    float distance = point1.getDistanceFrom(point2);
+    Point<float> middlePoint = point1.getPointOnCircumference(distance * 0.5, point1.getAngleToPoint(point2));
+    
+    return middlePoint.translated(0.0f, distance * CORD_WEIGHT);
 }
 
 void Connections::updateConnectionPath (Path& path, Point<float> positionA, Point<float> positionB)
 {
     path.clear();
     path.startNewSubPath (positionA);
-    path.cubicTo (positionA, getMiddlePoint(positionA, positionB).translated(0.0f, CORD_GRAVITY), positionB);
+    path.cubicTo (positionA , getMiddlePoint(positionA, positionB) , positionB);
 }

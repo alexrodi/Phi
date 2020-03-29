@@ -18,7 +18,7 @@
 /*
 */
 
-#define CORD_GRAVITY 30.0f
+#define CORD_WEIGHT 0.2f
 
 class Connections : public Component,
                     public ActionListener
