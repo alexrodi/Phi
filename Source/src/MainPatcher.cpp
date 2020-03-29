@@ -17,6 +17,7 @@ MainPatcher::MainPatcher()
     // Menu and submenus content
     // Submenus must be filled before the main
     modulesSubMenu.addItem (1, "Impulse");
+    modulesSubMenu.addItem (2, "Gain");
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
     addAndMakeVisible(connections);
@@ -53,22 +54,22 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         // There's only one possible result for now (1 - Impulse)
         if (result)
         {
-            createModule(e.position);
+            createModule(result, e.position);
         }
     }
 }
 
 // Registers all inlets and outlets with the connections component
-void MainPatcher::registerInletsAndOutlets(ModuleBox *module) {
+void MainPatcher::registerInletsAndOutlets(Module *module) {
     
-    OwnedArray<phi_Inlet>& inlets = module->module->inlets;
+    OwnedArray<phi_Inlet>& inlets = module->inlets;
     for (phi_Inlet* inlet : inlets)
     {
         inlet->inletID = connections.registerInlet(inlet);
         inlet->addActionListener(&connections);
     }
     
-    OwnedArray<phi_Outlet>& outlets = module->module->outlets;
+    OwnedArray<phi_Outlet>& outlets = module->outlets;
     for (phi_Outlet* outlet : outlets)
     {
         outlet->outletID = connections.registerOutlet(outlet);
@@ -77,18 +78,31 @@ void MainPatcher::registerInletsAndOutlets(ModuleBox *module) {
     
 }
 
-void MainPatcher::createModule(Point<float> position)
+void MainPatcher::createModule(int result, Point<float> position)
 {
-    // Create the module
-    ModuleBox* module = new ModuleBox(new Impulse(), selectedModules);
+    
+    Module* module;
+    
+    if (result==1)
+    {
+        module = new module_Impulse();
 
+    }
+    else if (result==2)
+    {
+        module = new module_Gain();
+    }
+    else return;
+    
+    ModuleBox* moduleBox = new ModuleBox(module, selectedModules);
+    
     registerInletsAndOutlets(module);
 
     // Add it to the array
-    modules.add(module);
+    modules.add(moduleBox);
 
-    // Display and set its (initial) bounds
-    addAndMakeVisible(module);
-    module->setTopLeftPosition(position.toInt());
-    module->addActionListener(&connections);
+    // Display and set its position
+    addAndMakeVisible(moduleBox);
+    moduleBox->setTopLeftPosition(position.toInt());
+    moduleBox->addActionListener(&connections);
 }

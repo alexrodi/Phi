@@ -5,38 +5,42 @@
   <MAINGROUP id="J6rtXw" name="Phi">
     <GROUP id="{6EA973C7-AFCB-9962-43A0-B724ACFC7C17}" name="Source">
       <GROUP id="{AC97657F-A58F-C8E3-78F7-79DF534B8FF0}" name="lib">
-        <GROUP id="{1CAEA4F0-3C40-B003-E4C3-EAF4C02569BB}" name="modules">
-          <FILE id="rxUw68" name="Impulse.cpp" compile="1" resource="0" file="Source/lib/modules/Impulse.cpp"/>
-          <FILE id="iaS7BP" name="Impulse.h" compile="0" resource="0" file="Source/lib/modules/Impulse.h"/>
+        <GROUP id="{27B23439-BA86-D10A-E363-9E756597F89D}" name="modules">
+          <FILE id="bjhKdb" name="module_Gain.cpp" compile="1" resource="0" file="Source/lib/modules/module_Gain.cpp"/>
+          <FILE id="k5IhBg" name="module_Gain.h" compile="0" resource="0" file="Source/lib/modules/module_Gain.h"/>
+          <FILE id="WRSrnu" name="module_Impulse.cpp" compile="1" resource="0"
+                file="Source/lib/modules/module_Impulse.cpp"/>
+          <FILE id="Qn6mxd" name="module_Impulse.h" compile="0" resource="0"
+                file="Source/lib/modules/module_Impulse.h"/>
         </GROUP>
-        <GROUP id="{2948BD5F-06C0-1BE5-FCC0-EB1F0E4789C4}" name="UIobjects">
-          <FILE id="Iiqfn7" name="phi_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/phi_Dial.cpp"/>
-          <FILE id="BeSz7k" name="phi_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/phi_Dial.h"/>
-          <FILE id="ogjb2r" name="phi_Inlet.cpp" compile="1" resource="0" file="Source/lib/UIobjects/phi_Inlet.cpp"/>
-          <FILE id="F0VcdE" name="phi_Inlet.h" compile="0" resource="0" file="Source/lib/UIobjects/phi_Inlet.h"/>
-          <FILE id="uqvOC6" name="phi_Outlet.cpp" compile="1" resource="0" file="Source/lib/UIobjects/phi_Outlet.cpp"/>
-          <FILE id="mqcJQS" name="phi_Outlet.h" compile="0" resource="0" file="Source/lib/UIobjects/phi_Outlet.h"/>
+        <GROUP id="{54628CB4-901E-DD26-B32B-15B8A3186DB6}" name="UIobjects">
+          <FILE id="k2e8y1" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>
+          <FILE id="FqPSrW" name="ui_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/ui_Dial.h"/>
         </GROUP>
-        <FILE id="vlas18" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
-        <FILE id="KKqDR9" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
-        <FILE id="Yb6NJW" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
-        <FILE id="gdvQCo" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
-        <FILE id="uSHir8" name="Module.cpp" compile="1" resource="0" file="Source/lib/Module.cpp"/>
-        <FILE id="w1z0bg" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
+        <FILE id="SxFmFW" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
+        <FILE id="PCC4tS" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
+        <FILE id="tFnEG2" name="Module.cpp" compile="1" resource="0" file="Source/lib/Module.cpp"/>
+        <FILE id="N2K8n4" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
+        <FILE id="U9tL0r" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
+        <FILE id="e33Iex" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
+        <FILE id="pUFuiz" name="phi_Inlet.cpp" compile="1" resource="0" file="Source/lib/phi_Inlet.cpp"/>
+        <FILE id="uGOD20" name="phi_Inlet.h" compile="0" resource="0" file="Source/lib/phi_Inlet.h"/>
+        <FILE id="YUZvl3" name="phi_Outlet.cpp" compile="1" resource="0" file="Source/lib/phi_Outlet.cpp"/>
+        <FILE id="evALCM" name="phi_Outlet.h" compile="0" resource="0" file="Source/lib/phi_Outlet.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
         <GROUP id="{AFB75D1F-B744-A782-6D95-CA6C7EDD0FFC}" name="audio">
-          <FILE id="EXdqql" name="SinFormant.wav" compile="0" resource="1" file="Source/resources/audio/SinFormant.wav"/>
-          <FILE id="A0rNpI" name="SinSquare.wav" compile="0" resource="1" file="Source/resources/audio/SinSquare.wav"/>
+          <FILE id="HcjkNw" name="SinFormant.wav" compile="0" resource="1" file="Source/resources/audio/SinFormant.wav"/>
+          <FILE id="xBwr0A" name="SinSquare.wav" compile="0" resource="1" file="Source/resources/audio/SinSquare.wav"/>
         </GROUP>
       </GROUP>
       <GROUP id="{37C4FECC-8C82-C393-89B9-EC3FDD7D3537}" name="src">
-        <FILE id="CGexeU" name="MainPatcher.cpp" compile="1" resource="0" file="Source/src/MainPatcher.cpp"/>
-        <FILE id="SprYtY" name="MainPatcher.h" compile="0" resource="0" file="Source/src/MainPatcher.h"/>
-        <FILE id="q7FQvC" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
-        <FILE id="ngfams" name="MainComponent.cpp" compile="1" resource="0"
+        <FILE id="VCVE2W" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
+        <FILE id="rEA13g" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/src/MainComponent.cpp"/>
-        <FILE id="QjJ8c5" name="MainComponent.h" compile="0" resource="0" file="Source/src/MainComponent.h"/>
+        <FILE id="bZnS2g" name="MainComponent.h" compile="0" resource="0" file="Source/src/MainComponent.h"/>
+        <FILE id="oJuN6J" name="MainPatcher.cpp" compile="1" resource="0" file="Source/src/MainPatcher.cpp"/>
+        <FILE id="NyrH6l" name="MainPatcher.h" compile="0" resource="0" file="Source/src/MainPatcher.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

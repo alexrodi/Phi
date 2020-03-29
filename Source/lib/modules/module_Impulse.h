@@ -12,17 +12,17 @@
 
 #include <JuceHeader.h>
 #include "../Module.h"
-#include "../UIobjects/phi_Dial.h"
+#include "../UIobjects/ui_Dial.h"
 
 //==============================================================================
 /*
 */
-class Impulse    : public Module,
+class module_Impulse    : public Module,
                    public Slider::Listener
 {
 public:
-    Impulse();
-    ~Impulse();
+    module_Impulse();
+    ~module_Impulse();
 
     void paint (Graphics&) override;
     void resized() override;
@@ -30,8 +30,8 @@ public:
 private:
     
     //Dials
-    phi_Dial decayDial;
-    phi_Dial shapeDial;
+    ui_Dial decayDial;
+    ui_Dial shapeDial;
     
     //Waveform
     Rectangle<float> waveViewPort;
@@ -41,5 +41,5 @@ private:
     void decayDialChanged (float value);
     void shapeDialChanged (float value);
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Impulse)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (module_Impulse)
 };

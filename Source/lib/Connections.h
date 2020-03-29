@@ -11,8 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "./UIobjects/phi_Inlet.h"
-#include "./UIobjects/phi_Outlet.h"
+#include "phi_Inlet.h"
+#include "phi_Outlet.h"
 
 //==============================================================================
 /*

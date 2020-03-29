@@ -27,7 +27,8 @@ moduleSelection{selectionChangeSource}
     
     // Sizes ======================================================
     // Box size constraints are static
-    setSizeLimits(200,headerHeight+5,500,300);
+    // They eventually should be imposed by the module
+    setSizeLimits(100,headerHeight+5,500,300);
     resizer.setSize(8,8);
     
     // Visibles ======================================================

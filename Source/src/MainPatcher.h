@@ -13,7 +13,8 @@
 #include <JuceHeader.h>
 #include "../lib/ModuleBox.h"
 #include "../lib/Connections.h"
-#include "../lib/modules/Impulse.h"
+#include "../lib/modules/module_Impulse.h"
+#include "../lib/modules/module_Gain.h"
 
 //==============================================================================
 /*
@@ -45,9 +46,9 @@ private:
     PopupMenu rightClickMenu;
     PopupMenu modulesSubMenu;
     
-    void registerInletsAndOutlets(ModuleBox*);
+    void registerInletsAndOutlets(Module*);
     
-    void createModule(Point<float>);
+    void createModule(int, Point<float>);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainPatcher)
 };

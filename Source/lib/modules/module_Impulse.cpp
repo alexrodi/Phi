@@ -9,10 +9,10 @@
 */
 
 #include <JuceHeader.h>
-#include "Impulse.h"
+#include "module_Impulse.h"
 
 //==============================================================================
-Impulse::Impulse() :
+module_Impulse::module_Impulse() :
 Module{{
     // All modules must initialize these properties
     .name =  "Impulse",
@@ -33,7 +33,7 @@ shapeDial(0, 1, " %", 0, this)
     
 }
 
-Impulse::~Impulse()
+module_Impulse::~module_Impulse()
 {
     
 }
@@ -92,12 +92,12 @@ static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, fl
 }
 
 //==============================================================================
-void Impulse::paint (Graphics& g)
+void module_Impulse::paint (Graphics& g)
 {
     drawWaveform(g, waveViewPort, shapeDial.getValue(), decayDial.getValue(), findColour(Slider::thumbColourId));
 }
 
-void Impulse::resized()
+void module_Impulse::resized()
 {
 
     // The local bounds
@@ -114,15 +114,15 @@ void Impulse::resized()
     waveViewPort = moduleBounds.reduced(10,0).toFloat();
 }
 
-void Impulse::decayDialChanged (float value)
+void module_Impulse::decayDialChanged (float value)
 {
 }
 
-void Impulse::shapeDialChanged (float value)
+void module_Impulse::shapeDialChanged (float value)
 {
 }
 
-void Impulse::sliderValueChanged (Slider* slider)
+void module_Impulse::sliderValueChanged (Slider* slider)
 {
     if (slider == &decayDial){
         decayDialChanged(slider->getValue());

@@ -9,9 +9,9 @@
 */
 
 #include <JuceHeader.h>
-#include "phi_Dial.h"
+#include "ui_Dial.h"
 
-phi_Dial::phi_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int decimals, Slider::Listener* listener)
+ui_Dial::ui_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int decimals, Slider::Listener* listener)
 {
     setRange                     (rangeLow, rangeHigh);
     setTextValueSuffix           (valueSuffix);
@@ -24,6 +24,6 @@ phi_Dial::phi_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int
     setPaintingIsUnclipped (true);
 }
 
- phi_Dial::~phi_Dial()
+ ui_Dial::~ui_Dial()
 {
 }
