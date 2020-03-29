@@ -38,20 +38,7 @@ moduleSelection{selectionChangeSource}
     setPaintingIsUnclipped(true);
     setBroughtToFrontOnMouseClick(true);
     
-    // LookAndFeel ======================================================
-    setLookAndFeel(&lookandfeel);
-    
-    lookandfeel.setColour(Slider::thumbColourId, Colours::cyan.brighter());
-    lookandfeel.setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
-    lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
-    lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
-    lookandfeel.setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
-    lookandfeel.setColour(TextEditor::focusedOutlineColourId, Colour());
-    lookandfeel.setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
-    lookandfeel.setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3));
-    lookandfeel.setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8));
-    
-    sendLookAndFeelChange();
+    setupLookAndFeel();
     
     setSize(module->width, module->height);
 }
@@ -128,6 +115,23 @@ void ModuleBox::moved()
 {
     // Emmit action message to update connections
     sendActionMessage("moduleChanged");
+}
+
+void ModuleBox::setupLookAndFeel()
+{
+    setLookAndFeel(&lookandfeel);
+    
+    lookandfeel.setColour(Slider::thumbColourId, Colours::cyan.brighter());
+    lookandfeel.setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
+    lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
+    lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
+    lookandfeel.setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
+    lookandfeel.setColour(TextEditor::focusedOutlineColourId, Colour());
+    lookandfeel.setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
+    lookandfeel.setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3));
+    lookandfeel.setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8));
+    
+    sendLookAndFeelChange();
 }
 
 

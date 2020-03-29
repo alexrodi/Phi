@@ -85,6 +85,9 @@ private:
     bool isSelected;
     
     //==================================================================================
+    
+    void setupLookAndFeel ();
+    
     // Dragger wrappers for selected items
     void startDraggingSelected(const MouseEvent&);
     void dragSelected(const MouseEvent&);
