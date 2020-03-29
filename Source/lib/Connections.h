@@ -32,10 +32,12 @@ public:
     
     long registerInlet (phi_Inlet*);
     long registerOutlet (phi_Outlet*);
+    
+    void togglePatchCordType();
 
 private:
     
-    static void updateConnectionPath (Path&, Point<float>, Point<float>);
+    typedef std::function<void(Path&,Point<float>,Point<float>)> ConnectionPathCallback;
     
     class IdStore
     {
@@ -79,16 +81,29 @@ private:
         
     } idStore;
     
+    Path allConnectionsPath;
+       void updateAllConnectionPaths ();
+       
+       bool patchCordTypeToggle;
+       
+       static void patchCordTypeACallback (Path&, Point<float>, Point<float>);
+       static void patchCordTypeBCallback (Path&, Point<float>, Point<float>);
+       ConnectionPathCallback updateConnectionPath;
+    
     class Connection
     {
     public:
-        Connection(const String& inletId, const String& outletId, Point<float> inletPosition, Point<float> outletPosition) :
+        Connection(ConnectionPathCallback& updateConnectionPathCallback
+                   , const String& inletId
+                   , const String& outletId
+                   , Point<float> inletPosition
+                   , Point<float> outletPosition) :
         inletId(inletId),
         outletId(outletId),
         inletPosition(inletPosition),
         outletPosition(outletPosition)
         {
-            updateConnectionPath(path, inletPosition, outletPosition);
+            updateConnectionPathCallback(path, inletPosition, outletPosition);
         }
         
         String inletId;
@@ -97,17 +112,19 @@ private:
         Point<float> outletPosition;
         Path path;
         
+        ConnectionPathCallback updateConnectionPathCallback;
+        
         bool isInletBeingDragged = false;
         bool isOutletBeingDragged = false;
         
         void updateInlet (Point<float> position)
         {
-            updateConnectionPath(path, position, outletPosition);
+            updateConnectionPathCallback(path, position, outletPosition);
         }
         
         void updateOutlet (Point<float> position)
         {
-            updateConnectionPath(path, inletPosition, position);
+            updateConnectionPathCallback(path, inletPosition, position);
         }
         
     };
@@ -116,7 +133,7 @@ private:
     Point<float> getInletCenterPositionFromString (const String&);
     Point<float> getOutletCenterPositionFromString (const String&);
     
-    void updateAllConnectionPaths ();
+   
     
     OwnedArray<Connection> connections;
     

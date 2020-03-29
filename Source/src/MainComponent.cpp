@@ -7,9 +7,15 @@
 */
 
 #include "MainComponent.h"
+//
+//Font LookAndFeel_V4::getTextButtonFont(TextButton &, int buttonHeight)
+//{
+//    return { jmin (16.0f, buttonHeight * 0.6f) };
+//}
 
 //==============================================================================
-MainComponent::MainComponent()
+MainComponent::MainComponent() :
+patchCordTypeButton{"Patch Cord"}
 {
     // Some platforms require permissions to open input channels so request that here
     if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
@@ -24,26 +30,29 @@ MainComponent::MainComponent()
         setAudioChannels (2, 2);
     }
     
-    setLookAndFeel(&lookandfeel);
-    
     // Set the colors of PopupMenu
-    lookandfeel.setColour(PopupMenu::textColourId, Colours::lightgrey);
-    lookandfeel.setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
-    lookandfeel.setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
+    LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::textColourId, Colours::lightgrey);
+    LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
+    LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
+    
+    LookAndFeel::getDefaultLookAndFeel().setColour(TextButton::buttonColourId , Colours::transparentBlack);
     
     // Set the colors of Scrollbars
-    lookandfeel.setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
+    LookAndFeel::getDefaultLookAndFeel().setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
+    
+    LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
     
     sendLookAndFeelChange();
-    
-    // Apply our colors to the menu
-    //rightClickMenu.setLookAndFeel(&lookandfeel);
     
     setSize (600, 400);
     
     addChildComponent(mainPatcher);
     addAndMakeVisible(viewport);
     viewport.setViewedComponent(&mainPatcher, false);
+    
+    addAndMakeVisible(patchCordTypeButton);
+    
+    patchCordTypeButton.addListener(this);
 }
 
 MainComponent::~MainComponent()
@@ -89,10 +98,28 @@ void MainComponent::releaseResources()
 void MainComponent::paint (Graphics& g)
 {
     g.fillAll (Colours::darkgrey);
+    g.setColour(Colours::darkgrey.darker());
+    g.fillRect(topBarBounds);
 }
 
 void MainComponent::resized()
 {
-    viewport.setSize(getWidth(), getHeight());
-    mainPatcher.setSize(getWidth()*3, getHeight()*3);
+    Rectangle<int> windowBounds = getLocalBounds();
+    topBarBounds = windowBounds.removeFromTop(50);
+    
+    patchCordTypeButton.setBounds(topBarBounds.withTrimmedLeft(getWidth()-100).reduced(10));
+    
+    viewport.setBounds(windowBounds);
+    mainPatcher.setSize(windowBounds.getWidth()*3, windowBounds.getHeight()*3);
+}
+
+
+
+void MainComponent::buttonClicked (Button* button)
+{
+    if (button == &patchCordTypeButton)
+    {
+        mainPatcher.togglePatchCordType();
+    }
+    
 }

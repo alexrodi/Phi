@@ -17,7 +17,8 @@
     your controls and content.
 */
 class MainComponent   : public AudioAppComponent,
-                        public DragAndDropContainer
+                        public DragAndDropContainer,
+                        public Button::Listener
 
 {
 //==============================================================================
@@ -39,13 +40,19 @@ public:
 private:
     // Our LookAndFeel instance for the MainComponent
     // this maintains certain colors in the window but any module can surpass it with its own
-    LookAndFeel_V4 lookandfeel;
+    //LookAndFeel_V4 lookandfeel;
     
     // The Main Patcher where all modules and connections reside
     MainPatcher mainPatcher;
     
     // The window scrollbars
     Viewport viewport;
+    
+    TextButton patchCordTypeButton;
+    
+    Rectangle<int> topBarBounds;
+    
+    void buttonClicked (Button*) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

@@ -13,7 +13,8 @@
 
 //==============================================================================
 
-Connections::Connections()
+Connections::Connections() :
+updateConnectionPath{patchCordTypeACallback}
 {
     setAlwaysOnTop(true);
     setPaintingIsUnclipped(true);
@@ -35,14 +36,11 @@ void Connections::paint (Graphics& g)
     if (connections.size())
     {
         g.setColour (Colours::grey);
-        for (Connection* connection : connections)
-        {
-            g.strokePath ( getConnectionPath(connection)
-                          , PathStrokeType ( 4.0f
-                                            , PathStrokeType::JointStyle::mitered
-                                            , PathStrokeType::EndCapStyle::rounded )
-                          );
-        }
+        g.strokePath ( allConnectionsPath
+                      , PathStrokeType ( 4.0f
+                                        , PathStrokeType::JointStyle::mitered
+                                        , PathStrokeType::EndCapStyle::rounded )
+                      );
     }
 }
 
@@ -97,11 +95,14 @@ Point<float> Connections::getOutletCenterPositionFromString (const String& outle
 
 void Connections::updateAllConnectionPaths ()
 {
+    allConnectionsPath.clear();
     for (Connection* connection : connections)
     {
         updateConnectionPath( connection->path
                               , getInletCenterPositionFromString(connection->inletId)
                               , getOutletCenterPositionFromString(connection->outletId));
+        
+        allConnectionsPath.addPath(getConnectionPath(connection));
     }
     repaint();
 }
@@ -144,30 +145,60 @@ void Connections::actionListenerCallback (const String& message)
         const String outletId = message.fromFirstOccurrenceOf("&", false, false);
         
         createConnection(outletId, inletId);
-        repaint();
+        updateAllConnectionPaths();
     }
 }
 
 void Connections::createConnection(const String& outletId, const String& inletId)
 {
-    connections.add( new Connection( inletId
+    connections.add( new Connection( updateConnectionPath
+                                    , inletId
                                     , outletId
                                     , getInletCenterPositionFromString(inletId)
                                     , getOutletCenterPositionFromString(outletId)));
     
 }
 
-Point<float> getMiddlePoint (Point<float> point1, Point<float> point2)
+void Connections::togglePatchCordType()
+{
+    patchCordTypeToggle = !patchCordTypeToggle;
+    updateConnectionPath = patchCordTypeToggle ? patchCordTypeACallback : patchCordTypeBCallback;
+    updateAllConnectionPaths();
+}
+
+Point<float> getMiddlePoint (Point<float> point1, Point<float> point2, bool applyWeight = false)
 {
     const float distance = point1.getDistanceFrom(point2);
     const Point<float> middlePoint = point1.getPointOnCircumference(distance * 0.5, point1.getAngleToPoint(point2));
     
-    return middlePoint.translated(0.0f, distance * CORD_WEIGHT);
+    if (applyWeight)
+    {
+        return middlePoint.translated(0.0f, distance * CORD_WEIGHT);
+    }
+    
+    return middlePoint;
 }
 
-void Connections::updateConnectionPath (Path& path, Point<float> positionA, Point<float> positionB)
+void Connections::patchCordTypeACallback (Path& path, Point<float> positionA, Point<float> positionB)
 {
     path.clear();
     path.startNewSubPath (positionA);
-    path.cubicTo (positionA , getMiddlePoint(positionA, positionB) , positionB);
+    path.cubicTo (positionA, getMiddlePoint(positionA, positionB, true), positionB);
+}
+
+void Connections::patchCordTypeBCallback (Path& path, Point<float> positionA, Point<float> positionB)
+{
+    const Point<float> middlePoint = getMiddlePoint(positionA, positionB);
+    
+    const float hDistance = abs( positionA.getX() - positionB.getX() ) * 0.2;
+
+    bool order = positionA.x > positionB.x;
+
+    Point<float> cubicHandleA = positionA.translated(order ? -hDistance : hDistance, 0);
+    Point<float> cubicHandleB = positionB.translated(order ? hDistance : -hDistance, 0);
+
+    path.clear();
+    path.startNewSubPath (positionA);
+    path.cubicTo (positionA , cubicHandleA , middlePoint);
+    path.cubicTo (middlePoint , cubicHandleB , positionB);
 }

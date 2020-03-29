@@ -59,6 +59,11 @@ void MainPatcher::mouseDown(const MouseEvent& e)
     }
 }
 
+void MainPatcher::togglePatchCordType()
+{
+    connections.togglePatchCordType();
+}
+
 // Registers all inlets and outlets with the connections component
 void MainPatcher::registerInletsAndOutlets(Module *module) {
     
