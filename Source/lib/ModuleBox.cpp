@@ -12,8 +12,8 @@
 #include "ModuleBox.h"
 
 //==============================================================================
-ModuleBox::ModuleBox(SelectedItemSet<ModuleBox*>* selectionChangeSource) :
-module{},
+ModuleBox::ModuleBox(Module* module, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
+module{module},
 contentPadding(10),
 headerHeight(27),
 powerButton{},
@@ -23,7 +23,7 @@ moduleSelection{selectionChangeSource}
     // Listeners ======================================================
     powerButton.addListener(this);
     
-    moduleSelection->addChangeListener(this);
+    moduleSelection.addChangeListener(this);
     
     // Sizes ======================================================
     // Box size constraints are static
@@ -40,11 +40,11 @@ moduleSelection{selectionChangeSource}
     // LookAndFeel ======================================================
     setLookAndFeel(&lookandfeel);
     
-    lookandfeel.setColour(phi_Dial::thumbColourId, Colours::cyan.brighter());
-    lookandfeel.setColour(phi_Dial::rotarySliderFillColourId, Colour::greyLevel(0.17));
-    lookandfeel.setColour(phi_Dial::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
-    lookandfeel.setColour(phi_Dial::textBoxOutlineColourId, Colour()); // no color
-    lookandfeel.setColour(phi_Dial::textBoxHighlightColourId, Colour::greyLevel(0.2));
+    lookandfeel.setColour(Slider::thumbColourId, Colours::cyan.brighter());
+    lookandfeel.setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
+    lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
+    lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
+    lookandfeel.setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
     lookandfeel.setColour(TextEditor::focusedOutlineColourId, Colour());
     lookandfeel.setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
     lookandfeel.setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3));
@@ -55,6 +55,7 @@ moduleSelection{selectionChangeSource}
 
 ModuleBox::~ModuleBox()
 {
+    delete module;
     setLookAndFeel (nullptr);
 }
 
@@ -71,7 +72,7 @@ void ModuleBox::paint (Graphics& g)
     g.drawRoundedRectangle(moduleRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
-    g.drawText(module.moduleName, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
+    g.drawText(module->name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
     g.setColour (Colours::grey);
@@ -113,7 +114,7 @@ void ModuleBox::resized()
     nameRectangle = Rectangle<float>(boxHeader.toFloat());
     
     // Place Module
-    module.setBounds(moduleRect.reduced(contentPadding));// (padded)
+    module->setBounds(moduleRect.reduced(contentPadding));// (padded)
     
     
     // Emmit action message to update connections
@@ -129,14 +130,14 @@ void ModuleBox::moved()
 
 //==============================================================================
 void ModuleBox::startDraggingSelected(const MouseEvent& e){
-    Array<ModuleBox*> selected = moduleSelection->getItemArray();
+    Array<ModuleBox*> selected = moduleSelection.getItemArray();
     for (ModuleBox* module : selected){
         module->startDraggingComponent(module, e);
     }
 }
 
 void ModuleBox::dragSelected(const MouseEvent& e){
-    Array<ModuleBox*> selected = moduleSelection->getItemArray();
+    Array<ModuleBox*> selected = moduleSelection.getItemArray();
     for (ModuleBox* module : selected){
          module->dragComponent(module, e, module);
     }
@@ -144,13 +145,13 @@ void ModuleBox::dragSelected(const MouseEvent& e){
 
 void ModuleBox::mouseDown(const MouseEvent& e)
 {
-    selectResult = moduleSelection->addToSelectionOnMouseDown(this,ModifierKeys::getCurrentModifiers());
+    selectResult = moduleSelection.addToSelectionOnMouseDown(this,ModifierKeys::getCurrentModifiers());
     startDraggingSelected(e);
 }
 
 void ModuleBox::mouseUp(const MouseEvent& e)
 {
-    moduleSelection->addToSelectionOnMouseUp(this,ModifierKeys::getCurrentModifiers(),e.mouseWasDraggedSinceMouseDown(), selectResult);
+    moduleSelection.addToSelectionOnMouseUp(this,ModifierKeys::getCurrentModifiers(),e.mouseWasDraggedSinceMouseDown(), selectResult);
 }
 
 void ModuleBox::mouseDrag(const MouseEvent& e)
@@ -162,11 +163,11 @@ void ModuleBox::mouseDrag(const MouseEvent& e)
 //==============================================================================
 void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 {
-    if (source == moduleSelection)
+    if (source == &moduleSelection)
     {
         /// here we get a change from the selected modules list
         /// so the module must update its UI accordingly
-        isSelected = moduleSelection->isSelected(this);
+        isSelected = moduleSelection.isSelected(this);
         repaint();
     }
 }

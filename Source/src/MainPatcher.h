@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "../lib/ModuleBox.h"
 #include "../lib/Connections.h"
+#include "../lib/modules/Impulse.h"
 
 //==============================================================================
 /*

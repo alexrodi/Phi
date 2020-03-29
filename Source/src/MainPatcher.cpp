@@ -61,14 +61,14 @@ void MainPatcher::mouseDown(const MouseEvent& e)
 // Registers all inlets and outlets with the connections component
 void MainPatcher::registerInletsAndOutlets(ModuleBox *module) {
     
-    OwnedArray<phi_Inlet>& inlets = module->module.inlets;
+    OwnedArray<phi_Inlet>& inlets = module->module->inlets;
     for (phi_Inlet* inlet : inlets)
     {
         inlet->inletID = connections.registerInlet(inlet);
         inlet->addActionListener(&connections);
     }
     
-    OwnedArray<phi_Outlet>& outlets = module->module.outlets;
+    OwnedArray<phi_Outlet>& outlets = module->module->outlets;
     for (phi_Outlet* outlet : outlets)
     {
         outlet->outletID = connections.registerOutlet(outlet);
@@ -80,7 +80,7 @@ void MainPatcher::registerInletsAndOutlets(ModuleBox *module) {
 void MainPatcher::createModule(Point<float> position)
 {
     // Create the module
-    ModuleBox* module = new ModuleBox(&selectedModules);
+    ModuleBox* module = new ModuleBox(new Impulse(), selectedModules);
 
     registerInletsAndOutlets(module);
 

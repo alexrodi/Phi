@@ -6,8 +6,8 @@
     <GROUP id="{6EA973C7-AFCB-9962-43A0-B724ACFC7C17}" name="Source">
       <GROUP id="{AC97657F-A58F-C8E3-78F7-79DF534B8FF0}" name="lib">
         <GROUP id="{1CAEA4F0-3C40-B003-E4C3-EAF4C02569BB}" name="modules">
-          <FILE id="rxUw68" name="phi_Impulse.cpp" compile="1" resource="0" file="Source/lib/modules/phi_Impulse.cpp"/>
-          <FILE id="iaS7BP" name="phi_Impulse.h" compile="0" resource="0" file="Source/lib/modules/phi_Impulse.h"/>
+          <FILE id="rxUw68" name="Impulse.cpp" compile="1" resource="0" file="Source/lib/modules/Impulse.cpp"/>
+          <FILE id="iaS7BP" name="Impulse.h" compile="0" resource="0" file="Source/lib/modules/Impulse.h"/>
         </GROUP>
         <GROUP id="{2948BD5F-06C0-1BE5-FCC0-EB1F0E4789C4}" name="UIobjects">
           <FILE id="Iiqfn7" name="phi_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/phi_Dial.cpp"/>
@@ -21,6 +21,8 @@
         <FILE id="KKqDR9" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
         <FILE id="Yb6NJW" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
         <FILE id="gdvQCo" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
+        <FILE id="uSHir8" name="Module.cpp" compile="1" resource="0" file="Source/lib/Module.cpp"/>
+        <FILE id="w1z0bg" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
         <GROUP id="{AFB75D1F-B744-A782-6D95-CA6C7EDD0FFC}" name="audio">

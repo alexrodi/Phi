@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Impulse.cpp
+    Impulse.cpp
     Created: 9 Feb 2020 11:02:38pm
     Author:  Alexandre Rodrigues
 
@@ -9,17 +9,19 @@
 */
 
 #include <JuceHeader.h>
-#include "phi_Impulse.h"
+#include "Impulse.h"
 
 //==============================================================================
-phi_Impulse::phi_Impulse() :
-moduleName("Impulse"),
+Impulse::Impulse() :
+Module{{
+    // All modules must initialize these properties
+    .name =  "Impulse",
+    .inletNumber= 2,
+    .outletNumber= 3
+}},
 decayDial(5, 100, " ms", 2, this),
 shapeDial(0, 1, " %", 0, this)
 {
-    // Declare the number of inlets & outlets here
-    const int numInlets = 2;
-    const int numOutlets = 3;
     
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
@@ -28,16 +30,9 @@ shapeDial(0, 1, " %", 0, this)
     addAndMakeVisible(decayDial);
     addAndMakeVisible(shapeDial);
     
-    for (int i=0; i<numInlets; i++)
-        addAndMakeVisible( inlets.add( new phi_Inlet() ) );
-    
-    for (int i=0; i<numOutlets; i++)
-        addAndMakeVisible( outlets.add( new phi_Outlet() ) );
-
-    setPaintingIsUnclipped(true);
 }
 
-phi_Impulse::~phi_Impulse()
+Impulse::~Impulse()
 {
     
 }
@@ -96,26 +91,18 @@ static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, fl
 }
 
 //==============================================================================
-void phi_Impulse::paint (Graphics& g)
+void Impulse::paint (Graphics& g)
 {
     drawWaveform(g, waveViewPort, shapeDial.getValue(), decayDial.getValue(), findColour(Slider::thumbColourId));
 }
 
-void phi_Impulse::resized()
+void Impulse::resized()
 {
 
     // The local bounds
     Rectangle<int> moduleBounds = getLocalBounds();
     
-    // Place the inlets (equidistant)
-    Rectangle<int> inletBounds = moduleBounds.removeFromLeft(30);
-    for (phi_Inlet* inlet : inlets)
-        inlet->setBounds( inletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)inlets.size()) );
-    
-    // Place the outlets (equidistant)
-    Rectangle<int> outletBounds = moduleBounds.removeFromRight(30);
-    for (phi_Outlet* outlet : outlets)
-        outlet->setBounds( outletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)outlets.size()) );
+    moduleBounds = placeInletsOutlets( moduleBounds );
     
     // Place the Dials
     Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.3);
@@ -125,15 +112,15 @@ void phi_Impulse::resized()
     waveViewPort = moduleBounds.reduced(10,0).toFloat();
 }
 
-void phi_Impulse::decayDialChanged (float value)
+void Impulse::decayDialChanged (float value)
 {
 }
 
-void phi_Impulse::shapeDialChanged (float value)
+void Impulse::shapeDialChanged (float value)
 {
 }
 
-void phi_Impulse::sliderValueChanged (Slider* slider)
+void Impulse::sliderValueChanged (Slider* slider)
 {
     if (slider == &decayDial){
         decayDialChanged(slider->getValue());

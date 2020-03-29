@@ -11,7 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "modules/phi_Impulse.h"
+#include "Module.h"
 
 //==============================================================================
 /*
@@ -25,7 +25,7 @@ class ModuleBox    : public Component,
 {
 //==================================================================================
 public:
-    ModuleBox(SelectedItemSet<ModuleBox*>*);
+    ModuleBox(Module*, SelectedItemSet<ModuleBox*>&);
     ~ModuleBox();
 
     void paint (Graphics&) override;
@@ -33,7 +33,7 @@ public:
     void moved() override;
     
     // The hosted module
-    phi_Impulse module;
+    Module* module;
 
 //==================================================================================
 private:
@@ -79,7 +79,7 @@ private:
     ResizableCornerComponent resizer;
     
     // Pointer to the MainComponent's selection set
-    SelectedItemSet<ModuleBox*>* moduleSelection;
+    SelectedItemSet<ModuleBox*>& moduleSelection;
     // Variables to manage its own selection
     bool selectResult;
     bool isSelected;
