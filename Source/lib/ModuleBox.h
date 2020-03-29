@@ -13,6 +13,9 @@
 #include <JuceHeader.h>
 #include "Module.h"
 
+#define HEADER_HEIGHT 27
+#define CONTENT_PADDING 10
+
 //==============================================================================
 /*
 */
@@ -39,10 +42,10 @@ public:
 private:
    // Our LookAndFeel instance for this module box
    LookAndFeel_V4 lookandfeel;
+    
+   const Colour highlightColour;
    
-   // Layout
-   int contentPadding;
-   int headerHeight;
+   // Layout;
    Rectangle<float> moduleBoxRectangle;
    Rectangle<float> headerLine;
    Rectangle<float> nameRectangle;

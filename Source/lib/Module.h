@@ -37,6 +37,7 @@ public:
     
     const int width;
     const int height;
+    const int minimumHeight;
     
     /// This is how we keep our inlets & outlets,
     /// they belong to the module itself (not the box) and they should be public

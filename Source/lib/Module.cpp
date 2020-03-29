@@ -16,7 +16,8 @@
 Module::Module(Arguments arguments) :
 name{arguments.name},
 width{arguments.width},
-height{arguments.height}
+height{arguments.height},
+minimumHeight{100} // this is hardcoded for now but each module should set its own
 {
     for (int i=0; i<arguments.inletNumber; i++)
         addAndMakeVisible( inlets.add( new phi_Inlet() ) );

@@ -14,8 +14,7 @@
 //==============================================================================
 ModuleBox::ModuleBox(Module* module, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
 module{module},
-contentPadding(10),
-headerHeight(27),
+highlightColour{Colours::cyan.brighter()},
 powerButton{},
 resizer(this, this),
 moduleSelection{selectionChangeSource}
@@ -26,9 +25,8 @@ moduleSelection{selectionChangeSource}
     moduleSelection.addChangeListener(this);
     
     // Sizes ======================================================
-    // Box size constraints are static
-    // They eventually should be imposed by the module
-    setSizeLimits(100,headerHeight+5,500,300);
+    // Box size constraints
+    setSizeLimits(100, HEADER_HEIGHT + 5, 500, 300);
     resizer.setSize(8,8);
     
     // Visibles ======================================================
@@ -72,8 +70,8 @@ void ModuleBox::paint (Graphics& g)
 void ModuleBox::resized()
 {
     // Check height to constrain size
-    if (getHeight() < 100)
-        setBounds(getX(), getY(), getWidth(), 30);
+    if (getHeight() < module->minimumHeight)
+        setSize(getWidth(), HEADER_HEIGHT + 3);
     
     // Module Box area (padded)
     moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5, 1.5);
@@ -90,21 +88,21 @@ void ModuleBox::resized()
     resizer.setBoundsToFit(getLocalBounds().reduced(3), Justification::bottomRight, true);
     
     // Place header line
-    headerLine = Rectangle<float>(contentPadding, headerHeight-2, getWidth()-contentPadding*2, 1);
+    headerLine = Rectangle<float>(CONTENT_PADDING, HEADER_HEIGHT - 2, getWidth()-CONTENT_PADDING * 2, 1);
     
     // Module area
     Rectangle<int> moduleRect = getLocalBounds();
     // Header area
-    Rectangle<int> boxHeader = moduleRect.removeFromTop(headerHeight);
+    Rectangle<int> boxHeader = moduleRect.removeFromTop(HEADER_HEIGHT);
     
     // Place Power button
-    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(contentPadding,6));
+    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(CONTENT_PADDING,6));
     
     // Place Text
     nameRectangle = Rectangle<float>(boxHeader.toFloat());
     
     // Place Module
-    module->setBounds(moduleRect.reduced(contentPadding));// (padded)
+    module->setBounds(moduleRect.reduced(CONTENT_PADDING));// (padded)
     
     
     // Emmit action message to update connections
@@ -121,7 +119,7 @@ void ModuleBox::setupLookAndFeel()
 {
     setLookAndFeel(&lookandfeel);
     
-    lookandfeel.setColour(Slider::thumbColourId, Colours::cyan.brighter());
+    lookandfeel.setColour(Slider::thumbColourId, highlightColour);
     lookandfeel.setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
     lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
     lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
@@ -187,7 +185,7 @@ void ModuleBox::buttonStateChanged (Button* button)
         LookAndFeel& lookAndFeel = getLookAndFeel();
         
         if (button->getToggleState())
-            lookAndFeel.setColour(Slider::thumbColourId, Colours::cyan.brighter());
+            lookAndFeel.setColour(Slider::thumbColourId, highlightColour);
         else
             lookAndFeel.setColour(Slider::thumbColourId, Colours::grey);
         
