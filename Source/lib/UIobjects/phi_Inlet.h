@@ -32,9 +32,6 @@ public:
 private:
     Rectangle<float> viewport;
     
-    String getCenterAsRectangleString (Component*);
-    String getMouseAsRectangleString (const MouseEvent&);
-    
     void mouseDown(const MouseEvent&) override;
     void mouseUp(const MouseEvent&) override;
     void mouseDrag(const MouseEvent&) override;

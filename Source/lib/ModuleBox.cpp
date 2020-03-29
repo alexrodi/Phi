@@ -116,14 +116,14 @@ void ModuleBox::resized()
     module.setBounds(moduleRect.reduced(contentPadding));// (padded)
     
     
-    // Emmit action message for connections
-    sendActionMessage("changed");
+    // Emmit action message to update connections
+    sendActionMessage("moduleChanged");
 }
 
 void ModuleBox::moved()
 {
-    // Emmit action message for connections
-    sendActionMessage("changed");
+    // Emmit action message to update connections
+    sendActionMessage("moduleChanged");
 }
 
 
@@ -138,7 +138,7 @@ void ModuleBox::startDraggingSelected(const MouseEvent& e){
 void ModuleBox::dragSelected(const MouseEvent& e){
     Array<ModuleBox*> selected = moduleSelection->getItemArray();
     for (ModuleBox* module : selected){
-         module->dragComponent(module, e, nullptr);
+         module->dragComponent(module, e, module);
     }
 }
 
@@ -156,7 +156,6 @@ void ModuleBox::mouseUp(const MouseEvent& e)
 void ModuleBox::mouseDrag(const MouseEvent& e)
 {
     dragSelected(e);
-    checkComponentBounds(this);
 }
 
 

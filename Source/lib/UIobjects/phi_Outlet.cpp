@@ -36,7 +36,7 @@ void phi_Outlet::resized()
 
 void phi_Outlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("mouseDown " + getCenterAsRectangleString(this));
+    sendActionMessage("mouseDown outlet #" + String(outletID));
 }
 
 void phi_Outlet::mouseUp(const MouseEvent& e)
@@ -65,16 +65,4 @@ void phi_Outlet::itemDropped (const SourceDetails& dragSourceDetails)
                       + dragSourceDetails.description.toString().fromFirstOccurrenceOf("inlet", false, false)
                       + "&"
                       + String(outletID));
-}
-
-String phi_Outlet::getCenterAsRectangleString(Component* component)
-{
-    return getTopLevelComponent()->getLocalPoint(component, getLocalBounds().getCentre()).toString() + ", 1, 1";
-}
-
-String phi_Outlet::getMouseAsRectangleString (const MouseEvent& e)
-{
-    return e.getEventRelativeTo(getTopLevelComponent())
-           .getPosition().toString()
-           + ", 1, 1";
 }

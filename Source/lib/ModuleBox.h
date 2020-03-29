@@ -86,19 +86,18 @@ private:
     
     //==================================================================================
     // Dragger wrappers for selected items
-    void startDraggingSelected(const MouseEvent& e);
-    void dragSelected(const MouseEvent& e);
+    void startDraggingSelected(const MouseEvent&);
+    void dragSelected(const MouseEvent&);
     
     // Button Listeners
     void buttonStateChanged (Button*) override;
     void buttonClicked (Button*) override {};
     
-    void mouseDown(const MouseEvent& e) override;
-    void mouseUp(const MouseEvent& e) override;
-    void mouseDrag(const MouseEvent& e) override;
+    void mouseDown(const MouseEvent&) override;
+    void mouseUp(const MouseEvent&) override;
+    void mouseDrag(const MouseEvent&) override;
     
-    void changeListenerCallback (ChangeBroadcaster* source) override;
-    
+    void changeListenerCallback (ChangeBroadcaster*) override;
     
     //void buttonStateChanged (Button*) override {}
 

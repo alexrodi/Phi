@@ -114,20 +114,25 @@ void Connections::updateAllConnectionPaths ()
 
 void Connections::actionListenerCallback (const String& message)
 {
+    // Here we receive events from inlets, outlets and moduleBoxes
+    // std::cout << message << std::endl;
     
-    std::cout << message << std::endl;
-    
-    // Here we receive all clicks from all inlets and outlets
-    if (message.containsWholeWord ("changed"))
+    if (message.containsWholeWord ("moduleChanged"))
     {
         updateAllConnectionPaths();
     }
     else if (message.containsWholeWord ("mouseDown"))
     {
-        String coordString = message.fromFirstOccurrenceOf("mouseDown", false, false);
-        Point<float> ioPosition = getTopRightFromString (coordString);
+        String receivedId = message.fromFirstOccurrenceOf("#", false, false);
         
-        dragPathAnchor = ioPosition;
+        if (message.containsWholeWord ("inlet"))
+        {
+            dragPathAnchor = getInletCenterPositionFromString(receivedId);
+        }
+        else if (message.containsWholeWord ("outlet"))
+        {
+            dragPathAnchor = getOutletCenterPositionFromString(receivedId);
+        }
     }
     else if (message.containsWholeWord ("dragging"))
     {

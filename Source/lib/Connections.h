@@ -123,7 +123,7 @@ private:
     Path dragPath;
     Point<float> dragPathAnchor;
     
-    void actionListenerCallback (const String& message) override;
+    void actionListenerCallback (const String& ) override;
     
     void startConnect(Point<float>, Point<float>, bool, bool);
     void startInletConnect (Point<float>);

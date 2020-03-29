@@ -85,6 +85,10 @@
 			isa = PBXBuildFile;
 			fileRef = C3082CB41B89563A66D73285;
 		};
+		463190A38E6CBEC9AADFE838 = {
+			isa = PBXBuildFile;
+			fileRef = 7AFF143C637055FF49529DB9;
+		};
 		22EF847F8F61472D88E5B7F8 = {
 			isa = PBXBuildFile;
 			fileRef = 39F8CCBF76DFE28AF5AA97B5;
@@ -370,6 +374,13 @@
 			path = RecentFilesMenuTemplate.nib;
 			sourceTree = "SOURCE_ROOT";
 		};
+		7AFF143C637055FF49529DB9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = MainPatcher.cpp;
+			path = ../../Source/src/MainPatcher.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		84837EC52CB7C65DD7BE5BE7 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -487,6 +498,13 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = "phi_Impulse.cpp";
 			path = "../../Source/lib/modules/phi_Impulse.cpp";
+			sourceTree = "SOURCE_ROOT";
+		};
+		BEB6A8524C4767153279AF14 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MainPatcher.h;
+			path = ../../Source/src/MainPatcher.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		C3082CB41B89563A66D73285 = {
@@ -656,6 +674,8 @@
 		A77FBC70BAC6F35883DCAC8F = {
 			isa = PBXGroup;
 			children = (
+				7AFF143C637055FF49529DB9,
+				BEB6A8524C4767153279AF14,
 				39F8CCBF76DFE28AF5AA97B5,
 				3DA13DCE72800019AFE0C14A,
 				E2DC22AC0C6B824B9B4569C1,
@@ -998,6 +1018,7 @@
 				52D5E2FE313811E01965087A,
 				7C85C36FA4B5FEAA6653A930,
 				B91E703D06D1AE36AEA404C8,
+				463190A38E6CBEC9AADFE838,
 				22EF847F8F61472D88E5B7F8,
 				DB7745AD9F7D8419DF0A81D2,
 				5B044C5BC2FB7EC8D2C0FFBD,
