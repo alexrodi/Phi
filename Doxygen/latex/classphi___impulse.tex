@@ -1,0 +1,128 @@
+\hypertarget{classphi___impulse}{}\doxysection{phi\+\_\+\+Impulse Class Reference}
+\label{classphi___impulse}\index{phi\_Impulse@{phi\_Impulse}}
+
+
+{\ttfamily \#include $<$phi\+\_\+\+Impulse.\+h$>$}
+
+
+
+Inheritance diagram for phi\+\_\+\+Impulse\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classphi___impulse__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classphi___impulse_acd656fb2dd81c44324029ea089674150}{phi\+\_\+\+Impulse}} ()
+\item 
+\mbox{\hyperlink{classphi___impulse_a775cf904e34c6903d9af8f7d5c1553ec}{$\sim$phi\+\_\+\+Impulse}} ()
+\item 
+void \mbox{\hyperlink{classphi___impulse_a38e3e6c34d6ae9df41024e933aa59af7}{paint}} (Graphics \&) override
+\item 
+void \mbox{\hyperlink{classphi___impulse_ac48c7e8c902fccec9311504230901380}{resized}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{classphi___impulse_a839703da42e6ffddfc0c8274ea1c6d83}{module\+Name}}
+\item 
+Owned\+Array$<$ \mbox{\hyperlink{classphi___inlet}{phi\+\_\+\+Inlet}} $>$ \mbox{\hyperlink{classphi___impulse_a73e937e9d17c4d8200442504f782c2bd}{inlets}}
+\item 
+Owned\+Array$<$ \mbox{\hyperlink{classphi___outlet}{phi\+\_\+\+Outlet}} $>$ \mbox{\hyperlink{classphi___impulse_a339059cf897fddf3dffb9800ca3fe763}{outlets}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 21 of file phi\+\_\+\+Impulse.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classphi___impulse_acd656fb2dd81c44324029ea089674150}\label{classphi___impulse_acd656fb2dd81c44324029ea089674150}} 
+\index{phi\_Impulse@{phi\_Impulse}!phi\_Impulse@{phi\_Impulse}}
+\index{phi\_Impulse@{phi\_Impulse}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{phi\_Impulse()}{phi\_Impulse()}}
+{\footnotesize\ttfamily phi\+\_\+\+Impulse\+::phi\+\_\+\+Impulse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 15 of file phi\+\_\+\+Impulse.\+cpp.
+
+\mbox{\Hypertarget{classphi___impulse_a775cf904e34c6903d9af8f7d5c1553ec}\label{classphi___impulse_a775cf904e34c6903d9af8f7d5c1553ec}} 
+\index{phi\_Impulse@{phi\_Impulse}!````~phi\_Impulse@{$\sim$phi\_Impulse}}
+\index{````~phi\_Impulse@{$\sim$phi\_Impulse}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{$\sim$phi\_Impulse()}{~phi\_Impulse()}}
+{\footnotesize\ttfamily phi\+\_\+\+Impulse\+::$\sim$phi\+\_\+\+Impulse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 40 of file phi\+\_\+\+Impulse.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classphi___impulse_a38e3e6c34d6ae9df41024e933aa59af7}\label{classphi___impulse_a38e3e6c34d6ae9df41024e933aa59af7}} 
+\index{phi\_Impulse@{phi\_Impulse}!paint@{paint}}
+\index{paint@{paint}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{paint()}{paint()}}
+{\footnotesize\ttfamily void phi\+\_\+\+Impulse\+::paint (\begin{DoxyParamCaption}\item[{Graphics \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Definition at line 99 of file phi\+\_\+\+Impulse.\+cpp.
+
+\mbox{\Hypertarget{classphi___impulse_ac48c7e8c902fccec9311504230901380}\label{classphi___impulse_ac48c7e8c902fccec9311504230901380}} 
+\index{phi\_Impulse@{phi\_Impulse}!resized@{resized}}
+\index{resized@{resized}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{resized()}{resized()}}
+{\footnotesize\ttfamily void phi\+\_\+\+Impulse\+::resized (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Definition at line 104 of file phi\+\_\+\+Impulse.\+cpp.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classphi___impulse_a73e937e9d17c4d8200442504f782c2bd}\label{classphi___impulse_a73e937e9d17c4d8200442504f782c2bd}} 
+\index{phi\_Impulse@{phi\_Impulse}!inlets@{inlets}}
+\index{inlets@{inlets}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{inlets}{inlets}}
+{\footnotesize\ttfamily Owned\+Array$<$\mbox{\hyperlink{classphi___inlet}{phi\+\_\+\+Inlet}}$>$ phi\+\_\+\+Impulse\+::inlets}
+
+This is how we keep our inlets \& outlets, they belong to the module itself (not the box) and they should be public 
+
+Definition at line 35 of file phi\+\_\+\+Impulse.\+h.
+
+\mbox{\Hypertarget{classphi___impulse_a839703da42e6ffddfc0c8274ea1c6d83}\label{classphi___impulse_a839703da42e6ffddfc0c8274ea1c6d83}} 
+\index{phi\_Impulse@{phi\_Impulse}!moduleName@{moduleName}}
+\index{moduleName@{moduleName}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{moduleName}{moduleName}}
+{\footnotesize\ttfamily String phi\+\_\+\+Impulse\+::module\+Name}
+
+
+
+Definition at line 31 of file phi\+\_\+\+Impulse.\+h.
+
+\mbox{\Hypertarget{classphi___impulse_a339059cf897fddf3dffb9800ca3fe763}\label{classphi___impulse_a339059cf897fddf3dffb9800ca3fe763}} 
+\index{phi\_Impulse@{phi\_Impulse}!outlets@{outlets}}
+\index{outlets@{outlets}!phi\_Impulse@{phi\_Impulse}}
+\doxysubsubsection{\texorpdfstring{outlets}{outlets}}
+{\footnotesize\ttfamily Owned\+Array$<$\mbox{\hyperlink{classphi___outlet}{phi\+\_\+\+Outlet}}$>$ phi\+\_\+\+Impulse\+::outlets}
+
+
+
+Definition at line 36 of file phi\+\_\+\+Impulse.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Source/lib/modules/\mbox{\hyperlink{phi___impulse_8h}{phi\+\_\+\+Impulse.\+h}}\item 
+Source/lib/modules/\mbox{\hyperlink{phi___impulse_8cpp}{phi\+\_\+\+Impulse.\+cpp}}\end{DoxyCompactItemize}
