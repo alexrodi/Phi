@@ -24,13 +24,11 @@ Module{{
 decayDial(5, 100, " ms", 2, this),
 shapeDial(0, 1, " %", 0, this)
 {
-    
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
 
     addAndMakeVisible(decayDial);
     addAndMakeVisible(shapeDial);
-    
 }
 
 module_Impulse::~module_Impulse()
@@ -38,18 +36,49 @@ module_Impulse::~module_Impulse()
     
 }
 
+// Waveform
 //==============================================================================
-const float PI = MathConstants<float>::pi;
-static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, float shape, float decay, Colour colour) {
+
+const void module_Impulse::Waveform::setViewPort(const Rectangle<float> viewportToUse)
+{
+    viewPort = viewportToUse;
     
-    g.setColour(colour);
+    centreY = viewPort.getCentreY();
+    yRange = viewPort.getHeight() * 0.5 - 3;
+    updateColour();
+}
+
+const void module_Impulse::Waveform::setColour(const Colour& colourToUse)
+{
+    colour = colourToUse;
+    updateColour();
+}
+
+const void module_Impulse::Waveform::updateColour()
+{
+    topColourGradient = ColourGradient().vertical(colour, centreY+yRange, colour.darker(), centreY);
+    bottomColourGradient = ColourGradient().vertical(colour, centreY-yRange, colour, centreY);
+}
+
+const void module_Impulse::Waveform::draw(Graphics& g)
+{
+    g.setGradientFill(topColourGradient);
+    g.fillPath(topPath);
+    g.strokePath (topPath, PathStrokeType (strokeWidth));
+    
+    g.setGradientFill(bottomColourGradient);
+    g.fillPath(bottomPath);
+    g.strokePath (bottomPath, PathStrokeType (strokeWidth));
+}
+
+
+const void module_Impulse::Waveform::updateForm(const float shape,const  float decay)
+{
+    const float PI = MathConstants<float>::pi;
     
     const int pixelsPerPoint = 2;
-    const float strokeWidth = 2;
     
     const float startX          =  viewPort.getX();
-    const float centreY         =  viewPort.getCentreY();
-    const float yRange          =  (viewPort.getHeight() * 0.5) - 3;
     const float width           =  viewPort.getWidth();
     const float endX            =  startX+width;
     const float shapeValue      =  1.006 - shape;
@@ -58,9 +87,8 @@ static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, fl
     
     float phase = 0;
     
-    // Waveform path
-    Path wavePath;
-    wavePath.startNewSubPath (startX, centreY);
+    topPath.clear();
+    topPath.startNewSubPath (startX, centreY);
 
     // Add lines to path
     for (int x=startX; x<endX; x += pixelsPerPoint){
@@ -74,27 +102,20 @@ static void drawWaveform(juce::Graphics &g, const Rectangle<float> &viewPort, fl
             phase += phaseIncrement;
         }
         y /= aaValue;
-        wavePath.lineTo (x, y * yRange + centreY);
+        topPath.lineTo (x, y * yRange + centreY);
     }
     
-    wavePath.lineTo (endX, centreY);
+    topPath.lineTo (endX, centreY);
     
-    wavePath = wavePath.createPathWithRoundedCorners(60);
-
-    g.setGradientFill(ColourGradient().vertical(colour, centreY+yRange, colour.darker(), centreY));
-    g.fillPath(wavePath);
-    g.strokePath (wavePath, PathStrokeType (2.0f));
-    
-    g.setGradientFill(ColourGradient().vertical(colour, centreY-yRange, colour, centreY));
-    wavePath.applyTransform(AffineTransform().verticalFlip(centreY+yRange+strokeWidth*2));
-    g.fillPath(wavePath);
-    g.strokePath (wavePath, PathStrokeType (strokeWidth));
+    topPath = topPath.createPathWithRoundedCorners(60);
+    bottomPath = topPath;
+    bottomPath.applyTransform(AffineTransform().verticalFlip(centreY+yRange+strokeWidth*2));
 }
-
 //==============================================================================
+
 void module_Impulse::paint (Graphics& g)
 {
-    drawWaveform(g, waveViewPort, shapeDial.getValue(), decayDial.getValue(), findColour(Slider::thumbColourId));
+    waveForm.draw(g);
 }
 
 void module_Impulse::resized()
@@ -107,11 +128,17 @@ void module_Impulse::resized()
     moduleBounds = placeInletsOutlets( moduleBounds );
     
     // Place the Dials
-    Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.3);
+    Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);
     decayDial.setBounds( dialBounds.removeFromTop(getHeight()*0.5));
     shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.5));
     
-    waveViewPort = moduleBounds.reduced(10,0).toFloat();
+    waveForm.setViewPort(moduleBounds.reduced(10,0).toFloat());
+    waveForm.updateForm(shapeDial.getValue(), decayDial.getValue());
+}
+
+void module_Impulse::lookAndFeelChanged()
+{
+    waveForm.setColour(findColour(Slider::thumbColourId));
 }
 
 void module_Impulse::decayDialChanged (float value)
@@ -124,11 +151,17 @@ void module_Impulse::shapeDialChanged (float value)
 
 void module_Impulse::sliderValueChanged (Slider* slider)
 {
-    if (slider == &decayDial){
-        decayDialChanged(slider->getValue());
-        repaint();
-    } else if (slider == &shapeDial){
-        shapeDialChanged(slider->getValue()*0.01);
+    bool isDecay = slider == &decayDial;
+    bool isShape = slider == &shapeDial;
+    if (isDecay || isShape)
+    {
+        if (isDecay){
+            decayDialChanged(slider->getValue());
+        } else if (isShape){
+            shapeDialChanged(slider->getValue()*0.01);
+        }
+        waveForm.updateForm(shapeDial.getValue(), decayDial.getValue());
         repaint();
     }
+    
 }

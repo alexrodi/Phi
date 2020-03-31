@@ -172,8 +172,12 @@ void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
     {
         /// here we get a change from the selected modules list
         /// so the module must update its UI accordingly
-        isSelected = moduleSelection.isSelected(this);
-        repaint();
+        bool updatedIsSelected = moduleSelection.isSelected(this);
+        if (updatedIsSelected != isSelected)
+        {
+            isSelected = updatedIsSelected;
+            repaint();
+        }
     }
 }
 

@@ -18,7 +18,7 @@
 /*
 */
 class module_Impulse    : public Module,
-                   public Slider::Listener
+                          public Slider::Listener
 {
 public:
     module_Impulse();
@@ -26,6 +26,8 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    void lookAndFeelChanged() override;
 
 private:
     
@@ -34,7 +36,24 @@ private:
     ui_Dial shapeDial;
     
     //Waveform
-    Rectangle<float> waveViewPort;
+    class Waveform
+    {
+        const float strokeWidth = 2;
+        Rectangle<float> viewPort;
+        float yRange;
+        float centreY;
+        Colour colour;
+        Path topPath;
+        Path bottomPath;
+        ColourGradient topColourGradient;
+        ColourGradient bottomColourGradient;
+        const void updateColour();
+    public:
+        const void setColour(const Colour&);
+        const void setViewPort(const Rectangle<float>);
+        const void updateForm(const float, const  float);
+        const void draw(Graphics&);
+    } waveForm;
     
     //Listeners
     void sliderValueChanged (Slider*) override;
