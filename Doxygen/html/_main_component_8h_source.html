@@ -106,45 +106,44 @@ $(document).ready(function(){initNavTree('_main_component_8h_source.html',''); i
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">    your controls and content.</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_main_component.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_main_component.html">MainComponent</a>   : <span class="keyword">public</span> AudioAppComponent,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                        <span class="keyword">public</span> DragAndDropContainer,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                        <span class="keyword">public</span> Button::Listener</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//==============================================================================</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_main_component.html#a85254935b98beac9128189c6a577d7be">MainComponent</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_main_component.html#aa96a2a286f35edf4000deec5f327d1c3">~MainComponent</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment">// Audio =======================================================================</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a3ce1d04f8a20bcc54454e5e94017c5ff">prepareToPlay</a> (<span class="keywordtype">int</span> samplesPerBlockExpected, <span class="keywordtype">double</span> sampleRate) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a3c29a96205065fbe01eb6e0576f0ffa3">getNextAudioBlock</a> (<span class="keyword">const</span> AudioSourceChannelInfo&amp; bufferToFill) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a38548494a56d6085df37edb026d3184d">releaseResources</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a42262770b7a79a2f5ac650aa96a3a45c">paint</a> (Graphics&amp; g) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a339148bc43089300e10d5883a0a80726">resized</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">//==============================================================================</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// Our LookAndFeel instance for the MainComponent</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// this maintains certain colors in the window but any module can surpass it with its own</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//LookAndFeel_V4 lookandfeel;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// The Main Patcher where all modules and connections reside</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="class_main_patcher.html">MainPatcher</a> mainPatcher;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// The window scrollbars</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    Viewport viewport;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    TextButton patchCordTypeButton;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    Rectangle&lt;int&gt; topBarBounds;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> buttonClicked (Button*) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (<a class="code" href="class_main_component.html">MainComponent</a>)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                        <span class="keyword">public</span> Button::Listener</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//==============================================================================</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="class_main_component.html#a85254935b98beac9128189c6a577d7be">MainComponent</a>();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_main_component.html#aa96a2a286f35edf4000deec5f327d1c3">~MainComponent</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// Audio =======================================================================</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a3ce1d04f8a20bcc54454e5e94017c5ff">prepareToPlay</a> (<span class="keywordtype">int</span> samplesPerBlockExpected, <span class="keywordtype">double</span> sampleRate) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a3c29a96205065fbe01eb6e0576f0ffa3">getNextAudioBlock</a> (<span class="keyword">const</span> AudioSourceChannelInfo&amp; bufferToFill) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a38548494a56d6085df37edb026d3184d">releaseResources</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a42262770b7a79a2f5ac650aa96a3a45c">paint</a> (Graphics&amp; g) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_main_component.html#a339148bc43089300e10d5883a0a80726">resized</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">//==============================================================================</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// Our LookAndFeel instance for the MainComponent</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// this maintains certain colors in the window but any module can surpass it with its own</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//LookAndFeel_V4 lookandfeel;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// The Main Patcher where all modules and connections reside</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_main_patcher.html">MainPatcher</a> mainPatcher;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// The window scrollbars</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    Viewport viewport;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    TextButton patchCordTypeButton;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    Rectangle&lt;int&gt; topBarBounds;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> buttonClicked (Button*) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (<a class="code" href="class_main_component.html">MainComponent</a>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_main_component_html_a3ce1d04f8a20bcc54454e5e94017c5ff"><div class="ttname"><a href="class_main_component.html#a3ce1d04f8a20bcc54454e5e94017c5ff">MainComponent::prepareToPlay</a></div><div class="ttdeci">void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override</div><div class="ttdef"><b>Definition:</b> <a href="_main_component_8cpp_source.html#l00067">MainComponent.cpp:67</a></div></div>

@@ -1,4 +1,5 @@
 <map id="MainPatcher" name="MainPatcher">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,102,104"/>
-<area shape="rect" id="node2" title=" " alt="" coords="8,5,99,31"/>
+<area shape="rect" id="node1" title=" " alt="" coords="77,79,173,104"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,96,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="119,5,280,31"/>
 </map>

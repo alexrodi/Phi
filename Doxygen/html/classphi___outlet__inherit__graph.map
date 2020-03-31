@@ -1,7 +1,6 @@
 <map id="phi_Outlet" name="phi_Outlet">
-<area shape="rect" id="node1" title=" " alt="" coords="223,79,305,104"/>
+<area shape="rect" id="node1" title=" " alt="" coords="144,79,226,104"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,96,31"/>
 <area shape="rect" id="node3" title=" " alt="" coords="120,5,250,31"/>
 <area shape="rect" id="node4" title=" " alt="" coords="274,5,414,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="438,5,599,31"/>
 </map>

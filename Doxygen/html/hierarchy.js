@@ -36,9 +36,7 @@ var hierarchy =
       [ "PhiApplication::MainWindow", "class_phi_application_1_1_main_window.html", null ]
     ] ],
     [ "DragAndDropContainer", null, [
-      [ "MainComponent", "class_main_component.html", null ],
-      [ "phi_Inlet", "classphi___inlet.html", null ],
-      [ "phi_Outlet", "classphi___outlet.html", null ]
+      [ "MainPatcher", "class_main_patcher.html", null ]
     ] ],
     [ "DragAndDropTarget", null, [
       [ "phi_Inlet", "classphi___inlet.html", null ],
