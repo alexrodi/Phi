@@ -17,8 +17,7 @@
 */
 class phi_Outlet    : public Component,
                      public ActionBroadcaster,
-                     public DragAndDropTarget,
-                     public DragAndDropContainer
+                     public DragAndDropTarget
 {
 public:
     phi_Outlet();

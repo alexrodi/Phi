@@ -17,8 +17,7 @@
 */
 class phi_Inlet    : public Component,
                      public ActionBroadcaster,
-                     public DragAndDropTarget,
-                     public DragAndDropContainer
+                     public DragAndDropTarget
 {
 public:
     phi_Inlet();

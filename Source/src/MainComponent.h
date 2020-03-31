@@ -17,7 +17,6 @@
     your controls and content.
 */
 class MainComponent   : public AudioAppComponent,
-                        public DragAndDropContainer,
                         public Button::Listener
 
 {

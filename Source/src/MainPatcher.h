@@ -19,7 +19,8 @@
 //==============================================================================
 /*
 */
-class MainPatcher    : public Component
+class MainPatcher    : public Component,
+                       public DragAndDropContainer
 {
 public:
     MainPatcher();
