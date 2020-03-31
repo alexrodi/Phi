@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['connections_62',['Connections',['../class_connections.html',1,'']]]
+  ['arguments_78',['Arguments',['../struct_module_1_1_arguments.html',1,'Module']]]
 ];

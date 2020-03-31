@@ -18,9 +18,11 @@
 class ui_Dial    : public Slider
 {
 public:
-    ui_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int decimals, Slider::Listener* listener);
+    ui_Dial(float, float, std::string, int, Slider::Listener*);
     ~ui_Dial();
-
+    
+    void paint (Graphics& g) override;
+    
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ui_Dial)
 };

@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['_7econnections_54',['~Connections',['../class_connections.html#a1da0f8035c29027d63f7648e24474a73',1,'Connections']]],
-  ['_7emaincomponent_55',['~MainComponent',['../class_main_component.html#aa96a2a286f35edf4000deec5f327d1c3',1,'MainComponent']]],
-  ['_7emainpatcher_56',['~MainPatcher',['../class_main_patcher.html#a2a2a113ce2d71002399b2e321ddbdb0c',1,'MainPatcher']]],
-  ['_7emodulebox_57',['~ModuleBox',['../class_module_box.html#abc9aaffdfa50eba9160204a417522e54',1,'ModuleBox']]],
-  ['_7ephi_5fdial_58',['~phi_Dial',['../classphi___dial.html#af8987cfd2f8075224296429881dd712a',1,'phi_Dial']]],
-  ['_7ephi_5fimpulse_59',['~phi_Impulse',['../classphi___impulse.html#a775cf904e34c6903d9af8f7d5c1553ec',1,'phi_Impulse']]],
-  ['_7ephi_5finlet_60',['~phi_Inlet',['../classphi___inlet.html#ab0b1ae03aaf67f670112872a61fab426',1,'phi_Inlet']]],
-  ['_7ephi_5foutlet_61',['~phi_Outlet',['../classphi___outlet.html#afed5a42788d71d69c8c7a83c9b2e6b92',1,'phi_Outlet']]]
+  ['registerinlet_58',['registerInlet',['../class_connections.html#a453c2b17281c481ce5d99f41418f329f',1,'Connections']]],
+  ['registeroutlet_59',['registerOutlet',['../class_connections.html#ae576143edf8d6e648330b9dfd5ac16a6',1,'Connections']]],
+  ['releaseresources_60',['releaseResources',['../class_main_component.html#a38548494a56d6085df37edb026d3184d',1,'MainComponent']]],
+  ['resized_61',['resized',['../class_connections.html#ab9b5f6eff30f49eaf6bb2db5515e584e',1,'Connections::resized()'],['../class_module_box.html#aedfad9ef6fca98483f6614958fb9dc76',1,'ModuleBox::resized()'],['../classmodule___gain.html#ac25187716579acc3c861e9c508042a4f',1,'module_Gain::resized()'],['../classmodule___impulse.html#a052513ae921a9f7ce4119e902f643481',1,'module_Impulse::resized()'],['../classphi___inlet.html#ad28a897bf96286ccb706bd4d90e552c9',1,'phi_Inlet::resized()'],['../classphi___outlet.html#a78d7b624126f7548bbad31b1f1fac081',1,'phi_Outlet::resized()'],['../class_main_component.html#a339148bc43089300e10d5883a0a80726',1,'MainComponent::resized()'],['../class_main_patcher.html#ae54ad654cb7d15baf8f2cacf701748f4',1,'MainPatcher::resized()']]]
 ];

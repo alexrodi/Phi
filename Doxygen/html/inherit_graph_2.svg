@@ -9,9 +9,9 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 23)">
 <title>Graphical Class Hierarchy</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-23 210.41,-23 210.41,4 -4,4"/>
-<!-- Node7 -->
+<!-- Node9 -->
 <g id="node1" class="node">
-<title>Node7</title>
+<title>Node9</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="0,-0.5 0,-18.5 91.03,-18.5 91.03,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="45.52" y="-6.5" font-family="Helvetica,sans-Serif" font-size="10.00">JUCEApplication</text>
@@ -27,9 +27,9 @@
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node0 -->
+<!-- Node9&#45;&gt;Node0 -->
 <g id="edge1" class="edge">
-<title>Node7&#45;&gt;Node0</title>
+<title>Node9&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M101.32,-9.5C109.99,-9.5 118.8,-9.5 127,-9.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="101.24,-6 91.24,-9.5 101.24,-13 101.24,-6"/>
 </g>

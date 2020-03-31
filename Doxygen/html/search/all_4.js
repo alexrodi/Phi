@@ -1,19 +1,7 @@
 var searchData=
 [
-  ['main_2ecpp_14',['Main.cpp',['../_main_8cpp.html',1,'']]],
-  ['maincomponent_15',['MainComponent',['../class_main_component.html',1,'MainComponent'],['../class_main_component.html#a85254935b98beac9128189c6a577d7be',1,'MainComponent::MainComponent()']]],
-  ['maincomponent_2ecpp_16',['MainComponent.cpp',['../_main_component_8cpp.html',1,'']]],
-  ['maincomponent_2eh_17',['MainComponent.h',['../_main_component_8h.html',1,'']]],
-  ['mainpatcher_18',['MainPatcher',['../class_main_patcher.html',1,'MainPatcher'],['../class_main_patcher.html#ad7bf0eed4dfc8234ee1932529b16494c',1,'MainPatcher::MainPatcher()']]],
-  ['mainpatcher_2ecpp_19',['MainPatcher.cpp',['../_main_patcher_8cpp.html',1,'']]],
-  ['mainpatcher_2eh_20',['MainPatcher.h',['../_main_patcher_8h.html',1,'']]],
-  ['mainwindow_21',['MainWindow',['../class_phi_application_1_1_main_window.html',1,'PhiApplication::MainWindow'],['../class_phi_application_1_1_main_window.html#ad816c958fcdbb4d62e09899118da39aa',1,'PhiApplication::MainWindow::MainWindow()']]],
-  ['module_22',['module',['../class_module_box.html#af8147ceed830c12fc6b52afe56720bbb',1,'ModuleBox']]],
-  ['modulebox_23',['ModuleBox',['../class_module_box.html',1,'ModuleBox'],['../class_module_box.html#ac5267eab72fcb1d3f4fbc3e406579f5d',1,'ModuleBox::ModuleBox()']]],
-  ['modulebox_2ecpp_24',['ModuleBox.cpp',['../_module_box_8cpp.html',1,'']]],
-  ['modulebox_2eh_25',['ModuleBox.h',['../_module_box_8h.html',1,'']]],
-  ['modulename_26',['moduleName',['../classphi___impulse.html#a839703da42e6ffddfc0c8274ea1c6d83',1,'phi_Impulse']]],
-  ['morethanoneinstanceallowed_27',['moreThanOneInstanceAllowed',['../class_phi_application.html#a2d27fa07a00c3317ef366299a0d55a16',1,'PhiApplication']]],
-  ['mousedown_28',['mouseDown',['../class_main_patcher.html#a34b7784955a5497adb4f13c615d70a24',1,'MainPatcher']]],
-  ['moved_29',['moved',['../class_module_box.html#a4705c22ea8e38d7e1af1be8f3c9fd85b',1,'ModuleBox']]]
+  ['initialise_15',['initialise',['../class_phi_application.html#ac7903de1159c1d099ed98a4693c3d085',1,'PhiApplication']]],
+  ['inletid_16',['inletID',['../classphi___inlet.html#a2d62d1393952221374b9edebcc52e97e',1,'phi_Inlet']]],
+  ['inletnumber_17',['inletNumber',['../struct_module_1_1_arguments.html#a981496d2d600baefa3f1548aba0e4ae2',1,'Module::Arguments']]],
+  ['inlets_18',['inlets',['../class_module.html#a72e3f19be8555e501f6fd72a6517243e',1,'Module']]]
 ];

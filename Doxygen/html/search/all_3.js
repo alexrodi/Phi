@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['initialise_11',['initialise',['../class_phi_application.html#ac7903de1159c1d099ed98a4693c3d085',1,'PhiApplication']]],
-  ['inletid_12',['inletID',['../classphi___inlet.html#a2d62d1393952221374b9edebcc52e97e',1,'phi_Inlet']]],
-  ['inlets_13',['inlets',['../classphi___impulse.html#a73e937e9d17c4d8200442504f782c2bd',1,'phi_Impulse']]]
+  ['header_5fheight_13',['HEADER_HEIGHT',['../_module_box_8h.html#a7e5e6e1e05dc5ddc893d245f0222b762',1,'ModuleBox.h']]],
+  ['height_14',['height',['../struct_module_1_1_arguments.html#aea4228cfe689fca0982d8951fa68aeb7',1,'Module::Arguments::height()'],['../class_module.html#a2a7ed55152f97318f3f4f22108704935',1,'Module::height()']]]
 ];

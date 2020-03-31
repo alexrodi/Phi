@@ -1,20 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="42,203,173,228"/>
-<area shape="rect" id="node2" href="$class_module_box.html" title=" " alt="" coords="273,129,361,155"/>
-<area shape="rect" id="node3" href="$classphi___inlet.html" title=" " alt="" coords="281,252,353,277"/>
-<area shape="rect" id="node4" href="$classphi___outlet.html" title=" " alt="" coords="276,301,358,327"/>
-<area shape="rect" id="node5" title=" " alt="" coords="55,400,160,425"/>
-<area shape="rect" id="node6" href="$class_connections.html" title=" " alt="" coords="270,400,365,425"/>
-<area shape="rect" id="node7" title=" " alt="" coords="33,499,182,524"/>
-<area shape="rect" id="node8" href="$class_main_component.html" title=" " alt="" coords="258,499,377,524"/>
-<area shape="rect" id="node9" title=" " alt="" coords="50,55,165,80"/>
-<area shape="rect" id="node10" title=" " alt="" coords="62,301,153,327"/>
-<area shape="rect" id="node11" href="$class_main_patcher.html" title=" " alt="" coords="269,351,365,376"/>
-<area shape="rect" id="node12" href="$classphi___impulse.html" title=" " alt="" coords="271,449,364,475"/>
-<area shape="rect" id="node13" title=" " alt="" coords="5,104,210,129"/>
-<area shape="rect" id="node14" title=" " alt="" coords="38,153,177,179"/>
-<area shape="rect" id="node15" title=" " alt="" coords="27,351,188,376"/>
-<area shape="rect" id="node16" title=" " alt="" coords="38,252,177,277"/>
-<area shape="rect" id="node17" title=" " alt="" coords="73,5,142,31"/>
-<area shape="rect" id="node18" title=" " alt="" coords="73,449,142,475"/>
+<area shape="rect" id="node1" href="$struct_module_1_1_arguments.html" title=" " alt="" coords="5,5,142,31"/>
 </map>

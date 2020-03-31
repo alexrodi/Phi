@@ -37,7 +37,7 @@ void Connections::paint (Graphics& g)
     {
         g.setColour (Colours::grey);
         g.strokePath ( allConnectionsPath
-                      , PathStrokeType ( 4.0f
+                      , PathStrokeType ( CORD_THICKNESS
                                         , PathStrokeType::JointStyle::mitered
                                         , PathStrokeType::EndCapStyle::rounded )
                       );

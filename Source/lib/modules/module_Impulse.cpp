@@ -108,8 +108,8 @@ void module_Impulse::resized()
     
     // Place the Dials
     Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.3);
-    decayDial.setBounds( dialBounds.removeFromTop(getHeight()*0.5) );
-    shapeDial.setBounds( dialBounds );
+    decayDial.setBounds( dialBounds.removeFromTop(getHeight()*0.5));
+    shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.5));
     
     waveViewPort = moduleBounds.reduced(10,0).toFloat();
 }

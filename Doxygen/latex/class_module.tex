@@ -1,0 +1,145 @@
+\hypertarget{class_module}{}\doxysection{Module Class Reference}
+\label{class_module}\index{Module@{Module}}
+
+
+{\ttfamily \#include $<$Module.\+h$>$}
+
+
+
+Inheritance diagram for Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{class_module__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_module_1_1_arguments}{Arguments}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_module_a0f6e32b3ed29925281c86028930ae02f}{Module}} (\mbox{\hyperlink{struct_module_1_1_arguments}{Arguments}})
+\item 
+const Rectangle$<$ int $>$ \mbox{\hyperlink{class_module_af3dd13ff2ce656bfba228d6abf698e09}{place\+Inlets\+Outlets}} (Rectangle$<$ int $>$)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const String \mbox{\hyperlink{class_module_a942a7937c059ca0c22e23c4131f4d59b}{name}}
+\item 
+const int \mbox{\hyperlink{class_module_a6207d09595482a8a0cf2973d0819014b}{width}}
+\item 
+const int \mbox{\hyperlink{class_module_a2a7ed55152f97318f3f4f22108704935}{height}}
+\item 
+const int \mbox{\hyperlink{class_module_a919d87b5ad71ed029288808044bb2fc0}{minimum\+Height}}
+\item 
+Owned\+Array$<$ \mbox{\hyperlink{classphi___inlet}{phi\+\_\+\+Inlet}} $>$ \mbox{\hyperlink{class_module_a72e3f19be8555e501f6fd72a6517243e}{inlets}}
+\item 
+Owned\+Array$<$ \mbox{\hyperlink{classphi___outlet}{phi\+\_\+\+Outlet}} $>$ \mbox{\hyperlink{class_module_a70a4de0c72ec3cc4dcc57949feed707b}{outlets}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 21 of file Module.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_module_a0f6e32b3ed29925281c86028930ae02f}\label{class_module_a0f6e32b3ed29925281c86028930ae02f}} 
+\index{Module@{Module}!Module@{Module}}
+\index{Module@{Module}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{Module()}{Module()}}
+{\footnotesize\ttfamily Module\+::\+Module (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_module_1_1_arguments}{Arguments}}}]{arguments }\end{DoxyParamCaption})}
+
+
+
+Definition at line 16 of file Module.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_module_af3dd13ff2ce656bfba228d6abf698e09}\label{class_module_af3dd13ff2ce656bfba228d6abf698e09}} 
+\index{Module@{Module}!placeInletsOutlets@{placeInletsOutlets}}
+\index{placeInletsOutlets@{placeInletsOutlets}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{placeInletsOutlets()}{placeInletsOutlets()}}
+{\footnotesize\ttfamily const Rectangle$<$ int $>$ Module\+::place\+Inlets\+Outlets (\begin{DoxyParamCaption}\item[{Rectangle$<$ int $>$}]{module\+Bounds }\end{DoxyParamCaption})}
+
+
+
+Definition at line 32 of file Module.\+cpp.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_module_a2a7ed55152f97318f3f4f22108704935}\label{class_module_a2a7ed55152f97318f3f4f22108704935}} 
+\index{Module@{Module}!height@{height}}
+\index{height@{height}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{height}{height}}
+{\footnotesize\ttfamily const int Module\+::height}
+
+
+
+Definition at line 39 of file Module.\+h.
+
+\mbox{\Hypertarget{class_module_a72e3f19be8555e501f6fd72a6517243e}\label{class_module_a72e3f19be8555e501f6fd72a6517243e}} 
+\index{Module@{Module}!inlets@{inlets}}
+\index{inlets@{inlets}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{inlets}{inlets}}
+{\footnotesize\ttfamily Owned\+Array$<$\mbox{\hyperlink{classphi___inlet}{phi\+\_\+\+Inlet}}$>$ Module\+::inlets}
+
+This is how we keep our inlets \& outlets, they belong to the module itself (not the box) and they should be public 
+
+Definition at line 44 of file Module.\+h.
+
+\mbox{\Hypertarget{class_module_a919d87b5ad71ed029288808044bb2fc0}\label{class_module_a919d87b5ad71ed029288808044bb2fc0}} 
+\index{Module@{Module}!minimumHeight@{minimumHeight}}
+\index{minimumHeight@{minimumHeight}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{minimumHeight}{minimumHeight}}
+{\footnotesize\ttfamily const int Module\+::minimum\+Height}
+
+
+
+Definition at line 40 of file Module.\+h.
+
+\mbox{\Hypertarget{class_module_a942a7937c059ca0c22e23c4131f4d59b}\label{class_module_a942a7937c059ca0c22e23c4131f4d59b}} 
+\index{Module@{Module}!name@{name}}
+\index{name@{name}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily const String Module\+::name}
+
+
+
+Definition at line 36 of file Module.\+h.
+
+\mbox{\Hypertarget{class_module_a70a4de0c72ec3cc4dcc57949feed707b}\label{class_module_a70a4de0c72ec3cc4dcc57949feed707b}} 
+\index{Module@{Module}!outlets@{outlets}}
+\index{outlets@{outlets}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{outlets}{outlets}}
+{\footnotesize\ttfamily Owned\+Array$<$\mbox{\hyperlink{classphi___outlet}{phi\+\_\+\+Outlet}}$>$ Module\+::outlets}
+
+
+
+Definition at line 45 of file Module.\+h.
+
+\mbox{\Hypertarget{class_module_a6207d09595482a8a0cf2973d0819014b}\label{class_module_a6207d09595482a8a0cf2973d0819014b}} 
+\index{Module@{Module}!width@{width}}
+\index{width@{width}!Module@{Module}}
+\doxysubsubsection{\texorpdfstring{width}{width}}
+{\footnotesize\ttfamily const int Module\+::width}
+
+
+
+Definition at line 38 of file Module.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Source/lib/\mbox{\hyperlink{_module_8h}{Module.\+h}}\item 
+Source/lib/\mbox{\hyperlink{_module_8cpp}{Module.\+cpp}}\end{DoxyCompactItemize}

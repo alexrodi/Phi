@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['phi_5fdial_67',['phi_Dial',['../classphi___dial.html',1,'']]],
-  ['phi_5fimpulse_68',['phi_Impulse',['../classphi___impulse.html',1,'']]],
-  ['phi_5finlet_69',['phi_Inlet',['../classphi___inlet.html',1,'']]],
-  ['phi_5foutlet_70',['phi_Outlet',['../classphi___outlet.html',1,'']]],
-  ['phiapplication_71',['PhiApplication',['../class_phi_application.html',1,'']]]
+  ['maincomponent_80',['MainComponent',['../class_main_component.html',1,'']]],
+  ['mainpatcher_81',['MainPatcher',['../class_main_patcher.html',1,'']]],
+  ['mainwindow_82',['MainWindow',['../class_phi_application_1_1_main_window.html',1,'PhiApplication']]],
+  ['module_83',['Module',['../class_module.html',1,'']]],
+  ['module_5fgain_84',['module_Gain',['../classmodule___gain.html',1,'']]],
+  ['module_5fimpulse_85',['module_Impulse',['../classmodule___impulse.html',1,'']]],
+  ['modulebox_86',['ModuleBox',['../class_module_box.html',1,'']]]
 ];

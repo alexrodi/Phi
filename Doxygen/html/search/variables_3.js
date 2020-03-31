@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pi_132',['PI',['../phi___impulse_8cpp.html#aa08a577393243b86dfd2a97e61443673',1,'phi_Impulse.cpp']]]
+  ['name_159',['name',['../struct_module_1_1_arguments.html#a3c4951a15f02b98818cab158d2dc4062',1,'Module::Arguments::name()'],['../class_module.html#a942a7937c059ca0c22e23c4131f4d59b',1,'Module::name()']]]
 ];

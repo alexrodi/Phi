@@ -19,6 +19,7 @@
 */
 
 #define CORD_WEIGHT 0.2f
+#define CORD_THICKNESS 5.0f
 
 class Connections : public Component,
                     public ActionListener

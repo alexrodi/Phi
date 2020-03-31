@@ -97,14 +97,13 @@ $(document).ready(function(){initNavTree('class_module_box.html',''); initResiza
 <div class="dynheader">
 Inheritance diagram for ModuleBox:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="class_module_box__inherit__graph.svg" width="351" height="283"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="class_module_box__inherit__graph.svg" width="351" height="283"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac5267eab72fcb1d3f4fbc3e406579f5d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_module_box.html#ac5267eab72fcb1d3f4fbc3e406579f5d">ModuleBox</a> (SelectedItemSet&lt; <a class="el" href="class_module_box.html">ModuleBox</a> * &gt; *)</td></tr>
-<tr class="separator:ac5267eab72fcb1d3f4fbc3e406579f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02ed550c378b357649ae0c11b8cce0c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_module_box.html#a02ed550c378b357649ae0c11b8cce0c7">ModuleBox</a> (<a class="el" href="class_module.html">Module</a> *, SelectedItemSet&lt; <a class="el" href="class_module_box.html">ModuleBox</a> * &gt; &amp;)</td></tr>
+<tr class="separator:a02ed550c378b357649ae0c11b8cce0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc9aaffdfa50eba9160204a417522e54"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_module_box.html#abc9aaffdfa50eba9160204a417522e54">~ModuleBox</a> ()</td></tr>
 <tr class="separator:abc9aaffdfa50eba9160204a417522e54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5d27af5d881141206a8c72f1756c2ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_module_box.html#ae5d27af5d881141206a8c72f1756c2ac">paint</a> (Graphics &amp;) override</td></tr>
@@ -116,15 +115,15 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:af8147ceed830c12fc6b52afe56720bbb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classphi___impulse.html">phi_Impulse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_module_box.html#af8147ceed830c12fc6b52afe56720bbb">module</a></td></tr>
-<tr class="separator:af8147ceed830c12fc6b52afe56720bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b0384b3a177dd7122f359ed2ab03963"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_module.html">Module</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_module_box.html#a5b0384b3a177dd7122f359ed2ab03963">module</a></td></tr>
+<tr class="separator:a5b0384b3a177dd7122f359ed2ab03963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_module_box_8h_source.html#l00019">19</a> of file <a class="el" href="_module_box_8h_source.html">ModuleBox.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_module_box_8h_source.html#l00022">22</a> of file <a class="el" href="_module_box_8h_source.html">ModuleBox.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac5267eab72fcb1d3f4fbc3e406579f5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5267eab72fcb1d3f4fbc3e406579f5d">&#9670;&nbsp;</a></span>ModuleBox()</h2>
+<a id="a02ed550c378b357649ae0c11b8cce0c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02ed550c378b357649ae0c11b8cce0c7">&#9670;&nbsp;</a></span>ModuleBox()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -132,9 +131,19 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">ModuleBox::ModuleBox </td>
           <td>(</td>
-          <td class="paramtype">SelectedItemSet&lt; <a class="el" href="class_module_box.html">ModuleBox</a> * &gt; *&#160;</td>
-          <td class="paramname"><em>selectionChangeSource</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_module.html">Module</a> *&#160;</td>
+          <td class="paramname"><em>module</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">SelectedItemSet&lt; <a class="el" href="class_module_box.html">ModuleBox</a> * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>selectionChangeSource</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -158,7 +167,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00056">56</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00044">44</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
 
 </div>
 </div>
@@ -186,7 +195,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00123">123</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00112">112</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
 
 </div>
 </div>
@@ -214,7 +223,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00063">63</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00052">52</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
 
 </div>
 </div>
@@ -242,24 +251,24 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>setMinimumOnscreenAmounts assures the full module should be on screen, although it still makes it possible for modules to be off screen when the window size changes, should learn more about this behaviour, we don't want to open a patch and have everything jumbled in a small window</p>
 
-<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00081">81</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_module_box_8cpp_source.html#l00070">70</a> of file <a class="el" href="_module_box_8cpp_source.html">ModuleBox.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="af8147ceed830c12fc6b52afe56720bbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8147ceed830c12fc6b52afe56720bbb">&#9670;&nbsp;</a></span>module</h2>
+<a id="a5b0384b3a177dd7122f359ed2ab03963"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b0384b3a177dd7122f359ed2ab03963">&#9670;&nbsp;</a></span>module</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classphi___impulse.html">phi_Impulse</a> ModuleBox::module</td>
+          <td class="memname"><a class="el" href="class_module.html">Module</a>* ModuleBox::module</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_module_box_8h_source.html#l00036">36</a> of file <a class="el" href="_module_box_8h_source.html">ModuleBox.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_module_box_8h_source.html#l00039">39</a> of file <a class="el" href="_module_box_8h_source.html">ModuleBox.h</a>.</p>
 
 </div>
 </div>

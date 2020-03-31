@@ -1,8 +1,7 @@
 <map id="Source/lib/ModuleBox.h" name="Source/lib/ModuleBox.h">
 <area shape="rect" id="node1" title=" " alt="" coords="5,5,167,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="117,225,221,251"/>
-<area shape="rect" id="node3" href="$phi___impulse_8h.html" title=" " alt="" coords="90,79,248,104"/>
-<area shape="rect" id="node4" href="$phi___dial_8h.html" title=" " alt="" coords="94,152,245,177"/>
-<area shape="rect" id="node5" href="$phi___inlet_8h.html" title=" " alt="" coords="268,152,422,177"/>
-<area shape="rect" id="node6" href="$phi___outlet_8h.html" title=" " alt="" coords="446,152,610,177"/>
+<area shape="rect" id="node2" title=" " alt="" coords="87,225,190,251"/>
+<area shape="rect" id="node3" href="$_module_8h.html" title=" " alt="" coords="114,79,190,104"/>
+<area shape="rect" id="node4" href="$phi___inlet_8h.html" title=" " alt="" coords="137,152,220,177"/>
+<area shape="rect" id="node5" href="$phi___outlet_8h.html" title=" " alt="" coords="244,152,337,177"/>
 </map>
