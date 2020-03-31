@@ -28,7 +28,6 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
-    void mouseDown(const MouseEvent& e) override;
     
     void togglePatchCordType();
 
@@ -52,6 +51,8 @@ private:
     void registerInletsAndOutlets(Module*);
     
     void createModule(int, Point<float>);
+    
+    void mouseDown(const MouseEvent& e) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainPatcher)
 };

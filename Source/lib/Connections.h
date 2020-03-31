@@ -134,19 +134,16 @@ private:
     Point<float> getInletCenterPositionFromString (const String&);
     Point<float> getOutletCenterPositionFromString (const String&);
     
-   
-    
     OwnedArray<Connection> connections;
     
     Path dragPath;
     Point<float> dragPathAnchor;
     
-    void actionListenerCallback (const String& ) override;
-    
     void createConnection  (const String&, const String&);
     
     Path getConnectionPath (Connection*);
 
+    void actionListenerCallback (const String& ) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
 };
