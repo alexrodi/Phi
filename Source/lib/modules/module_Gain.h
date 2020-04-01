@@ -23,6 +23,8 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    const void processAudio(const AudioSourceChannelInfo&);
 
 private:
     
