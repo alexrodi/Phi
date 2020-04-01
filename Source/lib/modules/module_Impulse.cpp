@@ -74,7 +74,6 @@ const void module_Impulse::Waveform::draw(Graphics& g)
 
 const void module_Impulse::Waveform::updateForm(const float shape,const  float decay)
 {
-    const float PI = MathConstants<float>::pi;
     
     const int pixelsPerPoint = 2;
     
@@ -97,7 +96,7 @@ const void module_Impulse::Waveform::updateForm(const float shape,const  float d
         {
             const float lengthPhase = phase*decay;
             // This function is not safe for audio routines! it has a singularity at x=PI :)
-            const float newY = (lengthPhase==PI) ? 0.f : sin( sin(lengthPhase) / (shapeValue * (lengthPhase-PI)) );
+            const float newY = (lengthPhase==float_Pi) ? 0.f : sin( sin(lengthPhase) / (shapeValue * (lengthPhase-float_Pi)) );
             y += abs(newY);
             phase += phaseIncrement;
         }
