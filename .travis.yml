@@ -8,9 +8,9 @@ addons:
   apt:
     packages:
       - doxygen
+      - graphviz
 
 script:
-  - brew install graphviz
   - doxygen Doxyfile
 
 deploy:
