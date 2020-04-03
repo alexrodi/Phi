@@ -147,18 +147,33 @@ void Connections::actionListenerCallback (const String& message)
         const String inletId = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
         const String outletId = message.fromFirstOccurrenceOf("&", false, false);
         
-        createConnection(outletId, inletId);
+        createConnection(inletId, outletId);
         updateAllConnectionPaths();
     }
 }
 
-void Connections::createConnection(const String& outletId, const String& inletId)
+const bool Connections::hasConnectionWithIds(const String& inletId, const String& outletId)
 {
-    connections.add( new Connection( updateConnectionPath
-                                    , inletId
-                                    , outletId
-                                    , getInletCenterPositionFromString(inletId)
-                                    , getOutletCenterPositionFromString(outletId)));
+    for (Connection* connection : connections)
+    {
+        if (connection->inletId == inletId && connection->outletId == outletId)
+            return true;
+    }
+    return false;
+}
+
+void Connections::createConnection(const String& inletId, const String& outletId)
+{
+    
+    if (! hasConnectionWithIds(inletId, outletId))
+    {
+        connections.add( new Connection( updateConnectionPath
+                         , inletId
+                         , outletId
+                         , getInletCenterPositionFromString(inletId)
+                         , getOutletCenterPositionFromString(outletId)));
+    }
+    std::cout << connections.size() << std::endl;
     
 }
 

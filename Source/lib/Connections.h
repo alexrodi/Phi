@@ -139,6 +139,8 @@ private:
     Path dragPath;
     Point<float> dragPathAnchor;
     
+    const bool hasConnectionWithIds (const String&, const String&);
+       
     void createConnection  (const String&, const String&);
     
     Path getConnectionPath (Connection*);
