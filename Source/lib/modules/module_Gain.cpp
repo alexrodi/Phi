@@ -56,6 +56,7 @@ void module_Gain::resized()
 void module_Gain::sliderValueChanged (Slider* slider)
 {
     if (slider == &gainDial){
+        gainValue = (float) gainDial.getValue();
         repaint();
     }
 }
@@ -64,10 +65,19 @@ void module_Gain::sliderValueChanged (Slider* slider)
 
 void module_Gain::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
 {
+    setPlayConfigDetails (props.inletNumber, props.outletNumber, sampleRate, maximumExpectedSamplesPerBlock);
 }
 
 void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    for (int channel=0; channel<getMainBusNumInputChannels(); channel++)
+    {
+        float* bufferPtr = buffer.getWritePointer(channel);
+        for (int i=0; i<getBlockSize(); i++)
+        {
+            *bufferPtr++ *= gainValue;
+        }
+    }
 }
 
 void module_Gain::releaseResources()

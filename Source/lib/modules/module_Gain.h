@@ -33,6 +33,8 @@ public:
 private:
     
     ui_Dial gainDial;
+    
+    float gainValue;
 
     void sliderValueChanged (Slider*) override;
     

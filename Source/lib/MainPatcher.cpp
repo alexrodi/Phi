@@ -27,26 +27,10 @@ MainPatcher::MainPatcher()
 
 MainPatcher::~MainPatcher()
 {
-    AudioProcessorGraph::clear();
     rightClickMenu.dismissAllActiveMenus();
     modulesSubMenu.dismissAllActiveMenus();
 }
 
-//==============================================================================
-void MainPatcher::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
-{
-   
-}
-
-void MainPatcher::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
-{
-    
-}
-
-void MainPatcher::releaseResources()
-{
-    
-}
 
 //==============================================================================
 void MainPatcher::paint (Graphics& g)
@@ -123,5 +107,19 @@ void MainPatcher::createModule(Point<float> position)
     moduleBox->setTopLeftPosition(position.toInt());
     moduleBox->addActionListener(&connections);
     
-    addNode(std::move(newModule));
+    mainProcessor->addNode(std::move(newModule));
+}
+
+void MainPatcher::initialiseGraph()
+{
+    mainProcessor->clear();
+    
+    audioInputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioInputNode));
+ 
+    
+
+    audioOutputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
+ 
+    for (int channel = 0; channel < 2; ++channel)
+        mainProcessor->addConnection ({ { audioInputNode->nodeID,  channel }, { audioInputNode->nodeID,  channel }, { audioOutputNode->nodeID, channel } });
 }
