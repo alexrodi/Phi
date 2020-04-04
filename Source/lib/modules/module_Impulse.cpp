@@ -19,7 +19,8 @@ Module{{
     .inletNumber = 2,
     .outletNumber = 3,
     .width = 400,
-    .height = 200
+    .height = 200,
+    .minimumHeight = 100
 }},
 decayDial(5, 100, " ms", 2, this),
 shapeDial(0, 1, " %", 0, this)
@@ -35,6 +36,23 @@ module_Impulse::~module_Impulse()
 {
     
 }
+
+
+//==============================================================================
+
+void module_Impulse::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
+{
+}
+
+void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+{
+}
+
+void module_Impulse::releaseResources()
+{
+}
+
+
 
 // Waveform
 //==============================================================================

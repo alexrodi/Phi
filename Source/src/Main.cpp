@@ -9,7 +9,7 @@
 */
 
 #include <JuceHeader.h>
-#include "MainComponent.h"
+#include "../lib/MainComponent.h"
 
 //==============================================================================
 class PhiApplication  : public JUCEApplication

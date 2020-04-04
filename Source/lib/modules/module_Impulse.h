@@ -23,11 +23,17 @@ class module_Impulse    : public Module,
 public:
     module_Impulse();
     ~module_Impulse();
+    
+    // Audio =======================================================================
+    void prepareToPlay (double, int) override;
+    void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    void releaseResources() override;
 
     void paint (Graphics&) override;
     void resized() override;
     
     void lookAndFeelChanged() override;
+    
 
 private:
     

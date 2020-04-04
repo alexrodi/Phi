@@ -20,11 +20,15 @@ class module_Gain    : public Module,
 public:
     module_Gain();
     ~module_Gain();
+    
+    // Audio =======================================================================
+    void prepareToPlay (double, int) override;
+    void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    void releaseResources() override;
+
 
     void paint (Graphics&) override;
     void resized() override;
-    
-    const void processAudio(const AudioSourceChannelInfo&);
 
 private:
     

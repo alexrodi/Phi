@@ -18,7 +18,8 @@ Module{{
     .inletNumber = 1,
     .outletNumber = 1,
     .width = 150,
-    .height = 150
+    .height = 150,
+    .minimumHeight = 100
 }},
 gainDial(-70, 12, " dB", 2, this)
 {
@@ -58,3 +59,18 @@ void module_Gain::sliderValueChanged (Slider* slider)
         repaint();
     }
 }
+
+//==============================================================================
+
+void module_Gain::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
+{
+}
+
+void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+{
+}
+
+void module_Gain::releaseResources()
+{
+}
+

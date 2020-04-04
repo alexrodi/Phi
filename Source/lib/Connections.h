@@ -40,21 +40,8 @@ private:
     
     typedef std::function<void(Path&,Point<float>,Point<float>)> ConnectionPathCallback;
     
-    class IdStore
+    struct IdStore
     {
-        
-        template <class T> struct Entry
-        {
-            Entry(long key, T value) :
-            key(key),
-            value(value)
-            {}
-            
-            long key;
-            T value;
-        };
-        
-    public:
         std::map<long, phi_Inlet*> inlets;
         std::map<long, phi_Outlet*> outlets;
         

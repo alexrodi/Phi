@@ -164,7 +164,6 @@ const bool Connections::hasConnectionWithIds(const String& inletId, const String
 
 void Connections::createConnection(const String& inletId, const String& outletId)
 {
-    
     if (! hasConnectionWithIds(inletId, outletId))
     {
         connections.add( new Connection( updateConnectionPath
@@ -173,8 +172,6 @@ void Connections::createConnection(const String& inletId, const String& outletId
                          , getInletCenterPositionFromString(inletId)
                          , getOutletCenterPositionFromString(outletId)));
     }
-    std::cout << connections.size() << std::endl;
-    
 }
 
 void Connections::togglePatchCordType()

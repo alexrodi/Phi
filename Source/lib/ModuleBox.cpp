@@ -30,7 +30,7 @@ moduleSelection{selectionChangeSource}
     resizer.setSize(8,8);
     
     // Visibles ======================================================
-    addAndMakeVisible(module);
+    addAndMakeVisible(*module);
     addAndMakeVisible(powerButton);
     addAndMakeVisible(resizer);
     setPaintingIsUnclipped(true);
@@ -38,15 +38,13 @@ moduleSelection{selectionChangeSource}
     
     setupLookAndFeel();
     
-    setSize(module->width, module->height);
+    setSize(module->props.width, module->props.height);
 }
 
 ModuleBox::~ModuleBox()
 {
-    delete module;
     setLookAndFeel (nullptr);
 }
-
 
 //==============================================================================
 void ModuleBox::paint (Graphics& g)
@@ -60,7 +58,7 @@ void ModuleBox::paint (Graphics& g)
     g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
-    g.drawText(module->name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
+    g.drawText(module->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
     g.setColour (Colours::grey);
@@ -70,7 +68,7 @@ void ModuleBox::paint (Graphics& g)
 void ModuleBox::resized()
 {
     // Check height to constrain size
-    if (getHeight() < module->minimumHeight)
+    if (getHeight() < module->props.minimumHeight)
         setSize(getWidth(), HEADER_HEIGHT + 3);
     
     // Module Box area (padded)

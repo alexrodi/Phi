@@ -5,42 +5,43 @@
   <MAINGROUP id="J6rtXw" name="Phi">
     <GROUP id="{6EA973C7-AFCB-9962-43A0-B724ACFC7C17}" name="Source">
       <GROUP id="{AC97657F-A58F-C8E3-78F7-79DF534B8FF0}" name="lib">
-        <GROUP id="{27B23439-BA86-D10A-E363-9E756597F89D}" name="modules">
-          <FILE id="bjhKdb" name="module_Gain.cpp" compile="1" resource="0" file="Source/lib/modules/module_Gain.cpp"/>
-          <FILE id="k5IhBg" name="module_Gain.h" compile="0" resource="0" file="Source/lib/modules/module_Gain.h"/>
-          <FILE id="WRSrnu" name="module_Impulse.cpp" compile="1" resource="0"
+        <GROUP id="{91870E3B-AB7D-9BFF-6CB9-0E07EBCE703C}" name="modules">
+          <FILE id="j6KuYQ" name="module_Gain.cpp" compile="1" resource="0" file="Source/lib/modules/module_Gain.cpp"/>
+          <FILE id="ILINJK" name="module_Gain.h" compile="0" resource="0" file="Source/lib/modules/module_Gain.h"/>
+          <FILE id="eusdgI" name="module_Impulse.cpp" compile="1" resource="0"
                 file="Source/lib/modules/module_Impulse.cpp"/>
-          <FILE id="Qn6mxd" name="module_Impulse.h" compile="0" resource="0"
+          <FILE id="D2Mfwx" name="module_Impulse.h" compile="0" resource="0"
                 file="Source/lib/modules/module_Impulse.h"/>
+          <FILE id="z2qyrb" name="Modules.h" compile="0" resource="0" file="Source/lib/modules/Modules.h"/>
         </GROUP>
         <GROUP id="{54628CB4-901E-DD26-B32B-15B8A3186DB6}" name="UIobjects">
-          <FILE id="k2e8y1" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>
-          <FILE id="FqPSrW" name="ui_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/ui_Dial.h"/>
+          <FILE id="c8I188" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>
+          <FILE id="t6Vdbc" name="ui_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/ui_Dial.h"/>
         </GROUP>
-        <FILE id="SxFmFW" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
-        <FILE id="PCC4tS" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
-        <FILE id="tFnEG2" name="Module.cpp" compile="1" resource="0" file="Source/lib/Module.cpp"/>
-        <FILE id="N2K8n4" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
-        <FILE id="U9tL0r" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
-        <FILE id="e33Iex" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
-        <FILE id="pUFuiz" name="phi_Inlet.cpp" compile="1" resource="0" file="Source/lib/phi_Inlet.cpp"/>
-        <FILE id="uGOD20" name="phi_Inlet.h" compile="0" resource="0" file="Source/lib/phi_Inlet.h"/>
-        <FILE id="YUZvl3" name="phi_Outlet.cpp" compile="1" resource="0" file="Source/lib/phi_Outlet.cpp"/>
-        <FILE id="evALCM" name="phi_Outlet.h" compile="0" resource="0" file="Source/lib/phi_Outlet.h"/>
+        <FILE id="n0cz9d" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
+        <FILE id="BEzYhM" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
+        <FILE id="ceFq2v" name="MainComponent.cpp" compile="1" resource="0"
+              file="Source/lib/MainComponent.cpp"/>
+        <FILE id="pWbLuN" name="MainComponent.h" compile="0" resource="0" file="Source/lib/MainComponent.h"/>
+        <FILE id="AqjXwO" name="MainPatcher.cpp" compile="1" resource="0" file="Source/lib/MainPatcher.cpp"/>
+        <FILE id="WCXWoB" name="MainPatcher.h" compile="0" resource="0" file="Source/lib/MainPatcher.h"/>
+        <FILE id="Bpbyv3" name="Module.cpp" compile="1" resource="0" file="Source/lib/Module.cpp"/>
+        <FILE id="liwK8Y" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
+        <FILE id="t1KaPP" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
+        <FILE id="farp6W" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
+        <FILE id="mijY20" name="phi_Inlet.cpp" compile="1" resource="0" file="Source/lib/phi_Inlet.cpp"/>
+        <FILE id="NTAS5Y" name="phi_Inlet.h" compile="0" resource="0" file="Source/lib/phi_Inlet.h"/>
+        <FILE id="X6y9BS" name="phi_Outlet.cpp" compile="1" resource="0" file="Source/lib/phi_Outlet.cpp"/>
+        <FILE id="JWmydF" name="phi_Outlet.h" compile="0" resource="0" file="Source/lib/phi_Outlet.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
         <GROUP id="{AFB75D1F-B744-A782-6D95-CA6C7EDD0FFC}" name="audio">
-          <FILE id="HcjkNw" name="SinFormant.wav" compile="0" resource="1" file="Source/resources/audio/SinFormant.wav"/>
-          <FILE id="xBwr0A" name="SinSquare.wav" compile="0" resource="1" file="Source/resources/audio/SinSquare.wav"/>
+          <FILE id="Yuf23n" name="SinFormant.wav" compile="0" resource="1" file="Source/resources/audio/SinFormant.wav"/>
+          <FILE id="oRbExV" name="SinSquare.wav" compile="0" resource="1" file="Source/resources/audio/SinSquare.wav"/>
         </GROUP>
       </GROUP>
       <GROUP id="{37C4FECC-8C82-C393-89B9-EC3FDD7D3537}" name="src">
-        <FILE id="VCVE2W" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
-        <FILE id="rEA13g" name="MainComponent.cpp" compile="1" resource="0"
-              file="Source/src/MainComponent.cpp"/>
-        <FILE id="bZnS2g" name="MainComponent.h" compile="0" resource="0" file="Source/src/MainComponent.h"/>
-        <FILE id="oJuN6J" name="MainPatcher.cpp" compile="1" resource="0" file="Source/src/MainPatcher.cpp"/>
-        <FILE id="NyrH6l" name="MainPatcher.h" compile="0" resource="0" file="Source/src/MainPatcher.h"/>
+        <FILE id="LAp5N3" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
@@ -65,6 +66,7 @@
         <MODULEPATH id="juce_opengl" path="../../../../Applications/JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="../../../../Applications/JUCE/modules"/>
         <MODULEPATH id="juce_dsp" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_blocks_basics" path="../../../../Applications/JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>
@@ -74,6 +76,7 @@
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_blocks_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
