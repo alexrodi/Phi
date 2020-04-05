@@ -115,14 +115,13 @@ void MainPatcher::createModule(Point<float> position)
 
 void MainPatcher::initialiseGraph()
 {
-    mainProcessor->clear();
+    /** TODO - Find a proper place where to clear the graph (which isn't needed for now because there is no deletion of modules or connections) */
+    // mainProcessor->clear();
+    
     
     audioInputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioInputNode));
  
     audioOutputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
- 
-//    for (int channel = 0; channel < 2; ++channel)
-//        mainProcessor->addConnection ({ { audioInputNode->nodeID,  channel }, { audioOutputNode->nodeID, channel } });
     
     using Connection = std::pair<Connections::IOid, Connections::IOid>;
     
@@ -141,7 +140,6 @@ void MainPatcher::initialiseGraph()
             mainProcessor->addConnection ({ source, destination });
         }
     }
-    
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
