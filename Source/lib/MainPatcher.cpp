@@ -119,7 +119,7 @@ void MainPatcher::createModule(Point<float> position)
     {
         // When we detect an output module,
         // we immediatelly hook it up to an AudioGraphIOProcessor in audioOutputNode mode
-    
+
         AudioProcessorGraph::Node::Ptr outputNode = mainProcessor->addNode(std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
         
         for (int i = 0; i < modulePtr->props.inletNumber; i++)

@@ -61,14 +61,10 @@ void module_Gain::prepareToPlay (double sampleRate, int maximumExpectedSamplesPe
 
 void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    for (int channel=0; channel<getTotalNumInputChannels(); channel++)
-    {
-        float* bufferPtr = buffer.getWritePointer(channel);
-        for (int i=0; i<getBlockSize(); i++)
-        {
-            *bufferPtr++ *= gainValue;
-        }
-    }
+    // We can do this because the number of inputs
+    // matches the number of outputs, otherwise
+    // we would have to use the overload (channel, startSample, numSamples, gain)
+    buffer.applyGain(gainValue);
 }
 
 void module_Gain::releaseResources()
