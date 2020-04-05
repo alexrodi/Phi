@@ -39,18 +39,9 @@ void module_Gain::paint (Graphics& g)
 
 }
 
-void module_Gain::resized()
+void module_Gain::wasResized(Rectangle<int> moduleBounds)
 {
-
-    // The local bounds
-    Rectangle<int> moduleBounds = getLocalBounds();
-    
-    // This line is mandatory for all modules with inlets/outlets
-    moduleBounds = placeInletsOutlets( moduleBounds );
-    
-    
     gainDial.setBounds( moduleBounds );
-
 }
 
 void module_Gain::sliderValueChanged (Slider* slider)

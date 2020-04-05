@@ -19,6 +19,7 @@ mainProcessor{std::make_unique<AudioProcessorGraph>()}
     // Submenus must be filled before the main
     modulesSubMenu.addItem (1, "Impulse");
     modulesSubMenu.addItem (2, "Gain");
+    modulesSubMenu.addItem (3, "Output");
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
     addAndMakeVisible(connections);
@@ -54,7 +55,7 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         // Displays the menu and returns the ID of the selected item (0 if clicked outside)
         const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(getParentComponent()));
         
-        // There's only one possible result for now (1 - Impulse)
+        // Eventually this should become a switch
         if (result==1)
         {
             createModule<module_Impulse>(e.position);
@@ -62,6 +63,10 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         else if (result==2)
         {
             createModule<module_Gain>(e.position);
+        }
+        else if (result==3)
+        {
+            createModule<module_Output>(e.position);
         }
     }
 }
@@ -109,6 +114,19 @@ void MainPatcher::createModule(Point<float> position)
     moduleBox->addActionListener(&connections);
     
     AudioProcessorGraph::Node::Ptr newNode = mainProcessor->addNode(std::move(newModule));
+
+    if (typeid(moduleClass) == typeid(module_Output))
+    {
+        // When we detect an output module,
+        // we immediatelly hook it up to an AudioGraphIOProcessor in audioOutputNode mode
+    
+        AudioProcessorGraph::Node::Ptr outputNode = mainProcessor->addNode(std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
+        
+        for (int i = 0; i < modulePtr->props.inletNumber; i++)
+        {
+            mainProcessor->addConnection ({ { newNode->nodeID, i }, { outputNode->nodeID, i } });
+        }
+    }
     
     registerInletsAndOutlets(modulePtr, newNode.get()->nodeID.uid);
 }

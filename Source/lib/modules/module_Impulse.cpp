@@ -135,20 +135,14 @@ void module_Impulse::paint (Graphics& g)
     waveForm.draw(g);
 }
 
-void module_Impulse::resized()
+void module_Impulse::wasResized(Rectangle<int> moduleBounds)
 {
-
-    // The local bounds
-    Rectangle<int> moduleBounds = getLocalBounds();
-    
-    // This line is mandatory for all modules with inlets/outlets
-    moduleBounds = placeInletsOutlets( moduleBounds );
-    
     // Place the Dials
     Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);
     decayDial.setBounds( dialBounds.removeFromTop(getHeight()*0.5));
     shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.5));
     
+    // Place the waveform and update
     waveForm.setViewPort(moduleBounds.reduced(10,0).toFloat());
     waveForm.updateForm(shapeDial.getValue(), decayDial.getValue());
 }

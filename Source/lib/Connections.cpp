@@ -14,7 +14,7 @@
 //==============================================================================
 
 Connections::Connections() :
-updateConnectionPath{patchCordTypeACallback}
+updateConnectionPath{patchCordTypeBCallback}
 {
     setAlwaysOnTop(true);
     setPaintingIsUnclipped(true);

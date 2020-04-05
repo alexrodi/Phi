@@ -13,6 +13,9 @@
           <FILE id="D2Mfwx" name="module_Impulse.h" compile="0" resource="0"
                 file="Source/lib/modules/module_Impulse.h"/>
           <FILE id="z2qyrb" name="Modules.h" compile="0" resource="0" file="Source/lib/modules/Modules.h"/>
+          <FILE id="Ij0m4V" name="module_Output.cpp" compile="1" resource="0"
+                file="Source/lib/modules/module_Output.cpp"/>
+          <FILE id="D5fgZ3" name="module_Output.h" compile="0" resource="0" file="Source/lib/modules/module_Output.h"/>
         </GROUP>
         <GROUP id="{54628CB4-901E-DD26-B32B-15B8A3186DB6}" name="UIobjects">
           <FILE id="c8I188" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>

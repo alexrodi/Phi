@@ -25,6 +25,14 @@ props{arguments}
     setPaintingIsUnclipped(true);
 }
 
+void Module::resized()
+{
+    Rectangle<int> moduleBounds = getLocalBounds();
+    moduleBounds = placeInletsOutlets( moduleBounds );
+    
+    wasResized(moduleBounds);
+}
+
 
 const Rectangle<int> Module::placeInletsOutlets(Rectangle<int> moduleBounds)
 {

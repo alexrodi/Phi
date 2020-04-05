@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    Gain.h
-    Created: 29 Mar 2020 3:14:32pm
+    module_Output.h
+    Created: 5 Apr 2020 10:13:32pm
     Author:  Alexandre Rodrigues
 
   ==============================================================================
@@ -12,30 +12,24 @@
 
 #include <JuceHeader.h>
 #include "../Module.h"
-#include "../UIobjects/ui_Dial.h"
 
-class module_Gain    : public Module,
-                       public Slider::Listener
+//==============================================================================
+/*
+*/
+class module_Output    : public Module
 {
 public:
-    module_Gain();
-    ~module_Gain();
+    module_Output();
+    ~module_Output();
     
     // Audio =======================================================================
     void prepareToPlay (double, int) override;
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
     void releaseResources() override;
 
-
     void paint (Graphics&) override;
     void wasResized(Rectangle<int>) override;
 
 private:
-    ui_Dial gainDial;
-    
-    float gainValue;
-
-    void sliderValueChanged (Slider*) override;
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (module_Gain)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (module_Output)
 };

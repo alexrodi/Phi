@@ -30,7 +30,7 @@ public:
     void releaseResources() override;
 
     void paint (Graphics&) override;
-    void resized() override;
+    void wasResized(Rectangle<int>) override;
     
     void lookAndFeelChanged() override;
     

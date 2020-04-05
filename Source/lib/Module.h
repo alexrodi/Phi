@@ -42,6 +42,14 @@ public:
     
     const Rectangle<int> placeInletsOutlets (Rectangle<int>);
     
+    /**
+     The base-class overrides resized()
+     and exposes wasResized() containing
+     the actual module's rectangle
+    */
+    void resized() override;
+    virtual void wasResized(Rectangle<int>) = 0;
+    
 private:
     
     const String getName() const override {return String("");};
