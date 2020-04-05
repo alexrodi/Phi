@@ -63,32 +63,26 @@ void Connections::resized ()
 {
 }
 
-long Connections::registerInlet (phi_Inlet* inlet)
+Connections::IOid Connections::registerInlet (uint32 nodeId, phi_Inlet* inlet)
 {
-    long idNumber = idStore.getNewInletId();
-    idStore.storeInlet(idNumber, inlet);
-    inlet->inletID = idNumber;
-    return idNumber;
+    return idStore.storeInlet(nodeId, inlet);
 }
 
-long Connections::registerOutlet (phi_Outlet* outlet)
+Connections::IOid Connections::registerOutlet (uint32 nodeId, phi_Outlet* outlet)
 {
-    long idNumber = idStore.getNewOutletId();
-    idStore.storeOutlet(idNumber, outlet);
-    outlet->outletID = idNumber;
-    return idNumber;
+    return idStore.storeOutlet(nodeId, outlet);
 }
 
-Point<float> Connections::getInletCenterPositionFromString (const String& inletId)
+Point<float> Connections::getInletCenterPositionFromId (const IOid inletId)
 {
-    Component* inlet = idStore.inlets[inletId.toUTF8().getIntValue32()];
+    Component* inlet = idStore.inlets[inletId.first][inletId.second];
     
     return getLocalPoint(inlet, inlet->getLocalBounds().getCentre().toFloat()) ;
 }
 
-Point<float> Connections::getOutletCenterPositionFromString (const String& outletId)
+Point<float> Connections::getOutletCenterPositionFromId (const IOid outletId)
 {
-    Component* outlet = idStore.outlets[outletId.toUTF8().getIntValue32()];
+    Component* outlet = idStore.outlets[outletId.first][outletId.second];
     
     return getLocalPoint(outlet, outlet->getLocalBounds().getCentre().toFloat()) ;
 }
@@ -99,12 +93,18 @@ void Connections::updateAllConnectionPaths ()
     for (Connection* connection : connections)
     {
         updateConnectionPath( connection->path
-                              , getInletCenterPositionFromString(connection->inletId)
-                              , getOutletCenterPositionFromString(connection->outletId));
+                              , getInletCenterPositionFromId(connection->inletId)
+                              , getOutletCenterPositionFromId(connection->outletId));
         
         allConnectionsPath.addPath(getConnectionPath(connection));
     }
     repaint();
+}
+
+Connections::IOid Connections::stringToIOid (const String& stringToParse)
+{
+    return IOid(stringToParse.upToFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32()
+                , stringToParse.fromFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32());
 }
 
 void Connections::actionListenerCallback (const String& message)
@@ -118,15 +118,15 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("mouseDown"))
     {
-        String receivedId = message.fromFirstOccurrenceOf("#", false, false);
+        String receivedIdString = message.fromFirstOccurrenceOf("#", false, false);
         
         if (message.containsWholeWord ("inlet"))
         {
-            dragPathAnchor = getInletCenterPositionFromString(receivedId);
+            dragPathAnchor = getInletCenterPositionFromId(stringToIOid(receivedIdString));
         }
         else if (message.containsWholeWord ("outlet"))
         {
-            dragPathAnchor = getOutletCenterPositionFromString(receivedId);
+            dragPathAnchor = getOutletCenterPositionFromId(stringToIOid(receivedIdString));
         }
     }
     else if (message.containsWholeWord ("dragging"))
@@ -144,15 +144,16 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("connect"))
     {
-        const String inletId = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
-        const String outletId = message.fromFirstOccurrenceOf("&", false, false);
+        const String inletIdString = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
+        const String outletIdString = message.fromFirstOccurrenceOf("&", false, false);
         
-        createConnection(inletId, outletId);
+        createConnection(stringToIOid(inletIdString), stringToIOid(outletIdString));
         updateAllConnectionPaths();
+        sendChangeMessage(); // notify new connections
     }
 }
 
-const bool Connections::hasConnectionWithIds(const String& inletId, const String& outletId)
+const bool Connections::hasConnectionWithIds(const IOid inletId, const IOid outletId)
 {
     for (Connection* connection : connections)
     {
@@ -162,16 +163,26 @@ const bool Connections::hasConnectionWithIds(const String& inletId, const String
     return false;
 }
 
-void Connections::createConnection(const String& inletId, const String& outletId)
+void Connections::createConnection(const IOid inletId, const IOid outletId)
 {
     if (! hasConnectionWithIds(inletId, outletId))
     {
         connections.add( new Connection( updateConnectionPath
                          , inletId
                          , outletId
-                         , getInletCenterPositionFromString(inletId)
-                         , getOutletCenterPositionFromString(outletId)));
+                         , getInletCenterPositionFromId(inletId)
+                         , getOutletCenterPositionFromId(outletId)));
     }
+}
+
+Array<std::pair<Connections::IOid, Connections::IOid>> Connections::getAllConnectionIdPairs()
+{
+    Array<std::pair<IOid, IOid>> allConnections;
+    for (Connection* connection : connections)
+    {
+        allConnections.add(std::pair<IOid, IOid>(connection->outletId, connection->inletId));
+    }
+    return allConnections;
 }
 
 void Connections::togglePatchCordType()

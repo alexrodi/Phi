@@ -13,15 +13,9 @@
 
 //==============================================================================
 
-Module::Module(ModuleProps arguments) :
-name{arguments.name},
-width{arguments.width},
-height{arguments.height},
-minimumHeight{arguments.minimumHeight} // this is hardcoded for now but each module should set its own
+Module::Module(Props arguments) :
+props{arguments}
 {
-    // fill props for exterior access
-    props = arguments;
-    
     for (int i=0; i<arguments.inletNumber; i++)
         addAndMakeVisible( inlets.add( new phi_Inlet() ) );
     

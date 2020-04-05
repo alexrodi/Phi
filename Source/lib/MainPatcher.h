@@ -19,7 +19,8 @@
 /*
 */
 class MainPatcher    : public Component,
-                       public DragAndDropContainer
+                       public DragAndDropContainer,
+                       public ChangeListener
 {
 public:
     MainPatcher();
@@ -53,7 +54,7 @@ private:
     PopupMenu modulesSubMenu;
     
     
-    void registerInletsAndOutlets(std::unique_ptr<Module>&);
+    void registerInletsAndOutlets(Module*, uint32);
     
     template <class moduleClass>
     void createModule(Point<float>);
@@ -61,6 +62,8 @@ private:
     void initialiseGraph();
     
     void mouseDown(const MouseEvent& e) override;
+    
+    void changeListenerCallback (ChangeBroadcaster* source) override;
     
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainPatcher)

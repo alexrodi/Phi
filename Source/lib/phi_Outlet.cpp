@@ -21,6 +21,17 @@ phi_Outlet::~phi_Outlet()
 {
 }
 
+void phi_Outlet::setId(std::pair<uint32, int> outletId)
+{
+    moduleID = outletId.first;
+    outletID = outletId.second;
+}
+
+String phi_Outlet::getStringId()
+{
+    return String(moduleID) + ">" + String(outletID);
+}
+
 void phi_Outlet::paint (Graphics& g)
 {
     g.setColour(Colours::darkgrey);
@@ -36,7 +47,7 @@ void phi_Outlet::resized()
 
 void phi_Outlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("mouseDown outlet #" + String(outletID));
+    sendActionMessage("mouseDown outlet #" + getStringId());
 }
 
 void phi_Outlet::mouseUp(const MouseEvent& e)
@@ -47,7 +58,7 @@ void phi_Outlet::mouseUp(const MouseEvent& e)
 void phi_Outlet::mouseDrag(const MouseEvent& e)
 {
     DragAndDropContainer::findParentDragContainerFor(this)->
-    startDragging ("outlet" + String(outletID)
+    startDragging ("outlet" + getStringId()
                    , this
                    , Image (Image::PixelFormat::RGB, 1, 1, true));
     
@@ -64,5 +75,5 @@ void phi_Outlet::itemDropped (const SourceDetails& dragSourceDetails)
     sendActionMessage("connect "
                       + dragSourceDetails.description.toString().fromFirstOccurrenceOf("inlet", false, false)
                       + "&"
-                      + String(outletID));
+                      + getStringId());
 }

@@ -67,19 +67,20 @@ MainComponent::~MainComponent()
 //==============================================================================
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
-    mainPatcher.mainProcessor->setPlayConfigDetails (mainPatcher.mainProcessor->getMainBusNumInputChannels(), mainPatcher.mainProcessor->getMainBusNumOutputChannels(), sampleRate, samplesPerBlockExpected);
+    mainPatcher.mainProcessor->setPlayConfigDetails (mainPatcher.mainProcessor->getTotalNumInputChannels()
+                                                     , mainPatcher.mainProcessor->getTotalNumOutputChannels()
+                                                     , sampleRate
+                                                     , samplesPerBlockExpected);
  
     mainPatcher.mainProcessor->prepareToPlay (sampleRate, samplesPerBlockExpected);
 }
 
 void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
 {
-        for (int i = mainPatcher.mainProcessor->getTotalNumInputChannels(); i < mainPatcher.mainProcessor->getTotalNumOutputChannels(); ++i)
-            bufferToFill.buffer->clear (i, 0, bufferToFill.buffer->getNumSamples());
+    bufferToFill.clearActiveBufferRegion(); // this probably wont be needed eventually when the buffer is sure to be filled
     
     mainPatcher.mainProcessor->processBlock (*bufferToFill.buffer, dummyMidiBuffer);
-    
-//    bufferToFill.clearActiveBufferRegion();
+
 }
 
 void MainComponent::releaseResources()

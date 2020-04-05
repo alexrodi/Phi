@@ -26,10 +26,15 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-    long inletID;
+    void setId(std::pair<uint32, int>);
 
 private:
+    uint32 moduleID;
+    int inletID;
+    
     Rectangle<float> viewport;
+    
+    String getStringId();
     
     void mouseDown(const MouseEvent&) override;
     void mouseUp(const MouseEvent&) override;

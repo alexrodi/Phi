@@ -23,31 +23,26 @@ class Module    : public Component,
 {
 public:
     
-    struct ModuleProps
+    struct Props
     {
-        String name;
-        int inletNumber;
-        int outletNumber;
-        int width;
-        int height;
-        int minimumHeight;
+        const String name;
+        const int inletNumber;
+        const int outletNumber;
+        const int width;
+        const int height;
+        const int minimumHeight;
     };
     
-    Module(ModuleProps);
+    Module(Props);
     
     OwnedArray<phi_Inlet> inlets;
     OwnedArray<phi_Outlet> outlets;
     
-    ModuleProps props;
+    Props props;
     
     const Rectangle<int> placeInletsOutlets (Rectangle<int>);
     
 private:
-    const String name;
-    
-    const int width;
-    const int height;
-    const int minimumHeight;
     
     const String getName() const override {return String("");};
     double getTailLengthSeconds() const override {return 0.0f;};

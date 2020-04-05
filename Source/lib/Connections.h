@@ -22,68 +22,78 @@
 #define CORD_THICKNESS 5.0f
 
 class Connections : public Component,
-                    public ActionListener
+                    public ActionListener,
+                    public ChangeBroadcaster
 {
 public:
+    typedef std::pair<uint32, int> IOid;
+    
     Connections();
     ~Connections();
     
     void paint (Graphics&) override;
     void resized () override;
     
-    long registerInlet (phi_Inlet*);
-    long registerOutlet (phi_Outlet*);
+    std::pair<uint32, int> registerInlet (uint32, phi_Inlet*);
+    std::pair<uint32, int> registerOutlet (uint32, phi_Outlet*);
+    
+    Array<std::pair<IOid, IOid>> getAllConnectionIdPairs();
     
     void togglePatchCordType();
 
 private:
-    
     typedef std::function<void(Path&,Point<float>,Point<float>)> ConnectionPathCallback;
     
     struct IdStore
     {
-        std::map<long, phi_Inlet*> inlets;
-        std::map<long, phi_Outlet*> outlets;
+        /*
+        IdStore is a 2D Map (e.g. inlets):
+        __________________________
+  key   | module (uint32 nodeId) |
+        -------------------------------------------
+ value  |     inletId (long)     |   phi_Inlet*   |
+ value  |     inletId (long)     |   phi_Inlet*   |
+        -------------------------------------------
+                   key                 value
+        */
         
-        void storeInlet (long entryId, phi_Inlet* entry)
+        std::map<uint32, std::map<int, phi_Inlet*>> inlets;
+        std::map<uint32, std::map<int, phi_Outlet*>> outlets;
+        
+        IOid storeInlet (uint32 nodeId, phi_Inlet* inlet)
         {
-            inlets.insert_or_assign(entryId, entry);
+            int inletId = getNewInletId(nodeId);
+            inlets[nodeId][inletId] = inlet;
+            return IOid(nodeId, inletId);
         }
         
-        void storeOutlet (long entryId, phi_Outlet* entry)
+        IOid storeOutlet (uint32 nodeId, phi_Outlet* outlet)
         {
-            outlets.insert_or_assign(entryId, entry);
+            int outletId = getNewOutletId(nodeId);
+            outlets[nodeId][outletId] = outlet;
+            return IOid(nodeId, outletId);
         }
         
-        long getNewInletId ()
+        int getNewInletId (const uint32 nodeId)
         {
-            if (inlets.empty()) return 0;
-            return inlets.rbegin()->first + 1;
+            if (inlets.find(nodeId) == inlets.end()) return 0;
+            return inlets[nodeId].rbegin()->first + 1;
         }
         
-        long getNewOutletId ()
+        int getNewOutletId (const uint32 nodeId)
         {
-            if (outlets.empty()) return 0;
-            return outlets.rbegin()->first + 1;
+            if (outlets.find(nodeId) == outlets.end()) return 0;
+            return outlets[nodeId].rbegin()->first + 1;
         }
         
     } idStore;
-    
-    Path allConnectionsPath;
-       void updateAllConnectionPaths ();
-       
-       bool patchCordTypeToggle;
-       
-       static void patchCordTypeACallback (Path&, Point<float>, Point<float>);
-       static void patchCordTypeBCallback (Path&, Point<float>, Point<float>);
-       ConnectionPathCallback updateConnectionPath;
     
     class Connection
     {
     public:
         Connection(ConnectionPathCallback& updateConnectionPathCallback
-                   , const String& inletId
-                   , const String& outletId
+                   , const IOid inletId
+                   , const IOid outletId
                    , Point<float> inletPosition
                    , Point<float> outletPosition) :
         inletId(inletId),
@@ -94,8 +104,8 @@ private:
             updateConnectionPathCallback(path, inletPosition, outletPosition);
         }
         
-        String inletId;
-        String outletId;
+        IOid inletId;
+        IOid outletId;
         Point<float> inletPosition;
         Point<float> outletPosition;
         Path path;
@@ -117,18 +127,28 @@ private:
         
     };
     
+    Path allConnectionsPath;
+    bool patchCordTypeToggle;
+    ConnectionPathCallback updateConnectionPath;
     
-    Point<float> getInletCenterPositionFromString (const String&);
-    Point<float> getOutletCenterPositionFromString (const String&);
+    void updateAllConnectionPaths ();
+  
+    static void patchCordTypeACallback (Path&, Point<float>, Point<float>);
+    static void patchCordTypeBCallback (Path&, Point<float>, Point<float>);
+    
+    Point<float> getInletCenterPositionFromId (const IOid);
+    Point<float> getOutletCenterPositionFromId (const IOid);
     
     OwnedArray<Connection> connections;
     
     Path dragPath;
     Point<float> dragPathAnchor;
     
-    const bool hasConnectionWithIds (const String&, const String&);
+    IOid stringToIOid (const String&);
+    
+    const bool hasConnectionWithIds (const IOid, const IOid);
        
-    void createConnection  (const String&, const String&);
+    void createConnection  (const IOid, const IOid);
     
     Path getConnectionPath (Connection*);
 

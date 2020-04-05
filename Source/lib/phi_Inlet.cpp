@@ -21,6 +21,17 @@ phi_Inlet::~phi_Inlet()
 {
 }
 
+void phi_Inlet::setId(std::pair<uint32, int> inletId)
+{
+    moduleID = inletId.first;
+    inletID = inletId.second;
+}
+
+String phi_Inlet::getStringId()
+{
+    return String(moduleID) + ">" + String(inletID);
+}
+
 void phi_Inlet::paint (Graphics& g)
 {
     g.setColour(Colours::grey);
@@ -36,7 +47,7 @@ void phi_Inlet::resized()
 
 void phi_Inlet::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("mouseDown inlet #" + String(inletID));
+    sendActionMessage("mouseDown inlet #" + getStringId());
 }
 
 void phi_Inlet::mouseUp(const MouseEvent& e)
@@ -47,7 +58,7 @@ void phi_Inlet::mouseUp(const MouseEvent& e)
 void phi_Inlet::mouseDrag(const MouseEvent& e)
 {
     DragAndDropContainer::findParentDragContainerFor(this)->
-    startDragging ("inlet" + String(inletID)
+    startDragging ("inlet" + getStringId()
                    , this
                    , Image (Image::PixelFormat::RGB, 1, 1, true));
     
@@ -62,6 +73,6 @@ bool phi_Inlet::isInterestedInDragSource (const SourceDetails& dragSourceDetails
 void phi_Inlet::itemDropped (const SourceDetails& dragSourceDetails)
 {
     sendActionMessage("connect "
-                      + String(inletID) + "&"
+                      + getStringId() + "&"
                       + dragSourceDetails.description.toString().fromFirstOccurrenceOf("outlet", false, false));
 }

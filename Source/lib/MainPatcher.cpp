@@ -12,7 +12,8 @@
 #include "MainPatcher.h"
 
 //==============================================================================
-MainPatcher::MainPatcher()
+MainPatcher::MainPatcher() :
+mainProcessor{std::make_unique<AudioProcessorGraph>()}
 {
     // Menu and submenus content
     // Submenus must be filled before the main
@@ -71,19 +72,19 @@ void MainPatcher::togglePatchCordType()
 }
 
 // Registers all inlets and outlets with the connections component
-void MainPatcher::registerInletsAndOutlets(std::unique_ptr<Module>& module) {
+void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId) {
     
     OwnedArray<phi_Inlet>& inlets = module->inlets;
     for (phi_Inlet* inlet : inlets)
     {
-        inlet->inletID = connections.registerInlet(inlet);
+        inlet->setId(connections.registerInlet(moduleId, inlet));
         inlet->addActionListener(&connections);
     }
     
     OwnedArray<phi_Outlet>& outlets = module->outlets;
     for (phi_Outlet* outlet : outlets)
     {
-        outlet->outletID = connections.registerOutlet(outlet);
+        outlet->setId(connections.registerOutlet(moduleId, outlet));
         outlet->addActionListener(&connections);
     }
     
@@ -95,19 +96,21 @@ void MainPatcher::createModule(Point<float> position)
     ModuleBox* moduleBox;
     
     std::unique_ptr<Module> newModule = std::make_unique<moduleClass>();
+    
+    Module* modulePtr = newModule.get();
         
-    moduleBox = new ModuleBox(newModule.get(), selectedModules);
+    moduleBox = new ModuleBox(modulePtr, selectedModules);
     
     modules.add(moduleBox);
-
-    registerInletsAndOutlets(newModule);
     
     // Display and set its position
     addAndMakeVisible(moduleBox);
     moduleBox->setTopLeftPosition(position.toInt());
     moduleBox->addActionListener(&connections);
     
-    mainProcessor->addNode(std::move(newModule));
+    AudioProcessorGraph::Node::Ptr newNode = mainProcessor->addNode(std::move(newModule));
+    
+    registerInletsAndOutlets(modulePtr, newNode.get()->nodeID.uid);
 }
 
 void MainPatcher::initialiseGraph()
@@ -116,10 +119,33 @@ void MainPatcher::initialiseGraph()
     
     audioInputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioInputNode));
  
-    
-
     audioOutputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
  
-    for (int channel = 0; channel < 2; ++channel)
-        mainProcessor->addConnection ({ { audioInputNode->nodeID,  channel }, { audioInputNode->nodeID,  channel }, { audioOutputNode->nodeID, channel } });
+//    for (int channel = 0; channel < 2; ++channel)
+//        mainProcessor->addConnection ({ { audioInputNode->nodeID,  channel }, { audioOutputNode->nodeID, channel } });
+    
+    using Connection = std::pair<Connections::IOid, Connections::IOid>;
+    
+    Array<Connection> allConnections = connections.getAllConnectionIdPairs();
+    
+    if (! allConnections.isEmpty())
+    {
+        for (Connection connection : allConnections)
+        {
+            AudioProcessorGraph::NodeAndChannel source { {}, connection.first.second };
+            AudioProcessorGraph::NodeAndChannel destination { {}, connection.second.second };
+            
+            source.nodeID.uid = connection.first.first;
+            destination.nodeID.uid = connection.second.first;
+            
+            mainProcessor->addConnection ({ source, destination });
+        }
+    }
+    
 }
+
+void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
+{
+    initialiseGraph();
+}
+

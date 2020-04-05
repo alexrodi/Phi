@@ -70,7 +70,7 @@ void module_Gain::prepareToPlay (double sampleRate, int maximumExpectedSamplesPe
 
 void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    for (int channel=0; channel<getMainBusNumInputChannels(); channel++)
+    for (int channel=0; channel<getTotalNumInputChannels(); channel++)
     {
         float* bufferPtr = buffer.getWritePointer(channel);
         for (int i=0; i<getBlockSize(); i++)
