@@ -177,12 +177,14 @@ void Connections::createConnection(const IOid inletId, const IOid outletId)
 
 void Connections::removeModule(uint32 moduleId)
 {
-    for (Connection* connection : connections)
+    int i = 0;
+    while (i < connections.size())
     {
-        if (connection->inletId.first == moduleId || connection->outletId.first == moduleId)
+        if (connections[i]->inletId.first == moduleId || connections[i]->outletId.first == moduleId)
         {
-            connections.removeObject(connection);
+            connections.remove(i);
         }
+        else i++;
     }
     idStore.removeModule(moduleId);
     updateAllConnectionPaths();
