@@ -7,28 +7,11 @@
 */
 
 #include "MainComponent.h"
-//
-//Font LookAndFeel_V4::getTextButtonFont(TextButton &, int buttonHeight)
-//{
-//    return { jmin (16.0f, buttonHeight * 0.6f) };
-//}
 
 //==============================================================================
 MainComponent::MainComponent() :
 patchCordTypeButton{"Patch Cord"}
 {
-    // Some platforms require permissions to open input channels so request that here
-    if (RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
-        && ! RuntimePermissions::isGranted (RuntimePermissions::recordAudio))
-    {
-        RuntimePermissions::request (RuntimePermissions::recordAudio,
-                                     [&] (bool granted) { if (granted)  setAudioChannels (2, 2); });
-    }
-    else
-    {
-        // Specify the number of input and output channels that we want to open
-        setAudioChannels (2, 2);
-    }
     
     // Set the colors of PopupMenu
     LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::textColourId, Colours::lightgrey);
@@ -59,33 +42,6 @@ patchCordTypeButton{"Patch Cord"}
 MainComponent::~MainComponent()
 {
     setLookAndFeel(nullptr);
-    
-    // This shuts down the audio device and clears the audio source.
-    shutdownAudio();
-}
-
-//==============================================================================
-void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
-{
-    mainPatcher.mainProcessor->setPlayConfigDetails (mainPatcher.mainProcessor->getTotalNumInputChannels()
-                                                     , mainPatcher.mainProcessor->getTotalNumOutputChannels()
-                                                     , sampleRate
-                                                     , samplesPerBlockExpected);
- 
-    mainPatcher.mainProcessor->prepareToPlay (sampleRate, samplesPerBlockExpected);
-}
-
-void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
-{
-    bufferToFill.clearActiveBufferRegion(); // this probably wont be needed eventually when the buffer is sure to be filled
-    
-    mainPatcher.mainProcessor->processBlock (*bufferToFill.buffer, dummyMidiBuffer);
-
-}
-
-void MainComponent::releaseResources()
-{
-    mainPatcher.mainProcessor->releaseResources();
 }
 
 //==============================================================================

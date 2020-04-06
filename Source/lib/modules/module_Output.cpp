@@ -23,7 +23,9 @@ Module{{
     .minimumHeight = 100
 }}
 {
-
+    // module_Output cheats on the number of output channels
+    // these are only used internally for audio and are not displayed
+    setPlayConfigDetails (props.inletNumber, props.inletNumber, getSampleRate(), getBlockSize());
 }
 
 module_Output::~module_Output()
@@ -42,14 +44,11 @@ void module_Output::wasResized(Rectangle<int>)
 
 void module_Output::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
 {
-    // module_Output cheats on the number of output channels
-    // these are only used internally for audio and are not displayed
-    setPlayConfigDetails (props.inletNumber, props.inletNumber, sampleRate, maximumExpectedSamplesPerBlock);
 }
 
 void module_Output::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    std::cout << "comming! " << buffer.getSample(0, 0) << std::endl;
+    std::cout << "Output channels: " << buffer.getNumChannels() << std::endl;
 }
 
 void module_Output::releaseResources()

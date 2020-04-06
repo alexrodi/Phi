@@ -23,9 +23,9 @@ Module{{
 }},
 gainDial(-70, 12, " dB", 2, this)
 {
-
     addAndMakeVisible(gainDial);
     
+    setPlayConfigDetails (props.inletNumber, props.outletNumber, getSampleRate(), getBlockSize());
 }
 
 module_Gain::~module_Gain()
@@ -65,6 +65,8 @@ void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMess
     // matches the number of outputs, otherwise
     // we would have to use the overload (channel, startSample, numSamples, gain)
     buffer.applyGain(gainValue);
+    
+    std::cout << "Gain channels: " << buffer.getNumChannels() << std::endl;
 }
 
 void module_Gain::releaseResources()

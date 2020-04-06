@@ -25,12 +25,24 @@ mainProcessor{std::make_unique<AudioProcessorGraph>()}
     addAndMakeVisible(connections);
     
     setSize(1000, 1000);
+    
+    connections.addChangeListener(this);
+    
+    
+    mainProcessor->enableAllBuses();
+
+    deviceManager.initialiseWithDefaultDevices (2, 2);
+    deviceManager.addAudioCallback (&player);
+    
+    player.setProcessor (mainProcessor.get());
 }
 
 MainPatcher::~MainPatcher()
 {
     rightClickMenu.dismissAllActiveMenus();
     modulesSubMenu.dismissAllActiveMenus();
+    
+    deviceManager.removeAudioCallback (&player);
 }
 
 
@@ -115,11 +127,10 @@ void MainPatcher::createModule(Point<float> position)
     
     AudioProcessorGraph::Node::Ptr newNode = mainProcessor->addNode(std::move(newModule));
 
+    // When we detect an output module,
+    // we immediatelly hook it up to an AudioGraphIOProcessor in audioOutputNode mode
     if (typeid(moduleClass) == typeid(module_Output))
     {
-        // When we detect an output module,
-        // we immediatelly hook it up to an AudioGraphIOProcessor in audioOutputNode mode
-
         AudioProcessorGraph::Node::Ptr outputNode = mainProcessor->addNode(std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
         
         for (int i = 0; i < modulePtr->props.inletNumber; i++)
@@ -135,11 +146,6 @@ void MainPatcher::initialiseGraph()
 {
     /** TODO - Find a proper place where to clear the graph (which isn't needed for now because there is no deletion of modules or connections) */
     // mainProcessor->clear();
-    
-    
-    audioInputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioInputNode));
- 
-    audioOutputNode = mainProcessor->addNode (std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
     
     using Connection = std::pair<Connections::IOid, Connections::IOid>;
     

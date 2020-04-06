@@ -35,8 +35,8 @@ public:
     
 private:
     
-    AudioProcessorGraph::Node::Ptr audioInputNode;
-    AudioProcessorGraph::Node::Ptr audioOutputNode;
+    AudioDeviceManager deviceManager;
+    AudioProcessorPlayer player;
     
     // The array of modules
     OwnedArray<ModuleBox> modules;

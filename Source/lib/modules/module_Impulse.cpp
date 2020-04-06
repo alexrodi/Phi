@@ -30,6 +30,8 @@ shapeDial(0, 1, " %", 0, this)
 
     addAndMakeVisible(decayDial);
     addAndMakeVisible(shapeDial);
+    
+    setPlayConfigDetails (props.inletNumber, props.outletNumber, getSampleRate(), getBlockSize());
 }
 
 module_Impulse::~module_Impulse()
@@ -46,6 +48,17 @@ void module_Impulse::prepareToPlay (double sampleRate, int maximumExpectedSample
 
 void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    buffer.clear(props.inletNumber-1, 0, buffer.getNumSamples()); // clear the third channel
+    std::cout << "Impulse channels: " << buffer.getNumChannels() << std::endl;
+    for (int channel = 0; channel < props.outletNumber; channel++)
+    {
+        float* writeBuffer = buffer.getWritePointer(channel);
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+        {
+            *writeBuffer++ = fmod(n*0.01, 1); // a sawtooth-like sound only for testing
+        }
+    }
+    
 }
 
 void module_Impulse::releaseResources()
