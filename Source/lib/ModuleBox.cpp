@@ -43,6 +43,7 @@ moduleSelection{selectionChangeSource}
 
 ModuleBox::~ModuleBox()
 {
+    moduleSelection.removeChangeListener(this);
     setLookAndFeel (nullptr);
 }
 
