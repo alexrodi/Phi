@@ -87,9 +87,9 @@ void MainPatcher::mouseDown(const MouseEvent& e)
 
 void MainPatcher::deleteModule(ModuleBox* moduleBox)
 {
+    connections.removeModule(moduleBox->module->nodeID.uid);
     mainProcessor->removeNode(moduleBox->module->nodeID);
     modules.removeObject(moduleBox);
-    connections.removeModule(moduleBox->module->nodeID.uid);
 }
 
 void MainPatcher::deleteAllSelectedModules()
