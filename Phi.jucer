@@ -38,6 +38,10 @@
         <FILE id="JWmydF" name="phi_Outlet.h" compile="0" resource="0" file="Source/lib/phi_Outlet.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
+        <GROUP id="{5AD56AAE-9499-4BA1-1A86-9C985DC417A8}" name="svg">
+          <FILE id="pQJI1c" name="Speaker_Icon.svg" compile="0" resource="1"
+                file="Source/resources/svg/Speaker_Icon.svg"/>
+        </GROUP>
         <GROUP id="{AFB75D1F-B744-A782-6D95-CA6C7EDD0FFC}" name="audio">
           <FILE id="Yuf23n" name="SinFormant.wav" compile="0" resource="1" file="Source/resources/audio/SinFormant.wav"/>
           <FILE id="oRbExV" name="SinSquare.wav" compile="0" resource="1" file="Source/resources/audio/SinSquare.wav"/>
