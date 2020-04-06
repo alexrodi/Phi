@@ -44,15 +44,14 @@ public:
     
     void togglePatchCordType();
     
-    std::unique_ptr<AudioProcessorGraph> mainProcessor;
-    
     bool keyPressed (const KeyPress& key) override;
     
 private:
     
+    std::unique_ptr<AudioProcessorGraph> mainProcessor;
+    
     AudioDeviceManager deviceManager;
     AudioProcessorPlayer player;
-    
     AudioProcessorGraph::Node::Ptr outputNode;
     
     // The array of modules
@@ -73,8 +72,7 @@ private:
     
     void registerInletsAndOutlets(Module*, uint32);
     
-    template <class moduleClass>
-    void createModule(Point<float>);
+    template <class> void createModule(Point<float>);
     
     void deleteModule(ModuleBox*);
     void deleteAllSelectedModules();
