@@ -50,7 +50,7 @@ public:
      the actual module's rectangle
     */
     void resized() override;
-    virtual void wasResized(Rectangle<int>) = 0;
+    virtual void wasResized(Rectangle<int>) {};
     
 private:
     

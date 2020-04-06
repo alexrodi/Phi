@@ -33,7 +33,6 @@ public:
     void wasResized(Rectangle<int>) override;
     
     void lookAndFeelChanged() override;
-    
 
 private:
     

@@ -30,8 +30,6 @@ shapeDial(0, 1, " %", 0, this)
 
     addAndMakeVisible(decayDial);
     addAndMakeVisible(shapeDial);
-    
-    setPlayConfigDetails (props.inletNumber, props.outletNumber, getSampleRate(), getBlockSize());
 }
 
 module_Impulse::~module_Impulse()

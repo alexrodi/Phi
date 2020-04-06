@@ -24,8 +24,6 @@ Module{{
 gainDial(-70, 12, " dB", 2, this)
 {
     addAndMakeVisible(gainDial);
-    
-    setPlayConfigDetails (props.inletNumber, props.outletNumber, getSampleRate(), getBlockSize());
 }
 
 module_Gain::~module_Gain()

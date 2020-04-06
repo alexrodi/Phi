@@ -23,6 +23,8 @@ props{arguments}
         addAndMakeVisible( outlets.add( new phi_Outlet() ) );
 
     setPaintingIsUnclipped(true);
+        
+    setPlayConfigDetails (arguments.inletNumber, arguments.outletNumber, getSampleRate(), getBlockSize());
 }
 
 void Module::resized()
