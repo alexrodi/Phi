@@ -52,6 +52,8 @@ void ui_Dial::paint (Graphics& g)
 
 void ui_Dial::resized ()
 {
+    Slider::resized();
+    
     size = jmin(getWidth(), getHeight()-10);
     box = getLocalBounds().toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -5);
     radius = box.getWidth() * 0.5;
@@ -64,11 +66,12 @@ void ui_Dial::resized ()
 
 void ui_Dial::lookAndFeelChanged ()
 {
+    Slider::lookAndFeelChanged();
     colour = findColour(Slider::thumbColourId);
     grooveColour = findColour(Slider::rotarySliderOutlineColourId);
 }
 
-void ui_Dial::updateDial()
+void ui_Dial::updateDial ()
 {
     angle = startAngle + (getValue()-getMinimum())/getRange().getLength() * range;
     
