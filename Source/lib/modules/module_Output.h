@@ -29,7 +29,13 @@ public:
 
     void paint (Graphics&) override;
     void wasResized(Rectangle<int>) override;
+    
+    void lookAndFeelChanged() override;
 
 private:
+    std::unique_ptr<Drawable> speakerImage;
+    
+    Colour colour;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (module_Output)
 };
