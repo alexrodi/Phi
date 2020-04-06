@@ -149,7 +149,6 @@ void Connections::actionListenerCallback (const String& message)
         
         createConnection(stringToIOid(inletIdString), stringToIOid(outletIdString));
         updateAllConnectionPaths();
-        sendChangeMessage(); // notify new connections
     }
 }
 
@@ -173,6 +172,20 @@ void Connections::createConnection(const IOid inletId, const IOid outletId)
                          , getInletCenterPositionFromId(inletId)
                          , getOutletCenterPositionFromId(outletId)));
     }
+    sendChangeMessage(); // notify new connections
+}
+
+void Connections::removeModule(uint32 moduleId)
+{
+    for (Connection* connection : connections)
+    {
+        if (connection->inletId.first == moduleId || connection->outletId.first == moduleId)
+        {
+            connections.removeObject(connection);
+        }
+    }
+    idStore.removeModule(moduleId);
+    updateAllConnectionPaths();
 }
 
 Array<std::pair<Connections::IOid, Connections::IOid>> Connections::getAllConnectionIdPairs()
