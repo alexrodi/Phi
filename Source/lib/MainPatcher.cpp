@@ -152,20 +152,17 @@ void MainPatcher::applyAudioConnections()
     
     Array<Connection> receivedConnections = connections.getAllConnectionIdPairs();
     
-    if (! receivedConnections.isEmpty())
+    for (Connection connection : receivedConnections)
     {
-        for (Connection connection : receivedConnections)
-        {
-            AudioProcessorGraph::NodeAndChannel source { {}, connection.first.second };
-            AudioProcessorGraph::NodeAndChannel destination { {}, connection.second.second };
-            
-            source.nodeID.uid = connection.first.first;
-            destination.nodeID.uid = connection.second.first;
-            
-            mainProcessor->addConnection ({ source, destination });
-        }
-        mainProcessor->removeIllegalConnections();
+        AudioProcessorGraph::NodeAndChannel source { {}, connection.first.second };
+        AudioProcessorGraph::NodeAndChannel destination { {}, connection.second.second };
+        
+        source.nodeID.uid = connection.first.first;
+        destination.nodeID.uid = connection.second.first;
+        
+        mainProcessor->addConnection ({ source, destination });
     }
+    mainProcessor->removeIllegalConnections();
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
