@@ -53,6 +53,8 @@ private:
     AudioDeviceManager deviceManager;
     AudioProcessorPlayer player;
     
+    AudioProcessorGraph::Node::Ptr outputNode;
+    
     // The array of modules
     OwnedArray<ModuleBox> modules;
     

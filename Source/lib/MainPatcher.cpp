@@ -37,6 +37,11 @@ mainProcessor{std::make_unique<AudioProcessorGraph>()}
     deviceManager.addAudioCallback (&player);
     
     player.setProcessor (mainProcessor.get());
+    
+    // Add an output node in the graph
+    // so that output modules may connect to it
+    using IOProcessor = AudioProcessorGraph::AudioGraphIOProcessor;
+    outputNode = mainProcessor->addNode(std::make_unique<IOProcessor>(IOProcessor::audioOutputNode));
 }
 
 MainPatcher::~MainPatcher()
@@ -155,10 +160,6 @@ void MainPatcher::createModule(Point<float> position)
     // we immediatelly hook it up to an AudioGraphIOProcessor in audioOutputNode mode
     if (typeid(moduleClass) == typeid(module_Output))
     {
-        using IOProcessor = AudioProcessorGraph::AudioGraphIOProcessor;
-        
-        AudioProcessorGraph::Node::Ptr outputNode = mainProcessor->addNode(std::make_unique<IOProcessor>(IOProcessor::audioOutputNode));
-        
         for (int i = 0; i < modulePtr->props.inletNumber; i++)
         {
             mainProcessor->addConnection ({ { newNode->nodeID, i }, { outputNode->nodeID, i } });
