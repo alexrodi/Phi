@@ -39,6 +39,8 @@ public:
     
     Array<std::pair<IOid, IOid>> getAllConnectionIdPairs();
     
+    void removeModule(uint32);
+    
     void togglePatchCordType();
 
 private:
@@ -84,6 +86,11 @@ private:
         {
             if (outlets.find(nodeId) == outlets.end()) return 0;
             return outlets[nodeId].rbegin()->first + 1;
+        }
+        
+        void removeModule (const uint32 nodeId)
+        {
+            inlets.erase(nodeId);
         }
         
     } idStore;
