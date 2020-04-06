@@ -22,50 +22,70 @@ ui_Dial::ui_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int d
     setTextBoxIsEditable         (true);
     
     setPaintingIsUnclipped (true);
+    
+    addListener(this);
+    updateDial();
 }
 
  ui_Dial::~ui_Dial()
 {
 }
 
+
 void ui_Dial::paint (Graphics& g)
 {
-    const float padding = 10;
-    const float thickness = 5;
-    const float startAngle = getRotaryParameters().startAngleRadians;
-    const float endAngle = getRotaryParameters().endAngleRadians;
-    const float range = endAngle - startAngle;
-    const float size = jmin(getWidth(), getHeight()-10);
-    Rectangle<float> box = getLocalBounds().toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -5);
-    const float radius = box.getWidth() * 0.5;
-    
-    Path groove;
-    
-    groove.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, endAngle, true);
-    
-    g.setColour(findColour(Slider::rotarySliderOutlineColourId));
+
+    g.setColour(grooveColour);
     g.strokePath(groove, PathStrokeType(thickness));
     
-    Path dial;
-    
-    const float angle = startAngle + (getValue()-getMinimum())/getRange().getLength() * range;
-    
-    dial.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, angle, true);
-    
-    g.setColour(findColour(Slider::thumbColourId));
+    g.setColour(colour);
     g.strokePath(dial, PathStrokeType(thickness, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded));
     
     if (radius > 18)
     {
-        Path pointerPath;
+        g.addTransform(pointerRotation);
+        g.fillPath(pointerPath);
+        g.addTransform(pointerRotation.inverted());
+    }
+
+}
+
+void ui_Dial::resized ()
+{
+    size = jmin(getWidth(), getHeight()-10);
+    box = getLocalBounds().toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -5);
+    radius = box.getWidth() * 0.5;
+    
+    groove.clear();
+    groove.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, endAngle, true);
+    
+    updateDial();
+}
+
+void ui_Dial::lookAndFeelChanged ()
+{
+    colour = findColour(Slider::thumbColourId);
+    grooveColour = findColour(Slider::rotarySliderOutlineColourId);
+}
+
+void ui_Dial::updateDial()
+{
+    angle = startAngle + (getValue()-getMinimum())/getRange().getLength() * range;
+    
+    dial.clear();
+    dial.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, angle, true);
+    
+    if (radius > 18)
+    {
+        pointerPath.clear();
         
         pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(4, 10).withY(box.getY()+thickness+2), 2);
         
-        AffineTransform rotation = AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
-        
-        g.addTransform(rotation);
-        g.fillPath(pointerPath);
-        g.addTransform(rotation.inverted());
+        pointerRotation = AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
     }
+}
 
+void ui_Dial::sliderValueChanged (Slider* slider)
+{
+    if (slider == this) updateDial();
 }
