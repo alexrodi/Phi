@@ -91,6 +91,7 @@ private:
         void removeModule (const uint32 nodeId)
         {
             inlets.erase(nodeId);
+            outlets.erase(nodeId);
         }
         
     } idStore;
