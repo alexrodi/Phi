@@ -56,7 +56,6 @@ void module_Gain::sliderValueChanged (Slider* slider)
 
 void module_Gain::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
 {
-    setPlayConfigDetails (props.inletNumber, props.outletNumber, sampleRate, maximumExpectedSamplesPerBlock);
 }
 
 void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
@@ -64,9 +63,7 @@ void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMess
     // We can do this because the number of inputs
     // matches the number of outputs, otherwise
     // we would have to use the overload (channel, startSample, numSamples, gain)
-    buffer.applyGain(gainValue);
-    
-    std::cout << "Gain channels: " << buffer.getNumChannels() << std::endl;
+    buffer.applyGain(Decibels::decibelsToGain(gainValue));
 }
 
 void module_Gain::releaseResources()

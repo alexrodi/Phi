@@ -48,8 +48,6 @@ void module_Impulse::prepareToPlay (double sampleRate, int maximumExpectedSample
 
 void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    buffer.clear(props.inletNumber-1, 0, buffer.getNumSamples()); // clear the third channel
-    std::cout << "Impulse channels: " << buffer.getNumChannels() << std::endl;
     for (int channel = 0; channel < props.outletNumber; channel++)
     {
         float* writeBuffer = buffer.getWritePointer(channel);

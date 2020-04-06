@@ -48,7 +48,6 @@ void module_Output::prepareToPlay (double sampleRate, int maximumExpectedSamples
 
 void module_Output::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    std::cout << "Output channels: " << buffer.getNumChannels() << std::endl;
 }
 
 void module_Output::releaseResources()
