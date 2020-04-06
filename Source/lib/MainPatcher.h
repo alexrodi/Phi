@@ -4,6 +4,19 @@
     MainPatcher.h
     Created: 29 Mar 2020 12:51:46am
     Author:  Alexandre Rodrigues
+ 
+    The MainPatcher class contains all the functionality relating to
+    creating, patching and all the audio functionality of the modules.
+ 
+    The modules are kept in an array and subscribe to a SelectedItemSet
+    so they can be selected and grouped.
+    
+    It lives in a Viewport in the MainComponent and occupies most of the window.
+    
+    The audio engine is an AudioProcessorGraph where each module is a node (Audio Processor).
+ 
+    Connections are notitified from the connections member
+    and are applied to the audio in applyAudioConnections().
 
   ==============================================================================
 */
@@ -59,7 +72,7 @@ private:
     template <class moduleClass>
     void createModule(Point<float>);
     
-    void initialiseGraph();
+    void applyAudioConnections();
     
     void mouseDown(const MouseEvent& e) override;
     

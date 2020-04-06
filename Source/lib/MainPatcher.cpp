@@ -131,7 +131,9 @@ void MainPatcher::createModule(Point<float> position)
     // we immediatelly hook it up to an AudioGraphIOProcessor in audioOutputNode mode
     if (typeid(moduleClass) == typeid(module_Output))
     {
-        AudioProcessorGraph::Node::Ptr outputNode = mainProcessor->addNode(std::make_unique<AudioProcessorGraph::AudioGraphIOProcessor>(AudioProcessorGraph::AudioGraphIOProcessor::audioOutputNode));
+        using IOProcessor = AudioProcessorGraph::AudioGraphIOProcessor;
+        
+        AudioProcessorGraph::Node::Ptr outputNode = mainProcessor->addNode(std::make_unique<IOProcessor>(IOProcessor::audioOutputNode));
         
         for (int i = 0; i < modulePtr->props.inletNumber; i++)
         {
@@ -142,18 +144,17 @@ void MainPatcher::createModule(Point<float> position)
     registerInletsAndOutlets(modulePtr, newNode.get()->nodeID.uid);
 }
 
-void MainPatcher::initialiseGraph()
+void MainPatcher::applyAudioConnections()
 {
     /** TODO - Find a proper place where to clear the graph (which isn't needed for now because there is no deletion of modules or connections) */
-    // mainProcessor->clear();
     
     using Connection = std::pair<Connections::IOid, Connections::IOid>;
     
-    Array<Connection> allConnections = connections.getAllConnectionIdPairs();
+    Array<Connection> receivedConnections = connections.getAllConnectionIdPairs();
     
-    if (! allConnections.isEmpty())
+    if (! receivedConnections.isEmpty())
     {
-        for (Connection connection : allConnections)
+        for (Connection connection : receivedConnections)
         {
             AudioProcessorGraph::NodeAndChannel source { {}, connection.first.second };
             AudioProcessorGraph::NodeAndChannel destination { {}, connection.second.second };
@@ -163,11 +164,12 @@ void MainPatcher::initialiseGraph()
             
             mainProcessor->addConnection ({ source, destination });
         }
+        mainProcessor->removeIllegalConnections();
     }
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 {
-    initialiseGraph();
+    applyAudioConnections();
 }
 
