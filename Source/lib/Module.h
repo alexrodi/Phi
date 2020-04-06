@@ -40,6 +40,8 @@ public:
     
     Props props;
     
+    AudioProcessorGraph::NodeID nodeID;
+    
     const Rectangle<int> placeInletsOutlets (Rectangle<int>);
     
     /**
