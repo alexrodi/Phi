@@ -46,6 +46,8 @@ public:
     
     std::unique_ptr<AudioProcessorGraph> mainProcessor;
     
+    bool keyPressed (const KeyPress& key) override;
+    
 private:
     
     AudioDeviceManager deviceManager;
@@ -71,6 +73,9 @@ private:
     
     template <class moduleClass>
     void createModule(Point<float>);
+    
+    void deleteModule(ModuleBox*);
+    void deleteAllSelectedModules();
     
     void applyAudioConnections();
     

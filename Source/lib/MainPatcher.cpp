@@ -15,6 +15,8 @@
 MainPatcher::MainPatcher() :
 mainProcessor{std::make_unique<AudioProcessorGraph>()}
 {
+    setWantsKeyboardFocus(true);
+    
     // Menu and submenus content
     // Submenus must be filled before the main
     modulesSubMenu.addItem (1, "Impulse");
@@ -83,6 +85,28 @@ void MainPatcher::mouseDown(const MouseEvent& e)
     }
 }
 
+void MainPatcher::deleteModule(ModuleBox* moduleBox)
+{
+    mainProcessor->removeNode(moduleBox->module->nodeID);
+    modules.removeObject(moduleBox);
+    connections.removeModule(moduleBox->module->nodeID.uid);
+}
+
+void MainPatcher::deleteAllSelectedModules()
+{
+    for (int i=0; i < selectedModules.getNumSelected(); i++)
+        deleteModule(selectedModules.getSelectedItem(i));
+}
+
+bool MainPatcher::keyPressed (const KeyPress& key)
+{
+    if (key == KeyPress::backspaceKey)
+    {
+        deleteAllSelectedModules();
+    }
+    return true;
+}
+
 void MainPatcher::togglePatchCordType()
 {
     connections.togglePatchCordType();
@@ -140,6 +164,8 @@ void MainPatcher::createModule(Point<float> position)
             mainProcessor->addConnection ({ { newNode->nodeID, i }, { outputNode->nodeID, i } });
         }
     }
+    
+    modulePtr->nodeID = newNode->nodeID;
     
     registerInletsAndOutlets(modulePtr, newNode.get()->nodeID.uid);
 }
