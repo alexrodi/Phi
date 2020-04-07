@@ -28,7 +28,6 @@
 ///@endcond
 #include "ModuleBox.h"
 #include "Connections.h"
-#include "modules/Modules.h"
 
 //==============================================================================
 /*

@@ -14,7 +14,6 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "modules/Modules.h"
-#include "Module.h"
 
 #define HEADER_HEIGHT 27
 #define CONTENT_PADDING 10
