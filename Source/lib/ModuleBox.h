@@ -10,7 +10,9 @@
 
 #pragma once
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "modules/Modules.h"
 #include "Module.h"
 

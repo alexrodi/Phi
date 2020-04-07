@@ -23,7 +23,9 @@
 
 #pragma once
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "ModuleBox.h"
 #include "Connections.h"
 #include "modules/Modules.h"

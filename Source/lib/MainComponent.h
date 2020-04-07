@@ -8,7 +8,9 @@
 
 #pragma once
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "MainPatcher.h"
 
 //==============================================================================

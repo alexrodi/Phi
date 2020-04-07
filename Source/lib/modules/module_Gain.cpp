@@ -8,7 +8,9 @@
   ==============================================================================
 */
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "module_Gain.h"
 
 module_Gain::module_Gain() :

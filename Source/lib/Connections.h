@@ -10,7 +10,9 @@
 
 #pragma once
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "phi_Inlet.h"
 #include "phi_Outlet.h"
 

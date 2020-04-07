@@ -8,7 +8,9 @@
   ==============================================================================
 */
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "ui_Dial.h"
 
 ui_Dial::ui_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int decimals, Slider::Listener* listener)
