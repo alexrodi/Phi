@@ -30,8 +30,7 @@
 #include "Connections.h"
 
 //==============================================================================
-/*
-*/
+/// The main view of the Phi, this class handles all the module creation, hosting, patching and audio processing
 class MainPatcher    : public Component,
                        public DragAndDropContainer,
                        public ChangeListener
@@ -43,17 +42,66 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
+    /// Toggles between two patch-cord drawing routines
     void togglePatchCordType();
     
+    /// Listener for key presses
     bool keyPressed (const KeyPress& key) override;
     
 private:
+    /// The processor where each module's DSP routine gets implemented as nodes and patched together
+    class AudioEngine : public AudioProcessorGraph
+    {
+    public:
+        AudioEngine()
+        {
+            enableAllBuses();
+
+            deviceManager.initialiseWithDefaultDevices (2, 2);
+            deviceManager.addAudioCallback (&player);
+            
+            player.setProcessor (this);
+            
+            // Add an output node in the graph
+            // so that output modules may connect to it
+            outputNode = addNode(std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode));
+        }
+        
+        ~AudioEngine()
+        {
+            deviceManager.removeAudioCallback (&player);
+        }
+        
+        AudioDeviceManager deviceManager;
+        AudioProcessorPlayer player;
+        Node::Ptr outputNode;
+        
+        void applyAudioConnections(Array<std::pair<Connections::IOid, Connections::IOid>> connectionsToApply)
+        {
+            for (std::pair<Connections::IOid, Connections::IOid> connection : connectionsToApply)
+            {
+                NodeAndChannel source { {}, connection.first.second };
+                NodeAndChannel destination { {}, connection.second.second };
+                
+                source.nodeID.uid = connection.first.first;
+                destination.nodeID.uid = connection.second.first;
+                
+                addConnection ({ source, destination });
+            }
+            removeIllegalConnections();
+        }
+        
+        void connectToOuput(Node::Ptr nodeToConnect, int connectionNumber)
+        {
+            for (int i = 0; i < connectionNumber; i++)
+            {
+                audioEngine.addConnection ({ { nodeToConnect->nodeID, i }, { outputNode->nodeID, i } });
+            }
+        }
+        
+    } audioEngine;
     
-    std::unique_ptr<AudioProcessorGraph> mainProcessor;
     
-    AudioDeviceManager deviceManager;
-    AudioProcessorPlayer player;
-    AudioProcessorGraph::Node::Ptr outputNode;
     
     // The array of modules
     OwnedArray<ModuleBox> modules;
@@ -77,8 +125,6 @@ private:
     
     void deleteModule(ModuleBox*);
     void deleteAllSelectedModules();
-    
-    void applyAudioConnections();
     
     void mouseDown(const MouseEvent& e) override;
     

@@ -14,8 +14,7 @@
 #include "MainPatcher.h"
 
 //==============================================================================
-MainPatcher::MainPatcher() :
-mainProcessor{std::make_unique<AudioProcessorGraph>()}
+MainPatcher::MainPatcher()
 {
     setWantsKeyboardFocus(true);
     
@@ -32,26 +31,12 @@ mainProcessor{std::make_unique<AudioProcessorGraph>()}
     
     connections.addChangeListener(this);
     
-    
-    mainProcessor->enableAllBuses();
-
-    deviceManager.initialiseWithDefaultDevices (2, 2);
-    deviceManager.addAudioCallback (&player);
-    
-    player.setProcessor (mainProcessor.get());
-    
-    // Add an output node in the graph
-    // so that output modules may connect to it
-    using IOProcessor = AudioProcessorGraph::AudioGraphIOProcessor;
-    outputNode = mainProcessor->addNode(std::make_unique<IOProcessor>(IOProcessor::audioOutputNode));
 }
 
 MainPatcher::~MainPatcher()
 {
     rightClickMenu.dismissAllActiveMenus();
     modulesSubMenu.dismissAllActiveMenus();
-    
-    deviceManager.removeAudioCallback (&player);
 }
 
 
@@ -95,7 +80,7 @@ void MainPatcher::mouseDown(const MouseEvent& e)
 void MainPatcher::deleteModule(ModuleBox* moduleBox)
 {
     connections.removeModule(moduleBox->module->nodeID.uid);
-    mainProcessor->removeNode(moduleBox->module->nodeID);
+    audioEngine.removeNode(moduleBox->module->nodeID);
     modules.removeObject(moduleBox);
 }
 
@@ -156,15 +141,12 @@ void MainPatcher::createModule(Point<float> position)
     moduleBox->setTopLeftPosition(position.toInt());
     moduleBox->addActionListener(&connections);
     
-    AudioProcessorGraph::Node::Ptr newNode = mainProcessor->addNode(std::move(newModule));
+    AudioProcessorGraph::Node::Ptr newNode = audioEngine.addNode(std::move(newModule));
 
-    // When we detect an output module, we must hook it up to the outputNode
+    // When we detect an output module, we must hook it up to the actual output
     if (typeid(moduleClass) == typeid(module_Output))
     {
-        for (int i = 0; i < modulePtr->props.inletNumber; i++)
-        {
-            mainProcessor->addConnection ({ { newNode->nodeID, i }, { outputNode->nodeID, i } });
-        }
+        audioEngine.connectToOuput(newNode, modulePtr->props.inletNumber);
     }
     
     modulePtr->nodeID = newNode->nodeID;
@@ -172,29 +154,11 @@ void MainPatcher::createModule(Point<float> position)
     registerInletsAndOutlets(modulePtr, newNode.get()->nodeID.uid);
 }
 
-void MainPatcher::applyAudioConnections()
-{
-    /** TODO - Find a proper place where to clear the graph (which isn't needed for now because there is no deletion of modules or connections) */
-    
-    using Connection = std::pair<Connections::IOid, Connections::IOid>;
-    
-    Array<Connection> receivedConnections = connections.getAllConnectionIdPairs();
-    
-    for (Connection connection : receivedConnections)
-    {
-        AudioProcessorGraph::NodeAndChannel source { {}, connection.first.second };
-        AudioProcessorGraph::NodeAndChannel destination { {}, connection.second.second };
-        
-        source.nodeID.uid = connection.first.first;
-        destination.nodeID.uid = connection.second.first;
-        
-        mainProcessor->addConnection ({ source, destination });
-    }
-    mainProcessor->removeIllegalConnections();
-}
-
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 {
-    applyAudioConnections();
+    if (source == &connections)
+    {
+        audioEngine.applyAudioConnections(connections.getAllConnectionIdPairs());
+    }
 }
 
