@@ -104,7 +104,6 @@ void MainPatcher::togglePatchCordType()
     connections.togglePatchCordType();
 }
 
-// Registers all inlets and outlets with the connections component
 void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId) {
     
     OwnedArray<phi_Inlet>& inlets = module->inlets;
@@ -143,10 +142,10 @@ void MainPatcher::createModule(Point<float> position)
     
     AudioProcessorGraph::Node::Ptr newNode = audioEngine.addNode(std::move(newModule));
 
-    // When we detect an output module, we must hook it up to the actual output
+    // When we detect an output module, we must hook it up to the output node
     if (typeid(moduleClass) == typeid(module_Output))
     {
-        audioEngine.connectToOuput(newNode, modulePtr->props.inletNumber);
+        audioEngine.connectToOuput(newNode);
     }
     
     modulePtr->nodeID = newNode->nodeID;
