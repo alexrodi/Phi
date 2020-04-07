@@ -72,10 +72,6 @@ private:
             deviceManager.removeAudioCallback (&player);
         }
         
-        AudioDeviceManager deviceManager;
-        AudioProcessorPlayer player;
-        Node::Ptr outputNode;
-        
         void applyAudioConnections(Array<std::pair<Connections::IOid, Connections::IOid>> connectionsToApply)
         {
             for (std::pair<Connections::IOid, Connections::IOid> connection : connectionsToApply)
@@ -95,9 +91,13 @@ private:
         {
             for (int i = 0; i < connectionNumber; i++)
             {
-                audioEngine.addConnection ({ { nodeToConnect->nodeID, i }, { outputNode->nodeID, i } });
+                addConnection ({ { nodeToConnect->nodeID, i }, { outputNode->nodeID, i } });
             }
         }
+    private:
+        AudioDeviceManager deviceManager;
+        AudioProcessorPlayer player;
+        Node::Ptr outputNode;
         
     } audioEngine;
     
