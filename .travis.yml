@@ -15,7 +15,7 @@ script:
 
 deploy:
   provider: pages
-  skip_cleanup: false
+  skip_cleanup: true
   local_dir: docs/html
   github_token: $GH_REPO_TOKEN
   on:
