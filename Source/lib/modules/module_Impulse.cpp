@@ -85,17 +85,16 @@ const void module_Impulse::Waveform::setColour(const Colour& colourToUse)
 
 const void module_Impulse::Waveform::updateColour()
 {
-    topColourGradient = ColourGradient().vertical(colour, centreY+yRange, colour.darker(), centreY);
-    bottomColourGradient = ColourGradient().vertical(colour, centreY-yRange, colour, centreY);
+    colourGradient = ColourGradient().vertical(colour, centreY+yRange, colour.darker(), centreY);
 }
 
 const void module_Impulse::Waveform::draw(Graphics& g)
 {
-    g.setGradientFill(topColourGradient);
+    g.setGradientFill(colourGradient);
     g.fillPath(topPath);
     g.strokePath (topPath, PathStrokeType (strokeWidth));
     
-    g.setGradientFill(bottomColourGradient);
+    g.setColour(colour);
     g.fillPath(bottomPath);
     g.strokePath (bottomPath, PathStrokeType (strokeWidth));
 }

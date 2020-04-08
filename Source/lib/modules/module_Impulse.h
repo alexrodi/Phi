@@ -52,8 +52,7 @@ private:
         Colour colour;
         Path topPath;
         Path bottomPath;
-        ColourGradient topColourGradient;
-        ColourGradient bottomColourGradient;
+        ColourGradient colourGradient;
         const void updateColour();
     public:
         const void setColour(const Colour&);
