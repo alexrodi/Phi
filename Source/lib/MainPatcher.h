@@ -76,7 +76,7 @@ private:
         
         /** Connects all the outlets of a node to the output node.
          This function should only be called on modules that are meant as an audio output to the patcher.
-         Its use however, still allows for the outlets to be connected to other modules in the patcher, if they are made available*/
+         Its use however, still allows for the outlets to be connected to other modules in the patcher, if they are made available */
         void connectToOuput(Node::Ptr nodeToConnect)
         {
             int connectionNumber = nodeToConnect->getProcessor()->getTotalNumOutputChannels();
@@ -103,13 +103,12 @@ private:
     
     /// The right click menu
     PopupMenu rightClickMenu;
-    /// The "modules" sub-menu
+    /// The "Modules" sub-menu
     PopupMenu modulesSubMenu;
     
     /** Registers all inlets and outlets of a module with the connections component.
      This function performs three jobs for each inlet/outlet:
-     registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it.
-     */
+     registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it. */
     void registerInletsAndOutlets(Module*, uint32);
     
     /// Creates a module of type moduleClass at certain (top-left) point in the patcher, registers it to connections and adds it to audioEngine
@@ -117,7 +116,7 @@ private:
     
     /// Deletes a module and all its connections from the patcher and audioEngine, unregisters it from connections
     void deleteModule(ModuleBox*);
-    /// Runs deleteModule for every selected module
+    /// Runs deleteModule() for every selected module
     void deleteAllSelectedModules();
     
     void mouseDown(const MouseEvent& e) override;
