@@ -1,5 +1,3 @@
-sudo: false
-
 branches:
   only:
     - master
@@ -16,9 +14,10 @@ script:
   - touch docs/html/.nojekyll
 
 deploy:
+  strategy: git
   provider: pages
-  skip_cleanup: true
+  cleanup: false
   local_dir: Doxygen/docs/html
-  github_token: $GH_REPO_TOKEN
+  token: $GH_REPO_TOKEN
   on:
     branch: master
