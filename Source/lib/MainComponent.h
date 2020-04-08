@@ -14,7 +14,7 @@
 #include "MainPatcher.h"
 
 //==============================================================================
-/// This class is the lowest-order component that includes all the content
+/// The lowest-order component that includes all the content
 class MainComponent   : public Component,
                         public Button::Listener
 

@@ -17,7 +17,7 @@
 #include "Connections.h"
 
 //==============================================================================
-/// The main view of the Phi, this class handles all the module creation, hosting, patching and audio processing
+/// The main view of Phi, this class handles all the module creation, hosting, patching and audio processing
 class MainPatcher    : public Component,
                        public DragAndDropContainer,
                        public ChangeListener
