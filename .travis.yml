@@ -11,6 +11,7 @@ addons:
       - graphviz
 
 script:
+  - cd Doxygen
   - doxygen Doxyfile
   - touch docs/html/.nojekyll
 
