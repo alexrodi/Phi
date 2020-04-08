@@ -65,12 +65,12 @@ void Connections::resized ()
 {
 }
 
-Connections::IOid Connections::registerInlet (uint32 nodeId, phi_Inlet* inlet)
+Connections::IOid Connections::registerInlet (uint32 nodeId, Component* inlet)
 {
     return idStore.storeInlet(nodeId, inlet);
 }
 
-Connections::IOid Connections::registerOutlet (uint32 nodeId, phi_Outlet* outlet)
+Connections::IOid Connections::registerOutlet (uint32 nodeId, Component* outlet)
 {
     return idStore.storeOutlet(nodeId, outlet);
 }

@@ -13,8 +13,6 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "phi_Inlet.h"
-#include "phi_Outlet.h"
 
 //==============================================================================
 /*
@@ -36,8 +34,8 @@ public:
     void paint (Graphics&) override;
     void resized () override;
     
-    std::pair<uint32, int> registerInlet (uint32, phi_Inlet*);
-    std::pair<uint32, int> registerOutlet (uint32, phi_Outlet*);
+    std::pair<uint32, int> registerInlet (uint32, Component*);
+    std::pair<uint32, int> registerOutlet (uint32, Component*);
     
     Array<std::pair<IOid, IOid>> getAllConnectionIdPairs();
     
@@ -55,23 +53,23 @@ private:
         __________________________
   key   | module (uint32 nodeId) |
         -------------------------------------------
- value  |     inletId (long)     |   phi_Inlet*   |
- value  |     inletId (long)     |   phi_Inlet*   |
+ value  |     inletId (long)     |   Component*   |
+ value  |     inletId (long)     |   Component*   |
         -------------------------------------------
                    key                 value
         */
         
-        std::map<uint32, std::map<int, phi_Inlet*>> inlets;
-        std::map<uint32, std::map<int, phi_Outlet*>> outlets;
+        std::map<uint32, std::map<int, Component*>> inlets;
+        std::map<uint32, std::map<int, Component*>> outlets;
         
-        IOid storeInlet (uint32 nodeId, phi_Inlet* inlet)
+        IOid storeInlet (uint32 nodeId, Component* inlet)
         {
             int inletId = getNewInletId(nodeId);
             inlets[nodeId][inletId] = inlet;
             return IOid(nodeId, inletId);
         }
         
-        IOid storeOutlet (uint32 nodeId, phi_Outlet* outlet)
+        IOid storeOutlet (uint32 nodeId, Component* outlet)
         {
             int outletId = getNewOutletId(nodeId);
             outlets[nodeId][outletId] = outlet;
