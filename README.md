@@ -1,5 +1,5 @@
 # Phi
-A physical modelling modular synth
+A Juce-based physical modelling modular synth standalone project for MacOS
 
 
  
