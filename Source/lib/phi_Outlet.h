@@ -22,11 +22,21 @@ class phi_Outlet    : public Component,
                      public DragAndDropTarget
 {
 public:
-    phi_Outlet();
+    enum NamePosition
+    {
+        Left,
+        Right,
+        Above,
+        Below
+    } namePosition;
+    
+    explicit phi_Outlet(String, NamePosition = NamePosition::Above);
     ~phi_Outlet();
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    String name;
     
     void setId(std::pair<uint32, int>);
 
@@ -35,7 +45,10 @@ private:
     uint32 moduleID;
     int outletID;
     
-    Rectangle<float> viewport;
+    Rectangle<float> outletBounds;
+    Rectangle<int> nameBounds;
+    
+    Justification::Flags nameJustification;
     
     String getStringId();
     

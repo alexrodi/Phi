@@ -14,7 +14,9 @@
 #include "phi_Outlet.h"
 
 //==============================================================================
-phi_Outlet::phi_Outlet()
+phi_Outlet::phi_Outlet(String name, NamePosition namePosition) :
+namePosition{namePosition},
+name{name}
 {
     setPaintingIsUnclipped(true);
 }
@@ -36,15 +38,37 @@ String phi_Outlet::getStringId()
 
 void phi_Outlet::paint (Graphics& g)
 {
-    g.setColour(Colours::darkgrey);
-    g.fillEllipse(viewport);
     g.setColour(Colours::grey);
-    g.drawEllipse(viewport, 3);
+    g.drawFittedText(name, nameBounds, nameJustification, 3);
+    
+    g.setColour(Colours::darkgrey);
+    g.fillEllipse(outletBounds);
+    g.setColour(Colours::grey);
+    g.drawEllipse(outletBounds, 3);
 }
 
 void phi_Outlet::resized()
 {
-    viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
+    switch (namePosition) {
+        case NamePosition::Left :
+            nameJustification = Justification::Flags::centredRight;
+            nameBounds = getLocalBounds().withTrimmedRight(getHeight() * 0.5 + 12);
+            break;
+        case NamePosition::Right :
+            nameJustification = Justification::Flags::centredLeft;
+            nameBounds = getLocalBounds().withTrimmedLeft(getHeight() * 0.5 + 12);
+            break;
+        case NamePosition::Above :
+            nameJustification = Justification::Flags::centredBottom;
+            nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
+            break;
+        case NamePosition::Below :
+            nameJustification = Justification::Flags::centredTop;
+            nameBounds = getLocalBounds().withTrimmedTop(getHeight() * 0.5 + 12);
+            break;
+    }
+    
+    outletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
 void phi_Outlet::mouseDown(const MouseEvent& e)
