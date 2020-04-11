@@ -38,8 +38,11 @@ String phi_Outlet::getStringId()
 
 void phi_Outlet::paint (Graphics& g)
 {
-    g.setColour(Colours::grey);
-    g.drawFittedText(name, nameBounds, nameJustification, 3);
+    if (drawText)
+    {
+        g.setColour(Colours::grey);
+        g.drawFittedText(name, nameBounds, nameJustification, 3);
+    }
     
     g.setColour(Colours::darkgrey);
     g.fillEllipse(outletBounds);
@@ -52,11 +55,11 @@ void phi_Outlet::resized()
     switch (namePosition) {
         case NamePosition::Left :
             nameJustification = Justification::Flags::centredRight;
-            nameBounds = getLocalBounds().withTrimmedRight(getHeight() * 0.5 + 12);
+            nameBounds = getLocalBounds().withTrimmedRight(getWidth() * 0.5 + 12);
             break;
         case NamePosition::Right :
             nameJustification = Justification::Flags::centredLeft;
-            nameBounds = getLocalBounds().withTrimmedLeft(getHeight() * 0.5 + 12);
+            nameBounds = getLocalBounds().withTrimmedLeft(getWidth() * 0.5 + 12);
             break;
         case NamePosition::Above :
             nameJustification = Justification::Flags::centredBottom;
@@ -67,6 +70,8 @@ void phi_Outlet::resized()
             nameBounds = getLocalBounds().withTrimmedTop(getHeight() * 0.5 + 12);
             break;
     }
+    
+    drawText = nameBounds.getHeight() > 11;
     
     outletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }

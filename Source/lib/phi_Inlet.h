@@ -49,6 +49,8 @@ private:
     
     Justification::Flags nameJustification;
     
+    bool drawText;
+    
     String getStringId();
     
     void mouseDown(const MouseEvent&) override;
