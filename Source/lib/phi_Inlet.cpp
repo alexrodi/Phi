@@ -14,7 +14,9 @@
 #include "phi_Inlet.h"
 
 //==============================================================================
-phi_Inlet::phi_Inlet()
+phi_Inlet::phi_Inlet(String name, NamePosition namePosition) :
+namePosition{namePosition},
+name{name}
 {
     setPaintingIsUnclipped(true);
 }
@@ -37,14 +39,36 @@ String phi_Inlet::getStringId()
 void phi_Inlet::paint (Graphics& g)
 {
     g.setColour(Colours::grey);
-    g.fillEllipse(viewport);
+    g.drawFittedText(name, nameBounds, nameJustification, 3);
+    
+    g.setColour(Colours::grey);
+    g.fillEllipse(inletBounds);
     g.setColour(Colours::darkgrey);
-    g.drawEllipse(viewport, 3);
+    g.drawEllipse(inletBounds, 3);
 }
 
 void phi_Inlet::resized()
 {
-    viewport = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
+    switch (namePosition) {
+        case NamePosition::Left :
+            nameJustification = Justification::Flags::centredRight;
+            nameBounds = getLocalBounds().withTrimmedRight(getHeight() * 0.5 + 12);
+            break;
+        case NamePosition::Right :
+            nameJustification = Justification::Flags::centredLeft;
+            nameBounds = getLocalBounds().withTrimmedLeft(getHeight() * 0.5 + 12);
+            break;
+        case NamePosition::Above :
+            nameJustification = Justification::Flags::centredBottom;
+            nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
+            break;
+        case NamePosition::Below :
+            nameJustification = Justification::Flags::centredTop;
+            nameBounds = getLocalBounds().withTrimmedTop(getHeight() * 0.5 + 12);
+            break;
+    }
+    
+    inletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
 void phi_Inlet::mouseDown(const MouseEvent& e)

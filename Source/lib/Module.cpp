@@ -19,10 +19,10 @@ Module::Module(Props arguments) :
 props{arguments}
 {
     for (int i=0; i<arguments.inletNumber; i++)
-        addAndMakeVisible( inlets.add( new phi_Inlet() ) );
+        addAndMakeVisible( inlets.add( new phi_Inlet("inlet test name") ) );
     
     for (int i=0; i<arguments.outletNumber; i++)
-        addAndMakeVisible( outlets.add( new phi_Outlet() ) );
+        addAndMakeVisible( outlets.add( new phi_Outlet("outlet test name") ) );
 
     setPaintingIsUnclipped(true);
         

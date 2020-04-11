@@ -22,11 +22,21 @@ class phi_Inlet    : public Component,
                      public DragAndDropTarget
 {
 public:
-    phi_Inlet();
+    enum NamePosition
+    {
+        Left,
+        Right,
+        Above,
+        Below
+    } namePosition;
+    
+    explicit phi_Inlet(String, NamePosition = NamePosition::Above);
     ~phi_Inlet();
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    String name;
     
     void setId(std::pair<uint32, int>);
 
@@ -34,7 +44,10 @@ private:
     uint32 moduleID;
     int inletID;
     
-    Rectangle<float> viewport;
+    Rectangle<float> inletBounds;
+    Rectangle<int> nameBounds;
+    
+    Justification::Flags nameJustification;
     
     String getStringId();
     
