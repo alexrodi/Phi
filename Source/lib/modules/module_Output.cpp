@@ -18,8 +18,8 @@ module_Output::module_Output() :
 Module{{
     // All modules must initialize these properties
     .name =  "Output",
-    .inletNumber = 2,
-    .outletNumber = 0,
+    .inlets = {"R", "L"},
+    .outlets = {},
     .width = 150,
     .height = 150,
     .minimumHeight = 100
@@ -29,7 +29,7 @@ colour(findColour(Slider::thumbColourId))
 {
     // module_Output cheats on the number of output channels
     // these are only used internally for audio and are not displayed
-    setPlayConfigDetails (props.inletNumber, props.inletNumber, getSampleRate(), getBlockSize());
+    setPlayConfigDetails (inletNumber, inletNumber, getSampleRate(), getBlockSize());
     
     speakerImage->replaceColour(Colours::black, colour);
     

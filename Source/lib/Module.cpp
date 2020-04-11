@@ -16,17 +16,19 @@
 //==============================================================================
 
 Module::Module(Props arguments) :
-props{arguments}
+props{arguments},
+inletNumber{props.inlets.size()},
+outletNumber{props.outlets.size()}
 {
-    for (int i=0; i<arguments.inletNumber; i++)
-        addAndMakeVisible( inlets.add( new phi_Inlet("inlet test name") ) );
+    for (String inletName : props.inlets)
+        addAndMakeVisible( inlets.add( new phi_Inlet(inletName) ) );
     
-    for (int i=0; i<arguments.outletNumber; i++)
-        addAndMakeVisible( outlets.add( new phi_Outlet("outlet test name") ) );
-
-    setPaintingIsUnclipped(true);
+    for (String outletName : props.outlets)
+        addAndMakeVisible( outlets.add( new phi_Outlet(outletName) ) );
         
-    setPlayConfigDetails (arguments.inletNumber, arguments.outletNumber, getSampleRate(), getBlockSize());
+    setPlayConfigDetails (props.inlets.size(), props.outlets.size(), getSampleRate(), getBlockSize());
+        
+    setPaintingIsUnclipped(true);
 }
 
 void Module::resized()

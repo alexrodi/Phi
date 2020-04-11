@@ -18,8 +18,8 @@ module_Impulse::module_Impulse() :
 Module{{
     // All modules must initialize these properties
     .name =  "Impulse",
-    .inletNumber = 2,
-    .outletNumber = 3,
+    .inlets = {"Size", "Shape"},
+    .outlets = {"R", "L", "Ramp"},
     .width = 400,
     .height = 200,
     .minimumHeight = 100
@@ -48,7 +48,7 @@ void module_Impulse::prepareToPlay (double sampleRate, int maximumExpectedSample
 
 void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    for (int channel = 0; channel < props.outletNumber; channel++)
+    for (int channel = 0; channel < outletNumber; channel++)
     {
         float* writeBuffer = buffer.getWritePointer(channel);
         for (int n = 0; n < buffer.getNumSamples(); n++)
