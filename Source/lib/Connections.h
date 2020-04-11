@@ -34,8 +34,8 @@ public:
     void paint (Graphics&) override;
     void resized () override;
     
-    std::pair<uint32, int> registerInlet (uint32, Component*);
-    std::pair<uint32, int> registerOutlet (uint32, Component*);
+    IOid registerInlet (uint32, Component*);
+    IOid registerOutlet (uint32, Component*);
     
     Array<std::pair<IOid, IOid>> getAllConnectionIdPairs();
     
