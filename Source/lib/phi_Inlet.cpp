@@ -38,8 +38,11 @@ String phi_Inlet::getStringId()
 
 void phi_Inlet::paint (Graphics& g)
 {
-    g.setColour(Colours::grey);
-    g.drawFittedText(name, nameBounds, nameJustification, 3);
+    if (drawText)
+    {
+        g.setColour(Colours::grey);
+        g.drawFittedText(name, nameBounds, nameJustification, 3);
+    }
     
     g.setColour(Colours::grey);
     g.fillEllipse(inletBounds);
@@ -52,11 +55,11 @@ void phi_Inlet::resized()
     switch (namePosition) {
         case NamePosition::Left :
             nameJustification = Justification::Flags::centredRight;
-            nameBounds = getLocalBounds().withTrimmedRight(getHeight() * 0.5 + 12);
+            nameBounds = getLocalBounds().withTrimmedRight(getWidth() * 0.5 + 12);
             break;
         case NamePosition::Right :
             nameJustification = Justification::Flags::centredLeft;
-            nameBounds = getLocalBounds().withTrimmedLeft(getHeight() * 0.5 + 12);
+            nameBounds = getLocalBounds().withTrimmedLeft(getWidth() * 0.5 + 12);
             break;
         case NamePosition::Above :
             nameJustification = Justification::Flags::centredBottom;
@@ -67,6 +70,8 @@ void phi_Inlet::resized()
             nameBounds = getLocalBounds().withTrimmedTop(getHeight() * 0.5 + 12);
             break;
     }
+    
+    drawText = nameBounds.getHeight() > 11;
     
     inletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
