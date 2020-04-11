@@ -17,8 +17,8 @@ module_Gain::module_Gain() :
 Module{{
     // All modules must initialize these properties
     .name =  "Gain",
-    .inletNumber = 1,
-    .outletNumber = 1,
+    .inlets = {"In"},
+    .outlets = {"Out"},
     .width = 150,
     .height = 150,
     .minimumHeight = 100

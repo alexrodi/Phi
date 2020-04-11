@@ -28,8 +28,8 @@ public:
     struct Props
     {
         const String name;
-        const int inletNumber;
-        const int outletNumber;
+        const Array<String> inlets;
+        const Array<String> outlets;
         const int width;
         const int height;
         const int minimumHeight;
@@ -37,10 +37,13 @@ public:
     
     Module(Props);
     
+    Props props;
+    
+    int inletNumber;
+    int outletNumber;
+    
     OwnedArray<phi_Inlet> inlets;
     OwnedArray<phi_Outlet> outlets;
-    
-    Props props;
     
     AudioProcessorGraph::NodeID nodeID;
     
