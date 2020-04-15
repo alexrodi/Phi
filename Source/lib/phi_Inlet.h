@@ -17,20 +17,19 @@
 //==============================================================================
 /*
 */
+
+namespace InletOptions
+{
+    extern bool drawName;
+}
+
 class phi_Inlet    : public Component,
                      public ActionBroadcaster,
-                     public DragAndDropTarget
+                     public DragAndDropTarget,
+                     public SettableTooltipClient
 {
 public:
-    enum NamePosition
-    {
-        Left,
-        Right,
-        Above,
-        Below
-    } namePosition;
-    
-    explicit phi_Inlet(String, NamePosition = NamePosition::Above);
+    explicit phi_Inlet(const String&);
     ~phi_Inlet();
 
     void paint (Graphics&) override;
@@ -49,7 +48,7 @@ private:
     
     Justification::Flags nameJustification;
     
-    bool drawText;
+    bool canFitText;
     
     String getStringId();
     

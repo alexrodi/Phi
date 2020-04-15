@@ -14,8 +14,12 @@
 #include "phi_Inlet.h"
 
 //==============================================================================
-phi_Inlet::phi_Inlet(String name, NamePosition namePosition) :
-namePosition{namePosition},
+namespace InletOptions
+{
+    bool drawName = true;
+}
+
+phi_Inlet::phi_Inlet(const String& name) :
 name{name}
 {
     setPaintingIsUnclipped(true);
@@ -38,11 +42,13 @@ String phi_Inlet::getStringId()
 
 void phi_Inlet::paint (Graphics& g)
 {
-    if (drawText)
+    if (InletOptions::drawName && canFitText)
     {
         g.setColour(Colours::grey);
         g.drawFittedText(name, nameBounds, nameJustification, 3);
+        setTooltip("");
     }
+    else setTooltip(name); // Display the tooltip if not showing text
     
     g.setColour(Colours::grey);
     g.fillEllipse(inletBounds);
@@ -52,26 +58,9 @@ void phi_Inlet::paint (Graphics& g)
 
 void phi_Inlet::resized()
 {
-    switch (namePosition) {
-        case NamePosition::Left :
-            nameJustification = Justification::Flags::centredRight;
-            nameBounds = getLocalBounds().withTrimmedRight(getWidth() * 0.5 + 12);
-            break;
-        case NamePosition::Right :
-            nameJustification = Justification::Flags::centredLeft;
-            nameBounds = getLocalBounds().withTrimmedLeft(getWidth() * 0.5 + 12);
-            break;
-        case NamePosition::Above :
-            nameJustification = Justification::Flags::centredBottom;
-            nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
-            break;
-        case NamePosition::Below :
-            nameJustification = Justification::Flags::centredTop;
-            nameBounds = getLocalBounds().withTrimmedTop(getHeight() * 0.5 + 12);
-            break;
-    }
-    
-    drawText = nameBounds.getHeight() > 11;
+    nameJustification = Justification::Flags::centredBottom;
+    nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
+    canFitText = nameBounds.getHeight() > 11;
     
     inletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
