@@ -202,10 +202,9 @@ Array<std::pair<Connections::IOid, Connections::IOid>> Connections::getAllConnec
     return allConnections;
 }
 
-void Connections::togglePatchCordType()
+void Connections::togglePatchCordType(bool toggle)
 {
-    patchCordTypeToggle = !patchCordTypeToggle;
-    updateConnectionPath = patchCordTypeToggle ? patchCordTypeACallback : patchCordTypeBCallback;
+    updateConnectionPath = toggle ? patchCordTypeACallback : patchCordTypeBCallback;
     updateAllConnectionPaths();
 }
 

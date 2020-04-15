@@ -14,7 +14,8 @@
 #include "MainPatcher.h"
 
 //==============================================================================
-MainPatcher::MainPatcher()
+MainPatcher::MainPatcher() :
+tooltipWindow{this}
 {
     setWantsKeyboardFocus(true);
     
@@ -25,12 +26,16 @@ MainPatcher::MainPatcher()
     modulesSubMenu.addItem (3, "Output");
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
+    LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::outlineColourId, Colours::transparentBlack);
+    LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::backgroundColourId, Colours::grey);
+    LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::textColourId, Colours::darkgrey.darker());
+    sendLookAndFeelChange();
+    
     addAndMakeVisible(connections);
-    
-    setSize(1000, 1000);
-    
     connections.addChangeListener(this);
     
+    setSize(1000, 1000);
+    setPaintingIsUnclipped(true);
 }
 
 MainPatcher::~MainPatcher()
@@ -61,7 +66,6 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         // Displays the menu and returns the ID of the selected item (0 if clicked outside)
         const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(getParentComponent()));
         
-        // Eventually this should become a switch
         if (result==1)
         {
             createModule<module_Impulse>(e.position);
@@ -99,12 +103,21 @@ bool MainPatcher::keyPressed (const KeyPress& key)
     return true;
 }
 
-void MainPatcher::togglePatchCordType()
+void MainPatcher::togglePatchCordType(bool toggle)
 {
-    connections.togglePatchCordType();
+    connections.togglePatchCordType(toggle);
 }
 
-void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId) {
+void MainPatcher::toggleInoutType(bool toggle)
+{
+    InletOptions::drawName = !toggle;
+    OutletOptions::drawName = !toggle;
+    
+    repaint();
+}
+
+void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId)
+{
     
     OwnedArray<phi_Inlet>& inlets = module->inlets;
     for (phi_Inlet* inlet : inlets)
@@ -125,13 +138,11 @@ void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId) {
 template <class moduleClass>
 void MainPatcher::createModule(Point<float> position)
 {
-    ModuleBox* moduleBox;
-    
     std::unique_ptr<Module> newModule = std::make_unique<moduleClass>();
     
     Module* modulePtr = newModule.get();
         
-    moduleBox = new ModuleBox(modulePtr, selectedModules);
+    ModuleBox* moduleBox = new ModuleBox(modulePtr, selectedModules);
     
     modules.add(moduleBox);
     

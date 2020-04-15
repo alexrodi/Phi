@@ -41,7 +41,7 @@ public:
     
     void removeModule(uint32);
     
-    void togglePatchCordType();
+    void togglePatchCordType(bool);
 
 private:
     typedef std::function<void(Path&,Point<float>,Point<float>)> ConnectionPathCallback;
@@ -136,7 +136,6 @@ private:
     };
     
     Path allConnectionsPath;
-    bool patchCordTypeToggle;
     ConnectionPathCallback updateConnectionPath;
     
     void updateAllConnectionPaths ();
