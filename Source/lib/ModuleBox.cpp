@@ -21,9 +21,10 @@ powerButton{},
 resizer(this, this),
 moduleSelection{selectionChangeSource}
 {
+    powerButton.setToggleState(true, NotificationType());
+    
     // Listeners ======================================================
     powerButton.addListener(this);
-    
     moduleSelection.addChangeListener(this);
     
     // Sizes ======================================================

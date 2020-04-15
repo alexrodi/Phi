@@ -14,9 +14,7 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "modules/Modules.h"
-
-#define HEADER_HEIGHT 27
-#define CONTENT_PADDING 10
+#include "UIobjects/ui_ToggleButton.h"
 
 //==============================================================================
 /*
@@ -42,6 +40,8 @@ public:
 
 //==================================================================================
 private:
+    const float HEADER_HEIGHT = 27;
+    const float CONTENT_PADDING = 10;
 
     // Our LookAndFeel instance for this module box
     LookAndFeel_V4 lookandfeel;
@@ -54,31 +54,7 @@ private:
     Rectangle<float> nameRectangle;
 
     //==================================================================================
-    // Our Power button (this might be transported to its own file)
-    class PowerButton : public Button
-    {
-    public:
-        PowerButton() :
-        Button("Enabled")
-        {
-            setPaintingIsUnclipped(true);
-            setClickingTogglesState(true);
-            setToggleState(true, NotificationType());
-        }
-    private:
-        // Override the button's paint method
-        void paintButton (Graphics& g,
-                          bool shouldDrawButtonAsHighlighted,
-                          bool shouldDrawButtonAsDown) override
-        {
-            Rectangle<float> buttonRect = getLocalBounds().reduced(1).toFloat();
-            g.setColour(Colours::grey);
-            g.drawRect(buttonRect, 1);
-            g.setColour(findColour(Slider::thumbColourId));
-            g.fillRect(buttonRect.reduced(1));
-        }
-        
-    } powerButton;
+    ui_ToggleButton powerButton;
 
 
     // Module resizer component
