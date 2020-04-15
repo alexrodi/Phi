@@ -14,8 +14,12 @@
 #include "phi_Outlet.h"
 
 //==============================================================================
-phi_Outlet::phi_Outlet(String name, NamePosition namePosition) :
-namePosition{namePosition},
+namespace OutletOptions
+{
+    bool drawName = true;
+}
+
+phi_Outlet::phi_Outlet(const String& name) :
 name{name}
 {
     setPaintingIsUnclipped(true);
@@ -38,11 +42,13 @@ String phi_Outlet::getStringId()
 
 void phi_Outlet::paint (Graphics& g)
 {
-    if (drawText)
+    if (OutletOptions::drawName && canFitText)
     {
         g.setColour(Colours::grey);
         g.drawFittedText(name, nameBounds, nameJustification, 3);
+        setTooltip("");
     }
+    else setTooltip(name);
     
     g.setColour(Colours::darkgrey);
     g.fillEllipse(outletBounds);
@@ -52,26 +58,9 @@ void phi_Outlet::paint (Graphics& g)
 
 void phi_Outlet::resized()
 {
-    switch (namePosition) {
-        case NamePosition::Left :
-            nameJustification = Justification::Flags::centredRight;
-            nameBounds = getLocalBounds().withTrimmedRight(getWidth() * 0.5 + 12);
-            break;
-        case NamePosition::Right :
-            nameJustification = Justification::Flags::centredLeft;
-            nameBounds = getLocalBounds().withTrimmedLeft(getWidth() * 0.5 + 12);
-            break;
-        case NamePosition::Above :
-            nameJustification = Justification::Flags::centredBottom;
-            nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
-            break;
-        case NamePosition::Below :
-            nameJustification = Justification::Flags::centredTop;
-            nameBounds = getLocalBounds().withTrimmedTop(getHeight() * 0.5 + 12);
-            break;
-    }
-    
-    drawText = nameBounds.getHeight() > 11;
+    nameJustification = Justification::Flags::centredBottom;
+    nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
+    canFitText = nameBounds.getHeight() > 11;
     
     outletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }

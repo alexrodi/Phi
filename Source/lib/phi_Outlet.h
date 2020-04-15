@@ -17,20 +17,18 @@
 //==============================================================================
 /*
 */
+namespace OutletOptions
+{
+    extern bool drawName;
+}
+
 class phi_Outlet    : public Component,
                      public ActionBroadcaster,
-                     public DragAndDropTarget
+                     public DragAndDropTarget,
+                     public SettableTooltipClient
 {
 public:
-    enum NamePosition
-    {
-        Left,
-        Right,
-        Above,
-        Below
-    } namePosition;
-    
-    explicit phi_Outlet(String, NamePosition = NamePosition::Above);
+    explicit phi_Outlet(const String&);
     ~phi_Outlet();
 
     void paint (Graphics&) override;
@@ -50,7 +48,7 @@ private:
     
     Justification::Flags nameJustification;
     
-    bool drawText;
+    bool canFitText;
     
     String getStringId();
     
