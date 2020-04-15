@@ -18,8 +18,8 @@ ui_Dial::ui_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int d
     setRange                     (rangeLow, rangeHigh);
     setTextValueSuffix           (valueSuffix);
     addListener                  (listener);
-    setSliderStyle               (Slider::RotaryVerticalDrag);
-    setTextBoxStyle              (Slider::TextBoxBelow, true, 80, 20);
+    setSliderStyle               (RotaryVerticalDrag);
+    setTextBoxStyle              (TextBoxBelow, true, 80, 20);
     setNumDecimalPlacesToDisplay (decimals);
     setTextBoxIsEditable         (true);
     
@@ -69,8 +69,8 @@ void ui_Dial::resized ()
 void ui_Dial::lookAndFeelChanged ()
 {
     Slider::lookAndFeelChanged();
-    colour = findColour(Slider::thumbColourId);
-    grooveColour = findColour(Slider::rotarySliderOutlineColourId);
+    colour = findColour(thumbColourId);
+    grooveColour = findColour(rotarySliderOutlineColourId);
 }
 
 void ui_Dial::updateDial ()
