@@ -30,7 +30,10 @@ public:
     void resized() override;
     
     /// Toggles between two patch-cord drawing routines
-    void togglePatchCordType();
+    void togglePatchCordType(bool);
+    
+    /// Toggles inlet/outlet name display type
+    void toggleInoutType(bool);
     
     /// Listener for key presses
     bool keyPressed (const KeyPress& key) override;
@@ -105,6 +108,8 @@ private:
     PopupMenu rightClickMenu;
     /// The "Modules" sub-menu
     PopupMenu modulesSubMenu;
+    
+    TooltipWindow tooltipWindow;
     
     /** Registers all inlets and outlets of a module with the connections component.
      This function performs three jobs for each inlet/outlet:
