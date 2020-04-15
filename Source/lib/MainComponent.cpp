@@ -10,7 +10,8 @@
 
 //==============================================================================
 MainComponent::MainComponent() :
-patchCordTypeButton{"Patch Cord"}
+patchCordTypeButton{"Gravity"},
+inoutNamesTypeButton{"Label / Hint"}
 {
     
     // Set the colors of PopupMenu
@@ -18,14 +19,14 @@ patchCordTypeButton{"Patch Cord"}
     LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
     LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
     
+    // Set the colors of Texbuttons
+    LookAndFeel::getDefaultLookAndFeel().setColour(TextButton::textColourOnId , Colours::grey.brighter());
     LookAndFeel::getDefaultLookAndFeel().setColour(TextButton::buttonColourId , Colours::transparentBlack);
     
     // Set the colors of Scrollbars
     LookAndFeel::getDefaultLookAndFeel().setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
     
     LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
-    
-    sendLookAndFeelChange();
     
     setSize (600, 400);
     
@@ -34,9 +35,14 @@ patchCordTypeButton{"Patch Cord"}
     viewport.setViewedComponent(&mainPatcher, false);
     
     addAndMakeVisible(patchCordTypeButton);
+    addAndMakeVisible(inoutNamesTypeButton);
     
     patchCordTypeButton.addListener(this);
+    inoutNamesTypeButton.addListener(this);
 
+    sendLookAndFeelChange();
+    
+    setPaintingIsUnclipped(true);
 }
 
 MainComponent::~MainComponent()
@@ -54,22 +60,27 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
-    Rectangle<int> windowBounds = getLocalBounds();
+    Rectangle<int> windowBounds(getLocalBounds());
     topBarBounds = windowBounds.removeFromTop(50);
     
-    patchCordTypeButton.setBounds(topBarBounds.withTrimmedLeft(getWidth()-100).reduced(10));
+    Rectangle<int> buttonBounds(topBarBounds);
+    
+    patchCordTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
+    inoutNamesTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
     
     viewport.setBounds(windowBounds);
     mainPatcher.setSize(windowBounds.getWidth()*3, windowBounds.getHeight()*3);
 }
 
-
-
 void MainComponent::buttonClicked (Button* button)
 {
     if (button == &patchCordTypeButton)
     {
-        mainPatcher.togglePatchCordType();
+        mainPatcher.togglePatchCordType(button->getToggleState());
+    }
+    else if (button == &inoutNamesTypeButton)
+    {
+        mainPatcher.toggleInoutType(button->getToggleState());
     }
     
 }

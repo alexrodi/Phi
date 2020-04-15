@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "MainPatcher.h"
+#include "UIobjects/ui_SliderButton.h"
 
 //==============================================================================
 /// The lowest-order component that includes all the content
@@ -39,7 +40,10 @@ private:
     Viewport viewport;
     
     /// A simple button to change the patch-cord drawing method (just because)
-    TextButton patchCordTypeButton;
+    ui_SliderButton patchCordTypeButton;
+    
+    /// A simple button to toggle between inlet/outlet names being hinted or labeled
+    ui_SliderButton inoutNamesTypeButton;
     
     /// The rectangle that constrains the top bar on the window
     Rectangle<int> topBarBounds;
