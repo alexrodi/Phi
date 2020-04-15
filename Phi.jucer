@@ -20,6 +20,12 @@
         <GROUP id="{54628CB4-901E-DD26-B32B-15B8A3186DB6}" name="UIobjects">
           <FILE id="c8I188" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>
           <FILE id="t6Vdbc" name="ui_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/ui_Dial.h"/>
+          <FILE id="ifVMmD" name="ui_SliderButton.cpp" compile="1" resource="0"
+                file="Source/lib/UIobjects/ui_SliderButton.cpp"/>
+          <FILE id="YoCDXG" name="ui_SliderButton.h" compile="0" resource="0"
+                file="Source/lib/UIobjects/ui_SliderButton.h"/>
+          <FILE id="WFVR48" name="ui_ToggleButton.h" compile="0" resource="0"
+                file="Source/lib/UIobjects/ui_ToggleButton.h"/>
         </GROUP>
         <FILE id="n0cz9d" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
         <FILE id="BEzYhM" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
