@@ -77,6 +77,10 @@
 			isa = PBXBuildFile;
 			fileRef = 3C121D51C3D5090611DACAEC;
 		};
+		1F9D4AAFA9EFCDDC71E6B37E = {
+			isa = PBXBuildFile;
+			fileRef = 5092FBA61A1CB0175F5C9DC9;
+		};
 		7C85C36FA4B5FEAA6653A930 = {
 			isa = PBXBuildFile;
 			fileRef = 2053A616EAB52B613B956D79;
@@ -199,6 +203,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_graphics.mm";
 			path = "../../JuceLibraryCode/include_juce_graphics.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		0B70B03193EC2A39C665CD91 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "ui_ToggleButton.h";
+			path = "../../Source/lib/UIobjects/ui_ToggleButton.h";
 			sourceTree = "SOURCE_ROOT";
 		};
 		1147AC7FA41196D13080813F = {
@@ -369,6 +380,13 @@
 			path = ../../Source/resources/audio/SinFormant.wav;
 			sourceTree = "SOURCE_ROOT";
 		};
+		5092FBA61A1CB0175F5C9DC9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "ui_SliderButton.cpp";
+			path = "../../Source/lib/UIobjects/ui_SliderButton.cpp";
+			sourceTree = "SOURCE_ROOT";
+		};
 		57C94D13FE046325415E64C0 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -458,6 +476,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_audio_devices.mm";
 			path = "../../JuceLibraryCode/include_juce_audio_devices.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		84C01122FE7A223C5D747B6C = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "ui_SliderButton.h";
+			path = "../../Source/lib/UIobjects/ui_SliderButton.h";
 			sourceTree = "SOURCE_ROOT";
 		};
 		8C617467FC9B5C1D594A1FF1 = {
@@ -724,6 +749,9 @@
 			children = (
 				3C121D51C3D5090611DACAEC,
 				0AA24E1C9DA60466F2A6339F,
+				5092FBA61A1CB0175F5C9DC9,
+				84C01122FE7A223C5D747B6C,
+				0B70B03193EC2A39C665CD91,
 			);
 			name = UIobjects;
 			sourceTree = "<group>";
@@ -1120,6 +1148,7 @@
 				D2692329684998F28089DA73,
 				E2E682DEDCD00D9C0D57A272,
 				2B7F58A3519F65232FF9ED30,
+				1F9D4AAFA9EFCDDC71E6B37E,
 				7C85C36FA4B5FEAA6653A930,
 				872335780B65E2FB85C58C7B,
 				72EFE9C1C3DA2F793CE719CF,
