@@ -1,10 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-  ==============================================================================
-*/
 
 #pragma once
 
@@ -22,17 +15,14 @@ class MainComponent   : public Component,
 {
 //==============================================================================
 public:
-    
     MainComponent();
     ~MainComponent();
 
-    //==============================================================================
     void paint (Graphics& g) override;
     void resized() override;
 
 //==============================================================================
 private:
-    
     /// The main editor, it has the means to create modules, connections and produce the resulting audio
     MainPatcher mainPatcher;
     

@@ -59,6 +59,7 @@ public:
     
 private:
     
+    ///@cond
     const String getName() const override {return String("");};
     double getTailLengthSeconds() const override {return 0.0f;};
     bool acceptsMidi() const override {return false;};
@@ -72,6 +73,7 @@ private:
     void changeProgramName (int index, const String& newName) override {};
     void getStateInformation (juce::MemoryBlock& destData) override {};
     void setStateInformation (const void* data, int sizeInBytes) override {};
+    ///@endcond
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Module)
 };
