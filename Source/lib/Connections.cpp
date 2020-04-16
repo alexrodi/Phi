@@ -16,7 +16,7 @@
 //==============================================================================
 
 Connections::Connections() :
-updateConnectionPath{patchCordTypeBCallback}
+getConnectionPath{patchCordTypeBCallback}
 {
     setAlwaysOnTop(true);
     setPaintingIsUnclipped(true);
@@ -45,21 +45,6 @@ void Connections::paint (Graphics& g)
                       );
     }
 }
-
-Path Connections::getConnectionPath (Connection* connection)
-{
-    //this is here for future compatibility with changing connections with the mouse
-    if (connection->isInletBeingDragged)
-    {
-        connection->updateInlet(getMouseXYRelative().toFloat());
-    }
-    else if (connection->isOutletBeingDragged)
-    {
-        connection->updateOutlet(getMouseXYRelative().toFloat());
-    }
-    return connection->path;
-}
-
 
 void Connections::resized ()
 {
@@ -92,13 +77,10 @@ Point<float> Connections::getOutletCenterPositionFromId (const IOid outletId)
 void Connections::updateAllConnectionPaths ()
 {
     allConnectionsPath.clear();
-    for (Connection* connection : connections)
+    for (Connection connection : connections)
     {
-        updateConnectionPath( connection->path
-                              , getInletCenterPositionFromId(connection->inletId)
-                              , getOutletCenterPositionFromId(connection->outletId));
-        
-        allConnectionsPath.addPath(getConnectionPath(connection));
+        allConnectionsPath.addPath (getConnectionPath (getInletCenterPositionFromId(connection.second)
+                                                       , getOutletCenterPositionFromId(connection.first)));
     }
     repaint();
 }
@@ -133,7 +115,7 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("dragging"))
     {
-        updateConnectionPath (dragPath, dragPathAnchor, getMouseXYRelative().toFloat());
+        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
         repaint();
     }
     else if (message.containsWholeWord ("mouseUp"))
@@ -149,31 +131,14 @@ void Connections::actionListenerCallback (const String& message)
         const String inletIdString = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
         const String outletIdString = message.fromFirstOccurrenceOf("&", false, false);
         
-        createConnection(stringToIOid(inletIdString), stringToIOid(outletIdString));
+        createConnection (stringToIOid(inletIdString), stringToIOid(outletIdString));
         updateAllConnectionPaths();
     }
 }
 
-const bool Connections::hasConnectionWithIds(const IOid inletId, const IOid outletId)
-{
-    for (Connection* connection : connections)
-    {
-        if (connection->inletId == inletId && connection->outletId == outletId)
-            return true;
-    }
-    return false;
-}
-
 void Connections::createConnection(const IOid inletId, const IOid outletId)
 {
-    if (! hasConnectionWithIds(inletId, outletId))
-    {
-        connections.add( new Connection( updateConnectionPath
-                         , inletId
-                         , outletId
-                         , getInletCenterPositionFromId(inletId)
-                         , getOutletCenterPositionFromId(outletId)));
-    }
+    connections.addIfNotAlreadyThere( Connection(outletId, inletId) );
     sendChangeMessage(); // notify new connections
 }
 
@@ -182,7 +147,7 @@ void Connections::removeModule(uint32 moduleId)
     int i = 0;
     while (i < connections.size())
     {
-        if (connections[i]->inletId.first == moduleId || connections[i]->outletId.first == moduleId)
+        if (connections[i].second.first == moduleId || connections[i].first.first == moduleId)
         {
             connections.remove(i);
         }
@@ -192,23 +157,18 @@ void Connections::removeModule(uint32 moduleId)
     updateAllConnectionPaths();
 }
 
-Array<std::pair<Connections::IOid, Connections::IOid>> Connections::getAllConnectionIdPairs()
+Array<Connections::Connection> Connections::getAllConnectionIdPairs()
 {
-    Array<std::pair<IOid, IOid>> allConnections;
-    for (Connection* connection : connections)
-    {
-        allConnections.add(std::pair<IOid, IOid>(connection->outletId, connection->inletId));
-    }
-    return allConnections;
+    return connections;
 }
 
 void Connections::togglePatchCordType(bool toggle)
 {
-    updateConnectionPath = toggle ? patchCordTypeACallback : patchCordTypeBCallback;
+    getConnectionPath = toggle ? patchCordTypeACallback : patchCordTypeBCallback;
     updateAllConnectionPaths();
 }
 
-Point<float> getMiddlePoint (Point<float> point1, Point<float> point2, bool applyWeight = false)
+Point<float> Connections::getMiddlePoint (Point<float> point1, Point<float> point2, bool applyWeight = false)
 {
     const float distance = point1.getDistanceFrom(point2);
     const Point<float> middlePoint = point1.getPointOnCircumference(distance * 0.5, point1.getAngleToPoint(point2));
@@ -221,14 +181,15 @@ Point<float> getMiddlePoint (Point<float> point1, Point<float> point2, bool appl
     return middlePoint;
 }
 
-void Connections::patchCordTypeACallback (Path& path, Point<float> positionA, Point<float> positionB)
+Path Connections::patchCordTypeACallback (Point<float> positionA, Point<float> positionB)
 {
-    path.clear();
+    Path path{};
     path.startNewSubPath (positionA);
     path.cubicTo (positionA, getMiddlePoint(positionA, positionB, true), positionB);
+    return path;
 }
 
-void Connections::patchCordTypeBCallback (Path& path, Point<float> positionA, Point<float> positionB)
+Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> positionB)
 {
     const Point<float> middlePoint = getMiddlePoint(positionA, positionB);
     
@@ -239,8 +200,9 @@ void Connections::patchCordTypeBCallback (Path& path, Point<float> positionA, Po
     Point<float> cubicHandleA = positionA.translated(order ? -hDistance : hDistance, 0);
     Point<float> cubicHandleB = positionB.translated(order ? hDistance : -hDistance, 0);
 
-    path.clear();
+    Path path{};
     path.startNewSubPath (positionA);
     path.cubicTo (positionA , cubicHandleA , middlePoint);
     path.cubicTo (middlePoint , cubicHandleB , positionB);
+    return path;
 }
