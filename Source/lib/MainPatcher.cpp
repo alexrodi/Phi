@@ -110,9 +110,7 @@ void MainPatcher::togglePatchCordType(bool toggle)
 
 void MainPatcher::toggleInoutType(bool toggle)
 {
-    InletOptions::drawName = !toggle;
-    OutletOptions::drawName = !toggle;
-    
+    PlugOptions::drawName = !toggle;
     repaint();
 }
 

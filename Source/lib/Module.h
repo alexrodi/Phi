@@ -13,8 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "Inlet.h"
-#include "Outlet.h"
+#include "Plug.h"
 
 //==============================================================================
 /*
