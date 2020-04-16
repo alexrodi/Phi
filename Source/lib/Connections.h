@@ -22,10 +22,12 @@ class Connections : public Component,
 {
 //==============================================================================
 public:
+    enum PlugMode { Inlet, Outlet };
+    
     /// The type for a unique identifier for an inlet or outlet (moduleID, inlet/outletID)
-    typedef std::pair<uint32, int> IOid;
+    typedef std::pair<uint32, int> PlugID;
     /// A connection holds an inlet and an outlet (outlet, inlet)
-    typedef std::pair<IOid, IOid> Connection;
+    typedef std::pair<PlugID, PlugID> Connection;
     
     Connections();
     ~Connections();
@@ -33,13 +35,11 @@ public:
     void paint (Graphics&) override;
     void resized () override;
     
-    /// Registers an inlet with the Connections component, making it patchable
-    IOid registerInlet (uint32, Component*);
-    /// Registers an outlet with the Connections component, making it patchable
-    IOid registerOutlet (uint32, Component*);
+    /// Registers an inlet or outlet with the Connections component, making it patchable
+    PlugID registerPlug (PlugMode, uint32, Component*);
     
-    /// Returns all existing connections as an Array of IOid pairs (outlet, inlet)
-    Array<std::pair<IOid, IOid>> getAllConnectionIdPairs();
+    /// Returns all existing connections as an Array of PlugID pairs (outlet, inlet)
+    Array<std::pair<PlugID, PlugID>> getAllConnectionIdPairs();
     
     /// Removes a module and unregisters all its inlets and outlets given its nodeID
     void removeModule(uint32);
@@ -58,34 +58,20 @@ private:
         /// The inlets map holds Outlet* and is accessed by two keys: nodeID & outletID
         std::map<uint32, std::map<int, Component*>> outlets;
         
-        /// Adds an entry to inlets and returns the resulting unique identifier
-        IOid storeInlet (uint32 nodeId, Component* inlet)
+        /// Adds an entry to inlets or outlets and returns the resulting unique identifier
+        PlugID storePlug (PlugMode plugMode, uint32 nodeId, Component* inlet)
         {
-            int inletId = getNewInletId(nodeId);
-            inlets[nodeId][inletId] = inlet;
-            return IOid(nodeId, inletId);
+            int plugId = getNewPlugId(plugMode, nodeId);
+            (plugMode == Inlet ? inlets : outlets)[nodeId][plugId] = inlet;
+            return PlugID(nodeId, plugId);
         }
         
-        /// Adds an entry to outlets and returns the resulting unique identifier
-        IOid storeOutlet (uint32 nodeId, Component* outlet)
+        /// Generates a new ID for an inlet or outlet, given a nodeID
+        int getNewPlugId (PlugMode plugMode, const uint32 nodeId)
         {
-            int outletId = getNewOutletId(nodeId);
-            outlets[nodeId][outletId] = outlet;
-            return IOid(nodeId, outletId);
-        }
-        
-        /// Generates a new ID for an inlet, given a nodeID
-        int getNewInletId (const uint32 nodeId)
-        {
-            if (inlets.find(nodeId) == inlets.end()) return 0;
-            return inlets[nodeId].rbegin()->first + 1;
-        }
-        
-        /// Generates a new ID for an outlet, given a nodeID
-        int getNewOutletId (const uint32 nodeId)
-        {
-            if (outlets.find(nodeId) == outlets.end()) return 0;
-            return outlets[nodeId].rbegin()->first + 1;
+            auto plugs = plugMode == Inlet ? inlets : outlets;
+            if (plugs.find(nodeId) == plugs.end()) return 0;
+            return plugs[nodeId].rbegin()->first + 1;
         }
         
         /// Unregisters all inlets and outlets, given a nodeID
@@ -126,16 +112,14 @@ private:
     /// A callback for drawing patch cords with a horizontal S shape
     static Path patchCordTypeBCallback (const Point<float>, const Point<float>);
     
-    /// Fetches the center position (relative to this component) of an inlet
-    Point<float> getInletCenterPositionFromId (const IOid);
-    /// Fetches the center position (relative to this component) of an outlet
-    Point<float> getOutletCenterPositionFromId (const IOid);
+    /// Fetches the center position (relative to this component) of an inlet or outlet
+    Point<float> getPlugCenterPositionFromId (PlugMode, const PlugID);
     
-    /// Converts an action message ID string into an IOid type
-    IOid stringToIOid (const String&);
+    /// Converts an action message ID string into an PlugID type
+    PlugID stringToPlugID (const String&);
     
     /// Adds an entry to the connections Array and notifies ChangeListeners
-    void createConnection  (const IOid, const IOid);
+    void createConnection  (const PlugID, const PlugID);
 
     /// Receives action messages from inlets, outlets and module boxes, in order to create and update connections
     void actionListenerCallback (const String& ) override;
