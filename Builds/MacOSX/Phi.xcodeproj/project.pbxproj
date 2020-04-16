@@ -109,6 +109,10 @@
 			isa = PBXBuildFile;
 			fileRef = 1186D06BB854804502B52136;
 		};
+		39C61CCA9895CF219C7CB29A = {
+			isa = PBXBuildFile;
+			fileRef = 9079847627D240B7F975B2C1;
+		};
 		22EF847F8F61472D88E5B7F8 = {
 			isa = PBXBuildFile;
 			fileRef = 39F8CCBF76DFE28AF5AA97B5;
@@ -387,6 +391,13 @@
 			path = ../../Source/lib/Inlet.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		4EC7EE8D07A8A56EA6B3D55C = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Plug.h;
+			path = ../../Source/lib/Plug.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		4F953428D91B1AC5D360D767 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file.wav;
@@ -498,6 +509,13 @@
 			name = WebKit.framework;
 			path = System/Library/Frameworks/WebKit.framework;
 			sourceTree = SDKROOT;
+		};
+		9079847627D240B7F975B2C1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Plug.cpp;
+			path = ../../Source/lib/Plug.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		93DC649834E7C149D66986A9 = {
 			isa = PBXFileReference;
@@ -775,6 +793,8 @@
 				BD81FBE5C990A138C7FD16AE,
 				1186D06BB854804502B52136,
 				FE92DB7550612668B449A1D2,
+				9079847627D240B7F975B2C1,
+				4EC7EE8D07A8A56EA6B3D55C,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -1156,6 +1176,7 @@
 				B91E703D06D1AE36AEA404C8,
 				A5DE9BC95D4920E0F7DF5258,
 				7BDF1C7059968ACCCC17B4AC,
+				39C61CCA9895CF219C7CB29A,
 				22EF847F8F61472D88E5B7F8,
 				5B044C5BC2FB7EC8D2C0FFBD,
 				33BFE0A96862620B1EF15239,
