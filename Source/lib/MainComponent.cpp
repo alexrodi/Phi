@@ -68,12 +68,7 @@ void MainComponent::resized()
 void MainComponent::buttonClicked (Button* button)
 {
     if (button == &patchCordTypeButton)
-    {
         mainPatcher.togglePatchCordType(button->getToggleState());
-    }
     else if (button == &inoutNamesTypeButton)
-    {
         mainPatcher.toggleInoutType(button->getToggleState());
-    }
-    
 }

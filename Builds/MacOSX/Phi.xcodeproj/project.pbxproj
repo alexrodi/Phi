@@ -101,14 +101,6 @@
 			isa = PBXBuildFile;
 			fileRef = C3082CB41B89563A66D73285;
 		};
-		A5DE9BC95D4920E0F7DF5258 = {
-			isa = PBXBuildFile;
-			fileRef = 4BC24460C35406EBFDE8E8CD;
-		};
-		7BDF1C7059968ACCCC17B4AC = {
-			isa = PBXBuildFile;
-			fileRef = 1186D06BB854804502B52136;
-		};
 		39C61CCA9895CF219C7CB29A = {
 			isa = PBXBuildFile;
 			fileRef = 9079847627D240B7F975B2C1;
@@ -221,13 +213,6 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_cryptography.mm";
 			path = "../../JuceLibraryCode/include_juce_cryptography.mm";
-			sourceTree = "SOURCE_ROOT";
-		};
-		1186D06BB854804502B52136 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = Outlet.cpp;
-			path = ../../Source/lib/Outlet.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		12FBD27877FFA5EE54D2E2D5 = {
@@ -382,13 +367,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = BinaryData.cpp;
 			path = ../../JuceLibraryCode/BinaryData.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
-		4BC24460C35406EBFDE8E8CD = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = Inlet.cpp;
-			path = ../../Source/lib/Inlet.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		4EC7EE8D07A8A56EA6B3D55C = {
@@ -587,13 +565,6 @@
 			path = "../../Source/lib/modules/module_Impulse.h";
 			sourceTree = "SOURCE_ROOT";
 		};
-		BD81FBE5C990A138C7FD16AE = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = Inlet.h;
-			path = ../../Source/lib/Inlet.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		C3082CB41B89563A66D73285 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -741,13 +712,6 @@
 			path = "/Applications/JUCE/modules/juce_events";
 			sourceTree = "<absolute>";
 		};
-		FE92DB7550612668B449A1D2 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = Outlet.h;
-			path = ../../Source/lib/Outlet.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		CCABB50029E0D3DBF3A85B8F = {
 			isa = PBXGroup;
 			children = (
@@ -789,10 +753,6 @@
 				23E2C5204D09F0CE4EA6B8E2,
 				C3082CB41B89563A66D73285,
 				1AD44E286CF01485A65C9A1A,
-				4BC24460C35406EBFDE8E8CD,
-				BD81FBE5C990A138C7FD16AE,
-				1186D06BB854804502B52136,
-				FE92DB7550612668B449A1D2,
 				9079847627D240B7F975B2C1,
 				4EC7EE8D07A8A56EA6B3D55C,
 			);
@@ -1174,8 +1134,6 @@
 				72EFE9C1C3DA2F793CE719CF,
 				7C5E8BAC9968BDCA8D2E783F,
 				B91E703D06D1AE36AEA404C8,
-				A5DE9BC95D4920E0F7DF5258,
-				7BDF1C7059968ACCCC17B4AC,
 				39C61CCA9895CF219C7CB29A,
 				22EF847F8F61472D88E5B7F8,
 				5B044C5BC2FB7EC8D2C0FFBD,

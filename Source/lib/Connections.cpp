@@ -120,7 +120,7 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("mouseUp"))
     {
-        // When inlets get clicked they might bring the module to the front
+        // When plugs get clicked they might bring the module to the front
         // this assures "Connections" always stays in front
         toFront(false);
         dragPath.clear();
@@ -174,9 +174,7 @@ Point<float> Connections::getMiddlePoint (Point<float> point1, Point<float> poin
     const Point<float> middlePoint = point1.getPointOnCircumference(distance * 0.5, point1.getAngleToPoint(point2));
     
     if (applyWeight)
-    {
         return middlePoint.translated(0.0f, distance * CORD_WEIGHT);
-    }
     
     return middlePoint;
 }

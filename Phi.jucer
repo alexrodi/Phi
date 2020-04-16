@@ -38,10 +38,6 @@
         <FILE id="liwK8Y" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
         <FILE id="t1KaPP" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
         <FILE id="farp6W" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
-        <FILE id="mijY20" name="Inlet.cpp" compile="1" resource="0" file="Source/lib/Inlet.cpp"/>
-        <FILE id="NTAS5Y" name="Inlet.h" compile="0" resource="0" file="Source/lib/Inlet.h"/>
-        <FILE id="X6y9BS" name="Outlet.cpp" compile="1" resource="0" file="Source/lib/Outlet.cpp"/>
-        <FILE id="JWmydF" name="Outlet.h" compile="0" resource="0" file="Source/lib/Outlet.h"/>
         <FILE id="Z2toly" name="Plug.cpp" compile="1" resource="0" file="Source/lib/Plug.cpp"/>
         <FILE id="kZSOiB" name="Plug.h" compile="0" resource="0" file="Source/lib/Plug.h"/>
       </GROUP>
