@@ -50,28 +50,16 @@ void Connections::resized ()
 {
 }
 
-Connections::IOid Connections::registerInlet (uint32 nodeId, Component* inlet)
+Connections::PlugID Connections::registerPlug (PlugMode plugMode, uint32 nodeId, Component* inlet)
 {
-    return idStore.storeInlet(nodeId, inlet);
+    return idStore.storePlug(plugMode, nodeId, inlet);
 }
 
-Connections::IOid Connections::registerOutlet (uint32 nodeId, Component* outlet)
+Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const PlugID inletId)
 {
-    return idStore.storeOutlet(nodeId, outlet);
-}
-
-Point<float> Connections::getInletCenterPositionFromId (const IOid inletId)
-{
-    Component* inlet = idStore.inlets[inletId.first][inletId.second];
+    Component* plug = (plugMode == Inlet ? idStore.inlets : idStore.outlets)[inletId.first][inletId.second];
     
-    return getLocalPoint(inlet, inlet->getLocalBounds().getCentre().toFloat()) ;
-}
-
-Point<float> Connections::getOutletCenterPositionFromId (const IOid outletId)
-{
-    Component* outlet = idStore.outlets[outletId.first][outletId.second];
-    
-    return getLocalPoint(outlet, outlet->getLocalBounds().getCentre().toFloat()) ;
+    return getLocalPoint(plug, plug->getLocalBounds().getCentre().toFloat()) ;
 }
 
 void Connections::updateAllConnectionPaths ()
@@ -79,15 +67,15 @@ void Connections::updateAllConnectionPaths ()
     allConnectionsPath.clear();
     for (Connection connection : connections)
     {
-        allConnectionsPath.addPath (getConnectionPath (getInletCenterPositionFromId(connection.second)
-                                                       , getOutletCenterPositionFromId(connection.first)));
+        allConnectionsPath.addPath (getConnectionPath (getPlugCenterPositionFromId(Inlet, connection.second)
+                                                       , getPlugCenterPositionFromId(Outlet, connection.first)));
     }
     repaint();
 }
 
-Connections::IOid Connections::stringToIOid (const String& stringToParse)
+Connections::PlugID Connections::stringToPlugID (const String& stringToParse)
 {
-    return IOid(stringToParse.upToFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32()
+    return PlugID(stringToParse.upToFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32()
                 , stringToParse.fromFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32());
 }
 
@@ -102,15 +90,15 @@ void Connections::actionListenerCallback (const String& message)
     }
     else if (message.containsWholeWord ("mouseDown"))
     {
-        String receivedIdString = message.fromFirstOccurrenceOf("#", false, false);
+        PlugID plugId = stringToPlugID(message.fromFirstOccurrenceOf("#", false, false));
         
         if (message.containsWholeWord ("inlet"))
         {
-            dragPathAnchor = getInletCenterPositionFromId(stringToIOid(receivedIdString));
+            dragPathAnchor = getPlugCenterPositionFromId(Inlet, plugId);
         }
         else if (message.containsWholeWord ("outlet"))
         {
-            dragPathAnchor = getOutletCenterPositionFromId(stringToIOid(receivedIdString));
+            dragPathAnchor = getPlugCenterPositionFromId(Outlet, plugId);
         }
     }
     else if (message.containsWholeWord ("dragging"))
@@ -131,12 +119,12 @@ void Connections::actionListenerCallback (const String& message)
         const String inletIdString = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
         const String outletIdString = message.fromFirstOccurrenceOf("&", false, false);
         
-        createConnection (stringToIOid(inletIdString), stringToIOid(outletIdString));
+        createConnection (stringToPlugID(inletIdString), stringToPlugID(outletIdString));
         updateAllConnectionPaths();
     }
 }
 
-void Connections::createConnection(const IOid inletId, const IOid outletId)
+void Connections::createConnection(const PlugID inletId, const PlugID outletId)
 {
     connections.addIfNotAlreadyThere( Connection(outletId, inletId) );
     sendChangeMessage(); // notify new connections

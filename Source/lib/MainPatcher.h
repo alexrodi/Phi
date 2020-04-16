@@ -61,10 +61,10 @@ private:
             deviceManager.removeAudioCallback (&player);
         }
         
-        /// Takes an array of Connections::IOid pairs (output, input) and iterates through it to apply the connections in the AudioProcessorGraph
-        void applyAudioConnections(Array<std::pair<Connections::IOid, Connections::IOid>> connectionsToApply)
+        /// Takes an array of Connections::PlugID pairs (output, input) and iterates through it to apply the connections in the AudioProcessorGraph
+        void applyAudioConnections(Array<std::pair<Connections::PlugID, Connections::PlugID>> connectionsToApply)
         {
-            for (std::pair<Connections::IOid, Connections::IOid> connection : connectionsToApply)
+            for (std::pair<Connections::PlugID, Connections::PlugID> connection : connectionsToApply)
             {
                 NodeAndChannel source { {}, connection.first.second };
                 NodeAndChannel destination { {}, connection.second.second };

@@ -120,14 +120,14 @@ void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId)
     OwnedArray<Inlet>& inlets = module->inlets;
     for (Inlet* inlet : inlets)
     {
-        inlet->setId(connections.registerInlet(moduleId, inlet));
+        inlet->setId(connections.registerPlug(Connections::Inlet, moduleId, inlet));
         inlet->addActionListener(&connections);
     }
     
     OwnedArray<Outlet>& outlets = module->outlets;
     for (Outlet* outlet : outlets)
     {
-        outlet->setId(connections.registerOutlet(moduleId, outlet));
+        outlet->setId(connections.registerPlug(Connections::Outlet, moduleId, outlet));
         outlet->addActionListener(&connections);
     }
     
