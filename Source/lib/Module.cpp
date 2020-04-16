@@ -21,10 +21,10 @@ inletNumber{props.inlets.size()},
 outletNumber{props.outlets.size()}
 {
     for (String inletName : props.inlets)
-        addAndMakeVisible( inlets.add( new phi_Inlet(inletName) ) );
+        addAndMakeVisible( inlets.add( new Inlet(inletName) ) );
     
     for (String outletName : props.outlets)
-        addAndMakeVisible( outlets.add( new phi_Outlet(outletName) ) );
+        addAndMakeVisible( outlets.add( new Outlet(outletName) ) );
         
     setPlayConfigDetails (props.inlets.size(), props.outlets.size(), getSampleRate(), getBlockSize());
         
@@ -44,12 +44,12 @@ const Rectangle<int> Module::placeInletsOutlets(Rectangle<int> moduleBounds)
 {
     // Place the inlets (equidistant)
     Rectangle<int> inletBounds = moduleBounds.removeFromLeft(30);
-    for (phi_Inlet* inlet : inlets)
+    for (Inlet* inlet : inlets)
         inlet->setBounds( inletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)inlets.size()) );
 
     // Place the outlets (equidistant)
     Rectangle<int> outletBounds = moduleBounds.removeFromRight(30);
-    for (phi_Outlet* outlet : outlets)
+    for (Outlet* outlet : outlets)
         outlet->setBounds( outletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)outlets.size()) );
     
     return moduleBounds;

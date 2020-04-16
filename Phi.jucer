@@ -38,10 +38,10 @@
         <FILE id="liwK8Y" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
         <FILE id="t1KaPP" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
         <FILE id="farp6W" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
-        <FILE id="mijY20" name="phi_Inlet.cpp" compile="1" resource="0" file="Source/lib/phi_Inlet.cpp"/>
-        <FILE id="NTAS5Y" name="phi_Inlet.h" compile="0" resource="0" file="Source/lib/phi_Inlet.h"/>
-        <FILE id="X6y9BS" name="phi_Outlet.cpp" compile="1" resource="0" file="Source/lib/phi_Outlet.cpp"/>
-        <FILE id="JWmydF" name="phi_Outlet.h" compile="0" resource="0" file="Source/lib/phi_Outlet.h"/>
+        <FILE id="mijY20" name="Inlet.cpp" compile="1" resource="0" file="Source/lib/Inlet.cpp"/>
+        <FILE id="NTAS5Y" name="Inlet.h" compile="0" resource="0" file="Source/lib/Inlet.h"/>
+        <FILE id="X6y9BS" name="Outlet.cpp" compile="1" resource="0" file="Source/lib/Outlet.cpp"/>
+        <FILE id="JWmydF" name="Outlet.h" compile="0" resource="0" file="Source/lib/Outlet.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
         <GROUP id="{5AD56AAE-9499-4BA1-1A86-9C985DC417A8}" name="svg">

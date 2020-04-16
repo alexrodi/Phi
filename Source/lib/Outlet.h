@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Outlet.h
+    Outlet.h
     Created: 18 Feb 2020 11:19:27pm
     Author:  Alexandre Rodrigues
 
@@ -22,14 +22,14 @@ namespace OutletOptions
     extern bool drawName;
 }
 
-class phi_Outlet    : public Component,
+class Outlet    : public Component,
                      public ActionBroadcaster,
                      public DragAndDropTarget,
                      public SettableTooltipClient
 {
 public:
-    explicit phi_Outlet(const String&);
-    ~phi_Outlet();
+    explicit Outlet(const String&);
+    ~Outlet();
 
     void paint (Graphics&) override;
     void resized() override;
@@ -59,5 +59,5 @@ private:
     bool isInterestedInDragSource (const SourceDetails&) override;
     void itemDropped (const SourceDetails&) override;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (phi_Outlet)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Outlet)
 };

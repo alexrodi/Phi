@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Inlet.h
+    Inlet.h
     Created: 18 Feb 2020 11:19:12pm
     Author:  Alexandre Rodrigues
 
@@ -23,14 +23,14 @@ namespace InletOptions
     extern bool drawName;
 }
 
-class phi_Inlet    : public Component,
+class Inlet    : public Component,
                      public ActionBroadcaster,
                      public DragAndDropTarget,
                      public SettableTooltipClient
 {
 public:
-    explicit phi_Inlet(const String&);
-    ~phi_Inlet();
+    explicit Inlet(const String&);
+    ~Inlet();
 
     void paint (Graphics&) override;
     void resized() override;
@@ -59,5 +59,5 @@ private:
     bool isInterestedInDragSource (const SourceDetails&) override;
     void itemDropped (const SourceDetails&) override;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (phi_Inlet)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Inlet)
 };

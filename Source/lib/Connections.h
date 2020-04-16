@@ -53,9 +53,9 @@ private:
     class IdStore
     {
     public:
-        /// The inlets map holds phi_Inlet* and is accessed by two keys: nodeID & inletID
+        /// The inlets map holds Inlet* and is accessed by two keys: nodeID & inletID
         std::map<uint32, std::map<int, Component*>> inlets;
-        /// The inlets map holds phi_Outlet* and is accessed by two keys: nodeID & outletID
+        /// The inlets map holds Outlet* and is accessed by two keys: nodeID & outletID
         std::map<uint32, std::map<int, Component*>> outlets;
         
         /// Adds an entry to inlets and returns the resulting unique identifier

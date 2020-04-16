@@ -101,13 +101,13 @@
 			isa = PBXBuildFile;
 			fileRef = C3082CB41B89563A66D73285;
 		};
-		23B8FC7D81BBD02F08ED6DBA = {
+		A5DE9BC95D4920E0F7DF5258 = {
 			isa = PBXBuildFile;
-			fileRef = 7832770251748166E402EC63;
+			fileRef = 4BC24460C35406EBFDE8E8CD;
 		};
-		92850BD27BAE10F88E1F44FD = {
+		7BDF1C7059968ACCCC17B4AC = {
 			isa = PBXBuildFile;
-			fileRef = 7CF951D99435D277EA31856C;
+			fileRef = 1186D06BB854804502B52136;
 		};
 		22EF847F8F61472D88E5B7F8 = {
 			isa = PBXBuildFile;
@@ -217,6 +217,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_cryptography.mm";
 			path = "../../JuceLibraryCode/include_juce_cryptography.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		1186D06BB854804502B52136 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Outlet.cpp;
+			path = ../../Source/lib/Outlet.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		12FBD27877FFA5EE54D2E2D5 = {
@@ -373,6 +380,13 @@
 			path = ../../JuceLibraryCode/BinaryData.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		4BC24460C35406EBFDE8E8CD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Inlet.cpp;
+			path = ../../Source/lib/Inlet.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		4F953428D91B1AC5D360D767 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file.wav;
@@ -448,27 +462,6 @@
 			lastKnownFileType = file.nib;
 			name = RecentFilesMenuTemplate.nib;
 			path = RecentFilesMenuTemplate.nib;
-			sourceTree = "SOURCE_ROOT";
-		};
-		7832770251748166E402EC63 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = "phi_Inlet.cpp";
-			path = "../../Source/lib/phi_Inlet.cpp";
-			sourceTree = "SOURCE_ROOT";
-		};
-		7CF951D99435D277EA31856C = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = "phi_Outlet.cpp";
-			path = "../../Source/lib/phi_Outlet.cpp";
-			sourceTree = "SOURCE_ROOT";
-		};
-		7FBEB5C544502E3403F228CB = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = "phi_Inlet.h";
-			path = "../../Source/lib/phi_Inlet.h";
 			sourceTree = "SOURCE_ROOT";
 		};
 		84837EC52CB7C65DD7BE5BE7 = {
@@ -574,6 +567,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = "module_Impulse.h";
 			path = "../../Source/lib/modules/module_Impulse.h";
+			sourceTree = "SOURCE_ROOT";
+		};
+		BD81FBE5C990A138C7FD16AE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Inlet.h;
+			path = ../../Source/lib/Inlet.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		C3082CB41B89563A66D73285 = {
@@ -723,11 +723,11 @@
 			path = "/Applications/JUCE/modules/juce_events";
 			sourceTree = "<absolute>";
 		};
-		FE71CA2D10F7BC82386F6585 = {
+		FE92DB7550612668B449A1D2 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = "phi_Outlet.h";
-			path = "../../Source/lib/phi_Outlet.h";
+			name = Outlet.h;
+			path = ../../Source/lib/Outlet.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		CCABB50029E0D3DBF3A85B8F = {
@@ -771,10 +771,10 @@
 				23E2C5204D09F0CE4EA6B8E2,
 				C3082CB41B89563A66D73285,
 				1AD44E286CF01485A65C9A1A,
-				7832770251748166E402EC63,
-				7FBEB5C544502E3403F228CB,
-				7CF951D99435D277EA31856C,
-				FE71CA2D10F7BC82386F6585,
+				4BC24460C35406EBFDE8E8CD,
+				BD81FBE5C990A138C7FD16AE,
+				1186D06BB854804502B52136,
+				FE92DB7550612668B449A1D2,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -1154,8 +1154,8 @@
 				72EFE9C1C3DA2F793CE719CF,
 				7C5E8BAC9968BDCA8D2E783F,
 				B91E703D06D1AE36AEA404C8,
-				23B8FC7D81BBD02F08ED6DBA,
-				92850BD27BAE10F88E1F44FD,
+				A5DE9BC95D4920E0F7DF5258,
+				7BDF1C7059968ACCCC17B4AC,
 				22EF847F8F61472D88E5B7F8,
 				5B044C5BC2FB7EC8D2C0FFBD,
 				33BFE0A96862620B1EF15239,

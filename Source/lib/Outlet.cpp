@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Outlet.cpp
+    Outlet.cpp
     Created: 18 Feb 2020 11:19:27pm
     Author:  Alexandre Rodrigues
 
@@ -11,7 +11,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "phi_Outlet.h"
+#include "Outlet.h"
 
 //==============================================================================
 namespace OutletOptions
@@ -19,28 +19,28 @@ namespace OutletOptions
     bool drawName = true;
 }
 
-phi_Outlet::phi_Outlet(const String& name) :
+Outlet::Outlet(const String& name) :
 name{name}
 {
     setPaintingIsUnclipped(true);
 }
 
-phi_Outlet::~phi_Outlet()
+Outlet::~Outlet()
 {
 }
 
-void phi_Outlet::setId(std::pair<uint32, int> outletId)
+void Outlet::setId(std::pair<uint32, int> outletId)
 {
     moduleID = outletId.first;
     outletID = outletId.second;
 }
 
-String phi_Outlet::getStringId()
+String Outlet::getStringId()
 {
     return String(moduleID) + ">" + String(outletID);
 }
 
-void phi_Outlet::paint (Graphics& g)
+void Outlet::paint (Graphics& g)
 {
     if (OutletOptions::drawName && canFitText)
     {
@@ -56,7 +56,7 @@ void phi_Outlet::paint (Graphics& g)
     g.drawEllipse(outletBounds, 3);
 }
 
-void phi_Outlet::resized()
+void Outlet::resized()
 {
     nameJustification = Justification::Flags::centredBottom;
     nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
@@ -65,17 +65,17 @@ void phi_Outlet::resized()
     outletBounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
 }
 
-void phi_Outlet::mouseDown(const MouseEvent& e)
+void Outlet::mouseDown(const MouseEvent& e)
 {
     sendActionMessage("mouseDown outlet #" + getStringId());
 }
 
-void phi_Outlet::mouseUp(const MouseEvent& e)
+void Outlet::mouseUp(const MouseEvent& e)
 {
     sendActionMessage("mouseUp");
 }
 
-void phi_Outlet::mouseDrag(const MouseEvent& e)
+void Outlet::mouseDrag(const MouseEvent& e)
 {
     DragAndDropContainer::findParentDragContainerFor(this)->
     startDragging ("outlet" + getStringId()
@@ -85,12 +85,12 @@ void phi_Outlet::mouseDrag(const MouseEvent& e)
     sendActionMessage("dragging");
 }
 
-bool phi_Outlet::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
+bool Outlet::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
 {
     return dragSourceDetails.description.toString().contains("inlet");
 }
 
-void phi_Outlet::itemDropped (const SourceDetails& dragSourceDetails)
+void Outlet::itemDropped (const SourceDetails& dragSourceDetails)
 {
     sendActionMessage("connect "
                       + dragSourceDetails.description.toString().fromFirstOccurrenceOf("inlet", false, false)

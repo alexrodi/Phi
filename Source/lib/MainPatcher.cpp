@@ -119,15 +119,15 @@ void MainPatcher::toggleInoutType(bool toggle)
 void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId)
 {
     
-    OwnedArray<phi_Inlet>& inlets = module->inlets;
-    for (phi_Inlet* inlet : inlets)
+    OwnedArray<Inlet>& inlets = module->inlets;
+    for (Inlet* inlet : inlets)
     {
         inlet->setId(connections.registerInlet(moduleId, inlet));
         inlet->addActionListener(&connections);
     }
     
-    OwnedArray<phi_Outlet>& outlets = module->outlets;
-    for (phi_Outlet* outlet : outlets)
+    OwnedArray<Outlet>& outlets = module->outlets;
+    for (Outlet* outlet : outlets)
     {
         outlet->setId(connections.registerOutlet(moduleId, outlet));
         outlet->addActionListener(&connections);

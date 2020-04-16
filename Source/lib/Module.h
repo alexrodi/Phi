@@ -13,8 +13,8 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "phi_Inlet.h"
-#include "phi_Outlet.h"
+#include "Inlet.h"
+#include "Outlet.h"
 
 //==============================================================================
 /*
@@ -42,8 +42,8 @@ public:
     int inletNumber;
     int outletNumber;
     
-    OwnedArray<phi_Inlet> inlets;
-    OwnedArray<phi_Outlet> outlets;
+    OwnedArray<Inlet> inlets;
+    OwnedArray<Outlet> outlets;
     
     AudioProcessorGraph::NodeID nodeID;
     
