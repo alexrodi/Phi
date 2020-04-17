@@ -94,10 +94,10 @@ void Plug::mouseDrag(const MouseEvent& e)
 
 bool Plug::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
 {
-    String sourceDetailsString =  dragSourceDetails.description.toString();
-    if (sourceDetailsString.startsWith(modeString.second))
+    String sourceString =  dragSourceDetails.description.toString();
+    if (sourceString.startsWith(modeString.second))
     {
-        uint32 receivedModuleID = sourceDetailsString.fromFirstOccurrenceOf(modeString.second, false, false)
+        uint32 receivedModuleID = sourceString.fromFirstOccurrenceOf(modeString.second, false, false)
                                                      .upToFirstOccurrenceOf(">", false, false)
                                                      .toUTF8().getIntValue32();
         
