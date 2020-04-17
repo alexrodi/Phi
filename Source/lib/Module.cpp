@@ -43,14 +43,20 @@ void Module::resized()
 const Rectangle<int> Module::placeInletsOutlets(Rectangle<int> moduleBounds)
 {
     // Place the inlets (equidistant)
+    if (! inlets.isEmpty())
+    {
     Rectangle<int> inletBounds = moduleBounds.removeFromLeft(30);
     for (Inlet* inlet : inlets)
         inlet->setBounds( inletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)inlets.size()) );
+    }
 
+    if (! outlets.isEmpty())
+    {
     // Place the outlets (equidistant)
     Rectangle<int> outletBounds = moduleBounds.removeFromRight(30);
     for (Outlet* outlet : outlets)
         outlet->setBounds( outletBounds.removeFromTop((float)moduleBounds.getHeight()/(float)outlets.size()) );
+    }
     
     return moduleBounds;
 }
