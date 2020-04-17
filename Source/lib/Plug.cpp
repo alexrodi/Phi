@@ -94,7 +94,17 @@ void Plug::mouseDrag(const MouseEvent& e)
 
 bool Plug::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
 {
-    return dragSourceDetails.description.toString().contains(modeString.second);
+    String sourceString =  dragSourceDetails.description.toString();
+    if (sourceString.startsWith(modeString.second))
+    {
+        uint32 receivedModuleID = sourceString.fromFirstOccurrenceOf(modeString.second, false, false)
+                                                     .upToFirstOccurrenceOf(">", false, false)
+                                                     .toUTF8().getIntValue32();
+        
+        // Only interested if the connection is from a different module
+        if (receivedModuleID != moduleID) return true;
+    }
+    return false;
 }
 
 void Plug::itemDropped (const SourceDetails& dragSourceDetails)
