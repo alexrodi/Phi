@@ -4,7 +4,7 @@
 //==============================================================================
 MainComponent::MainComponent() :
 patchCordTypeButton{"Gravity"},
-inoutNamesTypeButton{"Label / Hint"}
+inoutNamesTypeButton{"Hint / Label"}
 {
     
     // Set the colors of PopupMenu

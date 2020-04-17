@@ -14,7 +14,7 @@
 //==============================================================================
 namespace PlugOptions
 {
-    bool drawName = true;
+    bool drawName = false;
 }
 
 Plug::Plug(Mode modeToUse, const String& nameToUse) :
