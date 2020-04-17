@@ -101,11 +101,8 @@ bool Plug::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
                                                      .upToFirstOccurrenceOf(">", false, false)
                                                      .toUTF8().getIntValue32();
         
-        // Not interested if the connection is from the same module
-        if (receivedModuleID != moduleID)
-        {
-            return true;
-        }
+        // Only interested if the connection is from a different module
+        if (receivedModuleID != moduleID) return true;
     }
     return false;
 }
