@@ -25,6 +25,9 @@
 
 <!-- Ensure you have ticked all of these boxes before requested a review -->
 
+- [ ] JUCE latest version (5.4.7)
+- [ ] macOS version (?)
+- [ ] XCode version (?)
 - [ ] Rebased with master
 - [ ] Check "files changed" to make sure you're within scope of the PR
 
