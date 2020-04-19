@@ -47,7 +47,7 @@ void module_Gain::wasResized(Rectangle<int> moduleBounds)
 void module_Gain::sliderValueChanged (Slider* slider)
 {
     if (slider == &gainDial){
-        gainValue = (float) gainDial.getValue();
+        gainValue = Decibels::decibelsToGain(gainDial.getValue());
         repaint();
     }
 }
@@ -63,7 +63,7 @@ void module_Gain::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMess
     // We can do this because the number of inputs
     // matches the number of outputs, otherwise
     // we would have to use the overload (channel, startSample, numSamples, gain)
-    buffer.applyGain(Decibels::decibelsToGain(gainValue));
+    buffer.applyGain(gainValue);
 }
 
 void module_Gain::releaseResources()
