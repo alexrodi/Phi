@@ -18,13 +18,13 @@ module_Impulse::module_Impulse() :
 Module{{
     // All modules must initialize these properties
     .name =  "Impulse",
-    .inlets = {"Size", "Shape"},
+    .inlets = {"Freq", "Shape"},
     .outlets = {"R", "L", "Ramp"},
     .width = 400,
     .height = 200,
     .minimumHeight = 100
 }},
-frequencyDial(20, 20000, this, 0.33, " Hz"),
+frequencyDial(20, 20000, this, 0.2, " Hz"),
 shapeDial(0, 1, this, 1, " %", 0)
 {
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
