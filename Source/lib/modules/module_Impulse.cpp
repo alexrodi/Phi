@@ -24,13 +24,13 @@ Module{{
     .height = 200,
     .minimumHeight = 100
 }},
-decayDial(5, 100, " ms", 2, this),
-shapeDial(0, 1, " %", 0, this)
+frequencyDial(20, 20000, this, 0.33, " Hz"),
+shapeDial(0, 1, this, 1, " %", 0)
 {
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
 
-    addAndMakeVisible(decayDial);
+    addAndMakeVisible(frequencyDial);
     addAndMakeVisible(shapeDial);
 }
 
@@ -149,12 +149,12 @@ void module_Impulse::wasResized(Rectangle<int> moduleBounds)
 {
     // Place the Dials
     Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);
-    decayDial.setBounds( dialBounds.removeFromTop(getHeight()*0.5));
+    frequencyDial.setBounds( dialBounds.removeFromTop(getHeight()*0.5));
     shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.5));
     
     // Place the waveform and update
     waveForm.setViewPort(moduleBounds.reduced(10,0).toFloat());
-    waveForm.updateForm(shapeDial.getValue(), decayDial.getValue());
+    waveForm.updateForm(shapeDial.getValue(), frequencyDial.getValue());
 }
 
 void module_Impulse::lookAndFeelChanged()
@@ -162,7 +162,7 @@ void module_Impulse::lookAndFeelChanged()
     waveForm.setColour(findColour(Slider::thumbColourId));
 }
 
-void module_Impulse::decayDialChanged (float value)
+void module_Impulse::frequencyDialChanged (float value)
 {
 }
 
@@ -172,16 +172,16 @@ void module_Impulse::shapeDialChanged (float value)
 
 void module_Impulse::sliderValueChanged (Slider* slider)
 {
-    bool isDecay = slider == &decayDial;
+    bool isDecay = slider == &frequencyDial;
     bool isShape = slider == &shapeDial;
     if (isDecay || isShape)
     {
         if (isDecay){
-            decayDialChanged(slider->getValue());
+            frequencyDialChanged(slider->getValue());
         } else if (isShape){
             shapeDialChanged(slider->getValue()*0.01);
         }
-        waveForm.updateForm(shapeDial.getValue(), decayDial.getValue());
+        waveForm.updateForm(shapeDial.getValue(), frequencyDial.getValue());
         repaint();
     }
     

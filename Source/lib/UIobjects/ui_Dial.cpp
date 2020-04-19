@@ -13,15 +13,17 @@
 ///@endcond
 #include "ui_Dial.h"
 
-ui_Dial::ui_Dial(float rangeLow, float rangeHigh, std::string valueSuffix, int decimals, Slider::Listener* listener)
+ui_Dial::ui_Dial(float rangeLow, float rangeHigh, Slider::Listener* listener, double skewFactor, std::string valueSuffix, int decimals) :
+valueRange{rangeLow, rangeHigh, 0, skewFactor}
 {
-    setRange                     (rangeLow, rangeHigh);
-    setTextValueSuffix           (valueSuffix);
-    addListener                  (listener);
+    setNormalisableRange         (valueRange);
     setSliderStyle               (RotaryVerticalDrag);
     setTextBoxStyle              (TextBoxBelow, true, 80, 20);
-    setNumDecimalPlacesToDisplay (decimals);
     setTextBoxIsEditable         (true);
+    
+    setTextValueSuffix           (valueSuffix);
+    setNumDecimalPlacesToDisplay (decimals);
+    addListener                  (listener);
     
     setPaintingIsUnclipped (true);
     
@@ -75,7 +77,7 @@ void ui_Dial::lookAndFeelChanged ()
 
 void ui_Dial::updateDial ()
 {
-    angle = startAngle + (getValue()-getMinimum())/getRange().getLength() * range;
+    angle = startAngle + valueRange.convertTo0to1(getValue()) * angleRange;
     
     dial.clear();
     dial.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, angle, true);

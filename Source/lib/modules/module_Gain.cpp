@@ -23,7 +23,7 @@ Module{{
     .height = 150,
     .minimumHeight = 100
 }},
-gainDial(-70, 12, " dB", 2, this)
+gainDial(-70, 12, this, 1, " dB")
 {
     addAndMakeVisible(gainDial);
 }

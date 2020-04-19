@@ -21,7 +21,7 @@ class ui_Dial    : public Slider,
                    public Slider::Listener
 {
 public:
-    ui_Dial(float, float, std::string, int, Slider::Listener*);
+    ui_Dial(float, float, Slider::Listener*, double = 1, std::string = "", int = 2);
     ~ui_Dial();
     
     void paint (Graphics& g) override;
@@ -30,6 +30,8 @@ public:
     void lookAndFeelChanged() override;
     
 private:
+    
+    NormalisableRange<double> valueRange;
     
     Path groove;
     Path dial;
@@ -44,7 +46,7 @@ private:
     const int thickness = 5;
     const float startAngle = getRotaryParameters().startAngleRadians;
     const float endAngle = getRotaryParameters().endAngleRadians;
-    const float range = endAngle - startAngle;
+    const float angleRange = endAngle - startAngle;
     
     float size;
     float radius;
