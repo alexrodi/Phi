@@ -39,7 +39,7 @@ public:
 private:
     
     //Dials
-    ui_Dial decayDial;
+    ui_Dial frequencyDial;
     ui_Dial shapeDial;
     
     //Waveform
@@ -63,7 +63,7 @@ private:
     
     //Listeners
     void sliderValueChanged (Slider*) override;
-    void decayDialChanged (float value);
+    void frequencyDialChanged (float value);
     void shapeDialChanged (float value);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (module_Impulse)
