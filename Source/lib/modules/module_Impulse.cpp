@@ -20,7 +20,7 @@ module_Impulse::module_Impulse() :
 Module{{
     // All modules must initialize these properties
     .name =  "Impulse",
-    .inlets = {"Freq", "Shape"},
+    .inlets = {"Trigger", "Freq", "Shape"},
     .outlets = {"Out", "Ramp"},
     .width = 400,
     .height = 200,
@@ -63,13 +63,8 @@ void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiM
     
     for (int n = 0; n < buffer.getNumSamples(); n++)
     {
-        const float fundamentalAttenuator = (-0.5*tanhf(currentPhase*(-fmax(shape,0.88)+1.01)-1)+0.5);
-
-        const float newSample = (currentPhase==float_Pi)
-                                ? 0.f
-                                : sin((sin(currentPhase))/((-shape + 1.006)*(currentPhase-float_Pi)))*fundamentalAttenuator;
-
-        *writeBufferOut++ = newSample;
+        
+        *writeBufferOut++ = processImpulse(currentPhase, shape);
         *writeBufferRamp++ = currentPhase * invTwoPi;
 
         currentPhase += phaseIncrement;
@@ -84,6 +79,16 @@ void module_Impulse::releaseResources()
 void module_Impulse::triggerImpulse()
 {
     currentPhase = 0;
+}
+
+float module_Impulse::processImpulse(float phase, float shape)
+{
+    
+    const float fundamentalAttenuator = (-0.5*tanhf(phase*(-fmax(shape,0.88)+1.01)-1)+0.5);
+
+    return (phase==float_Pi)
+           ? 0.f
+           : sin((sin(phase))/((-shape + 1.006)*(phase-float_Pi)))*fundamentalAttenuator;
 }
 
 
@@ -132,7 +137,6 @@ const void module_Impulse::Waveform::updateForm(const float shape)
     
     const float width           =  getWidth();
     const int   aaValue         =  8; // x8 AA
-    const float shapeValue      =  -shape + 1.006;
     const float phaseIncrement  =  (((pow(shape,50)*200 + 30)/width)*pixelsPerPoint)/aaValue; // go up to x=7 (arbitrary value)
     
     float phase = 0;
@@ -145,14 +149,7 @@ const void module_Impulse::Waveform::updateForm(const float shape)
         float y = 0;
         for(int i=0; i<aaValue; i++)
         {
-            const float lengthPhase = phase;
-            
-            const float fundamentalAttenuator = (-0.5*tanh(lengthPhase*(-fmax(shape,0.88)+1.01)-1)+0.5);
-            
-            const float newY = (lengthPhase==float_Pi)
-                                ? 0.f
-                                : sin((sin(lengthPhase))/(shapeValue*(lengthPhase-float_Pi)))*fundamentalAttenuator;
-            y += abs(newY);
+            y += abs(processImpulse(phase, shape));
             phase += phaseIncrement;
         }
         y /= aaValue;
