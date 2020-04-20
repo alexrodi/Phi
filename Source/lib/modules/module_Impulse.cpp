@@ -32,6 +32,7 @@ shapeDial(0, 1, this, 1, " %", 0)
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
 
+    addAndMakeVisible(waveForm);
     addAndMakeVisible(frequencyDial);
     addAndMakeVisible(shapeDial);
 }
@@ -94,12 +95,10 @@ void module_Impulse::releaseResources()
 // Waveform
 //==============================================================================
 
-const void module_Impulse::Waveform::setViewPort(const Rectangle<float> viewportToUse)
+void module_Impulse::Waveform::resized()
 {
-    viewPort = viewportToUse;
-    
-    centreY = viewPort.getCentreY();
-    yRange = viewPort.getHeight() * 0.5;
+    centreY = getBounds().getCentreY();
+    yRange = getHeight() * 0.5;
     updateColour();
 }
 
@@ -114,7 +113,7 @@ const void module_Impulse::Waveform::updateColour()
     colourGradient = ColourGradient().vertical(colour, centreY+yRange, colour.darker(), centreY);
 }
 
-const void module_Impulse::Waveform::draw(Graphics& g)
+void module_Impulse::Waveform::paint(Graphics& g)
 {
     g.setGradientFill(colourGradient);
     g.fillPath(topPath);
@@ -131,9 +130,7 @@ const void module_Impulse::Waveform::updateForm(const float shape)
     
     const int pixelsPerPoint = 2;
     
-    const float startX          =  viewPort.getX();
-    const float width           =  viewPort.getWidth();
-    const float endX            =  startX+width;
+    const float width           =  getWidth();
     const int   aaValue         =  8; // x8 AA
     const float shapeValue      =  -shape + 1.006;
     const float phaseIncrement  =  (((pow(shape,50)*200 + 30)/width)*pixelsPerPoint)/aaValue; // go up to x=7 (arbitrary value)
@@ -141,10 +138,10 @@ const void module_Impulse::Waveform::updateForm(const float shape)
     float phase = 0;
     
     topPath.clear();
-    topPath.startNewSubPath (startX, centreY);
+    topPath.startNewSubPath (0, centreY);
 
     // Add lines to path
-    for (int x=startX; x<endX; x += pixelsPerPoint){
+    for (int x=0; x<width; x += pixelsPerPoint){
         float y = 0;
         for(int i=0; i<aaValue; i++)
         {
@@ -162,7 +159,7 @@ const void module_Impulse::Waveform::updateForm(const float shape)
         topPath.lineTo (x, y * yRange + centreY);
     }
     
-    topPath.lineTo (endX, centreY);
+    topPath.lineTo (width, centreY);
     
     topPath = topPath.createPathWithRoundedCorners(60);
     bottomPath = topPath;
@@ -172,7 +169,6 @@ const void module_Impulse::Waveform::updateForm(const float shape)
 
 void module_Impulse::paint (Graphics& g)
 {
-    waveForm.draw(g);
 }
 
 void module_Impulse::wasResized(Rectangle<int> moduleBounds)
@@ -183,7 +179,7 @@ void module_Impulse::wasResized(Rectangle<int> moduleBounds)
     shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.5));
     
     // Place the waveform and update
-    waveForm.setViewPort(moduleBounds.reduced(10,0).toFloat());
+    waveForm.setBounds(moduleBounds.reduced(10,0));
     waveForm.updateForm(shapeDial.getValue());
 }
 

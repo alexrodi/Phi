@@ -46,10 +46,15 @@ private:
     ui_Dial shapeDial;
     
     //Waveform
-    class Waveform
+    class Waveform : public Component
     {
+    public:
+        const void setColour(const Colour&);
+        const void updateForm(const float);
+        void resized() override;
+        void paint(Graphics&) override;
+    private:
         const float strokeWidth = 2;
-        Rectangle<float> viewPort;
         float yRange;
         float centreY;
         Colour colour;
@@ -57,11 +62,6 @@ private:
         Path bottomPath;
         ColourGradient colourGradient;
         const void updateColour();
-    public:
-        const void setColour(const Colour&);
-        const void setViewPort(const Rectangle<float>);
-        const void updateForm(const float);
-        const void draw(Graphics&);
     } waveForm;
     
     //Listeners
