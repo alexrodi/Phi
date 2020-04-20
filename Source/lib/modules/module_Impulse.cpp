@@ -31,6 +31,8 @@ shapeDial(0, 1, this, 1, " %", 0)
 {
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
+    
+    waveForm.setInterceptsMouseClicks(false, false);
 
     addAndMakeVisible(waveForm);
     addAndMakeVisible(frequencyDial);
@@ -71,18 +73,7 @@ void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiM
         *writeBufferRamp++ = currentPhase * invTwoPi;
 
         currentPhase += phaseIncrement;
-        if (currentPhase > 300)
-        {
-            currentPhase = 0;
-        }
     }
-    
-//    float* writeBuffer = buffer.getWritePointer(0);
-//
-//    for (int n = 0; n < buffer.getNumSamples(); n++)
-//    {
-//        *writeBuffer++ = sin(n*phaseIncrement);
-//    }
     
 }
 
@@ -90,10 +81,19 @@ void module_Impulse::releaseResources()
 {
 }
 
+void module_Impulse::triggerImpulse()
+{
+    currentPhase = 0;
+}
 
 
 // Waveform
 //==============================================================================
+
+void module_Impulse::mouseDown(const MouseEvent& e)
+{
+    triggerImpulse();
+}
 
 void module_Impulse::Waveform::resized()
 {
@@ -165,6 +165,7 @@ const void module_Impulse::Waveform::updateForm(const float shape)
     bottomPath = topPath;
     bottomPath.applyTransform(AffineTransform().verticalFlip(centreY+yRange));
 }
+
 //==============================================================================
 
 void module_Impulse::paint (Graphics& g)

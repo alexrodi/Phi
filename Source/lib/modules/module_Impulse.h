@@ -34,7 +34,11 @@ public:
     void paint (Graphics&) override;
     void wasResized(Rectangle<int>) override;
     
+    void mouseDown(const MouseEvent&) override;
+    
     void lookAndFeelChanged() override;
+    
+    void triggerImpulse();
 
 private:
     
