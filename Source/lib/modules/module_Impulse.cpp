@@ -13,13 +13,15 @@
 ///@endcond
 #include "module_Impulse.h"
 
+const float invTwoPi = 1.0f/MathConstants<float>::twoPi;
+
 //==============================================================================
 module_Impulse::module_Impulse() :
 Module{{
     // All modules must initialize these properties
     .name =  "Impulse",
     .inlets = {"Freq", "Shape"},
-    .outlets = {"R", "L", "Ramp"},
+    .outlets = {"Out", "Ramp"},
     .width = 400,
     .height = 200,
     .minimumHeight = 100
@@ -42,20 +44,44 @@ module_Impulse::~module_Impulse()
 
 //==============================================================================
 
-void module_Impulse::prepareToPlay (double sampleRate, int maximumExpectedSamplesPerBlock)
+void module_Impulse::prepareToPlay (double newSampleRate, int maximumExpectedSamplesPerBlock)
 {
+    sampleRate = newSampleRate;
 }
 
 void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    for (int channel = 0; channel < outletNumber; channel++)
+    const float shape = shapeDial.getValue();
+    
+    const float phaseIncrement = (1.0f/float(sampleRate/frequencyDial.getValue())) * MathConstants<float>::twoPi;
+    
+    float* writeBufferOut = buffer.getWritePointer(0);
+    float* writeBufferRamp = buffer.getWritePointer(1);
+    
+    for (int n = 0; n < buffer.getNumSamples(); n++)
     {
-        float* writeBuffer = buffer.getWritePointer(channel);
-        for (int n = 0; n < buffer.getNumSamples(); n++)
+        const float fundamentalAttenuator = (-0.5*tanhf(currentPhase*(-fmax(shape,0.88)+1.01)-1)+0.5);
+
+        const float newSample = (currentPhase==float_Pi)
+                                ? 0.f
+                                : sin((sin(currentPhase))/((-shape + 1.006)*(currentPhase-float_Pi)))*fundamentalAttenuator;
+
+        *writeBufferOut++ = newSample;
+        *writeBufferRamp++ = currentPhase * invTwoPi;
+
+        currentPhase += phaseIncrement;
+        if (currentPhase > 300)
         {
-            *writeBuffer++ = fmod(n*0.01, 1); // a sawtooth-like sound only for testing
+            currentPhase = 0;
         }
     }
+    
+//    float* writeBuffer = buffer.getWritePointer(0);
+//
+//    for (int n = 0; n < buffer.getNumSamples(); n++)
+//    {
+//        *writeBuffer++ = sin(n*phaseIncrement);
+//    }
     
 }
 
@@ -73,7 +99,7 @@ const void module_Impulse::Waveform::setViewPort(const Rectangle<float> viewport
     viewPort = viewportToUse;
     
     centreY = viewPort.getCentreY();
-    yRange = viewPort.getHeight() * 0.5 - 3;
+    yRange = viewPort.getHeight() * 0.5;
     updateColour();
 }
 
@@ -100,7 +126,7 @@ const void module_Impulse::Waveform::draw(Graphics& g)
 }
 
 
-const void module_Impulse::Waveform::updateForm(const float shape,const  float decay)
+const void module_Impulse::Waveform::updateForm(const float shape)
 {
     
     const int pixelsPerPoint = 2;
@@ -108,9 +134,9 @@ const void module_Impulse::Waveform::updateForm(const float shape,const  float d
     const float startX          =  viewPort.getX();
     const float width           =  viewPort.getWidth();
     const float endX            =  startX+width;
-    const float shapeValue      =  1.006 - shape;
     const int   aaValue         =  8; // x8 AA
-    const float phaseIncrement  =  ((7/width)*pixelsPerPoint)/aaValue; // go up to x=7 (arbitrary value)
+    const float shapeValue      =  -shape + 1.006;
+    const float phaseIncrement  =  (((pow(shape,50)*200 + 30)/width)*pixelsPerPoint)/aaValue; // go up to x=7 (arbitrary value)
     
     float phase = 0;
     
@@ -122,9 +148,13 @@ const void module_Impulse::Waveform::updateForm(const float shape,const  float d
         float y = 0;
         for(int i=0; i<aaValue; i++)
         {
-            const float lengthPhase = phase*decay;
-            // This function is not safe for audio routines! it has a singularity at x=PI :)
-            const float newY = (lengthPhase==float_Pi) ? 0.f : sin( sin(lengthPhase) / (shapeValue * (lengthPhase-float_Pi)) );
+            const float lengthPhase = phase;
+            
+            const float fundamentalAttenuator = (-0.5*tanh(lengthPhase*(-fmax(shape,0.88)+1.01)-1)+0.5);
+            
+            const float newY = (lengthPhase==float_Pi)
+                                ? 0.f
+                                : sin((sin(lengthPhase))/(shapeValue*(lengthPhase-float_Pi)))*fundamentalAttenuator;
             y += abs(newY);
             phase += phaseIncrement;
         }
@@ -136,7 +166,7 @@ const void module_Impulse::Waveform::updateForm(const float shape,const  float d
     
     topPath = topPath.createPathWithRoundedCorners(60);
     bottomPath = topPath;
-    bottomPath.applyTransform(AffineTransform().verticalFlip(centreY+yRange+strokeWidth*2));
+    bottomPath.applyTransform(AffineTransform().verticalFlip(centreY+yRange));
 }
 //==============================================================================
 
@@ -154,7 +184,7 @@ void module_Impulse::wasResized(Rectangle<int> moduleBounds)
     
     // Place the waveform and update
     waveForm.setViewPort(moduleBounds.reduced(10,0).toFloat());
-    waveForm.updateForm(shapeDial.getValue(), frequencyDial.getValue());
+    waveForm.updateForm(shapeDial.getValue());
 }
 
 void module_Impulse::lookAndFeelChanged()
@@ -181,7 +211,7 @@ void module_Impulse::sliderValueChanged (Slider* slider)
         } else if (isShape){
             shapeDialChanged(slider->getValue()*0.01);
         }
-        waveForm.updateForm(shapeDial.getValue(), frequencyDial.getValue());
+        waveForm.updateForm(shapeDial.getValue());
         repaint();
     }
     
