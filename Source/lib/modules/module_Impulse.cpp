@@ -137,7 +137,8 @@ const void module_Impulse::Waveform::updateForm(const float shape)
     
     const float width           =  getWidth();
     const int   aaValue         =  8; // x8 AA
-    const float phaseIncrement  =  (((pow(shape,50)*200 + 30)/width)*pixelsPerPoint)/aaValue; // go up to x=7 (arbitrary value)
+    // scale the values so that the waveform (more or less) fills the width
+    const float phaseIncrement  =  (((pow(shape,50)*200 + 30)/width)*pixelsPerPoint)/aaValue;
     
     float phase = 0;
     
