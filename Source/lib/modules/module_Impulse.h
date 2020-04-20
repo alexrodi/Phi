@@ -45,6 +45,8 @@ private:
     float currentPhase = 0;
     double sampleRate = 44100;
     
+    static float processImpulse(float, float);
+    
     //Dials
     ui_Dial frequencyDial;
     ui_Dial shapeDial;
