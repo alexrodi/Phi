@@ -38,6 +38,9 @@ public:
 
 private:
     
+    float currentPhase = 0;
+    double sampleRate = 44100;
+    
     //Dials
     ui_Dial frequencyDial;
     ui_Dial shapeDial;
@@ -57,7 +60,7 @@ private:
     public:
         const void setColour(const Colour&);
         const void setViewPort(const Rectangle<float>);
-        const void updateForm(const float, const  float);
+        const void updateForm(const float);
         const void draw(Graphics&);
     } waveForm;
     
