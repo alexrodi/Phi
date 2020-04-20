@@ -46,7 +46,7 @@ void module_Output::paint (Graphics& g)
 
 void module_Output::wasResized(Rectangle<int> moduleBounds)
 {
-    Rectangle<int> svgBounds = moduleBounds.reduced(0, 15).withTrimmedLeft(10);
+    Rectangle<int> svgBounds = moduleBounds.reduced(10, 25);
     speakerImage->setTransformToFit(svgBounds.withSizeKeepingCentre(100, 100).constrainedWithin(svgBounds).toFloat(), RectanglePlacement::Flags::centred);
 }
 
