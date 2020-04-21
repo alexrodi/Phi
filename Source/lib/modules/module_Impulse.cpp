@@ -54,20 +54,47 @@ void module_Impulse::prepareToPlay (double newSampleRate, int maximumExpectedSam
 
 void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    const float shape = shapeDial.getValue();
+    const bool readInputs = ! buffer.hasBeenCleared();
+    
+    const float* readBufferTrigger = buffer.getReadPointer(0);
+    //const float* readBufferFreq = buffer.getReadPointer(1);
+    //const float* readBufferShape = buffer.getReadPointer(2);
+    
+    const float shape = powf(shapeDial.getValue(), 0.1f);
     
     const float phaseIncrement = (1.0f/float(sampleRate/frequencyDial.getValue())) * MathConstants<float>::twoPi;
     
     float* writeBufferOut = buffer.getWritePointer(0);
     float* writeBufferRamp = buffer.getWritePointer(1);
     
-    for (int n = 0; n < buffer.getNumSamples(); n++)
+    if (readInputs)
     {
-        
-        *writeBufferOut++ = processImpulse(currentPhase, shape);
-        *writeBufferRamp++ = currentPhase * invTwoPi;
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+        {
+            const float trigger = *readBufferTrigger++;
+            const float triggerDelta = currentTrigger - trigger;
+            currentTrigger = trigger;
+            
+            if (triggerDelta > 0.5f)
+            {
+                triggerImpulse();
+            }
+            
+            *writeBufferOut++ = processImpulse(currentPhase, shape);
+            *writeBufferRamp++ = currentPhase * invTwoPi;
 
-        currentPhase += phaseIncrement;
+            currentPhase += phaseIncrement;
+        }
+    }
+    else
+    {
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+        {
+            *writeBufferOut++ = processImpulse(currentPhase, shape);
+            *writeBufferRamp++ = currentPhase * invTwoPi;
+
+            currentPhase += phaseIncrement;
+        }
     }
     
 }
@@ -83,7 +110,6 @@ void module_Impulse::triggerImpulse()
 
 float module_Impulse::processImpulse(float phase, float shape)
 {
-    
     const float fundamentalAttenuator = (-0.5*tanhf(phase*(-fmax(shape,0.88)+1.01)-1)+0.5);
 
     return (phase==float_Pi)
@@ -132,13 +158,14 @@ void module_Impulse::Waveform::paint(Graphics& g)
 
 const void module_Impulse::Waveform::updateForm(const float shape)
 {
+    const float shapeValue = powf(shape, 0.1f);
     
     const int pixelsPerPoint = 2;
     
     const float width           =  getWidth();
     const int   aaValue         =  8; // x8 AA
     // scale the values so that the waveform (more or less) fills the width
-    const float phaseIncrement  =  (((pow(shape,50)*200 + 30)/width)*pixelsPerPoint)/aaValue;
+    const float phaseIncrement  =  (((powf(shapeValue,50)*200 + 30)/width)*pixelsPerPoint)/aaValue;
     
     float phase = 0;
     
@@ -150,7 +177,7 @@ const void module_Impulse::Waveform::updateForm(const float shape)
         float y = 0;
         for(int i=0; i<aaValue; i++)
         {
-            y += abs(processImpulse(phase, shape));
+            y += fabs(processImpulse(phase, shapeValue));
             phase += phaseIncrement;
         }
         y /= aaValue;
