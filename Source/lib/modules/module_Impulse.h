@@ -43,6 +43,7 @@ public:
 private:
     
     float currentPhase = 0;
+    float currentTrigger = 0;
     double sampleRate = 44100;
     
     static float processImpulse(float, float);
