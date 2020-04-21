@@ -54,8 +54,6 @@ void module_Impulse::prepareToPlay (double newSampleRate, int maximumExpectedSam
 
 void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    const bool readInputs = ! buffer.hasBeenCleared();
-    
     const float* readBufferTrigger = buffer.getReadPointer(0);
     //const float* readBufferFreq = buffer.getReadPointer(1);
     //const float* readBufferShape = buffer.getReadPointer(2);
@@ -67,7 +65,7 @@ void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiM
     float* writeBufferOut = buffer.getWritePointer(0);
     float* writeBufferRamp = buffer.getWritePointer(1);
     
-    if (readInputs)
+    if (! buffer.hasBeenCleared())
     {
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
@@ -75,10 +73,7 @@ void module_Impulse::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiM
             const float triggerDelta = currentTrigger - trigger;
             currentTrigger = trigger;
             
-            if (triggerDelta > 0.5f)
-            {
-                triggerImpulse();
-            }
+            if (triggerDelta > 0.5f) triggerImpulse();
             
             *writeBufferOut++ = processImpulse(currentPhase, shape);
             *writeBufferRamp++ = currentPhase * invTwoPi;
