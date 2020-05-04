@@ -101,6 +101,6 @@ void ui_SliderButton::buttonStateChanged (Button* button)
 
 void ui_SliderButton::lookAndFeelChanged()
 {
-    knob.setFill(findColour(TextButton::textColourOnId));
+    knob.setFill(findColour(Slider::thumbColourId));
     textColour = findColour(TextButton::textColourOnId);
 }
