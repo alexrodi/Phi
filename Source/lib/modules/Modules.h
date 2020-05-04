@@ -9,6 +9,9 @@
 */
 
 #pragma once
-#include "module_Impulse.h"
-#include "module_Gain.h"
-#include "module_Output.h"
+
+#include "Gain/GainProcessor.h"
+#include "Impulse/ImpulseProcessor.h"
+#include "Output/OutputProcessor.h"
+#include "String/StringProcessor.h"
+
