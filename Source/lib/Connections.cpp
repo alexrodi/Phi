@@ -57,7 +57,7 @@ Connections::PlugID Connections::registerPlug (PlugMode plugMode, uint32 nodeId,
 
 Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const PlugID inletId)
 {
-    Component* plug = (plugMode == Inlet ? idStore.inlets : idStore.outlets)[inletId.first][inletId.second];
+    auto plug = (plugMode == Inlet ? idStore.inlets : idStore.outlets)[inletId.first][inletId.second];
     
     return getLocalPoint(plug, plug->getLocalBounds().getCentre().toFloat()) ;
 }
@@ -183,8 +183,8 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
 
     bool order = positionA.x > positionB.x;
 
-    Point<float> cubicHandleA = positionA.translated(order ? -hDistance : hDistance, 0);
-    Point<float> cubicHandleB = positionB.translated(order ? hDistance : -hDistance, 0);
+    auto cubicHandleA = positionA.translated(order ? -hDistance : hDistance, 0);
+    auto cubicHandleB = positionB.translated(order ? hDistance : -hDistance, 0);
 
     Path path{};
     path.startNewSubPath (positionA);
