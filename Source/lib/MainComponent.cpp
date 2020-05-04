@@ -2,9 +2,10 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent() :
-patchCordTypeButton{"Gravity"},
-inoutNamesTypeButton{"Hint / Label"}
+MainComponent::MainComponent(std::unique_ptr<AudioEngine> audioEngine) :
+mainPatcher(std::move(audioEngine)),
+patchCordTypeButton("Gravity"),
+inoutNamesTypeButton("Hint / Label")
 {
     
     // Set the colors of PopupMenu
@@ -19,9 +20,11 @@ inoutNamesTypeButton{"Hint / Label"}
     // Set the colors of Scrollbars
     LookAndFeel::getDefaultLookAndFeel().setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
     
+    LookAndFeel::getDefaultLookAndFeel().setColour(Slider::thumbColourId, Colour::greyLevel(0.8f));
+    
     LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
     
-    setSize (600, 400);
+    setSize (1000, 600);
     
     addChildComponent(mainPatcher);
     addAndMakeVisible(viewport);
