@@ -7,10 +7,8 @@
 
   ==============================================================================
 */
-/// @cond
 ///@cond
 #include <JuceHeader.h>
-///@endcond
 /// @endcond
 #include "../lib/MainComponent.h"
 
@@ -29,15 +27,12 @@ public:
     void initialise (const String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
-
-        mainWindow.reset (new MainWindow (getApplicationName()));
+        mainWindow = std::make_unique<MainWindow> (getApplicationName(), std::make_unique<AudioEngine>());
     }
 
     void shutdown() override
     {
         // Add your application's shutdown code here..
-
-        mainWindow = nullptr; // (deletes our window)
     }
 
     //==============================================================================
@@ -63,13 +58,13 @@ public:
     class MainWindow    : public DocumentWindow
     {
     public:
-        MainWindow (String name)  : DocumentWindow (name,
+        MainWindow (String name, std::unique_ptr<AudioEngine> audioEngine)  : DocumentWindow (name,
                                                     Desktop::getInstance().getDefaultLookAndFeel()
                                                                           .findColour (ResizableWindow::backgroundColourId),
                                                     DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainComponent(), true);
+            setContentOwned (new MainComponent(std::move(audioEngine)), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
