@@ -15,19 +15,22 @@
 ///@endcond
 #include "ModuleBox.h"
 #include "Connections.h"
+#include "AudioEngine.h"
 
 //==============================================================================
-/// The main view of Phi, this class handles all the module creation, hosting, patching and audio processing
+/// The main view of Phi, this class handles all the module creation, hosting and patching
 class MainPatcher    : public Component,
                        public DragAndDropContainer,
                        public ChangeListener
 {
 public:
-    MainPatcher();
+    MainPatcher(std::unique_ptr<AudioEngine>);
     ~MainPatcher();
 
     void paint (Graphics&) override;
     void resized() override;
+    
+    void mouseDown(const MouseEvent& e) override;
     
     /// Toggles between two patch-cord drawing routines
     void togglePatchCordType(bool);
@@ -39,61 +42,8 @@ public:
     bool keyPressed (const KeyPress& key) override;
     
 private:
-    /// The class where each module's DSP routine gets implemented as nodes and patched together
-    class AudioEngine : public AudioProcessorGraph
-    {
-    public:
-        AudioEngine()
-        {
-            enableAllBuses();
-
-            deviceManager.initialiseWithDefaultDevices (2, 2);
-            deviceManager.addAudioCallback (&player);
-            
-            player.setProcessor (this);
-            
-            // Add an output node in the graph so that output modules may connect to it
-            outputNode = addNode(std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode));
-        }
-        
-        ~AudioEngine()
-        {
-            deviceManager.removeAudioCallback (&player);
-        }
-        
-        /// Takes an array of Connections::PlugID pairs (output, input) and iterates through it to apply the connections in the AudioProcessorGraph
-        void applyAudioConnections(Array<std::pair<Connections::PlugID, Connections::PlugID>> connectionsToApply)
-        {
-            for (std::pair<Connections::PlugID, Connections::PlugID> connection : connectionsToApply)
-            {
-                NodeAndChannel source { {}, connection.first.second };
-                NodeAndChannel destination { {}, connection.second.second };
-                
-                source.nodeID.uid = connection.first.first;
-                destination.nodeID.uid = connection.second.first;
-                
-                addConnection ({ source, destination });
-            }
-            removeIllegalConnections();
-        }
-        
-        /** Connects all the outlets of a node to the output node.
-         This function should only be called on modules that are meant as an audio output to the patcher.
-         Its use however, still allows for the outlets to be connected to other modules in the patcher, if they are made available */
-        void connectToOuput(Node::Ptr nodeToConnect)
-        {
-            int connectionNumber = nodeToConnect->getProcessor()->getTotalNumOutputChannels();
-            for (int i = 0; i < connectionNumber; i++)
-            {
-                addConnection ({ { nodeToConnect->nodeID, i }, { outputNode->nodeID, i } });
-            }
-        }
-    private:
-        AudioDeviceManager deviceManager;
-        AudioProcessorPlayer player;
-        Node::Ptr outputNode;
-        
-    } audioEngine;
+    /// A pointer to the AudioEngine to add processors (modules) and make connections
+    std::unique_ptr<AudioEngine> audioEngine;
     
     /// An OwnedArray for storing and accessing all the modules (ModuleBox's) in the patcher
     OwnedArray<ModuleBox> modules;
@@ -111,10 +61,12 @@ private:
     
     TooltipWindow tooltipWindow;
     
+    void registerPlugs(OwnedArray<Plug>&, Connections::PlugMode, uint32);
+    
     /** Registers all inlets and outlets of a module with the connections component.
      This function performs three jobs for each inlet/outlet:
      registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it. */
-    void registerInletsAndOutlets(Module*, uint32);
+    void registerInletsAndOutlets(ModuleUI&);
     
     /// Creates a module of type moduleClass at certain (top-left) point in the patcher, registers it to connections and adds it to audioEngine
     template <class> void createModule(Point<float>);
@@ -124,7 +76,7 @@ private:
     /// Runs deleteModule() for every selected module
     void deleteAllSelectedModules();
     
-    void mouseDown(const MouseEvent& e) override;
+    /// We use this currently to get notified from Connections when a new connection is made, so that it may be correspondingly applied in the AudioEngine
     void changeListenerCallback (ChangeBroadcaster* source) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainPatcher)
