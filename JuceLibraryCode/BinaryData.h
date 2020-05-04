@@ -8,17 +8,14 @@
 
 namespace BinaryData
 {
+    extern const char*   phi_png;
+    const int            phi_pngSize = 45810;
+
     extern const char*   Speaker_Icon_svg;
     const int            Speaker_Icon_svgSize = 513;
 
-    extern const char*   SinFormant_wav;
-    const int            SinFormant_wavSize = 131172;
-
-    extern const char*   SinSquare_wav;
-    const int            SinSquare_wavSize = 41060;
-
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 3;
+    const int namedResourceListSize = 2;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

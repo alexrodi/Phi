@@ -6,53 +6,79 @@
     <GROUP id="{6EA973C7-AFCB-9962-43A0-B724ACFC7C17}" name="Source">
       <GROUP id="{AC97657F-A58F-C8E3-78F7-79DF534B8FF0}" name="lib">
         <GROUP id="{91870E3B-AB7D-9BFF-6CB9-0E07EBCE703C}" name="modules">
-          <FILE id="j6KuYQ" name="module_Gain.cpp" compile="1" resource="0" file="Source/lib/modules/module_Gain.cpp"/>
-          <FILE id="ILINJK" name="module_Gain.h" compile="0" resource="0" file="Source/lib/modules/module_Gain.h"/>
-          <FILE id="eusdgI" name="module_Impulse.cpp" compile="1" resource="0"
-                file="Source/lib/modules/module_Impulse.cpp"/>
-          <FILE id="D2Mfwx" name="module_Impulse.h" compile="0" resource="0"
-                file="Source/lib/modules/module_Impulse.h"/>
-          <FILE id="z2qyrb" name="Modules.h" compile="0" resource="0" file="Source/lib/modules/Modules.h"/>
-          <FILE id="Ij0m4V" name="module_Output.cpp" compile="1" resource="0"
-                file="Source/lib/modules/module_Output.cpp"/>
-          <FILE id="D5fgZ3" name="module_Output.h" compile="0" resource="0" file="Source/lib/modules/module_Output.h"/>
+          <GROUP id="{AB8766FF-8D6F-FB00-3B9D-34236C15BA37}" name="Gain">
+            <FILE id="jyZxpa" name="GainProcessor.cpp" compile="1" resource="0"
+                  file="Source/lib/modules/Gain/GainProcessor.cpp"/>
+            <FILE id="GkHMMc" name="GainProcessor.h" compile="0" resource="0" file="Source/lib/modules/Gain/GainProcessor.h"/>
+            <FILE id="BOWL6r" name="GainUI.cpp" compile="1" resource="0" file="Source/lib/modules/Gain/GainUI.cpp"/>
+            <FILE id="l6V4O3" name="GainUI.h" compile="0" resource="0" file="Source/lib/modules/Gain/GainUI.h"/>
+          </GROUP>
+          <GROUP id="{86B595A2-5A12-32AB-6FA3-AC368963C8C4}" name="Impulse">
+            <FILE id="ZVU325" name="ImpulseProcessor.cpp" compile="1" resource="0"
+                  file="Source/lib/modules/Impulse/ImpulseProcessor.cpp"/>
+            <FILE id="BgoxHe" name="ImpulseProcessor.h" compile="0" resource="0"
+                  file="Source/lib/modules/Impulse/ImpulseProcessor.h"/>
+            <FILE id="srxkwX" name="ImpulseUI.cpp" compile="1" resource="0" file="Source/lib/modules/Impulse/ImpulseUI.cpp"/>
+            <FILE id="NwSmso" name="ImpulseUI.h" compile="0" resource="0" file="Source/lib/modules/Impulse/ImpulseUI.h"/>
+          </GROUP>
+          <GROUP id="{053AFE04-989B-E6A7-590B-E7E897C64616}" name="Output">
+            <FILE id="mn9Epb" name="OutputProcessor.cpp" compile="1" resource="0"
+                  file="Source/lib/modules/Output/OutputProcessor.cpp"/>
+            <FILE id="pYM4Qu" name="OutputProcessor.h" compile="0" resource="0"
+                  file="Source/lib/modules/Output/OutputProcessor.h"/>
+            <FILE id="S7fchB" name="OutputUI.cpp" compile="1" resource="0" file="Source/lib/modules/Output/OutputUI.cpp"/>
+            <FILE id="IDAo72" name="OutputUI.h" compile="0" resource="0" file="Source/lib/modules/Output/OutputUI.h"/>
+          </GROUP>
+          <GROUP id="{4A245E61-6CCA-2C6F-031C-1D10D4963820}" name="String">
+            <FILE id="sRHLGL" name="StringProcessor.cpp" compile="1" resource="0"
+                  file="Source/lib/modules/String/StringProcessor.cpp"/>
+            <FILE id="oV0OpX" name="StringProcessor.h" compile="0" resource="0"
+                  file="Source/lib/modules/String/StringProcessor.h"/>
+            <FILE id="BBiIsG" name="StringUI.cpp" compile="1" resource="0" file="Source/lib/modules/String/StringUI.cpp"/>
+            <FILE id="qG9lEU" name="StringUI.h" compile="0" resource="0" file="Source/lib/modules/String/StringUI.h"/>
+          </GROUP>
+          <FILE id="J4NjS1" name="Modules.h" compile="0" resource="0" file="Source/lib/modules/Modules.h"/>
         </GROUP>
         <GROUP id="{54628CB4-901E-DD26-B32B-15B8A3186DB6}" name="UIobjects">
-          <FILE id="c8I188" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>
-          <FILE id="t6Vdbc" name="ui_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/ui_Dial.h"/>
-          <FILE id="ifVMmD" name="ui_SliderButton.cpp" compile="1" resource="0"
+          <FILE id="rqsYHB" name="ui_Dial.cpp" compile="1" resource="0" file="Source/lib/UIobjects/ui_Dial.cpp"/>
+          <FILE id="MReOAy" name="ui_Dial.h" compile="0" resource="0" file="Source/lib/UIobjects/ui_Dial.h"/>
+          <FILE id="je8vyn" name="ui_SliderButton.cpp" compile="1" resource="0"
                 file="Source/lib/UIobjects/ui_SliderButton.cpp"/>
-          <FILE id="YoCDXG" name="ui_SliderButton.h" compile="0" resource="0"
+          <FILE id="XdLURp" name="ui_SliderButton.h" compile="0" resource="0"
                 file="Source/lib/UIobjects/ui_SliderButton.h"/>
-          <FILE id="WFVR48" name="ui_ToggleButton.h" compile="0" resource="0"
+          <FILE id="DSYYm4" name="ui_ToggleButton.h" compile="0" resource="0"
                 file="Source/lib/UIobjects/ui_ToggleButton.h"/>
         </GROUP>
-        <FILE id="n0cz9d" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
-        <FILE id="BEzYhM" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
-        <FILE id="ceFq2v" name="MainComponent.cpp" compile="1" resource="0"
+        <FILE id="ZuAWTJ" name="AudioEngine.cpp" compile="1" resource="0" file="Source/lib/AudioEngine.cpp"/>
+        <FILE id="aS0a9F" name="AudioEngine.h" compile="0" resource="0" file="Source/lib/AudioEngine.h"/>
+        <FILE id="DtfLt1" name="Connections.cpp" compile="1" resource="0" file="Source/lib/Connections.cpp"/>
+        <FILE id="y2DVhV" name="Connections.h" compile="0" resource="0" file="Source/lib/Connections.h"/>
+        <FILE id="zv9b0S" name="DSPUtils.h" compile="0" resource="0" file="Source/lib/DSPUtils.h"/>
+        <FILE id="MSYWgv" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/lib/MainComponent.cpp"/>
-        <FILE id="pWbLuN" name="MainComponent.h" compile="0" resource="0" file="Source/lib/MainComponent.h"/>
-        <FILE id="AqjXwO" name="MainPatcher.cpp" compile="1" resource="0" file="Source/lib/MainPatcher.cpp"/>
-        <FILE id="WCXWoB" name="MainPatcher.h" compile="0" resource="0" file="Source/lib/MainPatcher.h"/>
-        <FILE id="Bpbyv3" name="Module.cpp" compile="1" resource="0" file="Source/lib/Module.cpp"/>
-        <FILE id="liwK8Y" name="Module.h" compile="0" resource="0" file="Source/lib/Module.h"/>
-        <FILE id="t1KaPP" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
-        <FILE id="farp6W" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
-        <FILE id="Z2toly" name="Plug.cpp" compile="1" resource="0" file="Source/lib/Plug.cpp"/>
-        <FILE id="kZSOiB" name="Plug.h" compile="0" resource="0" file="Source/lib/Plug.h"/>
+        <FILE id="V9B844" name="MainComponent.h" compile="0" resource="0" file="Source/lib/MainComponent.h"/>
+        <FILE id="c99FFn" name="MainPatcher.cpp" compile="1" resource="0" file="Source/lib/MainPatcher.cpp"/>
+        <FILE id="InkwFa" name="MainPatcher.h" compile="0" resource="0" file="Source/lib/MainPatcher.h"/>
+        <FILE id="uPhzxY" name="ModuleBox.cpp" compile="1" resource="0" file="Source/lib/ModuleBox.cpp"/>
+        <FILE id="Qw9kkN" name="ModuleBox.h" compile="0" resource="0" file="Source/lib/ModuleBox.h"/>
+        <FILE id="Eep11x" name="ModuleProcessor.h" compile="0" resource="0"
+              file="Source/lib/ModuleProcessor.h"/>
+        <FILE id="gHiKCd" name="ModuleUI.cpp" compile="1" resource="0" file="Source/lib/ModuleUI.cpp"/>
+        <FILE id="L7tK6w" name="ModuleUI.h" compile="0" resource="0" file="Source/lib/ModuleUI.h"/>
+        <FILE id="WBxmxQ" name="Plug.cpp" compile="1" resource="0" file="Source/lib/Plug.cpp"/>
+        <FILE id="nXI5Q7" name="Plug.h" compile="0" resource="0" file="Source/lib/Plug.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
-        <GROUP id="{5AD56AAE-9499-4BA1-1A86-9C985DC417A8}" name="svg">
-          <FILE id="pQJI1c" name="Speaker_Icon.svg" compile="0" resource="1"
-                file="Source/resources/svg/Speaker_Icon.svg"/>
+        <GROUP id="{9258AA52-4B5D-E224-87FC-08225025B58B}" name="png">
+          <FILE id="C2zhiz" name="phi.png" compile="0" resource="1" file="Source/resources/png/phi.png"/>
         </GROUP>
-        <GROUP id="{AFB75D1F-B744-A782-6D95-CA6C7EDD0FFC}" name="audio">
-          <FILE id="Yuf23n" name="SinFormant.wav" compile="0" resource="1" file="Source/resources/audio/SinFormant.wav"/>
-          <FILE id="oRbExV" name="SinSquare.wav" compile="0" resource="1" file="Source/resources/audio/SinSquare.wav"/>
+        <GROUP id="{4721DD4A-B540-8EE5-B824-EE9B13CEEBCE}" name="svg">
+          <FILE id="gopQYq" name="Speaker_Icon.svg" compile="0" resource="1"
+                file="Source/resources/svg/Speaker_Icon.svg"/>
         </GROUP>
       </GROUP>
       <GROUP id="{37C4FECC-8C82-C393-89B9-EC3FDD7D3537}" name="src">
-        <FILE id="LAp5N3" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
+        <FILE id="CyOZSe" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
