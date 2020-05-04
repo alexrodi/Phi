@@ -14,8 +14,8 @@
 #include "ModuleBox.h"
 
 //==============================================================================
-ModuleBox::ModuleBox(Module* module, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
-module{module},
+ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> module, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
+moduleUI{std::move(module)},
 highlightColour{Colours::cyan.brighter()},
 powerButton{},
 resizer(this, this),
@@ -33,7 +33,7 @@ moduleSelection{selectionChangeSource}
     resizer.setSize(8,8);
     
     // Visibles ======================================================
-    addAndMakeVisible(*module);
+    addAndMakeVisible(*moduleUI);
     addAndMakeVisible(powerButton);
     addAndMakeVisible(resizer);
     setPaintingIsUnclipped(true);
@@ -41,7 +41,7 @@ moduleSelection{selectionChangeSource}
     
     setupLookAndFeel();
     
-    setSize(module->props.width, module->props.height);
+    setSize(moduleUI->props.width, moduleUI->props.height);
 }
 
 ModuleBox::~ModuleBox()
@@ -62,7 +62,7 @@ void ModuleBox::paint (Graphics& g)
     g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
-    g.drawText(module->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
+    g.drawText(moduleUI->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
     g.setColour (Colours::grey);
@@ -72,7 +72,7 @@ void ModuleBox::paint (Graphics& g)
 void ModuleBox::resized()
 {
     // Check height to constrain size
-    if (getHeight() < module->props.minimumHeight)
+    if (getHeight() < moduleUI->props.minimumHeight)
         setSize(getWidth(), HEADER_HEIGHT + 3);
     
     // Module Box area (padded)
@@ -93,18 +93,18 @@ void ModuleBox::resized()
     headerLine = Rectangle<float>(CONTENT_PADDING, HEADER_HEIGHT - 2, getWidth()-CONTENT_PADDING * 2, 1);
     
     // Module area
-    Rectangle<int> moduleRect = getLocalBounds();
+    auto moduleRect = getLocalBounds();
     // Header area
-    Rectangle<int> boxHeader = moduleRect.removeFromTop(HEADER_HEIGHT);
+    auto boxHeader = moduleRect.removeFromTop(HEADER_HEIGHT);
     
     // Place Power button
     powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(CONTENT_PADDING,6));
     
     // Place Text
-    nameRectangle = Rectangle<float>(boxHeader.toFloat());
+    nameRectangle = boxHeader.toFloat();
     
     // Place Module
-    module->setBounds(moduleRect.reduced(CONTENT_PADDING));// (padded)
+    moduleUI->setBounds(moduleRect.reduced(CONTENT_PADDING));// (padded)
     
     
     // Emmit action message to update connections
@@ -124,46 +124,43 @@ void ModuleBox::setupLookAndFeel()
     lookandfeel.setColour(Slider::thumbColourId, highlightColour);
     lookandfeel.setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
     lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
-    lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
     lookandfeel.setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
-    lookandfeel.setColour(TextEditor::focusedOutlineColourId, Colour());
-    lookandfeel.setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
+    lookandfeel.setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
+    lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
     lookandfeel.setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3));
     lookandfeel.setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8));
+    lookandfeel.setColour(TextEditor::focusedOutlineColourId, Colour());
+    lookandfeel.setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
+    lookandfeel.setColour(TextButton::textColourOnId, Colours::grey.brighter());
     
     sendLookAndFeelChange();
 }
 
 
 //==============================================================================
-void ModuleBox::startDraggingSelected(const MouseEvent& e){
-    Array<ModuleBox*> selected = moduleSelection.getItemArray();
-    for (ModuleBox* module : selected){
-        module->startDraggingComponent(module, e);
-    }
-}
 
-void ModuleBox::dragSelected(const MouseEvent& e){
-    Array<ModuleBox*> selected = moduleSelection.getItemArray();
-    for (ModuleBox* module : selected){
-         module->dragComponent(module, e, module);
-    }
+void ModuleBox::forEachSelected(std::function<void(ModuleBox*, const MouseEvent&)> callback, const MouseEvent& e)
+{
+    auto selected = moduleSelection.getItemArray();
+    for (auto module : selected)
+       callback(module, e);
 }
 
 void ModuleBox::mouseDown(const MouseEvent& e)
 {
-    selectResult = moduleSelection.addToSelectionOnMouseDown(this,ModifierKeys::getCurrentModifiers());
-    startDraggingSelected(e);
+    selectionResult = moduleSelection.addToSelectionOnMouseDown(this,ModifierKeys::getCurrentModifiers());
+    
+    forEachSelected(startDraggingModule, e);
 }
 
 void ModuleBox::mouseUp(const MouseEvent& e)
 {
-    moduleSelection.addToSelectionOnMouseUp(this,ModifierKeys::getCurrentModifiers(),e.mouseWasDraggedSinceMouseDown(), selectResult);
+    moduleSelection.addToSelectionOnMouseUp(this,ModifierKeys::getCurrentModifiers(),e.mouseWasDraggedSinceMouseDown(), selectionResult);
 }
 
 void ModuleBox::mouseDrag(const MouseEvent& e)
 {
-    dragSelected(e);
+    forEachSelected(dragModule, e);
 }
 
 
@@ -184,16 +181,24 @@ void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 }
 
 
-void ModuleBox::buttonStateChanged (Button* button)
+void ModuleBox::buttonClicked (Button* button)
 {
     if (button == &powerButton){
         
         LookAndFeel& lookAndFeel = getLookAndFeel();
         
         if (button->getToggleState())
+        {
             lookAndFeel.setColour(Slider::thumbColourId, highlightColour);
+            lookAndFeel.setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
+            lookAndFeel.setColour(TextButton::textColourOnId, Colours::grey.brighter());
+        }
         else
+        {
             lookAndFeel.setColour(Slider::thumbColourId, Colours::grey);
+            lookAndFeel.setColour(Slider::textBoxTextColourId, Colours::grey);
+            lookAndFeel.setColour(TextButton::textColourOnId, Colours::grey);
+        }
         
         sendLookAndFeelChange();
     }
