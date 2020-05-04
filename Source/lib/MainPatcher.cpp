@@ -14,7 +14,8 @@
 #include "MainPatcher.h"
 
 //==============================================================================
-MainPatcher::MainPatcher() :
+MainPatcher::MainPatcher(std::unique_ptr<AudioEngine> audioEngineToUse) :
+audioEngine(std::move(audioEngineToUse)),
 tooltipWindow{this}
 {
     setWantsKeyboardFocus(true);
@@ -22,8 +23,9 @@ tooltipWindow{this}
     // Menu and submenus content
     // Submenus must be filled before the main
     modulesSubMenu.addItem (1, "Impulse");
-    modulesSubMenu.addItem (2, "Gain");
-    modulesSubMenu.addItem (3, "Output");
+    modulesSubMenu.addItem (2, "String");
+    modulesSubMenu.addItem (3, "Gain");
+    modulesSubMenu.addItem (4, "Output");
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
     LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::outlineColourId, Colours::transparentBlack);
@@ -68,23 +70,28 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         
         if (result==1)
         {
-            createModule<module_Impulse>(e.position);
+            createModule<ImpulseProcessor>(e.position);
         }
         else if (result==2)
         {
-            createModule<module_Gain>(e.position);
+            createModule<StringProcessor>(e.position);
         }
         else if (result==3)
         {
-            createModule<module_Output>(e.position);
+            createModule<GainProcessor>(e.position);
         }
+        else if (result==4)
+        {
+            createModule<OutputProcessor>(e.position);
+        }
+
     }
 }
 
 void MainPatcher::deleteModule(ModuleBox* moduleBox)
 {
-    connections.removeModule(moduleBox->module->nodeID.uid);
-    audioEngine.removeNode(moduleBox->module->nodeID);
+    connections.removeModule(moduleBox->moduleUI->nodeID.uid);
+    audioEngine->removeNode(moduleBox->moduleUI->nodeID);
     modules.removeObject(moduleBox);
 }
 
@@ -114,59 +121,54 @@ void MainPatcher::toggleInoutType(bool toggle)
     repaint();
 }
 
-void MainPatcher::registerInletsAndOutlets(Module* module, uint32 moduleId)
+void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, Connections::PlugMode plugMode, uint32 nodeID)
 {
-    
-    OwnedArray<Inlet>& inlets = module->inlets;
-    for (Inlet* inlet : inlets)
+    for (auto plug : plugArray)
     {
-        inlet->setId(connections.registerPlug(Connections::Inlet, moduleId, inlet));
-        inlet->addActionListener(&connections);
+        plug->setId(connections.registerPlug(plugMode, nodeID, plug));
+        plug->addActionListener(&connections);
     }
-    
-    OwnedArray<Outlet>& outlets = module->outlets;
-    for (Outlet* outlet : outlets)
-    {
-        outlet->setId(connections.registerPlug(Connections::Outlet, moduleId, outlet));
-        outlet->addActionListener(&connections);
-    }
-    
+}
+
+void MainPatcher::registerInletsAndOutlets(ModuleUI& module)
+{
+    registerPlugs(module.inlets, Connections::Inlet, module.nodeID.uid);
+    registerPlugs(module.outlets, Connections::Outlet, module.nodeID.uid);
 }
 
 template <class moduleClass>
 void MainPatcher::createModule(Point<float> position)
 {
-    std::unique_ptr<Module> newModule = std::make_unique<moduleClass>();
+    std::unique_ptr<moduleClass> newModule = std::make_unique<moduleClass>();
     
-    Module* modulePtr = newModule.get();
-        
-    ModuleBox* moduleBox = new ModuleBox(modulePtr, selectedModules);
+    std::unique_ptr<ModuleUI> moduleUI = newModule->createUI();
     
+    auto newNode = audioEngine->addNode(std::move(newModule));
+
+    // When we detect an output module, we hook it up to the output node
+    if (typeid(moduleClass) == typeid(OutputProcessor))
+    {
+        audioEngine->connectToOuput(newNode);
+    }
+    
+    moduleUI->nodeID = newNode->nodeID;
+    
+    registerInletsAndOutlets(*moduleUI);
+    
+    auto moduleBox = new ModuleBox(std::move(moduleUI), selectedModules);
     modules.add(moduleBox);
     
     // Display and set its position
     addAndMakeVisible(moduleBox);
     moduleBox->setTopLeftPosition(position.toInt());
     moduleBox->addActionListener(&connections);
-    
-    AudioProcessorGraph::Node::Ptr newNode = audioEngine.addNode(std::move(newModule));
-
-    // When we detect an output module, we must hook it up to the output node
-    if (typeid(moduleClass) == typeid(module_Output))
-    {
-        audioEngine.connectToOuput(newNode);
-    }
-    
-    modulePtr->nodeID = newNode->nodeID;
-    
-    registerInletsAndOutlets(modulePtr, newNode.get()->nodeID.uid);
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == &connections)
     {
-        audioEngine.applyAudioConnections(connections.getAllConnectionIdPairs());
+        audioEngine->applyAudioConnections(connections.getAllConnectionIdPairs());
     }
 }
 
