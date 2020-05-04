@@ -13,7 +13,7 @@
 ///@endcond
 #include "ui_Dial.h"
 
-ui_Dial::ui_Dial(float rangeLow, float rangeHigh, Slider::Listener* listener, double skewFactor, std::string valueSuffix, int decimals) :
+ui_Dial::ui_Dial(std::string name, float rangeLow, float rangeHigh, Slider::Listener* listener, double skewFactor, std::string valueSuffix, int decimals) :
 valueRange{rangeLow, rangeHigh, 0, skewFactor}
 {
     setNormalisableRange         (valueRange);
@@ -21,13 +21,14 @@ valueRange{rangeLow, rangeHigh, 0, skewFactor}
     setTextBoxStyle              (TextBoxBelow, true, 80, 20);
     setTextBoxIsEditable         (true);
     
+    setName                      (name);
     setTextValueSuffix           (valueSuffix);
     setNumDecimalPlacesToDisplay (decimals);
     addListener                  (listener);
+    addListener (this);
     
     setPaintingIsUnclipped (true);
     
-    addListener(this);
     updateDial();
 }
 
@@ -38,14 +39,20 @@ valueRange{rangeLow, rangeHigh, 0, skewFactor}
 
 void ui_Dial::paint (Graphics& g)
 {
+    
+    if (shouldDrawText)
+    {
+        g.setColour(nameColour);
+        g.drawFittedText(getName(), nameBounds, Justification::centredBottom, 1);
+    }
 
     g.setColour(grooveColour);
-    g.strokePath(groove, PathStrokeType(thickness));
+    g.strokePath(groove, PathStrokeType(thickness, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded));
     
     g.setColour(colour);
     g.strokePath(dial, PathStrokeType(thickness, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded));
     
-    if (radius > 18)
+    if (radius > 17)
     {
         g.addTransform(pointerRotation);
         g.fillPath(pointerPath);
@@ -58,9 +65,18 @@ void ui_Dial::resized ()
 {
     Slider::resized();
     
-    size = jmin(getWidth(), getHeight()-10);
-    box = getLocalBounds().toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -5);
-    radius = box.getWidth() * 0.5;
+    bool hasName = getName() != "";
+    bool enoughHeightForName = getHeight() > 70;
+    
+    shouldDrawText = hasName && enoughHeightForName;
+    
+    auto bounds = getLocalBounds();
+    
+    nameBounds = bounds.removeFromTop(15);
+    
+    size = jmin(bounds.getWidth(), bounds.getHeight()-10);
+    box = bounds.toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -7);
+    radius = box.getWidth() * 0.55;
     
     groove.clear();
     groove.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, endAngle, true);
@@ -73,6 +89,7 @@ void ui_Dial::lookAndFeelChanged ()
     Slider::lookAndFeelChanged();
     colour = findColour(thumbColourId);
     grooveColour = findColour(rotarySliderOutlineColourId);
+    nameColour = findColour(textBoxTextColourId);
 }
 
 void ui_Dial::updateDial ()
@@ -82,12 +99,10 @@ void ui_Dial::updateDial ()
     dial.clear();
     dial.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, angle, true);
     
-    if (radius > 18)
+    if (radius > 17)
     {
         pointerPath.clear();
-        
-        pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(4, 10).withY(box.getY()+thickness+2), 2);
-        
+        pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(4, 10).withY(box.getY()+thickness), 2);
         pointerRotation = AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
     }
 }

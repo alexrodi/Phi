@@ -21,7 +21,7 @@ class ui_Dial    : public Slider,
                    public Slider::Listener
 {
 public:
-    ui_Dial(float, float, Slider::Listener*, double = 1, std::string = "", int = 2);
+    ui_Dial(std::string, float, float, Slider::Listener*, double = 1, std::string = "", int = 2);
     ~ui_Dial();
     
     void paint (Graphics& g) override;
@@ -39,8 +39,10 @@ private:
     AffineTransform pointerRotation;
     
     Rectangle<float> box;
+    Rectangle<int> nameBounds;
     Colour colour;
     Colour grooveColour;
+    Colour nameColour;
     
     const int padding = 10;
     const int thickness = 5;
@@ -51,6 +53,8 @@ private:
     float size;
     float radius;
     float angle = startAngle;
+    
+    bool shouldDrawText = false;
     
     void updateDial();
     
