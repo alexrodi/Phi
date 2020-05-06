@@ -10,7 +10,9 @@
 
 #pragma once
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 
 //==============================================================================
 namespace PlugOptions

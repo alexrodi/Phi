@@ -42,8 +42,9 @@ public:
      */
     Props props;
     
-    /// The module's
+    /// The module's inlets
     OwnedArray<Plug> inlets;
+    /// The module's outlets
     OwnedArray<Plug> outlets;
     
     /// The NodeID belonging to the parent module, this is used by concatenanting it to broadcast this inlet's PlugID

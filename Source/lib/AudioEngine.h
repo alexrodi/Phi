@@ -10,7 +10,9 @@
 
 #pragma once
 
+///@cond
 #include <JuceHeader.h>
+///@endcond
 #include "Connections.h"
 
 /// The class where each module's DSP routine gets implemented as nodes and patched together
