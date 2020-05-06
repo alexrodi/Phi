@@ -139,11 +139,11 @@ void MainPatcher::registerInletsAndOutlets(ModuleUI& module)
 template <class moduleClass>
 void MainPatcher::createModule(Point<float> position)
 {
-    std::unique_ptr<moduleClass> newModule = std::make_unique<moduleClass>();
+    auto moduleProcessor = std::make_unique<moduleClass>();
     
-    std::unique_ptr<ModuleUI> moduleUI = newModule->createUI();
+    auto moduleUI = moduleProcessor->createUI();
     
-    auto newNode = audioEngine->addNode(std::move(newModule));
+    auto newNode = audioEngine->addNode(std::move(moduleProcessor));
 
     // When we detect an output module, we hook it up to the output node
     if (typeid(moduleClass) == typeid(OutputProcessor))

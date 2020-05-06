@@ -13,7 +13,6 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "StringProcessor.h"
 #include "../../ModuleUI.h"
 #include "../../UIobjects/ui_Dial.h"
 #include "../../UIobjects/ui_SliderButton.h"
@@ -23,7 +22,7 @@ class StringUI    : public ModuleUI,
                     public Button::Listener
 {
 public:
-    StringUI(StringProcessor&);
+    StringUI(ModuleProcessor&);
     ~StringUI();
 
     void paint (Graphics&) override;

@@ -13,7 +13,6 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "GainProcessor.h"
 #include "../../ModuleUI.h"
 #include "../../UIobjects/ui_Dial.h"
 
@@ -21,7 +20,7 @@ class GainUI    : public ModuleUI,
                   public Slider::Listener
 {
 public:
-    GainUI(GainProcessor&);
+    GainUI(ModuleProcessor&);
     ~GainUI();
 
     void paint (Graphics&) override;

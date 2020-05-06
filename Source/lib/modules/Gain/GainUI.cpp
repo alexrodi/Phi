@@ -11,7 +11,7 @@
 #include "GainUI.h"
 
 
-GainUI::GainUI(GainProcessor& processor) :
+GainUI::GainUI(ModuleProcessor& processor) :
 ModuleUI({
             // All modules must initialize these properties
             .name =  "Gain",

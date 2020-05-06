@@ -13,7 +13,6 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "OutputProcessor.h"
 #include "../../ModuleUI.h"
 
 //==============================================================================
@@ -22,7 +21,7 @@
 class OutputUI    : public ModuleUI
 {
 public:
-    OutputUI(OutputProcessor&);
+    OutputUI(ModuleProcessor&);
     ~OutputUI();
 
     void paint (Graphics&) override;

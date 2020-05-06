@@ -14,7 +14,7 @@
 #include "OutputUI.h"
 
 //==============================================================================
-OutputUI::OutputUI(OutputProcessor& processor) :
+OutputUI::OutputUI(ModuleProcessor& processor) :
 ModuleUI{{
     // All modules must initialize these properties
     .name =  "Output",

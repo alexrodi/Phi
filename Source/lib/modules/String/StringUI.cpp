@@ -11,7 +11,7 @@
 #include "StringUI.h"
 
 
-StringUI::StringUI(StringProcessor& processor) :
+StringUI::StringUI(ModuleProcessor& processor) :
 ModuleUI({
             // All modules must initialize these properties
             .name =  "String",

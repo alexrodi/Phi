@@ -14,7 +14,6 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "ImpulseProcessor.h"
-#include "../../ModuleUI.h"
 #include "../../UIobjects/ui_Dial.h"
 
 //==============================================================================
