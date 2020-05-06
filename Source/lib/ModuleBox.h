@@ -14,7 +14,6 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "modules/Modules.h"
-#include "ModuleUI.h"
 #include "UIobjects/ui_ToggleButton.h"
 
 //==============================================================================

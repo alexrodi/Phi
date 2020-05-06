@@ -33,7 +33,7 @@ public:
 
 private:
     
-    /// Interfaces with the output devices
+    /// Interfaces with output devices
     AudioDeviceManager deviceManager;
     /// Allows to playback our Processor Graph
     AudioProcessorPlayer player;
