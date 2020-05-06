@@ -45,7 +45,7 @@ private:
     Colour nameColour;
     
     const int padding = 10;
-    const int thickness = 5;
+    const int thickness = 3;
     const float startAngle = getRotaryParameters().startAngleRadians;
     const float endAngle = getRotaryParameters().endAngleRadians;
     const float angleRange = endAngle - startAngle;

@@ -66,7 +66,7 @@ void ui_Dial::resized ()
     Slider::resized();
     
     bool hasName = getName() != "";
-    bool enoughHeightForName = getHeight() > 70;
+    bool enoughHeightForName = getHeight() > 40;
     
     shouldDrawText = hasName && enoughHeightForName;
     
@@ -102,7 +102,7 @@ void ui_Dial::updateDial ()
     if (radius > 17)
     {
         pointerPath.clear();
-        pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(4, 10).withY(box.getY()+thickness), 2);
+        pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(thickness, 9).withY(box.getY()+thickness+1), thickness * 0.5);
         pointerRotation = AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
     }
 }
