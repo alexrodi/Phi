@@ -55,8 +55,8 @@ StringUI::~StringUI()
 
 void StringUI::paint (Graphics&)
 {
-    
 }
+
 void StringUI::wasResized(Rectangle<int> moduleBounds)
 {
     const int dialWidth = (float)moduleBounds.getWidth()/4.0f;

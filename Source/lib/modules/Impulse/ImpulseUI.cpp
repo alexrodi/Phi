@@ -53,31 +53,23 @@ void ImpulseUI::mouseDown(const MouseEvent& e)
 
 void ImpulseUI::Waveform::resized()
 {
-    centreY = getBounds().getCentreY();
-    yRange = getHeight() * 0.5;
-    updateColour();
+    centreY = getBounds().toFloat().getCentreY();
+    yRange = (float)getHeight() * 0.57f;
 }
 
-const void ImpulseUI::Waveform::setColour(const Colour& colourToUse)
+const void ImpulseUI::Waveform::setColour(const Colour& newStrokeColour, const Colour& newFillColour)
 {
-    colour = colourToUse;
-    updateColour();
-}
-
-const void ImpulseUI::Waveform::updateColour()
-{
-    colourGradient = ColourGradient().vertical(colour, centreY+yRange, colour.darker(), centreY);
+    strokeColour = newStrokeColour;
+    fillColour = newFillColour;
 }
 
 void ImpulseUI::Waveform::paint(Graphics& g)
 {
-    g.setGradientFill(colourGradient);
-    g.fillPath(topPath);
-    g.strokePath (topPath, PathStrokeType (strokeWidth));
+    g.setColour(fillColour);
+    g.fillPath(path);
     
-    g.setColour(colour);
-    g.fillPath(bottomPath);
-    g.strokePath (bottomPath, PathStrokeType (strokeWidth));
+    g.setColour(strokeColour);
+    g.strokePath (path, PathStrokeType (strokeWidth));
 }
 
 
@@ -89,31 +81,34 @@ const void ImpulseUI::Waveform::updateForm(const float shape)
     
     const float width           =  getWidth();
     const int   aaValue         =  8; // x8 AA
+    const float aaRatio         =  1.0f / aaValue;
     // scale the values so that the waveform (more or less) fills the width
-    const float phaseIncrement  =  (((powf(shapeValue,50)*200 + 30)/width)*pixelsPerPoint)/aaValue;
+    const float phaseIncrement  =  ( ( ( powf( shapeValue, 50.0f ) * 200.0f + 30.0f) / width) * (float)pixelsPerPoint) * aaRatio;
     
     float phase = 0;
     
-    topPath.clear();
-    topPath.startNewSubPath (0, centreY);
+    path.clear();
+    path.startNewSubPath (strokeWidth, centreY);
 
     // Add lines to path
-    for (int x=0; x<width; x += pixelsPerPoint){
-        float y = 0;
-        for(int i=0; i<aaValue; i++)
+    for ( int x = strokeWidth; x < width; x += pixelsPerPoint )
+    {
+        float y = 0.0f;
+        for( int i = 0; i < aaValue; i++ )
         {
-            y += fabs(ImpulseProcessor::processImpulse(phase, shapeValue));
+            y += fabsf( ImpulseProcessor::processImpulse( phase, shapeValue ) );
             phase += phaseIncrement;
         }
-        y /= aaValue;
-        topPath.lineTo (x, y * yRange + centreY);
+        y *= aaRatio;
+        path.lineTo ( x, y * yRange + centreY );
     }
     
-    topPath.lineTo (width, centreY);
-    topPath = topPath.createPathWithRoundedCorners(60);
+    path.lineTo ( width, centreY );
+    path = path.createPathWithRoundedCorners(60);
     
-    bottomPath = topPath;
-    bottomPath.applyTransform(AffineTransform().verticalFlip(centreY+yRange));
+    auto bottomPath = path;
+    bottomPath.applyTransform( AffineTransform().verticalFlip( (float)getHeight() ) );
+    path.addPath(bottomPath);
 }
 
 //==============================================================================
@@ -136,7 +131,7 @@ void ImpulseUI::wasResized(Rectangle<int> moduleBounds)
 
 void ImpulseUI::lookAndFeelChanged()
 {
-    waveForm.setColour(findColour(Slider::thumbColourId));
+    waveForm.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
 }
 
 void ImpulseUI::frequencyDialChanged (float value)

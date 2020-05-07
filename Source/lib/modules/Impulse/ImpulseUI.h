@@ -45,19 +45,17 @@ private:
     class Waveform : public Component
     {
     public:
-        const void setColour(const Colour&);
+        const void setColour(const Colour&, const Colour&);
         const void updateForm(const float);
         void resized() override;
         void paint(Graphics&) override;
     private:
-        const float strokeWidth = 2;
+        const float strokeWidth = 1;
         float yRange;
         float centreY;
-        Colour colour;
-        Path topPath;
-        Path bottomPath;
-        ColourGradient colourGradient;
-        const void updateColour();
+        Colour strokeColour;
+        Colour fillColour;
+        Path path;
     } waveForm;
     
     //Listeners

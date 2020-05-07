@@ -16,7 +16,7 @@
 //==============================================================================
 ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> module, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
 moduleUI{std::move(module)},
-highlightColour{Colours::cyan.brighter()},
+highlightColour{Colours::cyan.withSaturation(0.5f)},
 powerButton{},
 resizer(this, this),
 moduleSelection{selectionChangeSource}
@@ -122,8 +122,8 @@ void ModuleBox::setupLookAndFeel()
     setLookAndFeel(&lookandfeel);
     
     lookandfeel.setColour(Slider::thumbColourId, highlightColour);
+    lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.21));
     lookandfeel.setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
-    lookandfeel.setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.2));
     lookandfeel.setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
     lookandfeel.setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
     lookandfeel.setColour(Slider::textBoxOutlineColourId, Colour()); // no color
