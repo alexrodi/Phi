@@ -17,9 +17,7 @@
 #include "../../UIobjects/ui_Dial.h"
 #include "../../UIobjects/ui_SliderButton.h"
 
-class StringUI    : public ModuleUI,
-                    public Slider::Listener,
-                    public Button::Listener
+class StringUI    : public ModuleUI
 {
 public:
     StringUI(ModuleProcessor&);
@@ -29,14 +27,10 @@ public:
     void wasResized(Rectangle<int> moduleBounds) override;
 
 private:
-    ui_Dial frequencyDial;
-    ui_Dial positionDial;
-    ui_Dial dampDial;
-    ui_Dial decayDial;
+    ui_Dial frequencyDial, positionDial, dampDial, decayDial;
     ui_SliderButton modeButton;
-
-    void sliderValueChanged (Slider* slider) override;
-    void buttonClicked (Button*) override;
+    juce::SliderParameterAttachment frequencyAttachment, positionAttachment, dampAttachment, decayAttachment;
+    juce::ButtonParameterAttachment modeAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StringUI)
 };

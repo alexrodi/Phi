@@ -37,8 +37,8 @@ public:
         const float fundamentalAttenuator = (-0.5*tanhf(phase*(-fmax(shape,0.88)+1.01)-1)+0.5);
 
         return (phase==float_Pi)
-               ? 0.f
-               : sin((sin(phase))/((-shape + 1.006)*(phase-float_Pi)))*fundamentalAttenuator;
+               ? 0.0f
+               : sinf((sinf(phase))/((-shape + 1.006f)*(phase-float_Pi)))*fundamentalAttenuator;
     }
     
 private:

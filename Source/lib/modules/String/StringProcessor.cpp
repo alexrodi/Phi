@@ -14,11 +14,51 @@
 
 StringProcessor::StringProcessor() :
 ModuleProcessor( 2, 2,
-  std::make_unique<AudioParameterFloat> ("freq" , "Frequency", NormalisableRange<float> ( 20.0f, 10000.0f), 440.0f ),
-  std::make_unique<AudioParameterFloat> ("damp" , "Damping"  , NormalisableRange<float> ( 0.0f, 1.0f),      0.0f   ),
-  std::make_unique<AudioParameterFloat> ("pos"  , "Position" , NormalisableRange<float> ( 0.0f, 1.0f),      0.0f   ),
-  std::make_unique<AudioParameterFloat> ("decay", "Decay"    , NormalisableRange<float> ( 0.0f, 1.0f),      0.0f   ),
-  std::make_unique<AudioParameterBool>  ("mode" , "Mode"     ,                                              false  )
+  std::make_unique<AudioParameterFloat> (
+                                         "freq",
+                                         "Frequency",
+                                         NormalisableRange<float>(20.0f, 10000.0f, 0.0f, 0.3f),
+                                         440.0f,
+                                         "Frequency",
+                                         juce::AudioParameterFloat::genericParameter,
+                                         [](float value, int) { return String (value, 1); },
+                                         [](const String& text) { return text.getFloatValue(); }
+                                         ),
+  std::make_unique<AudioParameterFloat> (
+                                         "damp",
+                                         "Damping",
+                                         NormalisableRange<float>(0.0f, 1.0f),
+                                         0.0f,
+                                         "Damping",
+                                         juce::AudioParameterFloat::genericParameter,
+                                         [](float value, int) { return String (floorf(value * 100.0f), 0); },
+                                         [](const String& text) { return text.getFloatValue() * 0.01f; }
+                                         ),
+  std::make_unique<AudioParameterFloat> (
+                                         "pos",
+                                         "Position",
+                                         NormalisableRange<float>(0.0f, 1.0f),
+                                         0.0f,
+                                         "Position",
+                                         juce::AudioParameterFloat::genericParameter,
+                                         [](float value, int) { return String (floorf(value * 100.0f), 0); },
+                                         [](const String& text) { return text.getFloatValue() * 0.01f; }
+                                         ),
+  std::make_unique<AudioParameterFloat> (
+                                         "decay",
+                                         "Decay",
+                                         NormalisableRange<float>(0.0f, 1.0f),
+                                         0.0f,
+                                         "Decay",
+                                         juce::AudioParameterFloat::genericParameter,
+                                         [](float value, int) { return String (floorf(value * 100.0f), 0); },
+                                         [](const String& text) { return text.getFloatValue() * 0.01f; }
+                                         ),
+  std::make_unique<AudioParameterBool>  (
+                                         "mode" ,
+                                         "Mode"     ,
+                                         false
+                                         )
 )
 {
 }

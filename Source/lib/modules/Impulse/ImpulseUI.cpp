@@ -84,7 +84,7 @@ const void ImpulseUI::Waveform::updateForm(const float shape)
     // scale the values so that the waveform (more or less) fills the width
     const float phaseIncrement  =  ( ( ( powf( shapeValue, 50.0f ) * 200.0f + 30.0f) / width) * (float)pixelsPerPoint) * aaRatio;
     
-    float phase = 0;
+    float phase = 0.0f;
     
     path.clear();
     path.startNewSubPath (strokeWidth, centreY);
