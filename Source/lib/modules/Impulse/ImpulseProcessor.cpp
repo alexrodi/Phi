@@ -65,10 +65,10 @@ void ImpulseProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& mid
     for (int n = 0; n < buffer.getNumSamples(); n++)
     {
         const float trigger = *readBufferTrigger++;
-        const float triggerDelta = currentTrigger - trigger;
-        currentTrigger = trigger;
+        const float triggerDelta = previousTrigger - trigger;
+        previousTrigger = trigger;
         
-        if (triggerDelta > 0.5f) triggerImpulse();
+        if (triggerDelta > 0.5f || externallyTriggered()) currentPhase = 0.0f;
         
         *writeBufferOut++ = processImpulse(currentPhase, shape);
         *writeBufferRamp++ = currentPhase * invTwoPi;
@@ -82,9 +82,14 @@ void ImpulseProcessor::releaseResources()
 {
 }
 
+bool ImpulseProcessor::externallyTriggered()
+{
+    return triggered.get() ? triggered.exchange(false) : false;
+}
+
 void ImpulseProcessor::triggerImpulse()
 {
-    currentPhase = 0;
+    triggered.set(true);
 }
 
 std::unique_ptr<ModuleUI> ImpulseProcessor::createUI()

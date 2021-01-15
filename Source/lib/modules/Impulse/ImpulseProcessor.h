@@ -31,6 +31,7 @@ public:
     
     void triggerImpulse();
     
+    // Definition is public for the UI to build a faithful representation
     inline static float processImpulse(float phase, float shape)
     {
         const float fundamentalAttenuator = (-0.5*tanhf(phase*(-fmax(shape,0.88)+1.01)-1)+0.5);
@@ -43,8 +44,11 @@ public:
 private:
 
     float currentPhase = 0.0f;
-    float currentTrigger = 0.0f;
+    float previousTrigger = 0.0f;
     float sampleRate = 44100.0f;
+    juce::Atomic<bool> triggered;
+    
+    bool externallyTriggered();
 };
 
 
