@@ -21,7 +21,7 @@ class ui_Dial    : public Slider,
                    public Slider::Listener
 {
 public:
-    ui_Dial(std::string, float, float, Slider::Listener*, double = 1, std::string = "", int = 2);
+    ui_Dial(std::string, float, float, double = 1, std::string = "", int = 2, Slider::Listener* = nullptr);
     ~ui_Dial();
     
     void paint (Graphics& g) override;

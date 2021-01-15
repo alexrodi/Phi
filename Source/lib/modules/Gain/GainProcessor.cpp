@@ -14,8 +14,16 @@
 
 GainProcessor::GainProcessor() :
 ModuleProcessor( 1, 1,
-  std::make_unique<AudioParameterFloat> ("gain", "Gain", NormalisableRange<float> (0.0f, 1.0f), 1.0f)
-)
+    std::make_unique<AudioParameterFloat> (
+                                           "gain",
+                                           "Gain",
+                                           NormalisableRange<float> (-70.0f, 12.0f), 1.0f,
+                                           "Gain",
+                                           juce::AudioParameterFloat::genericParameter,
+                                           [](float value, int) { return String (value, 1); },
+                                           [](const String& text) { return text.getFloatValue(); }
+                                           )
+                )
 {
 }
 

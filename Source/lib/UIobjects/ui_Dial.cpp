@@ -13,7 +13,7 @@
 ///@endcond
 #include "ui_Dial.h"
 
-ui_Dial::ui_Dial(std::string name, float rangeLow, float rangeHigh, Slider::Listener* listener, double skewFactor, std::string valueSuffix, int decimals) :
+ui_Dial::ui_Dial(std::string name, float rangeLow, float rangeHigh, double skewFactor, std::string valueSuffix, int decimals, Slider::Listener* listener) :
 valueRange{rangeLow, rangeHigh, 0, skewFactor}
 {
     setNormalisableRange         (valueRange);
@@ -24,10 +24,11 @@ valueRange{rangeLow, rangeHigh, 0, skewFactor}
     setName                      (name);
     setTextValueSuffix           (valueSuffix);
     setNumDecimalPlacesToDisplay (decimals);
-    addListener                  (listener);
-    addListener (this);
     
-    setPaintingIsUnclipped (true);
+    if (listener) addListener(listener);
+    addListener(this);
+    
+    setPaintingIsUnclipped(true);
     
     updateDial();
 }

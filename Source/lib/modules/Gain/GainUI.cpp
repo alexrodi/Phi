@@ -22,7 +22,8 @@ ModuleUI({
             .minimumHeight = 100,
             .processor = processor
         }),
-gainDial("Gain", -70, 12, this, 1, " dB")
+gainDial("Gain", -70, 12, 1, " dB"),
+gainAttachment(*processor.params.getParameter("gain"), gainDial)
 {
     addAndMakeVisible(gainDial);
 }
@@ -40,10 +41,10 @@ void GainUI::wasResized(Rectangle<int> moduleBounds)
 }
 
 
-void GainUI::sliderValueChanged (Slider* slider)
-{
-    if (slider == &gainDial){
-        *props.processor.params.getRawParameterValue("gain") = Decibels::decibelsToGain(gainDial.getValue());
-        repaint();
-    }
-}
+//void GainUI::sliderValueChanged (Slider* slider)
+//{
+//    if (slider == &gainDial){
+//        *props.processor.params.getRawParameterValue("gain") = Decibels::decibelsToGain(gainDial.getValue());
+//        repaint();
+//    }
+//}

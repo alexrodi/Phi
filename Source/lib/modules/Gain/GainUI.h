@@ -16,8 +16,7 @@
 #include "../../ModuleUI.h"
 #include "../../UIobjects/ui_Dial.h"
 
-class GainUI    : public ModuleUI,
-                  public Slider::Listener
+class GainUI    : public ModuleUI
 {
 public:
     GainUI(ModuleProcessor&);
@@ -28,8 +27,9 @@ public:
 
 private:
     ui_Dial gainDial;
-
-    void sliderValueChanged (Slider* slider) override;
+    juce::SliderParameterAttachment gainAttachment;
+//
+//    void sliderValueChanged (Slider* slider) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainUI)
 };
