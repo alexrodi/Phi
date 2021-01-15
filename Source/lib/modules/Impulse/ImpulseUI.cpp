@@ -26,8 +26,8 @@ ModuleUI{{
     .processor = processor
 }},
 processor(processor),
-frequencyDial("Frequency", 20, 20000, this, 0.2, " Hz"),
-shapeDial("Shape", 0, 1, this, 1, " %", 0)
+frequencyDial("Frequency", 20, 20000, 0.2, " Hz"),
+shapeDial("Shape", 0, 1, 1, " %", 0, this)
 {
     shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
     shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };

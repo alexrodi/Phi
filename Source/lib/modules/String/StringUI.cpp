@@ -22,10 +22,10 @@ ModuleUI({
             .minimumHeight = 100,
             .processor = processor
         }),
-frequencyDial( "Frequency" , 20.0f, 10000.0f, this, 0.3f, " Hz"  ),
-positionDial(  "Position"  , 0.0f , 1.0f    , this, 1.0f, " %", 0),
-dampDial(      "Damping"   , 0.0f , 1.0f    , this, 1.0f, " %", 0),
-decayDial(     "Decay"     , 0.0f , 1.0f    , this, 1.0f, " %", 0),
+frequencyDial( "Frequency" , 20.0f, 10000.0f, 0.3f, " Hz"),
+positionDial(  "Position"  , 0.0f , 1.0f    , 1.0f, " %",  0),
+dampDial(      "Damping"   , 0.0f , 1.0f    , 1.0f, " %",  0),
+decayDial(     "Decay"     , 0.0f , 1.0f    , 1.0f, " %",  0),
 modeButton(    "Mode", ui_SliderButton::Left)
 {
     auto percentageTextFromValueCB = [] (float f) -> String { return String(int(f * 100)); };
