@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="J6LvcO" name="Phi" projectType="guiapp" jucerVersion="5.4.7"
-              cppLanguageStandard="latest">
+<JUCERPROJECT id="J6LvcO" name="Phi" projectType="guiapp" cppLanguageStandard="latest"
+              displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="J6rtXw" name="Phi">
     <GROUP id="{6EA973C7-AFCB-9962-43A0-B724ACFC7C17}" name="Source">
       <GROUP id="{AC97657F-A58F-C8E3-78F7-79DF534B8FF0}" name="lib">
@@ -69,9 +69,6 @@
         <FILE id="nXI5Q7" name="Plug.h" compile="0" resource="0" file="Source/lib/Plug.h"/>
       </GROUP>
       <GROUP id="{34C086C5-FA82-E1D8-AE0D-3FBB5624DB98}" name="resources">
-        <GROUP id="{9258AA52-4B5D-E224-87FC-08225025B58B}" name="png">
-          <FILE id="C2zhiz" name="phi.png" compile="0" resource="1" file="Source/resources/png/phi.png"/>
-        </GROUP>
         <GROUP id="{4721DD4A-B540-8EE5-B824-EE9B13CEEBCE}" name="svg">
           <FILE id="gopQYq" name="Speaker_Icon.svg" compile="0" resource="1"
                 file="Source/resources/svg/Speaker_Icon.svg"/>

@@ -42,8 +42,19 @@ void OutputUI::paint (Graphics& g)
 
 void OutputUI::wasResized(Rectangle<int> moduleBounds)
 {
-    Rectangle<int> svgBounds = moduleBounds.reduced(10, 25);
-    speakerImage->setTransformToFit(svgBounds.withSizeKeepingCentre(100, 100).constrainedWithin(svgBounds).toFloat(), RectanglePlacement::Flags::centred);
+    auto height = moduleBounds.getHeight();
+    auto width = moduleBounds.getWidth();
+    
+    bool svgVisible = jmin(height, width) > 30;
+    
+    speakerImage->setVisible(svgVisible);
+    
+    if (svgVisible)
+    {
+        auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
+        
+        speakerImage->setTransformToFit(bounds.toFloat(), 0);
+    }
 }
 
 void OutputUI::lookAndFeelChanged()
