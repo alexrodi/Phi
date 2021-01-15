@@ -26,25 +26,18 @@ frequencyDial( "Frequency" , 20.0f, 10000.0f, 0.3f, " Hz"),
 positionDial(  "Position"  , 0.0f , 1.0f    , 1.0f, " %",  0),
 dampDial(      "Damping"   , 0.0f , 1.0f    , 1.0f, " %",  0),
 decayDial(     "Decay"     , 0.0f , 1.0f    , 1.0f, " %",  0),
-modeButton(    "Mode", ui_SliderButton::Left)
+modeButton(    "Mode", ui_SliderButton::Left),
+frequencyAttachment(*processor.params.getParameter("freq"), frequencyDial),
+positionAttachment(*processor.params.getParameter("pos"), positionDial),
+dampAttachment(*processor.params.getParameter("damp"), dampDial),
+decayAttachment(*processor.params.getParameter("decay"), decayDial),
+modeAttachment(*processor.params.getParameter("mode"), modeButton)
 {
-    auto percentageTextFromValueCB = [] (float f) -> String { return String(int(f * 100)); };
-    auto percentageValueFromTextCB = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
-    
-    positionDial.textFromValueFunction = percentageTextFromValueCB;
-    dampDial.textFromValueFunction = percentageTextFromValueCB;
-    decayDial.textFromValueFunction = percentageTextFromValueCB;
-    positionDial.valueFromTextFunction = percentageValueFromTextCB;
-    dampDial.valueFromTextFunction = percentageValueFromTextCB;
-    decayDial.valueFromTextFunction = percentageValueFromTextCB;
-    
     addAndMakeVisible(frequencyDial);
     addAndMakeVisible(positionDial);
     addAndMakeVisible(dampDial);
     addAndMakeVisible(decayDial);
     addAndMakeVisible(modeButton);
-    
-    modeButton.addListener(this);
     
     frequencyDial.setValue(440.0f);
 }
@@ -69,25 +62,4 @@ void StringUI::wasResized(Rectangle<int> moduleBounds)
     positionDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
     dampDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
     decayDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-}
-
-
-void StringUI::sliderValueChanged (Slider* slider)
-{
-    auto& params = props.processor.params;
-    
-    if (slider == &frequencyDial)
-        *params.getRawParameterValue("freq") = slider->getValue();
-    else if (slider == &positionDial)
-        *params.getRawParameterValue("pos") = slider->getValue();
-    else if (slider == &dampDial)
-        *params.getRawParameterValue("damp") = slider->getValue();
-    else if (slider == &decayDial)
-        *params.getRawParameterValue("decay") = slider->getValue();
-}
-
-void StringUI::buttonClicked (Button* button)
-{
-    if (button == &modeButton)
-        *props.processor.params.getRawParameterValue("mode") = (float)button->getToggleState();
 }
