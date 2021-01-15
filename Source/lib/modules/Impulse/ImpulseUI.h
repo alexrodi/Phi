@@ -38,8 +38,8 @@ private:
     ImpulseProcessor& processor;
     
     //Dials
-    ui_Dial frequencyDial;
-    ui_Dial shapeDial;
+    ui_Dial frequencyDial, shapeDial;
+    juce::SliderParameterAttachment frequencyAttachment, shapeAttachment;
     
     //Waveform
     class Waveform : public Component
@@ -60,8 +60,6 @@ private:
     
     //Listeners
     void sliderValueChanged (Slider*) override;
-    void frequencyDialChanged (float value);
-    void shapeDialChanged (float value);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ImpulseUI)
 };

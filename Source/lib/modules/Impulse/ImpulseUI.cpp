@@ -26,12 +26,11 @@ ModuleUI{{
     .processor = processor
 }},
 processor(processor),
-frequencyDial("Frequency", 20, 20000, 0.2, " Hz"),
-shapeDial("Shape", 0, 1, 1, " %", 0, this)
+frequencyDial("Frequency", 20.0f, 20000.0f, 0.2f, " Hz"),
+shapeDial("Shape", 0.0f, 1.0f, 1.0f, " %", 0, this),
+frequencyAttachment(*processor.params.getParameter("freq"), frequencyDial),
+shapeAttachment(*processor.params.getParameter("shape"), shapeDial)
 {
-    shapeDial.textFromValueFunction = [] (float f) -> String { return String(int(f * 100)); };
-    shapeDial.valueFromTextFunction = [] (String s) -> float { return float(s.toUTF8().getDoubleValue()) * 0.01; };
-    
     waveForm.setInterceptsMouseClicks(false, false);
 
     addAndMakeVisible(waveForm);
@@ -134,22 +133,11 @@ void ImpulseUI::lookAndFeelChanged()
     waveForm.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
 }
 
-void ImpulseUI::frequencyDialChanged (float value)
+void ImpulseUI::sliderValueChanged(Slider* slider)
 {
-    *processor.params.getRawParameterValue("freq") = value;
-}
-
-void ImpulseUI::shapeDialChanged (float value)
-{
-    *processor.params.getRawParameterValue("shape") = value;
-    waveForm.updateForm(shapeDial.getValue());
-    repaint();
-}
-
-void ImpulseUI::sliderValueChanged (Slider* slider)
-{
-    if (slider == &frequencyDial)
-        frequencyDialChanged(slider->getValue());
-    else if (slider == &shapeDial)
-        shapeDialChanged(slider->getValue());
+    if (slider == &shapeDial)
+    {
+        waveForm.updateForm(slider->getValue());
+        repaint();
+    }
 }
