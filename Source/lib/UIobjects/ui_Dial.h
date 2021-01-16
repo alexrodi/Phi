@@ -33,16 +33,12 @@ private:
     
     NormalisableRange<double> valueRange;
     
-    Path groove;
-    Path dial;
-    Path pointerPath;
+    Path groove, dial, pointerPath;
     AffineTransform pointerRotation;
     
     Rectangle<float> box;
     Rectangle<int> nameBounds;
-    Colour colour;
-    Colour grooveColour;
-    Colour nameColour;
+    Colour colour, grooveColour, nameColour;
     
     const int padding = 10;
     const int thickness = 3;
@@ -50,8 +46,7 @@ private:
     const float endAngle = getRotaryParameters().endAngleRadians;
     const float angleRange = endAngle - startAngle;
     
-    float size;
-    float radius;
+    float size, radius;
     float angle = startAngle;
     
     bool shouldDrawText = false;

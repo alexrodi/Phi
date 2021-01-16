@@ -36,17 +36,10 @@ private:
     
     float sampleRate = 44100.0f;
     
-    DelayLine<float> line1;
-    DelayLine<float> line2;
-    
-    OnePole<float> onePole1;
-    OnePole<float> onePole2;
-    
-    DCBlock<float> dcBlock1;
-    DCBlock<float> dcBlock2;
-    
-    Accum<float> accum1;
-    Accum<float> accum2;
+    DelayLine<float> line1, line2;
+    OnePole<float> onePole1, onePole2;
+    DCBlock<float> dcBlock1, dcBlock2;
+    Accum<float> accum1, accum2;
     
     const float processLine1Node(float, float, float, bool);
     const float processLine2Node(float, float, float);
