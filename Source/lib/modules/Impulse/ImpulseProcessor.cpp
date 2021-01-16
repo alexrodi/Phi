@@ -51,6 +51,8 @@ void ImpulseProcessor::prepareToPlay (double newSampleRate, int maximumExpectedS
 void ImpulseProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     const float* readBufferTrigger = buffer.getReadPointer(0);
+    
+    // @todo CV Implementations
     //const float* readBufferFreq = buffer.getReadPointer(1);
     //const float* readBufferShape = buffer.getReadPointer(2);
     

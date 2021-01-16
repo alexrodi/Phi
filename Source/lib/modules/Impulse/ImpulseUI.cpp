@@ -32,7 +32,9 @@ frequencyAttachment(*processor.params.getParameter("freq"), frequencyDial),
 shapeAttachment(*processor.params.getParameter("shape"), shapeDial)
 {
     waveForm.setInterceptsMouseClicks(false, false);
-
+    waveForm.setPaintingIsUnclipped(true);
+    waveForm.setBufferedToImage(true);
+    
     addAndMakeVisible(waveForm);
     addAndMakeVisible(frequencyDial);
     addAndMakeVisible(shapeDial);
@@ -108,6 +110,7 @@ const void ImpulseUI::Waveform::updateForm(const float shape)
     auto bottomPath = path;
     bottomPath.applyTransform( AffineTransform().verticalFlip( (float)getHeight() ) );
     path.addPath(bottomPath);
+    repaint();
 }
 
 //==============================================================================
@@ -138,6 +141,5 @@ void ImpulseUI::sliderValueChanged(Slider* slider)
     if (slider == &shapeDial)
     {
         waveForm.updateForm(slider->getValue());
-        repaint();
     }
 }

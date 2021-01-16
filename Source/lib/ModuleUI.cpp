@@ -27,6 +27,7 @@ props{arguments}
         addAndMakeVisible( outlets.add( new Outlet(outletName) ) );
         
     setPaintingIsUnclipped(true);
+    setBufferedToImage(true);
 }
 
 void ModuleUI::resized()
