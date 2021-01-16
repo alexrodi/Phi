@@ -136,7 +136,7 @@ const float StringProcessor::scaleDecay(float decay, bool mode)
 void StringProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
 {
     const float* input1 = buffer.getReadPointer(0);
-    const float* input2 = buffer.getReadPointer(0);
+    const float* input2 = buffer.getReadPointer(1);
     
     float* out1 = buffer.getWritePointer(0);
     float* out2 = buffer.getWritePointer(1);
