@@ -39,12 +39,3 @@ void GainUI::wasResized(Rectangle<int> moduleBounds)
 {
     gainDial.setBounds( moduleBounds );
 }
-
-
-//void GainUI::sliderValueChanged (Slider* slider)
-//{
-//    if (slider == &gainDial){
-//        *props.processor.params.getRawParameterValue("gain") = Decibels::decibelsToGain(gainDial.getValue());
-//        repaint();
-//    }
-//}

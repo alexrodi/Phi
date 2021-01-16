@@ -28,8 +28,6 @@ public:
 private:
     ui_Dial gainDial;
     juce::SliderParameterAttachment gainAttachment;
-//
-//    void sliderValueChanged (Slider* slider) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainUI)
 };
