@@ -128,9 +128,9 @@ const float StringProcessor::readOutput2(float pickupPosition) {
                             );
 }
 
-const float StringProcessor::scaleDecay(float decay)
+const float StringProcessor::scaleDecay(float decay, bool mode)
 {
-    return powf(decay, 0.05f);
+    return powf(decay, mode ? 0.0005f : 0.05f);
 }
 
 void StringProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
@@ -147,11 +147,11 @@ void StringProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer&)
     const float frequency = *params.getRawParameterValue("freq");
     const float periodInSamples = sampleRate / frequency;
     
-    const float decay = powf( scaleDecay( *params.getRawParameterValue("decay") ), periodInSamples * (0.01f + mode * 0.5f) ) * 0.997f;
+    const float decay = powf( scaleDecay( *params.getRawParameterValue("decay"), mode), periodInSamples * (0.01f + mode * 0.52f) ) * 0.997f;
      
     // The interval to apply to each delay line
     // Mode B doubles the (perceived) interval so we must divide it accordingly
-    const float interval = periodInSamples / float( (int)mode + 1 );
+    const float interval = periodInSamples / static_cast<float>(static_cast<int>(mode) + 1 );
     
     // Pickup position is always a fraction of the interval
     const float pickupPosition = interval * *params.getRawParameterValue("pos");

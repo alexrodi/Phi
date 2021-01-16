@@ -52,7 +52,7 @@ private:
     const float processLine2Node(float, float, float);
     const float readOutput1(float);
     const float readOutput2(float);
-    const float scaleDecay(float);
+    const float scaleDecay(float, bool);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StringProcessor)
 };
