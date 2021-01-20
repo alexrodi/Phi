@@ -37,6 +37,7 @@ moduleSelection{selectionChangeSource}
     addAndMakeVisible(powerButton);
     addAndMakeVisible(resizer);
     setPaintingIsUnclipped(true);
+    setBufferedToImage(true);
     setBroughtToFrontOnMouseClick(true);
     
     setupLookAndFeel();

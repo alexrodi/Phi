@@ -10,7 +10,7 @@
 ///@cond
 #include <JuceHeader.h>
 /// @endcond
-#include "../lib/MainComponent.h"
+#include "MainComponent.h"
 
 //==============================================================================
 class PhiApplication  : public JUCEApplication
