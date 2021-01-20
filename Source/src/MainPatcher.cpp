@@ -118,7 +118,7 @@ void MainPatcher::togglePatchCordType(bool toggle)
 void MainPatcher::toggleInoutType(bool toggle)
 {
     PlugOptions::drawName = toggle;
-    repaint();
+    sendLookAndFeelChange();
 }
 
 void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, Connections::PlugMode plugMode, uint32 nodeID)
