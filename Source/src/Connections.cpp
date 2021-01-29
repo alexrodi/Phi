@@ -50,16 +50,16 @@ void Connections::resized ()
 {
 }
 
-Connections::PlugID Connections::registerPlug (PlugMode plugMode, uint32 nodeId, Component* inlet)
+PlugID Connections::registerPlug (uint32 moduleId, Plug* plug)
 {
-    return idStore.storePlug(plugMode, nodeId, inlet);
+    return idStore.storePlug(moduleId, plug);
 }
 
-Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const PlugID inletId)
+Point<float> Connections::getPlugCenterPositionFromId (Plug::Mode plugMode, const PlugID plugID)
 {
-    auto plug = (plugMode == Inlet ? idStore.inlets : idStore.outlets)[inletId.first][inletId.second];
+    auto plug = idStore.getPlug(plugMode, plugID);
     
-    return getLocalPoint(plug, plug->getLocalBounds().getCentre().toFloat()) ;
+    return getLocalPoint(&*plug, plug->getLocalBounds().getCentre().toFloat()) ;
 }
 
 void Connections::updateAllConnectionPaths ()
@@ -67,66 +67,92 @@ void Connections::updateAllConnectionPaths ()
     allConnectionsPath.clear();
     for (Connection connection : connections)
     {
-        allConnectionsPath.addPath (getConnectionPath (getPlugCenterPositionFromId(Inlet, connection.second)
-                                                       , getPlugCenterPositionFromId(Outlet, connection.first)));
+        allConnectionsPath.addPath (getConnectionPath (getPlugCenterPositionFromId(Plug::Mode::Inlet, connection.destination)
+                                                       , getPlugCenterPositionFromId(Plug::Mode::Outlet, connection.source)));
     }
     repaint();
 }
 
-Connections::PlugID Connections::stringToPlugID (const String& stringToParse)
-{
-    return PlugID(stringToParse.upToFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32()
-                , stringToParse.fromFirstOccurrenceOf(">", false, false).toUTF8().getIntValue32());
-}
-
 void Connections::actionListenerCallback (const String& message)
 {
-    // Here we receive events from inlets, outlets and moduleBoxes
-    // std::cout << message << std::endl;
-    
     if (message.containsWholeWord ("moduleChanged"))
     {
         updateAllConnectionPaths();
     }
-    else if (message.containsWholeWord ("mouseDown"))
-    {
-        PlugID plugId = stringToPlugID(message.fromFirstOccurrenceOf("#", false, false));
-        
-        if (message.containsWholeWord ("inlet"))
-        {
-            dragPathAnchor = getPlugCenterPositionFromId(Inlet, plugId);
-        }
-        else if (message.containsWholeWord ("outlet"))
-        {
-            dragPathAnchor = getPlugCenterPositionFromId(Outlet, plugId);
-        }
-    }
-    else if (message.containsWholeWord ("dragging"))
-    {
-        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
-        repaint();
-    }
-    else if (message.containsWholeWord ("mouseUp"))
-    {
+}
+
+void Connections::onPlugEvent (const std::unique_ptr<Plug::Event> event)
+{
+    // Here we receive events from inlets and outlets
+    
+    typedef Plug::Event::Type EventType;
+    
+    if (event->is(EventType::MouseDown)) {
+        auto object = static_cast<const Plug::MouseDown*>(event.get());
+        dragPathAnchor = getPlugCenterPositionFromId(object->mode, object->plugID);
+    } else if (event->is(EventType::MouseUp)) {
         // When plugs get clicked they might bring the module to the front
         // this assures "Connections" always stays in front
         toFront(false);
         dragPath.clear();
         repaint();
-    }
-    else if (message.containsWholeWord ("connect"))
-    {
-        const String inletIdString = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
-        const String outletIdString = message.fromFirstOccurrenceOf("&", false, false);
-        
-        createConnection (stringToPlugID(inletIdString), stringToPlugID(outletIdString));
+    } else if (event->is(EventType::Drag)) {
+        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
+        repaint();
+    } else if (event->is(EventType::Connect)) {
+        auto object = static_cast<const Plug::Connect*>(event.get());
+        createConnection (Connection(object->source, object->destination));
         updateAllConnectionPaths();
+    } else if (event->is(EventType::Disconnect)) {
+        // Not implemented
     }
+    
+    
+//    struct MouseDown {Mode mode; PlugID plugID;};
+//    struct MouseUp {};
+//    struct Drag {};
+//    struct Connect { PlugID source; PlugID destination; };
+//    struct Disconnect {}; // not implemented yet
+    
+//    if (message.containsWholeWord ("mouseDown"))
+//    {
+//        PlugID plugId = stringToPlugID(message.fromFirstOccurrenceOf("#", false, false));
+//
+//        if (message.containsWholeWord ("inlet"))
+//        {
+//            dragPathAnchor = getPlugCenterPositionFromId(Inlet, plugId);
+//        }
+//        else if (message.containsWholeWord ("outlet"))
+//        {
+//            dragPathAnchor = getPlugCenterPositionFromId(Outlet, plugId);
+//        }
+//    }
+//    else if (message.containsWholeWord ("dragging"))
+//    {
+//        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
+//        repaint();
+//    }
+//    else if (message.containsWholeWord ("mouseUp"))
+//    {
+//        // When plugs get clicked they might bring the module to the front
+//        // this assures "Connections" always stays in front
+//        toFront(false);
+//        dragPath.clear();
+//        repaint();
+//    }
+//    else if (message.containsWholeWord ("connect"))
+//    {
+//        const String inletIdString = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
+//        const String outletIdString = message.fromFirstOccurrenceOf("&", false, false);
+//
+//        createConnection (stringToPlugID(inletIdString), stringToPlugID(outletIdString));
+//        updateAllConnectionPaths();
+//    }
 }
 
-void Connections::createConnection(const PlugID inletId, const PlugID outletId)
+void Connections::createConnection(const Connection connection)
 {
-    connections.addIfNotAlreadyThere( Connection(outletId, inletId) );
+    connections.addIfNotAlreadyThere( connection );
     sendChangeMessage(); // notify new connections
 }
 
@@ -135,7 +161,7 @@ void Connections::removeModule(uint32 moduleId)
     int i = 0;
     while (i < connections.size())
     {
-        if (connections[i].second.first == moduleId || connections[i].first.first == moduleId)
+        if (connections[i].source.moduleID() == moduleId || connections[i].destination.moduleID() == moduleId)
         {
             connections.remove(i);
         }

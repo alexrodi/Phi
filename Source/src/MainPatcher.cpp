@@ -121,19 +121,19 @@ void MainPatcher::toggleInoutType(bool toggle)
     sendLookAndFeelChange();
 }
 
-void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, Connections::PlugMode plugMode, uint32 nodeID)
+void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, uint32 moduleID)
 {
     for (auto plug : plugArray)
     {
-        plug->setId(connections.registerPlug(plugMode, nodeID, plug));
-        plug->addActionListener(&connections);
+        plug->setId(connections.registerPlug(moduleID, plug));
+        plug->addListener(&connections);
     }
 }
 
 void MainPatcher::registerInletsAndOutlets(ModuleUI& module)
 {
-    registerPlugs(module.inlets, Connections::Inlet, module.nodeID.uid);
-    registerPlugs(module.outlets, Connections::Outlet, module.nodeID.uid);
+    registerPlugs(module.inlets, module.nodeID.uid);
+    registerPlugs(module.outlets, module.nodeID.uid);
 }
 
 template <class moduleClass>

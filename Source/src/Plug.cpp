@@ -18,34 +18,25 @@ namespace PlugOptions
 }
 
 Plug::Plug(Mode modeToUse, const String& nameToUse) :
-mode{modeToUse},
-name{nameToUse}
+name(nameToUse),
+mode(modeToUse)
 {
     colors = mode==Inlet
              ? ColourPair(Colours::grey, Colours::darkgrey)
              : ColourPair(Colours::darkgrey, Colours::grey);
     
-    modeString = mode==Inlet
-                 ? StringPair("inlet", "outlet")
-                 : StringPair("outlet", "inlet");
-    
     setPaintingIsUnclipped(true);
 }
 
-Plug::~Plug()
+void Plug::setId(uint64 ioId)
 {
+    plugID = ioId;
 }
 
-void Plug::setId(std::pair<uint32, int> ioId)
-{
-    moduleID = ioId.first;
-    ownID = ioId.second;
-}
-
-String Plug::getStringId()
-{
-    return String(moduleID) + ">" + String(ownID);
-}
+//String Plug::getStringId()
+//{
+//    return String(moduleID) + ">" + String(plugID);
+//}
 
 void Plug::paint (Graphics& g)
 {
@@ -74,54 +65,60 @@ void Plug::resized()
 
 void Plug::mouseDown(const MouseEvent& e)
 {
-    sendActionMessage("mouseDown " + modeString.first + " #" + getStringId());
+//    sendActionMessage("mouseDown " + modeString.first + " #" + getStringId());
+    emitEvent(MouseDown(mode, plugID));
 }
 
 void Plug::mouseUp(const MouseEvent& e)
 {
-    sendActionMessage("mouseUp");
+//    sendActionMessage("mouseUp");
+    emitEvent(MouseUp());
 }
 
 void Plug::mouseDrag(const MouseEvent& e)
 {
     DragAndDropContainer::findParentDragContainerFor(this)->
-    startDragging (modeString.first + getStringId()
+    startDragging (0
                    , this
                    , Image (Image::PixelFormat::RGB, 1, 1, true));
     
-    sendActionMessage("dragging");
+//    sendActionMessage("dragging");
+    emitEvent(Drag());
 }
 
 bool Plug::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
 {
-    String sourceString =  dragSourceDetails.description.toString();
-    if (sourceString.startsWith(modeString.second))
-    {
-        uint32 receivedModuleID = sourceString.fromFirstOccurrenceOf(modeString.second, false, false)
-                                                     .upToFirstOccurrenceOf(">", false, false)
-                                                     .toUTF8().getIntValue32();
-        
-        // Only interested if the connection is from a different module
-        if (receivedModuleID != moduleID) return true;
-    }
-    return false;
+    auto dragged = static_cast<Plug*>(dragSourceDetails.sourceComponent.get());
+    
+    // Only interested if the connection is of opposite mode and from a different module
+    return (dragged->getMode() == getOppositeMode()) && (dragged->getID().moduleID() != plugID.moduleID());
 }
 
 void Plug::itemDropped (const SourceDetails& dragSourceDetails)
 {
+    auto dragged = static_cast<Plug*>(dragSourceDetails.sourceComponent.get());
     
-    StringPair connectionIdString;
+    PlugID source;
+    PlugID destination;
     
-    String receivedId = dragSourceDetails.description.toString().fromFirstOccurrenceOf(modeString.second, false, false);
+    if (getMode() == Mode::Inlet) {
+        source = dragged->getID();
+        destination = plugID;
+    } else {
+        source = plugID;
+        destination = dragged->getID();
+    }
+    emitEvent(Connect({source, destination}));
+
     
-    if (mode==Inlet)
-        connectionIdString = StringPair(getStringId(), receivedId);
-    else if (mode==Outlet)
-        connectionIdString = StringPair(receivedId, getStringId());
-    
-    sendActionMessage("connect "
-                      + connectionIdString.first
-                      + "&"
-                      + connectionIdString.second);
+//    if (mode==Inlet)
+//        connectionIdString = StringPair(getStringId(), receivedId);
+//    else if (mode==Outlet)
+//        connectionIdString = StringPair(receivedId, getStringId());
+//
+//    sendActionMessage("connect "
+//                      + connectionIdString.first
+//                      + "&"
+//                      + connectionIdString.second);
 }
 

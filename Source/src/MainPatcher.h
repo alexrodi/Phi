@@ -61,7 +61,7 @@ private:
     
     TooltipWindow tooltipWindow;
     
-    void registerPlugs(OwnedArray<Plug>&, Connections::PlugMode, uint32);
+    void registerPlugs(OwnedArray<Plug>&, uint32);
     
     /** Registers all inlets and outlets of a module with the connections component.
      This function performs three jobs for each inlet/outlet:

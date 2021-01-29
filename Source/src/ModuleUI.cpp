@@ -17,7 +17,7 @@
 
 ModuleUI::ModuleUI(Props arguments) :
 AudioProcessorEditor(arguments.processor),
-props{arguments}
+props(arguments)
 {
     // Add all inlets and outlets as children and make them visible
     for (String inletName : props.inlets)

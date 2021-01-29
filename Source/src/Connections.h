@@ -13,21 +13,39 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
+#include "Plug.h"
 
 //==============================================================================
 /// The patch cord handler and drawer
 class Connections : public Component,
                     public ActionListener,
+                    public Plug::Listener,
                     public ChangeBroadcaster
 {
 //==============================================================================
 public:
-    enum PlugMode { Inlet, Outlet };
-    
-    /// The type for a unique identifier for an inlet or outlet (moduleID, inlet/outletID)
-    typedef std::pair<uint32, int> PlugID;
     /// A connection holds an inlet and an outlet (outlet, inlet)
-    typedef std::pair<PlugID, PlugID> Connection;
+    struct Connection
+    {
+        Connection(){}
+        
+        Connection(PlugID source, PlugID destination):
+        source(source),
+        destination(destination)
+        {}
+        
+        Connection(const Connection& other):
+        source(other.source),
+        destination(other.destination)
+        {}
+        
+        bool operator== (const Connection& other) const noexcept
+        {
+            return other.source == source && other.destination == destination;
+        }
+    
+        PlugID source, destination;
+    };
     
     Connections();
     ~Connections();
@@ -36,10 +54,10 @@ public:
     void resized () override;
     
     /// Registers an inlet or outlet with the Connections component, making it patchable
-    PlugID registerPlug (PlugMode, uint32, Component*);
+    PlugID registerPlug (uint32, Plug*);
     
     /// Returns all existing connections as an Array of PlugID pairs (outlet, inlet)
-    Array<std::pair<PlugID, PlugID>> getAllConnectionIdPairs();
+    Array<Connection> getAllConnectionIdPairs();
     
     /// Removes a module and unregisters all its inlets and outlets given its nodeID
     void removeModule(uint32);
@@ -52,33 +70,47 @@ private:
     /// This class holds the information on the inlets and outlets that currently exist in the patcher in the form of two 2D hash-maps and functions to add & remove entries.
     class IdStore
     {
+        typedef std::map<uint32, std::map<uint32, Plug*>> PlugMap;
     public:
         /// The inlets map holds Inlet* and is accessed by two keys: nodeID & inletID
-        std::map<uint32, std::map<int, Component*>> inlets;
+        PlugMap inlets;
         /// The inlets map holds Outlet* and is accessed by two keys: nodeID & outletID
-        std::map<uint32, std::map<int, Component*>> outlets;
+        PlugMap outlets;
         
         /// Adds an entry to inlets or outlets and returns the resulting unique identifier
-        PlugID storePlug (PlugMode plugMode, uint32 nodeId, Component* inlet)
+        PlugID storePlug (uint32 moduleID, Plug* plug)
         {
-            int plugId = getNewPlugId(plugMode, nodeId);
-            (plugMode == Inlet ? inlets : outlets)[nodeId][plugId] = inlet;
-            return PlugID(nodeId, plugId);
+            uint32 plugId = newPlugId(moduleID, *plug);
+            mapOfMode(plug->getMode())[moduleID][plugId] = plug;
+            return PlugID(std::pair(moduleID, plugId));
+        }
+        
+        /// Gets a stored inlet or outlet
+        Plug* getPlug (Plug::Mode plugMode, PlugID plugID)
+        {
+            auto module = plugID.moduleID();
+            auto plug = plugID.plugID();
+            return mapOfMode(plugMode)[plugID.moduleID()][plugID.plugID()];
         }
         
         /// Generates a new ID for an inlet or outlet, given a nodeID
-        int getNewPlugId (PlugMode plugMode, const uint32 nodeId)
+        uint32 newPlugId (uint32 moduleID, Plug& plug)
         {
-            auto plugs = plugMode == Inlet ? inlets : outlets;
-            if (plugs.find(nodeId) == plugs.end()) return 0;
-            return plugs[nodeId].rbegin()->first + 1;
+            auto plugs = mapOfMode(plug.getMode());
+            if (plugs.find(moduleID) == plugs.end()) return 0;
+            return plugs[moduleID].rbegin()->first + 1;
+        }
+        
+        PlugMap& mapOfMode(Plug::Mode mode)
+        {
+            return mode == Plug::Mode::Inlet ? inlets : outlets;
         }
         
         /// Unregisters all inlets and outlets, given a nodeID
-        void removeModule (const uint32 nodeId)
+        void removeModule (const uint32 moduleID)
         {
-            inlets.erase(nodeId);
-            outlets.erase(nodeId);
+            inlets.erase(moduleID);
+            outlets.erase(moduleID);
         }
         
     } idStore;
@@ -113,16 +145,15 @@ private:
     static Path patchCordTypeBCallback (const Point<float>, const Point<float>);
     
     /// Fetches the center position (relative to this component) of an inlet or outlet
-    Point<float> getPlugCenterPositionFromId (PlugMode, const PlugID);
-    
-    /// Converts an action message ID string into an PlugID type
-    PlugID stringToPlugID (const String&);
+    Point<float> getPlugCenterPositionFromId (Plug::Mode, const PlugID);
     
     /// Adds an entry to the connections Array and notifies ChangeListeners
-    void createConnection  (const PlugID, const PlugID);
+    void createConnection  (const Connection);
 
     /// Receives action messages from inlets, outlets and module boxes, in order to create and update connections
     void actionListenerCallback (const String& ) override;
+    
+    void onPlugEvent (const std::unique_ptr<Plug::Event> ) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
 };
