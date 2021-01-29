@@ -47,7 +47,7 @@ public:
     /// The module's outlets
     OwnedArray<Plug> outlets;
     
-    /// The NodeID belonging to the parent module, this is used by concatenanting it to broadcast this inlet's PlugID
+    /// The NodeID belonging to the parent module, this is used for referencing the module's processing node in the audio graph
     AudioProcessorGraph::NodeID nodeID;
     
     /**
