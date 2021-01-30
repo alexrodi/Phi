@@ -143,7 +143,7 @@ void ModuleBox::setupLookAndFeel()
 void ModuleBox::forEachSelected(std::function<void(ModuleBox*, const MouseEvent&)> callback, const MouseEvent& e)
 {
     auto selected = moduleSelection.getItemArray();
-    for (auto module : selected)
+    for (auto& module : selected)
        callback(module, e);
 }
 

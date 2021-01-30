@@ -46,7 +46,7 @@ void ModuleUI::placePlugs(OwnedArray<Plug>& plugArray, Rectangle<int> plugBounds
     if (! plugArray.isEmpty())
     {
         // Divide the space to each plug
-        for (auto plug : plugArray)
+        for (auto& plug : plugArray)
             plug->setBounds( plugBounds.removeFromTop(plugHeight) );
     }
 }

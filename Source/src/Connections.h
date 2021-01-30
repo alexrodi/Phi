@@ -45,6 +45,8 @@ public:
         }
     
         PlugID source, destination;
+        juce::Path path;
+        bool isSelected;
     };
     
     Connections();
@@ -64,6 +66,8 @@ public:
     
     /// Chooses between two drawing styles for the connections and updates them
     void togglePatchCordType(bool);
+    
+    void onMouseDown(const MouseEvent& e);
     
 //==============================================================================
 private:
@@ -88,8 +92,6 @@ private:
         /// Gets a stored inlet or outlet
         Plug* getPlug (Plug::Mode plugMode, PlugID plugID)
         {
-            auto module = plugID.moduleID();
-            auto plug = plugID.plugID();
             return mapOfMode(plugMode)[plugID.moduleID()][plugID.plugID()];
         }
         
@@ -117,7 +119,7 @@ private:
     //============================================================
     
     static constexpr float CORD_WEIGHT = 0.2;
-    static constexpr float CORD_THICKNESS = 5.0;
+    juce::PathStrokeType strokeType = juce::PathStrokeType(5.0f, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded);
     
     /// All the existing connections are stored in this Array
     Array<Connection> connections;

@@ -32,17 +32,13 @@ void Connections::paint (Graphics& g)
     if(! dragPath.isEmpty())
     {
         g.setColour (Colours::grey.withAlpha(0.5f));
-        g.strokePath ( dragPath, PathStrokeType (4.0f) );
+        g.strokePath ( dragPath, strokeType );
     }
     
     if (connections.size())
     {
         g.setColour (Colours::grey);
-        g.strokePath ( allConnectionsPath
-                      , PathStrokeType ( CORD_THICKNESS
-                                        , PathStrokeType::JointStyle::mitered
-                                        , PathStrokeType::EndCapStyle::rounded )
-                      );
+        g.fillPath (allConnectionsPath);
     }
 }
 
@@ -65,10 +61,18 @@ Point<float> Connections::getPlugCenterPositionFromId (Plug::Mode plugMode, cons
 void Connections::updateAllConnectionPaths ()
 {
     allConnectionsPath.clear();
-    for (Connection connection : connections)
+    for (auto& connection : connections)
     {
-        allConnectionsPath.addPath (getConnectionPath (getPlugCenterPositionFromId(Plug::Mode::Inlet, connection.destination)
-                                                       , getPlugCenterPositionFromId(Plug::Mode::Outlet, connection.source)));
+        auto path = getConnectionPath (getPlugCenterPositionFromId(Plug::Mode::Inlet, connection.destination)
+                                              , getPlugCenterPositionFromId(Plug::Mode::Outlet, connection.source));
+        
+        juce::Path strokePath;
+        
+        strokeType.createStrokedPath(strokePath, path);
+        
+        connection.path.swapWithPath(strokePath);
+        
+        allConnectionsPath.addPath (connection.path);
     }
     repaint();
 }
@@ -161,7 +165,7 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
 {
     const Point<float> middlePoint = getMiddlePoint(positionA, positionB);
     
-    const float hDistance = abs( positionA.getX() - positionB.getX() ) * 0.2;
+    const float hDistance = fabsf( positionA.getX() - positionB.getX() ) * 0.2f;
 
     bool order = positionA.x > positionB.x;
 
@@ -173,4 +177,16 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
     path.cubicTo (positionA , cubicHandleA , middlePoint);
     path.cubicTo (middlePoint , cubicHandleB , positionB);
     return path;
+}
+
+void Connections::onMouseDown(const MouseEvent& e)
+{
+    for (auto& connection : connections)
+    {
+        // WORKING HERE
+        if (connection.path.contains(e.position, 2.0f)) {
+            
+            break;
+        }
+    }
 }

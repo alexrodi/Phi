@@ -85,6 +85,9 @@ void MainPatcher::mouseDown(const MouseEvent& e)
             createModule<OutputProcessor>(e.position);
         }
 
+    } else {
+        // Hand over event to connections
+        connections.onMouseDown(e);
     }
 }
 
@@ -123,7 +126,7 @@ void MainPatcher::toggleInoutType(bool toggle)
 
 void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, uint32 moduleID)
 {
-    for (auto plug : plugArray)
+    for (auto& plug : plugArray)
     {
         plug->setId(connections.registerPlug(moduleID, plug));
         plug->addListener(&connections);

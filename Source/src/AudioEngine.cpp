@@ -32,7 +32,7 @@ AudioEngine::~AudioEngine()
 
 void AudioEngine::applyAudioConnections(Array<Connections::Connection> connectionsToApply)
 {
-    for (auto connection : connectionsToApply)
+    for (auto& connection : connectionsToApply)
     {
         NodeAndChannel source { {}, int(connection.source.plugID()) };
         NodeAndChannel destination { {}, int(connection.destination.plugID()) };
