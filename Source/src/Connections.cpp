@@ -81,73 +81,29 @@ void Connections::actionListenerCallback (const String& message)
     }
 }
 
-void Connections::onPlugEvent (const std::unique_ptr<Plug::Event> event)
+void Connections::onPlugEvent (const Plug::Event& event)
 {
     // Here we receive events from inlets and outlets
     
     typedef Plug::Event::Type EventType;
     
-    if (event->is(EventType::MouseDown)) {
-        auto object = static_cast<const Plug::MouseDown*>(event.get());
+    if (auto object = event.as<Plug::MouseDown>(EventType::MouseDown)) {
         dragPathAnchor = getPlugCenterPositionFromId(object->mode, object->plugID);
-    } else if (event->is(EventType::MouseUp)) {
+    } else if (auto object = event.as<Plug::MouseUp>(EventType::MouseUp)) {
         // When plugs get clicked they might bring the module to the front
         // this assures "Connections" always stays in front
         toFront(false);
         dragPath.clear();
         repaint();
-    } else if (event->is(EventType::Drag)) {
+    } else if (auto object = event.as<Plug::Drag>(EventType::Drag)) {
         dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
         repaint();
-    } else if (event->is(EventType::Connect)) {
-        auto object = static_cast<const Plug::Connect*>(event.get());
+    } else if (auto object = event.as<Plug::Connect>(EventType::Connect)) {
         createConnection (Connection(object->source, object->destination));
         updateAllConnectionPaths();
-    } else if (event->is(EventType::Disconnect)) {
+    } else if (auto object = event.as<Plug::Disconnect>(EventType::Disconnect)) {
         // Not implemented
     }
-    
-    
-//    struct MouseDown {Mode mode; PlugID plugID;};
-//    struct MouseUp {};
-//    struct Drag {};
-//    struct Connect { PlugID source; PlugID destination; };
-//    struct Disconnect {}; // not implemented yet
-    
-//    if (message.containsWholeWord ("mouseDown"))
-//    {
-//        PlugID plugId = stringToPlugID(message.fromFirstOccurrenceOf("#", false, false));
-//
-//        if (message.containsWholeWord ("inlet"))
-//        {
-//            dragPathAnchor = getPlugCenterPositionFromId(Inlet, plugId);
-//        }
-//        else if (message.containsWholeWord ("outlet"))
-//        {
-//            dragPathAnchor = getPlugCenterPositionFromId(Outlet, plugId);
-//        }
-//    }
-//    else if (message.containsWholeWord ("dragging"))
-//    {
-//        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
-//        repaint();
-//    }
-//    else if (message.containsWholeWord ("mouseUp"))
-//    {
-//        // When plugs get clicked they might bring the module to the front
-//        // this assures "Connections" always stays in front
-//        toFront(false);
-//        dragPath.clear();
-//        repaint();
-//    }
-//    else if (message.containsWholeWord ("connect"))
-//    {
-//        const String inletIdString = message.fromFirstOccurrenceOf("connect ", false, false).upToFirstOccurrenceOf("&", false, false);
-//        const String outletIdString = message.fromFirstOccurrenceOf("&", false, false);
-//
-//        createConnection (stringToPlugID(inletIdString), stringToPlugID(outletIdString));
-//        updateAllConnectionPaths();
-//    }
 }
 
 void Connections::createConnection(const Connection connection)

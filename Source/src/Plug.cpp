@@ -33,11 +33,6 @@ void Plug::setId(uint64 ioId)
     plugID = ioId;
 }
 
-//String Plug::getStringId()
-//{
-//    return String(moduleID) + ">" + String(plugID);
-//}
-
 void Plug::paint (Graphics& g)
 {
     if (PlugOptions::drawName && canFitText)
@@ -65,13 +60,11 @@ void Plug::resized()
 
 void Plug::mouseDown(const MouseEvent& e)
 {
-//    sendActionMessage("mouseDown " + modeString.first + " #" + getStringId());
     emitEvent(MouseDown(mode, plugID));
 }
 
 void Plug::mouseUp(const MouseEvent& e)
 {
-//    sendActionMessage("mouseUp");
     emitEvent(MouseUp());
 }
 
@@ -82,7 +75,6 @@ void Plug::mouseDrag(const MouseEvent& e)
                    , this
                    , Image (Image::PixelFormat::RGB, 1, 1, true));
     
-//    sendActionMessage("dragging");
     emitEvent(Drag());
 }
 
@@ -108,17 +100,6 @@ void Plug::itemDropped (const SourceDetails& dragSourceDetails)
         source = plugID;
         destination = dragged->getID();
     }
-    emitEvent(Connect({source, destination}));
-
-    
-//    if (mode==Inlet)
-//        connectionIdString = StringPair(getStringId(), receivedId);
-//    else if (mode==Outlet)
-//        connectionIdString = StringPair(receivedId, getStringId());
-//
-//    sendActionMessage("connect "
-//                      + connectionIdString.first
-//                      + "&"
-//                      + connectionIdString.second);
+    emitEvent(Connect(source, destination));
 }
 
