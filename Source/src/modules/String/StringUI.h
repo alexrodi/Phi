@@ -29,8 +29,8 @@ public:
 private:
     ui_Dial frequencyDial, positionDial, dampDial, decayDial;
     ui_SliderButton modeButton;
-    juce::SliderParameterAttachment frequencyAttachment, positionAttachment, dampAttachment, decayAttachment;
-    juce::ButtonParameterAttachment modeAttachment;
+    SliderParameterAttachment frequencyAttachment, positionAttachment, dampAttachment, decayAttachment;
+    ButtonParameterAttachment modeAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StringUI)
 };

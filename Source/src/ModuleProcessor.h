@@ -57,7 +57,7 @@ private:
     void setCurrentProgram (int index) override {}
     const String getProgramName (int index) override {return String("");}
     void changeProgramName (int index, const String& newName) override {}
-    void getStateInformation (juce::MemoryBlock& destData) override {}
+    void getStateInformation (MemoryBlock& destData) override {}
     void setStateInformation (const void* data, int sizeInBytes) override {}
     AudioProcessorEditor* createEditor() override {return nullptr;}
     ///@endcond

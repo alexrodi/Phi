@@ -46,7 +46,7 @@ private:
     float currentPhase = 0.0f;
     float previousTrigger = 0.0f;
     float sampleRate = 44100.0f;
-    juce::Atomic<bool> triggered;
+    Atomic<bool> triggered;
     
     bool externallyTriggered();
 };

@@ -186,7 +186,7 @@ private:
     /// A justification object to use when drawing the Name text
     Justification::Flags nameJustification;
     
-    juce::ListenerList<Listener> listeners;
+    ListenerList<Listener> listeners;
     
     bool canFitText;
     

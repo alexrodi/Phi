@@ -102,6 +102,8 @@ void MainPatcher::deleteAllSelectedModules()
 {
     for (int i=0; i < selectedModules.getNumSelected(); i++)
         deleteModule(selectedModules.getSelectedItem(i));
+    
+    selectedModules.deselectAll();
 }
 
 bool MainPatcher::keyPressed (const KeyPress& key)

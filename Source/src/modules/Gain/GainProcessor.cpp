@@ -20,7 +20,7 @@ ModuleProcessor( 1, 1,
                                            NormalisableRange<float> (-70.0f, 12.0f),
                                            1.0f,
                                            "Gain",
-                                           juce::AudioParameterFloat::genericParameter,
+                                           AudioParameterFloat::genericParameter,
                                            [](float value, int) { return String (value, 1); },
                                            [](const String& text) { return text.getFloatValue(); }
                                            )

@@ -39,7 +39,7 @@ private:
     
     //Dials
     ui_Dial frequencyDial, shapeDial;
-    juce::SliderParameterAttachment frequencyAttachment, shapeAttachment;
+    SliderParameterAttachment frequencyAttachment, shapeAttachment;
     
     //Waveform
     class Waveform : public Component

@@ -21,7 +21,7 @@ ModuleProcessor( 3, 2,
                                                            NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
                                                            20.0f,
                                                            "Frequency",
-                                                           juce::AudioParameterFloat::genericParameter,
+                                                           AudioParameterFloat::genericParameter,
                                                            [](float value, int) { return String (value, 1); },
                                                            [](const String& text) { return text.getFloatValue(); }
                                                            ),
@@ -31,7 +31,7 @@ ModuleProcessor( 3, 2,
                                                            NormalisableRange<float> (0.0f, 1.0f),
                                                            0.0f,
                                                            "Shape",
-                                                           juce::AudioParameterFloat::genericParameter,
+                                                           AudioParameterFloat::genericParameter,
                                                            [](float value, int) { return String (floorf(value * 100.0f), 0); },
                                                            [](const String& text) { return text.getFloatValue() * 0.01f; }
                                                            )

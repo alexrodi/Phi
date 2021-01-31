@@ -45,8 +45,7 @@ public:
         }
     
         PlugID source, destination;
-        juce::Path path;
-        bool isSelected;
+        Path path;
     };
     
     Connections();
@@ -119,7 +118,7 @@ private:
     //============================================================
     
     static constexpr float CORD_WEIGHT = 0.2;
-    juce::PathStrokeType strokeType = juce::PathStrokeType(5.0f, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded);
+    PathStrokeType strokeType = PathStrokeType(5.0f, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded);
     
     /// All the existing connections are stored in this Array
     Array<Connection> connections;
@@ -129,15 +128,20 @@ private:
     /// The point used to anchor the dragging patch cord, the other point is assumed to be the mouse
     Point<float> dragPathAnchor;
     
-    /// All the existing connections are concatenated into this single path to be drawn
-    Path allConnectionsPath;
     /// The curretly used patch cord drawing routine
     std::function<Path(Point<float>,Point<float>)> getConnectionPath;
+    
+    /// The list of selected connections
+    SelectedItemSet<Connection*> selectedConnections;
 
     //============================================================
     
     /// Forces an update of all patch cords, evaulating all inlet/outlet positions
     void updateAllConnectionPaths ();
+    
+    void updateConnectionPath (Connection& connection);
+    
+    void removeModuleConnections(uint32 moduleId);
   
     /// Finds the middle point between two points with an optional weight factor
     static Point<float> getMiddlePoint (const Point<float>, const Point<float>, bool);
@@ -150,7 +154,7 @@ private:
     Point<float> getPlugCenterPositionFromId (Plug::Mode, const PlugID);
     
     /// Adds an entry to the connections Array and notifies ChangeListeners
-    void createConnection  (const Connection);
+    void createConnection  (Connection&&);
 
     /// Receives action messages from inlets, outlets and module boxes, in order to create and update connections
     void actionListenerCallback (const String& ) override;

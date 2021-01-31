@@ -72,26 +72,14 @@ private:
      @see SelectedItemSet::addToSelectionOnMouseDown, SelectedItemSet::addToSelectionOnMouseUp
     */
     bool selectionResult;
-    /// Used to store the selected state
-    bool isSelected;
 
     //==================================================================================
     
     /// Defines all the colors that must conform to this module box, the modified LookAndFeel passes to the child components and they use these colors
     void setupLookAndFeel ();
 
-    /// Wrapper for startDraggingComponent()
-    static void startDraggingModule(ModuleBox* module, const MouseEvent& e)
-    {
-        module->startDraggingComponent(module, e);
-    }
-    /// Wrapper for dragComponent()
-    static void dragModule(ModuleBox* module, const MouseEvent& e)
-    {
-        module->dragComponent(module, e, module);
-    }
-    /// Runs a drag functtion (dragModule() orstartDraggingComponent()) on every currently selected ModuleBox
-    void forEachSelected(std::function<void(ModuleBox*, const MouseEvent&)>, const MouseEvent&);
+    /// Runs a funtion on every currently selected ModuleBox
+    void forEachSelected(std::function<void(ModuleBox*)>);
 
     /// Callback for Buttons (e.g. power button)
     void buttonClicked (Button*) override;

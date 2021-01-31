@@ -34,11 +34,14 @@ void Connections::paint (Graphics& g)
         g.setColour (Colours::grey.withAlpha(0.5f));
         g.strokePath ( dragPath, strokeType );
     }
-    
-    if (connections.size())
+
+    g.setColour (Colours::grey);
+    for (auto& connection : connections)
     {
-        g.setColour (Colours::grey);
-        g.fillPath (allConnectionsPath);
+        if (selectedConnections.isSelected(&connection)){
+            g.strokePath (connection.path, PathStrokeType(2.0f));
+        }else
+            g.fillPath (connection.path);
     }
 }
 
@@ -58,22 +61,23 @@ Point<float> Connections::getPlugCenterPositionFromId (Plug::Mode plugMode, cons
     return getLocalPoint(&*plug, plug->getLocalBounds().getCentre().toFloat()) ;
 }
 
+void Connections::updateConnectionPath (Connection& connection)
+{
+    auto path = getConnectionPath (getPlugCenterPositionFromId(Plug::Mode::Inlet, connection.destination)
+                                          , getPlugCenterPositionFromId(Plug::Mode::Outlet, connection.source));
+    
+    Path strokePath;
+    
+    strokeType.createStrokedPath(strokePath, path);
+    
+    connection.path.swapWithPath(strokePath);
+}
+
 void Connections::updateAllConnectionPaths ()
 {
-    allConnectionsPath.clear();
     for (auto& connection : connections)
-    {
-        auto path = getConnectionPath (getPlugCenterPositionFromId(Plug::Mode::Inlet, connection.destination)
-                                              , getPlugCenterPositionFromId(Plug::Mode::Outlet, connection.source));
-        
-        juce::Path strokePath;
-        
-        strokeType.createStrokedPath(strokePath, path);
-        
-        connection.path.swapWithPath(strokePath);
-        
-        allConnectionsPath.addPath (connection.path);
-    }
+        updateConnectionPath(connection);
+ 
     repaint();
 }
 
@@ -104,19 +108,26 @@ void Connections::onPlugEvent (const Plug::Event& event)
         repaint();
     } else if (auto object = event.as<Plug::Connect>(EventType::Connect)) {
         createConnection (Connection(object->source, object->destination));
-        updateAllConnectionPaths();
     } else if (auto object = event.as<Plug::Disconnect>(EventType::Disconnect)) {
         // Not implemented
     }
 }
 
-void Connections::createConnection(const Connection connection)
+void Connections::createConnection(Connection&& connection)
 {
-    connections.addIfNotAlreadyThere( connection );
-    sendChangeMessage(); // notify new connections
+    if (connections.addIfNotAlreadyThere(connection)) {
+        sendChangeMessage(); // notify new connections
+        
+        auto&& newConnection = connections.getReference(connections.size() - 1);
+        
+        sendChangeMessage(); // notify new connections
+        updateConnectionPath(newConnection);
+        
+        repaint();
+    }
 }
 
-void Connections::removeModule(uint32 moduleId)
+void Connections::removeModuleConnections(uint32 moduleId)
 {
     int i = 0;
     while (i < connections.size())
@@ -127,8 +138,14 @@ void Connections::removeModule(uint32 moduleId)
         }
         else i++;
     }
+    selectedConnections.deselectAll();
+}
+
+void Connections::removeModule(uint32 moduleId)
+{
+    removeModuleConnections(moduleId);
     idStore.removeModule(moduleId);
-    updateAllConnectionPaths();
+    repaint();
 }
 
 Array<Connections::Connection> Connections::getAllConnectionIdPairs()
@@ -183,10 +200,13 @@ void Connections::onMouseDown(const MouseEvent& e)
 {
     for (auto& connection : connections)
     {
-        // WORKING HERE
-        if (connection.path.contains(e.position, 2.0f)) {
-            
-            break;
+        if (connection.path.contains(e.position)) {
+            selectedConnections.addToSelectionOnMouseDown(&connection, e.mods);
+            updateConnectionPath(connection);
+            repaint();
+            return;
         }
     }
+    selectedConnections.deselectAll();
+    repaint();
 }

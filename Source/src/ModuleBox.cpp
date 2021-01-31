@@ -58,6 +58,7 @@ void ModuleBox::paint (Graphics& g)
     g.setColour (Colours::darkgrey.darker());
     g.fillRoundedRectangle(moduleBoxRectangle, 2.f);
     
+    bool isSelected = moduleSelection.isSelected(this);
     // Outline
     g.setColour (isSelected ? Colours::grey.brighter() : Colours::grey);
     g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
@@ -140,45 +141,36 @@ void ModuleBox::setupLookAndFeel()
 
 //==============================================================================
 
-void ModuleBox::forEachSelected(std::function<void(ModuleBox*, const MouseEvent&)> callback, const MouseEvent& e)
+void ModuleBox::forEachSelected(std::function<void(ModuleBox*)> callback)
 {
     auto selected = moduleSelection.getItemArray();
     for (auto& module : selected)
-       callback(module, e);
+       callback(module);
 }
 
 void ModuleBox::mouseDown(const MouseEvent& e)
 {
-    selectionResult = moduleSelection.addToSelectionOnMouseDown(this,ModifierKeys::getCurrentModifiers());
-    
-    forEachSelected(startDraggingModule, e);
+    selectionResult = moduleSelection.addToSelectionOnMouseDown(this, e.mods);
+    auto selected = moduleSelection.getItemArray();
+    for (auto module : selected)
+        module->startDraggingComponent(module, e);
 }
 
 void ModuleBox::mouseUp(const MouseEvent& e)
 {
-    moduleSelection.addToSelectionOnMouseUp(this,ModifierKeys::getCurrentModifiers(),e.mouseWasDraggedSinceMouseDown(), selectionResult);
+    moduleSelection.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), selectionResult);
 }
 
 void ModuleBox::mouseDrag(const MouseEvent& e)
 {
-    forEachSelected(dragModule, e);
+    forEachSelected([&e](ModuleBox* module){module->dragComponent(module, e, module);});
 }
 
 
 //==============================================================================
 void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 {
-    if (source == &moduleSelection)
-    {
-        /// here we get a change from the selected modules list
-        /// so the module must update its UI accordingly
-        bool updatedIsSelected = moduleSelection.isSelected(this);
-        if (updatedIsSelected != isSelected)
-        {
-            isSelected = updatedIsSelected;
-            repaint();
-        }
-    }
+    if (source == &moduleSelection) repaint();
 }
 
 
