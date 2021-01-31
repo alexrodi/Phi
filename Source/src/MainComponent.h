@@ -21,17 +21,8 @@ public:
     void paint (Graphics& g) override;
     void resized() override;
     
-    class PhiLookAndFeel  : public LookAndFeel_V4
+    struct PhiLookAndFeel  : public LookAndFeel_V4
     {
-        enum ColourIds {
-            PlugIntletOutline,
-            PlugIntletCenter,
-            PlugOutletCenter,
-            PlugOutletOutline,
-            PlugText
-        };
-    public:
-        
         PhiLookAndFeel()
         {
             // PopupMenu

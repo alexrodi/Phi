@@ -31,34 +31,50 @@ public:
     ModuleBox(std::unique_ptr<ModuleUI>, SelectedItemSet<ModuleBox*>&);
     ~ModuleBox();
 
-    void paint (Graphics&) override;
+    void paint(Graphics&) override;
     void resized() override;
     void moved() override;
     
     /// The hosted moduleUI
     std::unique_ptr<ModuleUI> moduleUI;
+    
+    struct ColourIds {
+        enum Module {
+            Background,
+            OutlineAndText,
+            SelectedOutlineAndText,
+            HeaderLine,
+            Highlight
+        };
+        enum Plug {
+            IntletOutline,
+            IntletCenter,
+            OutletCenter,
+            OutletOutline,
+            Text
+        };
+    };
+    
+    /// Sets the highlight colour of the module
+    void setHighlightColour(Colour&&);
 
 //==================================================================================
 private:
     const float HEADER_HEIGHT = 27;
     const float CONTENT_PADDING = 10;
     
-    enum ColourIds {
-        Background,
-        OutlineAndText,
-        SelectedOutlineAndText,
-        Text,
-        HeaderLine,
-        Highlight
-    };
-
     /// Our LookAndFeel instance for this module box
     struct ModuleLookAndFeel  : public LookAndFeel_V4
     {
-        ModuleLookAndFeel():
-        highlightColour(Colours::cyan.withSaturation(0.5f))
+        ModuleLookAndFeel()
         {
-            setColour(Slider::thumbColourId, highlightColour);
+            setHighlightColour(Colours::cyan.withSaturation(0.5f));
+            setColour(ColourIds::Module::Background, Colours::darkgrey.darker());
+            setColour(ColourIds::Module::OutlineAndText, Colours::grey);
+            setColour(ColourIds::Module::SelectedOutlineAndText, Colours::grey.brighter());
+            setColour(ColourIds::Module::HeaderLine, Colours::grey);
+            
+            setColour(Slider::thumbColourId, findColour(ColourIds::Module::Highlight));
             setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.21));
             setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
             setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
@@ -69,23 +85,13 @@ private:
             setColour(TextEditor::focusedOutlineColourId, Colour());
             setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
             setColour(TextButton::textColourOnId, Colours::grey.brighter());
-            
-            setColour(ColourIds::Background, Colours::darkgrey.darker());
-            setColour(ColourIds::OutlineAndText, Colours::grey);
-            setColour(ColourIds::SelectedOutlineAndText, Colours::grey.brighter());
-            setColour(ColourIds::HeaderLine, Colours::grey);
         }
-        
-        /** The highlight colour reflected in the power button
-        This propagates to all the child components and sets UI component colours,
-         reflecting the enabled state of the ModuleBox */
-        Colour highlightColour;
         
         void setModuleOn(bool isOn)
         {
             if (isOn)
             {
-                setColour(Slider::thumbColourId, highlightColour);
+                setColour(Slider::thumbColourId, findColour(ColourIds::Module::Highlight));
                 setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
                 setColour(TextButton::textColourOnId, Colours::grey.brighter());
             }
@@ -95,6 +101,12 @@ private:
                 setColour(Slider::textBoxTextColourId, Colours::grey);
                 setColour(TextButton::textColourOnId, Colours::grey);
             }
+        }
+        
+        /// Sets the highlight colour of the module
+        void setHighlightColour(Colour colour)
+        {
+            setColour(ColourIds::Module::Highlight, colour);
         }
         
     } lookandfeel;

@@ -55,19 +55,19 @@ ModuleBox::~ModuleBox()
 void ModuleBox::paint (Graphics& g)
 {
     // Box
-    g.setColour (findColour(ColourIds::Background));
+    g.setColour (findColour(ColourIds::Module::Background));
     g.fillRoundedRectangle(moduleBoxRectangle, 2.f);
     
     bool isSelected = moduleSelection.isSelected(this);
     // Outline
-    g.setColour (findColour(isSelected ? ColourIds::SelectedOutlineAndText : ColourIds::OutlineAndText));
+    g.setColour (findColour(isSelected ? ColourIds::Module::SelectedOutlineAndText : ColourIds::OutlineAndText));
     g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
     g.drawText(moduleUI->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
-    g.setColour (findColour(ColourIds::HeaderLine));
+    g.setColour (findColour(ColourIds::Module::HeaderLine));
     g.fillRect(headerLine);
 }
 
@@ -117,6 +117,13 @@ void ModuleBox::moved()
 {
     // Emmit action message to update connections
     sendActionMessage("moduleChanged");
+}
+
+void ModuleBox::setHighlightColour(Colour&& colour)
+{
+    lookandfeel.setHighlightColour(colour);
+    lookandfeel.setModuleOn(powerButton.getToggleState());
+    sendLookAndFeelChange();
 }
 
 //==============================================================================
