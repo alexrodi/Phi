@@ -14,8 +14,8 @@
 #include "ModuleBox.h"
 
 //==============================================================================
-ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> module, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
-moduleUI{std::move(module)},
+ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
+moduleUI{std::move(moduleUi)},
 powerButton{},
 resizer(this, this),
 moduleSelection{selectionChangeSource}
@@ -164,7 +164,10 @@ void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 void ModuleBox::buttonClicked (Button* button)
 {
     if (button == &powerButton){
-        lookandfeel.setModuleOn(button->getToggleState());
+        auto state = button->getToggleState();
+        
+        moduleUI->props.processor.suspendProcessing(!state);
+        lookandfeel.setModuleOn(state);
         sendLookAndFeelChange();
     }
         
