@@ -28,11 +28,6 @@ tooltipWindow{this}
     modulesSubMenu.addItem (4, "Output");
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
-    LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::outlineColourId, Colours::transparentBlack);
-    LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::backgroundColourId, Colours::grey);
-    LookAndFeel::getDefaultLookAndFeel().setColour(TooltipWindow::textColourId, Colours::darkgrey.darker());
-    sendLookAndFeelChange();
-    
     addAndMakeVisible(connections);
     connections.addChangeListener(this);
     

@@ -20,6 +20,44 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
+    
+    class PhiLookAndFeel  : public LookAndFeel_V4
+    {
+        enum ColourIds {
+            PlugIntletOutline,
+            PlugIntletCenter,
+            PlugOutletCenter,
+            PlugOutletOutline,
+            PlugText
+        };
+    public:
+        
+        PhiLookAndFeel()
+        {
+            // PopupMenu
+            setColour(PopupMenu::textColourId, Colours::lightgrey);
+            setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
+            setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
+            
+            // Texbutton
+            setColour(TextButton::textColourOnId , Colours::grey.brighter());
+            setColour(TextButton::buttonColourId , Colours::transparentBlack);
+            
+            // Scrollbar
+            setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
+            
+            // Knob
+            setColour(Slider::thumbColourId, Colour::greyLevel(0.8f));
+            
+            // Hints
+            setColour(TooltipWindow::outlineColourId, Colours::transparentBlack);
+            setColour(TooltipWindow::backgroundColourId, Colours::grey);
+            setColour(TooltipWindow::textColourId, Colours::darkgrey.darker());
+            
+            LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
+        }
+    } phiLookAndFeel;
+
 
 //==============================================================================
 private:

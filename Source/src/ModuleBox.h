@@ -42,13 +42,62 @@ public:
 private:
     const float HEADER_HEIGHT = 27;
     const float CONTENT_PADDING = 10;
+    
+    enum ColourIds {
+        Background,
+        OutlineAndText,
+        SelectedOutlineAndText,
+        Text,
+        HeaderLine,
+        Highlight
+    };
 
     /// Our LookAndFeel instance for this module box
-    LookAndFeel_V4 lookandfeel;
-    /** The highlight colour reflected in the power button
-    This propagates to all the child components and sets UI component colours,
-     reflecting the enabled state of the ModuleBox */
-    const Colour highlightColour;
+    struct ModuleLookAndFeel  : public LookAndFeel_V4
+    {
+        ModuleLookAndFeel():
+        highlightColour(Colours::cyan.withSaturation(0.5f))
+        {
+            setColour(Slider::thumbColourId, highlightColour);
+            setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.21));
+            setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
+            setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
+            setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
+            setColour(Slider::textBoxOutlineColourId, Colour()); // no color
+            setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3));
+            setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8));
+            setColour(TextEditor::focusedOutlineColourId, Colour());
+            setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
+            setColour(TextButton::textColourOnId, Colours::grey.brighter());
+            
+            setColour(ColourIds::Background, Colours::darkgrey.darker());
+            setColour(ColourIds::OutlineAndText, Colours::grey);
+            setColour(ColourIds::SelectedOutlineAndText, Colours::grey.brighter());
+            setColour(ColourIds::HeaderLine, Colours::grey);
+        }
+        
+        /** The highlight colour reflected in the power button
+        This propagates to all the child components and sets UI component colours,
+         reflecting the enabled state of the ModuleBox */
+        Colour highlightColour;
+        
+        void setModuleOn(bool isOn)
+        {
+            if (isOn)
+            {
+                setColour(Slider::thumbColourId, highlightColour);
+                setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
+                setColour(TextButton::textColourOnId, Colours::grey.brighter());
+            }
+            else
+            {
+                setColour(Slider::thumbColourId, Colours::grey);
+                setColour(Slider::textBoxTextColourId, Colours::grey);
+                setColour(TextButton::textColourOnId, Colours::grey);
+            }
+        }
+        
+    } lookandfeel;
 
     /// This box's rectangle
     Rectangle<float> moduleBoxRectangle;

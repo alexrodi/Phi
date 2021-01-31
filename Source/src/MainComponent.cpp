@@ -7,22 +7,7 @@ mainPatcher(std::move(audioEngine)),
 patchCordTypeButton("Gravity"),
 inoutNamesTypeButton("Hint / Label")
 {
-    
-    // Set the colors of PopupMenu
-    LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::textColourId, Colours::lightgrey);
-    LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::backgroundColourId, Colours::darkgrey.darker());
-    LookAndFeel::getDefaultLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, Colour::greyLevel(0.2));
-    
-    // Set the colors of Texbuttons
-    LookAndFeel::getDefaultLookAndFeel().setColour(TextButton::textColourOnId , Colours::grey.brighter());
-    LookAndFeel::getDefaultLookAndFeel().setColour(TextButton::buttonColourId , Colours::transparentBlack);
-    
-    // Set the colors of Scrollbars
-    LookAndFeel::getDefaultLookAndFeel().setColour(ScrollBar::thumbColourId, Colours::lightgrey.withAlpha(0.5f));
-    
-    LookAndFeel::getDefaultLookAndFeel().setColour(Slider::thumbColourId, Colour::greyLevel(0.8f));
-    
-    LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
+    setLookAndFeel (&phiLookAndFeel);
     
     setSize (1000, 600);
     
@@ -35,7 +20,7 @@ inoutNamesTypeButton("Hint / Label")
     
     patchCordTypeButton.addListener(this);
     inoutNamesTypeButton.addListener(this);
-
+    
     sendLookAndFeelChange();
     
     setPaintingIsUnclipped(true);

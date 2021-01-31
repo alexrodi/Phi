@@ -35,13 +35,16 @@ void Connections::paint (Graphics& g)
         g.strokePath ( dragPath, strokeType );
     }
 
-    g.setColour (Colours::grey);
     for (auto& connection : connections)
     {
-        if (selectedConnections.isSelected(connection))
+        if (selectedConnections.isSelected(connection)) {
+            g.setColour (Colours::lightgrey);
             g.strokePath (connection->path, PathStrokeType(2.0f));
-        else
+        }
+        else {
+            g.setColour (Colours::grey);
             g.fillPath (connection->path);
+        }
     }
 }
 
