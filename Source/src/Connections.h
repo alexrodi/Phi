@@ -73,6 +73,8 @@ public:
     
     void onMouseDown(const MouseEvent& e);
     
+    void deselectAll();
+    
 //==============================================================================
 private:
     /// This class holds the information on the inlets and outlets that currently exist in the patcher in the form of two 2D hash-maps and functions to add & remove entries.

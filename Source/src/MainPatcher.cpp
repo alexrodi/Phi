@@ -30,6 +30,7 @@ tooltipWindow{this}
     
     addAndMakeVisible(connections);
     connections.addChangeListener(this);
+    selectedModules.addChangeListener(this);
     
     setSize(1000, 1000);
     setPaintingIsUnclipped(true);
@@ -169,6 +170,10 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
     if (source == &connections)
     {
         audioEngine->applyAudioConnections(connections.getConnections());
+    }
+    else if (source == &selectedModules && selectedModules.getNumSelected() > 0)
+    {
+        connections.deselectAll();
     }
 }
 

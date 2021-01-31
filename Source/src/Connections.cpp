@@ -116,6 +116,12 @@ void Connections::onPlugEvent (const Plug::Event& event)
     }
 }
 
+void Connections::deselectAll()
+{
+    selectedConnections.deselectAll();
+    repaint();
+}
+
 bool Connections::containsConnectionWith (std::pair<PlugID,PlugID>& sourceDestination)
 {
     auto* e = connections.begin();
