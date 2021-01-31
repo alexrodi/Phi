@@ -38,10 +38,10 @@ void Connections::paint (Graphics& g)
     g.setColour (Colours::grey);
     for (auto& connection : connections)
     {
-        if (selectedConnections.isSelected(&connection)){
-            g.strokePath (connection.path, PathStrokeType(2.0f));
-        }else
-            g.fillPath (connection.path);
+        if (selectedConnections.isSelected(connection))
+            g.strokePath (connection->path, PathStrokeType(2.0f));
+        else
+            g.fillPath (connection->path);
     }
 }
 
@@ -76,7 +76,7 @@ void Connections::updateConnectionPath (Connection& connection)
 void Connections::updateAllConnectionPaths ()
 {
     for (auto& connection : connections)
-        updateConnectionPath(connection);
+        updateConnectionPath(*connection);
  
     repaint();
 }
@@ -107,22 +107,31 @@ void Connections::onPlugEvent (const Plug::Event& event)
         dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
         repaint();
     } else if (auto object = event.as<Plug::Connect>(EventType::Connect)) {
-        createConnection (Connection(object->source, object->destination));
+        createConnection ({object->source, object->destination});
     } else if (auto object = event.as<Plug::Disconnect>(EventType::Disconnect)) {
         // Not implemented
     }
 }
 
-void Connections::createConnection(Connection&& connection)
+bool Connections::containsConnectionWith (std::pair<PlugID,PlugID>& sourceDestination)
 {
-    if (connections.addIfNotAlreadyThere(connection)) {
+    auto* e = connections.begin();
+
+    for (; e != connections.end(); ++e)
+        if (sourceDestination.first == (*e)->source && sourceDestination.second == (*e)->destination)
+            return true;
+
+    return false;
+}
+
+void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
+{
+    if (!containsConnectionWith(sourceDestination)) {
+        auto newConnection = connections.add(std::make_unique<Connection>(sourceDestination));
+        
         sendChangeMessage(); // notify new connections
         
-        auto&& newConnection = connections.getReference(connections.size() - 1);
-        
-        sendChangeMessage(); // notify new connections
-        updateConnectionPath(newConnection);
-        
+        updateConnectionPath(*newConnection);
         repaint();
     }
 }
@@ -132,7 +141,8 @@ void Connections::removeModuleConnections(uint32 moduleId)
     int i = 0;
     while (i < connections.size())
     {
-        if (connections[i].source.moduleID() == moduleId || connections[i].destination.moduleID() == moduleId)
+        auto& connection = *connections[i];
+        if (connection.source.moduleID() == moduleId || connection.destination.moduleID() == moduleId)
         {
             connections.remove(i);
         }
@@ -145,10 +155,13 @@ void Connections::removeModule(uint32 moduleId)
 {
     removeModuleConnections(moduleId);
     idStore.removeModule(moduleId);
+    // repaint should work, because no paths need updating, but all get cleared somehow
     repaint();
+    // this works though...
+    // updateAllConnectionPaths();
 }
 
-Array<Connections::Connection> Connections::getAllConnectionIdPairs()
+OwnedArray<Connections::Connection>& Connections::getConnections()
 {
     return connections;
 }
@@ -200,9 +213,9 @@ void Connections::onMouseDown(const MouseEvent& e)
 {
     for (auto& connection : connections)
     {
-        if (connection.path.contains(e.position)) {
-            selectedConnections.addToSelectionOnMouseDown(&connection, e.mods);
-            updateConnectionPath(connection);
+        if (connection->path.contains(e.position)) {
+            selectedConnections.addToSelectionOnMouseDown(connection, e.mods);
+            updateConnectionPath(*connection);
             repaint();
             return;
         }

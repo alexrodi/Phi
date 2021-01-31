@@ -34,6 +34,11 @@ public:
         destination(destination)
         {}
         
+        Connection(std::pair<PlugID,PlugID> sourceDestination):
+        source(sourceDestination.first),
+        destination(sourceDestination.second)
+        {}
+        
         Connection(const Connection& other):
         source(other.source),
         destination(other.destination)
@@ -58,7 +63,7 @@ public:
     PlugID registerPlug (uint32, Plug*);
     
     /// Returns all existing connections as an Array of PlugID pairs (outlet, inlet)
-    Array<Connection> getAllConnectionIdPairs();
+    OwnedArray<Connection>& getConnections();
     
     /// Removes a module and unregisters all its inlets and outlets given its nodeID
     void removeModule(uint32);
@@ -121,7 +126,7 @@ private:
     PathStrokeType strokeType = PathStrokeType(5.0f, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded);
     
     /// All the existing connections are stored in this Array
-    Array<Connection> connections;
+    OwnedArray<Connection> connections;
     
     /// A solo path to use when dragging connections
     Path dragPath;
@@ -154,7 +159,9 @@ private:
     Point<float> getPlugCenterPositionFromId (Plug::Mode, const PlugID);
     
     /// Adds an entry to the connections Array and notifies ChangeListeners
-    void createConnection  (Connection&&);
+    void createConnection  (std::pair<PlugID,PlugID>);
+    
+    bool containsConnectionWith (std::pair<PlugID,PlugID>&);
 
     /// Receives action messages from inlets, outlets and module boxes, in order to create and update connections
     void actionListenerCallback (const String& ) override;

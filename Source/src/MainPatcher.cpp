@@ -173,7 +173,7 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == &connections)
     {
-        audioEngine->applyAudioConnections(connections.getAllConnectionIdPairs());
+        audioEngine->applyAudioConnections(connections.getConnections());
     }
 }
 

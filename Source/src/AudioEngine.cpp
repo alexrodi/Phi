@@ -30,15 +30,15 @@ AudioEngine::~AudioEngine()
 }
 
 
-void AudioEngine::applyAudioConnections(Array<Connections::Connection> connectionsToApply)
+void AudioEngine::applyAudioConnections(OwnedArray<Connections::Connection>& connectionsToApply)
 {
     for (auto& connection : connectionsToApply)
     {
-        NodeAndChannel source { {}, int(connection.source.plugID()) };
-        NodeAndChannel destination { {}, int(connection.destination.plugID()) };
+        NodeAndChannel source { {}, int(connection->source.plugID()) };
+        NodeAndChannel destination { {}, int(connection->destination.plugID()) };
         
-        source.nodeID.uid = connection.source.moduleID();
-        destination.nodeID.uid = connection.destination.moduleID();
+        source.nodeID.uid = connection->source.moduleID();
+        destination.nodeID.uid = connection->destination.moduleID();
         
         addConnection ({ source, destination });
     }
