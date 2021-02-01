@@ -157,8 +157,9 @@ void MainPatcher::createModule(Point<float> position)
     
     registerInletsAndOutlets(*moduleUI);
     
-    auto moduleBox = new ModuleBox(std::move(moduleUI), selectedModules);
-    modules.add(moduleBox);
+    auto moduleBox = modules.add(
+        std::make_unique<ModuleBox>(std::move(moduleUI), selectedModules)
+    );
     
     // Display and set its position
     addAndMakeVisible(moduleBox);

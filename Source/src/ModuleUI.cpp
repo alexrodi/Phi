@@ -21,10 +21,10 @@ props(arguments)
 {
     // Add all inlets and outlets as children and make them visible
     for (String inletName : props.inlets)
-        addAndMakeVisible( inlets.add( new InletPlug(inletName) ) );
+        addAndMakeVisible( inlets.add( std::make_unique<InletPlug>(inletName) ) );
     
     for (String outletName : props.outlets)
-        addAndMakeVisible( outlets.add( new OutletPlug(outletName) ) );
+        addAndMakeVisible( outlets.add( std::make_unique<OutletPlug>(outletName) ) );
         
     setPaintingIsUnclipped(true);
     setBufferedToImage(true);
