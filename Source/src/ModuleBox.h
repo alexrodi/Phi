@@ -149,8 +149,8 @@ private:
 
     //==================================================================================
     
-    /// Defines all the colors that must conform to this module box, the modified LookAndFeel passes to the child components and they use these colors
-    void setupLookAndFeel ();
+    /// Opens a ColourSelector for this module's highlight colour
+    void openColourSelector();
 
     /// Runs a funtion on every currently selected ModuleBox
     void forEachSelected(std::function<void(ModuleBox*)>);
