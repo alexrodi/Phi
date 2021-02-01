@@ -87,6 +87,7 @@ private:
             setColour(TextEditor::focusedOutlineColourId, Colour());
             setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
             setColour(TextButton::textColourOnId, Colours::grey.brighter());
+            setColour(ColourSelector::backgroundColourId, Colours::transparentBlack);
         }
         
         void setModuleOn(bool isOn)
@@ -104,6 +105,16 @@ private:
                 setColour(TextButton::textColourOnId, Colours::grey);
             }
         }
+        
+        void drawCallOutBoxBackground (CallOutBox& box, Graphics& g, const Path&, Image&) override {
+            auto bounds = box.getLocalBounds().reduced(15).toFloat();
+            
+            g.setColour (findColour(ColourIds::Module::Background));
+            g.fillRoundedRectangle(bounds, 2.f);
+            
+            g.setColour (findColour(ColourIds::Module::SelectedOutlineAndText));
+            g.drawRoundedRectangle(bounds, 2.f, 2);
+        };
         
         /// Sets the highlight colour of the module
         void setHighlightColour(Colour colour)

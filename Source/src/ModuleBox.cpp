@@ -141,6 +141,22 @@ void ModuleBox::mouseDown(const MouseEvent& e)
     auto selected = moduleSelection.getItemArray();
     for (auto module : selected)
         module->startDraggingComponent(module, e);
+    
+    if (e.mods.isRightButtonDown()) {
+        auto colourSelector = std::make_unique<ColourSelector>(ColourSelector::showColourspace);
+        colourSelector->setLookAndFeel(&lookandfeel);
+        colourSelector->setCurrentColour (findColour(ColourIds::Module::Highlight));
+        colourSelector->setSize (150, 130);
+        colourSelector->addChangeListener(this);
+
+        auto& callOutBox = CallOutBox::launchAsynchronously(
+            std::move(colourSelector),
+            getBoundsInParent(),
+            getParentComponent()
+        );
+        
+        callOutBox.setLookAndFeel(&lookandfeel);
+    }
 }
 
 void ModuleBox::mouseUp(const MouseEvent& e)
@@ -158,6 +174,11 @@ void ModuleBox::mouseDrag(const MouseEvent& e)
 void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == &moduleSelection) repaint();
+    else if (auto colourSelector = dynamic_cast<ColourSelector*>(source)){
+        forEachSelected( [colourSelector] (ModuleBox* module) {
+            module->setHighlightColour(colourSelector->getCurrentColour());
+        });
+    }
 }
 
 
