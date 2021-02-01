@@ -110,3 +110,28 @@ struct PlugConnect : public PlugEvent {
     PlugID source, destination;
 };
 
+class PlugListener {
+public:
+    virtual ~PlugListener() = default;
+    virtual void onPlugEvent(const PlugEvent& event) = 0;
+};
+
+class PlugEventEmitter {
+public:
+    // These methods are used by objects that want to subscribe and unsubscribe from changes that occur in this plug
+    void addListener(PlugListener *l) {listeners.add(l);}
+    void removeListener(PlugListener *l) {listeners.remove(l);}
+    
+    template<class T> void emitEvent(const T event) {
+         // call the onPlugEvent method of every listener that has subscribed to be notified
+         // pass in the value so that listeners can use it however they please
+          listeners.call([event](PlugListener &l){ l.onPlugEvent(event); });
+    }
+    
+private:
+    ListenerList<PlugListener> listeners;
+};
+
+class PlugManager: public PlugListener {
+    
+};

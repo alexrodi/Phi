@@ -25,20 +25,10 @@ namespace PlugOptions
 /// A base class for Inlet and Outlet - This is a UI class for handling connection and dragging behaviors, it also draws the Inlet/Outlet itself
 class Plug    : public Component,
                 public DragAndDropTarget,
-                public SettableTooltipClient
+                public SettableTooltipClient,
+                public PlugEventEmitter
 {
 public:
-    
-    class Listener {
-    public:
-        virtual ~Listener() = default;
-        virtual void onPlugEvent(const PlugEvent& event) = 0;
-    };
-   
-    // These methods are used by objects that want to subscribe and unsubscribe from changes that occur in this plug
-    void addListener(Listener *l) {listeners.add(l);}
-    void removeListener(Listener *l) {listeners.remove(l);}
-    
     /// To construct a plug you must specify a mode and a name
     Plug(PlugMode, const String&);
     
@@ -92,8 +82,6 @@ private:
     /// A justification object to use when drawing the Name text
     Justification::Flags nameJustification;
     
-    ListenerList<Listener> listeners;
-    
     bool canFitText;
     
 //    /// Returns this Plug's ID as a String (for broadcasting) -> "moduleID>plugID"
@@ -111,12 +99,6 @@ private:
     bool isInterestedInDragSource (const SourceDetails&) override;
     /// Called when a drag source is dropped here and interest was claimed in isInterestedInDragSource()
     void itemDropped (const SourceDetails&) override;
-    
-    template<class T> void emitEvent(const T event) {
-         // call the onPlugEvent method of every listener that has subscribed to be notified
-         // pass in the value so that listeners can use it however they please
-          listeners.call([event](Listener &l){ l.onPlugEvent(event); });
-    }
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plug)
 };

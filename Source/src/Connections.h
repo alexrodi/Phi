@@ -19,7 +19,7 @@
 /// The patch cord handler and drawer
 class Connections : public Component,
                     public ActionListener,
-                    public Plug::Listener,
+                    public PlugListener,
                     public ChangeBroadcaster
 {
 //==============================================================================
