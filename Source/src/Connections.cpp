@@ -84,14 +84,6 @@ void Connections::updateAllConnectionPaths ()
     repaint();
 }
 
-void Connections::actionListenerCallback (const String& message)
-{
-    if (message.containsWholeWord ("moduleChanged"))
-    {
-        updateAllConnectionPaths();
-    }
-}
-
 void Connections::onPlugEvent (const PlugEvent& event)
 {
     // Here we receive events from inlets and outlets
@@ -232,6 +224,11 @@ void Connections::deleteAllSelectedConnections()
     removeConnectionsIf( [this] (Connection& connection) {
         return selectedConnections.isSelected(&connection);
     });
+}
+
+void Connections::refresh()
+{
+    updateAllConnectionPaths();
 }
 
 bool Connections::keyPressed (const KeyPress& key)

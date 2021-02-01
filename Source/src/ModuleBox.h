@@ -21,10 +21,10 @@
 */
 class ModuleBox    : public Component,
                      public ChangeListener,
+                     public ChangeBroadcaster,
                      public Button::Listener,
                      public ComponentDragger,
-                     public ComponentBoundsConstrainer,
-                     public ActionBroadcaster
+                     public ComponentBoundsConstrainer
 {
 //==================================================================================
 public:

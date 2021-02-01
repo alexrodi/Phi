@@ -163,7 +163,7 @@ void MainPatcher::createModule(Point<float> position)
     // Display and set its position
     addAndMakeVisible(moduleBox);
     moduleBox->setTopLeftPosition(position.toInt());
-    moduleBox->addActionListener(&connections);
+    moduleBox->addChangeListener(this);
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
@@ -175,5 +175,9 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
     else if (source == &selectedModules && selectedModules.getNumSelected() > 0)
     {
         connections.deselectAll();
+    }
+    else if (modules.contains(dynamic_cast<ModuleBox*>(source)))
+    {
+        connections.refresh();
     }
 }

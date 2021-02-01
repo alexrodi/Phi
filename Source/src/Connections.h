@@ -18,7 +18,6 @@
 //==============================================================================
 /// The patch cord handler and drawer
 class Connections : public Component,
-                    public ActionListener,
                     public PlugListener,
                     public ChangeBroadcaster
 {
@@ -74,6 +73,8 @@ public:
     void onMouseDown(const MouseEvent& e);
     
     void deselectAll();
+    
+    void refresh();
     
     /// Listener for key presses
     bool keyPressed (const KeyPress& key) override;
@@ -169,9 +170,6 @@ private:
     void createConnection  (std::pair<PlugID,PlugID>);
     
     bool containsConnectionWith (std::pair<PlugID,PlugID>&);
-
-    /// Receives action messages from inlets, outlets and module boxes, in order to create and update connections
-    void actionListenerCallback (const String& ) override;
     
     void onPlugEvent (const PlugEvent&) override;
     

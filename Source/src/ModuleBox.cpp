@@ -108,15 +108,12 @@ void ModuleBox::resized()
     // Place Module
     moduleUI->setBounds(moduleRect.reduced(CONTENT_PADDING));// (padded)
     
-    
-    // Emmit action message to update connections
-    sendActionMessage("moduleChanged");
+    sendChangeMessage();
 }
 
 void ModuleBox::moved()
 {
-    // Emmit action message to update connections
-    sendActionMessage("moduleChanged");
+    sendChangeMessage();
 }
 
 void ModuleBox::setHighlightColour(Colour&& colour)
