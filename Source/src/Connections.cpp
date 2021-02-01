@@ -96,20 +96,18 @@ void Connections::onPlugEvent (const Plug::Event& event)
 {
     // Here we receive events from inlets and outlets
     
-    typedef Plug::Event::Type EventType;
-    
-    if (auto object = event.as<Plug::MouseDown>(EventType::MouseDown)) {
+    if (auto object = event.as<Plug::MouseDown>()) {
         dragPathAnchor = getPlugCenterPositionFromId(object->mode, object->plugID);
-    } else if (auto object = event.as<Plug::MouseUp>(EventType::MouseUp)) {
+    } else if (auto object = event.as<Plug::MouseUp>()) {
         // When plugs get clicked they might bring the module to the front
         // this assures "Connections" always stays in front
         toFront(false);
         dragPath.clear();
         repaint();
-    } else if (auto object = event.as<Plug::Drag>(EventType::Drag)) {
+    } else if (auto object = event.as<Plug::Drag>()) {
         dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
         repaint();
-    } else if (auto object = event.as<Plug::Connect>(EventType::Connect)) {
+    } else if (auto object = event.as<Plug::Connect>()) {
         createConnection ({object->source, object->destination});
     }
 }

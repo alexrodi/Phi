@@ -40,23 +40,23 @@ struct PlugID
     
     PlugID operator= (uint64 other) { ownID = other; return *this; }
     
-    uint32 moduleID()
+    uint32 moduleID() const noexcept
     {
         return uint32(ownID >> 32);
     }
     
-    uint32 plugID()
+    uint32 plugID() const noexcept
     {
         return uint32(ownID & 0x00000FFFFF);
     }
     
-    String toString()
+    String toString() const noexcept
     {
         return String(ownID);
     }
     
-    operator uint64() {return ownID;}
-    operator int64() {return ownID;}
+    operator uint64() const noexcept {return ownID;}
+    operator int64() const noexcept {return ownID;}
     
     bool operator== (const PlugID& other) const noexcept
     {
@@ -80,41 +80,41 @@ public:
     struct Event {
         virtual ~Event() { ptr.release(); };
         
-        enum Type {
-            MouseDown,
-            MouseUp,
-            Drag,
-            Connect
-        } type;
+        Event(): ptr(this){}
+        Event(const Event& event): ptr(this){}
         
-        Event(Type type): type(type), ptr(this){}
-        Event(const Event& event): type(event.type), ptr(this){}
-        
-        bool is(Type type) const {return this->type == type;}
-        
+        /// Tries to cast itself as an Event-derived class, returns nullptr if it fails
+        /// Use to match events like:
+        /**
+         @code
+         if (auto object = event.as<MouseDown>()) {
+             // Object is a MouseDown
+             // Do something with object...
+         } else if (auto object = event.as<MouseUp>()) {
+             // Object is a MouseUp
+             // Do something with object...
+         } else if (auto object = event.as<Drag>()) {
+             // Object is a Drag
+             // Do something with object...
+         }
+         @endcode
+         */
         template<class T>
-        const T* as(Type type) const {
-            if (this->is(type))
-                return static_cast<T*>(ptr.get());
-            else
-                return nullptr;
+        const T* as() const {
+            return dynamic_cast<T*>(ptr.get());
         }
     private:
         std::unique_ptr<Event> ptr;
     };
     
     struct MouseDown : public Event {
-        MouseDown(Mode mode, PlugID plugID): Event(Type::MouseDown), mode(mode), plugID(plugID){}
+        MouseDown(Mode mode, PlugID plugID): mode(mode), plugID(plugID){}
         Mode mode; PlugID plugID;
     };
-    struct MouseUp : public Event {
-        MouseUp(): Event(Type::MouseUp){};
-    };
-    struct Drag : public Event {
-        Drag(): Event(Type::Drag){};
-    };
+    struct MouseUp : public Event {};
+    struct Drag : public Event {};
     struct Connect : public Event {
-        Connect(PlugID source, PlugID destination): Event(Type::Connect), source(source), destination(destination){}
+        Connect(PlugID source, PlugID destination): source(source), destination(destination){}
         PlugID source, destination;
     };
     
