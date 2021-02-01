@@ -32,6 +32,14 @@ AudioEngine::~AudioEngine()
 
 void AudioEngine::applyAudioConnections(OwnedArray<Connections::Connection>& connectionsToApply)
 {
+    for (auto& node : getNodes()) {
+        disconnectNode(node->nodeID);
+        
+        // When we detect an output module, we hook it up to the output node
+        if (node->properties.getWithDefault("is_output", false))
+            connectToOuput(node);
+    }
+    
     for (auto& connection : connectionsToApply)
     {
         NodeAndChannel source { {}, int(connection->source.plugID()) };

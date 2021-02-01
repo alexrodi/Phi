@@ -104,11 +104,13 @@ void MainPatcher::deleteAllSelectedModules()
 
 bool MainPatcher::keyPressed (const KeyPress& key)
 {
-    if (key == KeyPress::backspaceKey)
-    {
+    if (selectedModules.getNumSelected() > 0 && key == KeyPress::backspaceKey){
         deleteAllSelectedModules();
+        return true;
+    } else {
+        connections.keyPressed(key);
     }
-    return true;
+    return false;
 }
 
 void MainPatcher::togglePatchCordType(bool toggle)
@@ -145,12 +147,9 @@ void MainPatcher::createModule(Point<float> position)
     auto moduleUI = moduleProcessor->createUI();
     
     auto newNode = audioEngine->addNode(std::move(moduleProcessor));
-
-    // When we detect an output module, we hook it up to the output node
-    if (typeid(moduleClass) == typeid(OutputProcessor))
-    {
-        audioEngine->connectToOuput(newNode);
-    }
+    
+    // Set is_output flag for output modules
+    newNode->properties.set("is_output", typeid(moduleClass) == typeid(OutputProcessor));
     
     moduleUI->nodeID = newNode->nodeID;
     

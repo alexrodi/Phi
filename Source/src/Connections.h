@@ -75,6 +75,9 @@ public:
     
     void deselectAll();
     
+    /// Listener for key presses
+    bool keyPressed (const KeyPress& key) override;
+    
 //==============================================================================
 private:
     /// This class holds the information on the inlets and outlets that currently exist in the patcher in the form of two 2D hash-maps and functions to add & remove entries.
@@ -148,7 +151,9 @@ private:
     
     void updateConnectionPath (Connection& connection);
     
-    void removeModuleConnections(uint32 moduleId);
+    void removeConnectionsIf(std::function<bool(Connection&)> predicate);
+    
+    void deleteAllSelectedConnections();
   
     /// Finds the middle point between two points with an optional weight factor
     static Point<float> getMiddlePoint (const Point<float>, const Point<float>, bool);

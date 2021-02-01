@@ -138,20 +138,19 @@ void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
     if (!containsConnectionWith(sourceDestination)) {
         auto newConnection = connections.add(std::make_unique<Connection>(sourceDestination));
         
-        sendChangeMessage(); // notify new connections
+        sendChangeMessage(); // trigger connections refresh
         
         updateConnectionPath(*newConnection);
         repaint();
     }
 }
 
-void Connections::removeModuleConnections(uint32 moduleId)
+void Connections::removeConnectionsIf(std::function<bool(Connection&)> predicate)
 {
     int i = 0;
     while (i < connections.size())
     {
-        auto& connection = *connections[i];
-        if (connection.source.moduleID() == moduleId || connection.destination.moduleID() == moduleId)
+        if (predicate(*connections[i]))
         {
             connections.remove(i);
         }
@@ -162,12 +161,11 @@ void Connections::removeModuleConnections(uint32 moduleId)
 
 void Connections::removeModule(uint32 moduleId)
 {
-    removeModuleConnections(moduleId);
+    removeConnectionsIf( [moduleId] (Connection& connection) {
+        return connection.source.moduleID() == moduleId || connection.destination.moduleID() == moduleId;
+    });
     idStore.removeModule(moduleId);
-    // repaint should work, because no paths need updating, but all get cleared somehow
     repaint();
-    // this works though...
-    // updateAllConnectionPaths();
 }
 
 OwnedArray<Connections::Connection>& Connections::getConnections()
@@ -231,4 +229,22 @@ void Connections::onMouseDown(const MouseEvent& e)
     }
     selectedConnections.deselectAll();
     repaint();
+}
+
+void Connections::deleteAllSelectedConnections()
+{
+    removeConnectionsIf( [this] (Connection& connection) {
+        return selectedConnections.isSelected(&connection);
+    });
+}
+
+bool Connections::keyPressed (const KeyPress& key)
+{
+    if (key == KeyPress::backspaceKey)
+    {
+        deleteAllSelectedConnections();
+        sendChangeMessage(); // trigger connections refresh
+        repaint();
+    }
+    return true;
 }
