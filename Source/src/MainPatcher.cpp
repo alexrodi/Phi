@@ -177,4 +177,3 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
         connections.deselectAll();
     }
 }
-

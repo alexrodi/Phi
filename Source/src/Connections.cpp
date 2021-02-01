@@ -57,7 +57,7 @@ PlugID Connections::registerPlug (uint32 moduleId, Plug* plug)
     return idStore.storePlug(moduleId, plug);
 }
 
-Point<float> Connections::getPlugCenterPositionFromId (Plug::Mode plugMode, const PlugID plugID)
+Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const PlugID plugID)
 {
     auto plug = idStore.getPlug(plugMode, plugID);
     
@@ -66,8 +66,8 @@ Point<float> Connections::getPlugCenterPositionFromId (Plug::Mode plugMode, cons
 
 void Connections::updateConnectionPath (Connection& connection)
 {
-    auto path = getConnectionPath (getPlugCenterPositionFromId(Plug::Mode::Inlet, connection.destination)
-                                          , getPlugCenterPositionFromId(Plug::Mode::Outlet, connection.source));
+    auto path = getConnectionPath (getPlugCenterPositionFromId(PlugMode::Inlet, connection.destination)
+                                          , getPlugCenterPositionFromId(PlugMode::Outlet, connection.source));
     
     Path strokePath;
     
@@ -92,22 +92,22 @@ void Connections::actionListenerCallback (const String& message)
     }
 }
 
-void Connections::onPlugEvent (const Plug::Event& event)
+void Connections::onPlugEvent (const PlugEvent& event)
 {
     // Here we receive events from inlets and outlets
     
-    if (auto object = event.as<Plug::MouseDown>()) {
+    if (auto object = event.as<PlugMouseDown>()) {
         dragPathAnchor = getPlugCenterPositionFromId(object->mode, object->plugID);
-    } else if (auto object = event.as<Plug::MouseUp>()) {
+    } else if (auto object = event.as<PlugMouseUp>()) {
         // When plugs get clicked they might bring the module to the front
         // this assures "Connections" always stays in front
         toFront(false);
-        dragPath.clear();
+        if (!object->keepConnectedToSource) dragPath.clear();
         repaint();
-    } else if (auto object = event.as<Plug::Drag>()) {
+    } else if (auto object = event.as<PlugDrag>()) {
         dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
         repaint();
-    } else if (auto object = event.as<Plug::Connect>()) {
+    } else if (auto object = event.as<PlugConnect>()) {
         createConnection ({object->source, object->destination});
     }
 }

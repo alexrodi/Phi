@@ -99,7 +99,7 @@ private:
         }
         
         /// Gets a stored inlet or outlet
-        Plug* getPlug (Plug::Mode plugMode, PlugID plugID)
+        Plug* getPlug (PlugMode plugMode, PlugID plugID)
         {
             return mapOfMode(plugMode)[plugID.moduleID()][plugID.plugID()];
         }
@@ -112,9 +112,9 @@ private:
             return plugs[moduleID].rbegin()->first + 1;
         }
         
-        PlugMap& mapOfMode(Plug::Mode mode)
+        PlugMap& mapOfMode(PlugMode mode)
         {
-            return mode == Plug::Mode::Inlet ? inlets : outlets;
+            return mode == PlugMode::Inlet ? inlets : outlets;
         }
         
         /// Unregisters all inlets and outlets, given a nodeID
@@ -163,7 +163,7 @@ private:
     static Path patchCordTypeBCallback (const Point<float>, const Point<float>);
     
     /// Fetches the center position (relative to this component) of an inlet or outlet
-    Point<float> getPlugCenterPositionFromId (Plug::Mode, const PlugID);
+    Point<float> getPlugCenterPositionFromId (PlugMode, const PlugID);
     
     /// Adds an entry to the connections Array and notifies ChangeListeners
     void createConnection  (std::pair<PlugID,PlugID>);
@@ -173,7 +173,7 @@ private:
     /// Receives action messages from inlets, outlets and module boxes, in order to create and update connections
     void actionListenerCallback (const String& ) override;
     
-    void onPlugEvent (const Plug::Event&) override;
+    void onPlugEvent (const PlugEvent&) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
 };

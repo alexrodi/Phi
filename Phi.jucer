@@ -75,6 +75,7 @@
       <FILE id="zOtgrK" name="ModuleUI.h" compile="0" resource="0" file="Source/src/ModuleUI.h"/>
       <FILE id="ohA5ti" name="Plug.cpp" compile="1" resource="0" file="Source/src/Plug.cpp"/>
       <FILE id="BEBfoh" name="Plug.h" compile="0" resource="0" file="Source/src/Plug.h"/>
+      <FILE id="EfB9CX" name="PlugHandler.h" compile="0" resource="0" file="Source/src/PlugHandler.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

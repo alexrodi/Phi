@@ -21,10 +21,10 @@ props(arguments)
 {
     // Add all inlets and outlets as children and make them visible
     for (String inletName : props.inlets)
-        addAndMakeVisible( inlets.add( new Inlet(inletName) ) );
+        addAndMakeVisible( inlets.add( new InletPlug(inletName) ) );
     
     for (String outletName : props.outlets)
-        addAndMakeVisible( outlets.add( new Outlet(outletName) ) );
+        addAndMakeVisible( outlets.add( new OutletPlug(outletName) ) );
         
     setPaintingIsUnclipped(true);
     setBufferedToImage(true);
