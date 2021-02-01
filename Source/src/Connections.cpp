@@ -38,7 +38,7 @@ void Connections::paint (Graphics& g)
     for (auto& connection : connections)
     {
         if (selectedConnections.isSelected(connection)) {
-            g.setColour (Colours::lightgrey);
+            g.setColour (Colours::grey.brighter());
             g.strokePath (connection->path, PathStrokeType(2.0f));
         }
         else {

@@ -22,6 +22,7 @@ tooltipWindow{this}
     
     // Menu and submenus content
     // Submenus must be filled before the main
+    // #TODO Obviously there will be a better way to do this for more modules
     modulesSubMenu.addItem (1, "Impulse");
     modulesSubMenu.addItem (2, "String");
     modulesSubMenu.addItem (3, "Gain");
@@ -64,6 +65,7 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         // Displays the menu and returns the ID of the selected item (0 if clicked outside)
         const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(getParentComponent()));
         
+        // #TODO Obviously there will be a better way to do this for more modules
         if (result==1)
         {
             createModule<ImpulseProcessor>(e.position);

@@ -46,6 +46,8 @@ public:
             HeaderLine,
             Highlight
         };
+        
+        // #TODO define Plug colour ids
         enum Plug {
             IntletOutline,
             IntletCenter,
