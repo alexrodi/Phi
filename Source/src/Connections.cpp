@@ -111,8 +111,6 @@ void Connections::onPlugEvent (const Plug::Event& event)
         repaint();
     } else if (auto object = event.as<Plug::Connect>(EventType::Connect)) {
         createConnection ({object->source, object->destination});
-    } else if (auto object = event.as<Plug::Disconnect>(EventType::Disconnect)) {
-        // Not implemented
     }
 }
 

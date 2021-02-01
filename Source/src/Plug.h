@@ -84,8 +84,7 @@ public:
             MouseDown,
             MouseUp,
             Drag,
-            Connect,
-            Disconnect
+            Connect
         } type;
         
         Event(Type type): type(type), ptr(this){}
@@ -118,10 +117,6 @@ public:
         Connect(PlugID source, PlugID destination): Event(Type::Connect), source(source), destination(destination){}
         PlugID source, destination;
     };
-    struct Disconnect : public Event {
-        Disconnect(): Event(Type::Disconnect){};
-    }; // not implemented yet
-    
     
     class Listener {
     public:
