@@ -109,7 +109,8 @@ void Connections::onConnectionEnd(std::pair<PlugID, PlugID> sourceDestination)
 
 void Connections::onConnectionRelease()
 {
-    deselectAll();
+    dragPath.clear();
+    repaint();
 }
 
 void Connections::onConnectionDrag()
@@ -119,7 +120,6 @@ void Connections::onConnectionDrag()
 
 void Connections::deselectAll()
 {
-    dragPath.clear();
     selectedConnections.deselectAll();
     repaint();
 }
