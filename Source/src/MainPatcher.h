@@ -20,7 +20,6 @@
 //==============================================================================
 /// The main view of Phi, this class handles all the module creation, hosting and patching
 class MainPatcher    : public Component,
-                       public DragAndDropContainer,
                        public ChangeListener
 {
 public:

@@ -60,60 +60,23 @@ void Plug::resized()
 
 void Plug::mouseDown(const MouseEvent& e)
 {
-    emitEvent(PlugMouseDown(mode, plugID));
+    emitEvent(PlugMouseEvent(mode, plugID, e, PlugMouseEvent::Type::MouseDown));
 }
 
 void Plug::mouseUp(const MouseEvent& e)
 {
-//    if (e.mouseWasClicked()) {
-//
-//    }
-    emitEvent(PlugMouseUp(e.mods.isShiftDown()));
-//    if (e.mods.isShiftDown()) {
-//        mouseDown(e);
-//        mouseDrag(e);
-//    }
+    auto topLevelComponent = getTopLevelComponent();
+    auto mousePosition = topLevelComponent->getLocalPoint(this, e.position.toInt());
+    auto componentUnderMouse = topLevelComponent->getComponentAt(mousePosition);
+    
+    if (auto plug = dynamic_cast<Plug*>(componentUnderMouse)) {
+        emitEvent(PlugMouseEvent(plug->mode, plug->plugID, e, PlugMouseEvent::Type::MouseUp));
+    } else {
+        emitEvent(PlugEndDragEvent{});
+    }
 }
 
 void Plug::mouseDrag(const MouseEvent& e)
 {
-    DragAndDropContainer::findParentDragContainerFor(this)->
-    startDragging (0
-                   , this
-                   , Image (Image::PixelFormat::RGB, 1, 1, true));
-    
-    emitEvent(PlugDrag());
+    emitEvent(PlugMouseEvent(mode, plugID, e, PlugMouseEvent::Type::MouseDrag));
 }
-
-void Plug::mouseMove(const MouseEvent& e)
-{
-//    if (DragAndDropContainer::findParentDragContainerFor(this)->isDragAndDropActive())
-//        mouseDrag(e);
-}
-
-bool Plug::isInterestedInDragSource (const SourceDetails& dragSourceDetails)
-{
-    if (auto dragged = dynamic_cast<Plug*>(dragSourceDetails.sourceComponent.get())) {
-        // Only interested if the connection is of opposite mode and from a different module
-        return (dragged->getMode() == getOppositeMode()) && (dragged->getID().moduleID() != plugID.moduleID());
-    }
-    return false;
-}
-
-void Plug::itemDropped (const SourceDetails& dragSourceDetails)
-{
-    if (auto dragged = dynamic_cast<Plug*>(dragSourceDetails.sourceComponent.get())) {
-        PlugID source;
-        PlugID destination;
-        
-        if (getMode() == PlugMode::Inlet) {
-            source = dragged->getID();
-            destination = plugID;
-        } else {
-            source = plugID;
-            destination = dragged->getID();
-        }
-        emitEvent(PlugConnect(source, destination));
-    }
-}
-

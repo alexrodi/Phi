@@ -64,6 +64,14 @@ Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const 
     return getLocalPoint(&*plug, plug->getLocalBounds().getCentre().toFloat()) ;
 }
 
+void Connections::updateDragPath()
+{
+    if (isHoldingConnection()) {
+        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
+        repaint();
+    }
+}
+
 void Connections::updateConnectionPath (Connection& connection)
 {
     auto path = getConnectionPath (getPlugCenterPositionFromId(PlugMode::Inlet, connection.destination)
@@ -84,28 +92,34 @@ void Connections::updateAllConnectionPaths ()
     repaint();
 }
 
-void Connections::onPlugEvent (const PlugEvent& event)
+void Connections::onConnectionStart(PlugMode plugMode, PlugID plugID)
 {
-    // Here we receive events from inlets and outlets
+    dragPathAnchor = getPlugCenterPositionFromId(plugMode, plugID);
+}
+
+void Connections::onConnectionEnd(std::pair<PlugID, PlugID> sourceDestination)
+{
+//    // When plugs get clicked they might bring the module to the front
+//    // this assures "Connections" always stays in front
+//    toFront(false);
     
-    if (auto object = event.as<PlugMouseDown>()) {
-        dragPathAnchor = getPlugCenterPositionFromId(object->mode, object->plugID);
-    } else if (auto object = event.as<PlugMouseUp>()) {
-        // When plugs get clicked they might bring the module to the front
-        // this assures "Connections" always stays in front
-        toFront(false);
-        if (!object->keepConnectedToSource) dragPath.clear();
-        repaint();
-    } else if (auto object = event.as<PlugDrag>()) {
-        dragPath = getConnectionPath (dragPathAnchor, getMouseXYRelative().toFloat());
-        repaint();
-    } else if (auto object = event.as<PlugConnect>()) {
-        createConnection ({object->source, object->destination});
-    }
+    createConnection(sourceDestination);
+    repaint();
+}
+
+void Connections::onConnectionRelease()
+{
+    deselectAll();
+}
+
+void Connections::onConnectionDrag()
+{
+    updateDragPath();
 }
 
 void Connections::deselectAll()
 {
+    dragPath.clear();
     selectedConnections.deselectAll();
     repaint();
 }
@@ -144,7 +158,6 @@ void Connections::removeConnectionsIf(std::function<bool(Connection&)> predicate
         }
         else i++;
     }
-    selectedConnections.deselectAll();
 }
 
 void Connections::removeModule(uint32 moduleId)
@@ -153,7 +166,7 @@ void Connections::removeModule(uint32 moduleId)
         return connection.source.moduleID() == moduleId || connection.destination.moduleID() == moduleId;
     });
     idStore.removeModule(moduleId);
-    repaint();
+    deselectAll();
 }
 
 OwnedArray<Connections::Connection>& Connections::getConnections()
@@ -204,8 +217,13 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
     return path;
 }
 
-void Connections::onMouseDown(const MouseEvent& e)
+void Connections::mouseDown(const MouseEvent& e)
 {
+    // If it clicks anywhere else but a Plug
+    if (! dynamic_cast<Plug*>(e.source.getComponentUnderMouse())) {
+        abortConnection();
+    }
+
     for (auto& connection : connections)
     {
         if (connection->path.contains(e.position)) {
@@ -215,8 +233,12 @@ void Connections::onMouseDown(const MouseEvent& e)
             return;
         }
     }
-    selectedConnections.deselectAll();
-    repaint();
+    deselectAll();
+}
+
+void Connections::mouseMove(const MouseEvent& e)
+{
+    updateDragPath();
 }
 
 void Connections::deleteAllSelectedConnections()
@@ -224,6 +246,7 @@ void Connections::deleteAllSelectedConnections()
     removeConnectionsIf( [this] (Connection& connection) {
         return selectedConnections.isSelected(&connection);
     });
+    deselectAll();
 }
 
 void Connections::refresh()

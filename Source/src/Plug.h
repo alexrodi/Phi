@@ -24,7 +24,6 @@ namespace PlugOptions
 
 /// A base class for Inlet and Outlet - This is a UI class for handling connection and dragging behaviors, it also draws the Inlet/Outlet itself
 class Plug    : public Component,
-                public DragAndDropTarget,
                 public SettableTooltipClient,
                 public PlugEventEmitter
 {
@@ -50,10 +49,6 @@ public:
     
     PlugID getID() {
         return plugID;
-    }
-    
-    PlugMode getOppositeMode() {
-        return mode == PlugMode::Inlet ? PlugMode::Outlet : PlugMode::Inlet;
     }
 
 private:
@@ -84,21 +79,9 @@ private:
     
     bool canFitText;
     
-//    /// Returns this Plug's ID as a String (for broadcasting) -> "moduleID>plugID"
-//    String getStringId();
-    
     void mouseDown(const MouseEvent&) override;
     void mouseUp(const MouseEvent&) override;
     void mouseDrag(const MouseEvent&) override;
-    void mouseMove(const MouseEvent&) override;
-    
-    /** Callback for claiming interest in the thing being dragged.
-     An inlet is interested in a dragged outlet but not another inlet,
-     this also returns false if the drag source comes from the same module this Plug belongs to
-     */
-    bool isInterestedInDragSource (const SourceDetails&) override;
-    /// Called when a drag source is dropped here and interest was claimed in isInterestedInDragSource()
-    void itemDropped (const SourceDetails&) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plug)
 };

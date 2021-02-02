@@ -18,8 +18,8 @@
 //==============================================================================
 /// The patch cord handler and drawer
 class Connections : public Component,
-                    public PlugListener,
-                    public ChangeBroadcaster
+                    public ChangeBroadcaster,
+                    public PlugHandler
 {
 //==============================================================================
 public:
@@ -70,7 +70,8 @@ public:
     /// Chooses between two drawing styles for the connections and updates them
     void togglePatchCordType(bool);
     
-    void onMouseDown(const MouseEvent& e);
+    void mouseDown(const MouseEvent& e) override;
+    void mouseMove(const MouseEvent& e) override;
     
     void deselectAll();
     
@@ -147,6 +148,8 @@ private:
 
     //============================================================
     
+    void updateDragPath();
+    
     /// Forces an update of all patch cords, evaulating all inlet/outlet positions
     void updateAllConnectionPaths ();
     
@@ -171,7 +174,10 @@ private:
     
     bool containsConnectionWith (std::pair<PlugID,PlugID>&);
     
-    void onPlugEvent (const PlugEvent&) override;
+    void onConnectionStart (PlugMode, PlugID) override;
+    void onConnectionEnd (std::pair<PlugID, PlugID>) override;
+    void onConnectionDrag () override;
+    void onConnectionRelease () override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
 };

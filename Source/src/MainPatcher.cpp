@@ -30,6 +30,11 @@ tooltipWindow{this}
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
     addAndMakeVisible(connections);
+    
+    // Pass mouse activity to connections
+    const MessageManagerLock mmLock;
+    addMouseListener(&connections, true);
+    
     connections.addChangeListener(this);
     selectedModules.addChangeListener(this);
     
@@ -83,9 +88,6 @@ void MainPatcher::mouseDown(const MouseEvent& e)
             createModule<OutputProcessor>(e.position);
         }
 
-    } else {
-        // Hand over event to connections
-        connections.onMouseDown(e);
     }
 }
 
