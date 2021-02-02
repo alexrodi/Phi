@@ -30,6 +30,7 @@ tooltipWindow{this}
     rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
     
     addAndMakeVisible(connections);
+    addAndMakeVisible(lasso);
     
     // Pass mouse activity to connections
     const MessageManagerLock mmLock;
@@ -61,12 +62,11 @@ void MainPatcher::resized()
 
 void MainPatcher::mouseDown(const MouseEvent& e)
 {
-    // Deselect all modules when clicking the window
-    selectedModules.deselectAll();
+    if (!e.mods.isShiftDown())
+        selectedModules.deselectAll();
     
     // Right Click
     if (e.mods.isRightButtonDown()){
-        
         // Displays the menu and returns the ID of the selected item (0 if clicked outside)
         const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(getParentComponent()));
         
@@ -87,8 +87,19 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         {
             createModule<OutputProcessor>(e.position);
         }
-
+    } else {
+        lasso.beginLasso(e, this);
     }
+}
+
+void MainPatcher::mouseUp(const MouseEvent& e)
+{
+    lasso.endLasso();
+}
+
+void MainPatcher::mouseDrag(const MouseEvent& e)
+{
+    lasso.dragLasso(e);
 }
 
 void MainPatcher::deleteModule(ModuleBox* moduleBox)
@@ -184,3 +195,12 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
         connections.refresh();
     }
 }
+
+void MainPatcher::findLassoItemsInArea (Array<ModuleBox*>& itemsFound, const Rectangle<int>& area)
+{
+    for (auto& module : modules)
+        if (module->getBounds().intersects(area))
+            itemsFound.add(module);
+}
+
+SelectedItemSet<ModuleBox*>& MainPatcher::getLassoSelection() {return selectedModules;}

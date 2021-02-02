@@ -98,11 +98,7 @@ void Connections::onConnectionStart(PlugMode plugMode, PlugID plugID)
 }
 
 void Connections::onConnectionEnd(std::pair<PlugID, PlugID> sourceDestination)
-{
-//    // When plugs get clicked they might bring the module to the front
-//    // this assures "Connections" always stays in front
-//    toFront(false);
-    
+{    
     createConnection(sourceDestination);
     repaint();
 }

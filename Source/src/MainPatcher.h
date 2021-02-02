@@ -20,7 +20,8 @@
 //==============================================================================
 /// The main view of Phi, this class handles all the module creation, hosting and patching
 class MainPatcher    : public Component,
-                       public ChangeListener
+                       public ChangeListener,
+                       public LassoSource<ModuleBox*>
 {
 public:
     MainPatcher(std::unique_ptr<AudioEngine>);
@@ -30,6 +31,8 @@ public:
     void resized() override;
     
     void mouseDown(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
     
     /// Toggles between two patch-cord drawing routines
     void togglePatchCordType(bool);
@@ -60,6 +63,20 @@ private:
     
     TooltipWindow tooltipWindow;
     
+    class PhiLasso: public LassoComponent<ModuleBox*> {
+        void paint(Graphics& g)
+        {
+            Path path;
+            path.addRectangle(getLocalBounds());
+            
+            const float dash = 5.0f;
+            PathStrokeType(2.0f).createDashedStroke(path, path, &dash, 1);
+            
+            g.setColour(Colours::grey);
+            g.fillPath(path);
+        }
+    } lasso;
+    
     void registerPlugs(OwnedArray<Plug>&, uint32);
     
     /** Registers all inlets and outlets of a module with the connections component.
@@ -77,6 +94,10 @@ private:
     
     /// We use this currently to get notified from Connections when a new connection is made, so that it may be correspondingly applied in the AudioEngine
     void changeListenerCallback (ChangeBroadcaster* source) override;
+    
+    void findLassoItemsInArea (Array<ModuleBox*>& itemsFound, const Rectangle<int>& area) override;
+
+    SelectedItemSet<ModuleBox*>& getLassoSelection() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainPatcher)
 };
