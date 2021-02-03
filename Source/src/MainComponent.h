@@ -45,8 +45,26 @@ public:
             setColour(TooltipWindow::backgroundColourId, Colours::grey);
             setColour(TooltipWindow::textColourId, Colours::darkgrey.darker());
             
+            setColour(ColourSelector::backgroundColourId, Colours::transparentBlack);
+            
             LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
+            
+            setColour(PhiColourIds::Module::Background, Colours::darkgrey.darker());
+            setColour(PhiColourIds::Module::OutlineAndText, Colours::grey);
+            setColour(PhiColourIds::Module::SelectedOutlineAndText, Colours::grey.brighter());
+            setColour(PhiColourIds::Module::HeaderLine, Colours::grey);
         }
+        
+        void drawCallOutBoxBackground (CallOutBox& box, Graphics& g, const Path&, Image&) override {
+            auto bounds = box.getLocalBounds().reduced(15).toFloat();
+            
+            g.setColour (findColour(PhiColourIds::Module::Background));
+            g.fillRoundedRectangle(bounds, 2.f);
+            
+            g.setColour (findColour(PhiColourIds::Module::SelectedOutlineAndText));
+            g.drawRoundedRectangle(bounds, 2.f, 2);
+        };
+        
     } phiLookAndFeel;
 
 

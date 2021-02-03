@@ -75,6 +75,8 @@ public:
     void mouseDown(const MouseEvent& e) override;
     void mouseMove(const MouseEvent& e) override;
     
+    bool onMouseRightButton(const MouseEvent& e);
+    
     void deselectAll();
     
     void refresh();
@@ -179,6 +181,8 @@ private:
     void createConnection  (std::pair<PlugID,PlugID>);
     
     bool containsConnectionWith (std::pair<PlugID,PlugID>&);
+    
+    void openColourSelector(Rectangle<int> boundsToPointTo);
     
     void onConnectionStart (PlugMode, PlugID) override;
     void onConnectionEnd (std::pair<PlugID, PlugID>) override;

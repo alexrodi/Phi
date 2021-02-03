@@ -216,6 +216,21 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
     return path;
 }
 
+void Connections::openColourSelector(Rectangle<int> boundsToPointTo)
+{
+    auto colourSelector = std::make_unique<ColourSelector>(ColourSelector::showColourspace);
+    colourSelector->setSize (150, 130);
+    colourSelector->addChangeListener(this);
+
+    auto& callOutBox = CallOutBox::launchAsynchronously(
+        std::move(colourSelector),
+        getTopLevelComponent()->getLocalArea(this, boundsToPointTo),
+        getTopLevelComponent()
+    );
+    
+    callOutBox.setLookAndFeel(&getParentComponent()->getLookAndFeel());
+}
+
 void Connections::mouseDown(const MouseEvent& e)
 {
     // If it clicks anywhere else but a Plug
@@ -237,6 +252,18 @@ void Connections::mouseDown(const MouseEvent& e)
 void Connections::mouseMove(const MouseEvent& e)
 {
     updateDragPath();
+}
+
+bool Connections::onMouseRightButton(const MouseEvent& e)
+{
+    for (auto& connection : connections)
+    {
+        if (connection->path.contains(e.position)) {
+            openColourSelector(connection->path.getBounds().toNearestInt());
+            return true;
+        }
+    }
+    return false;
 }
 
 void Connections::deleteAllSelectedConnections()
@@ -271,9 +298,10 @@ void Connections::findLassoItemsInArea (Array<PhiConnection*>& itemsFound, const
         float length = connection->path.getLength();
         float distance = 0.0f;
         while (distance < length){
-            if (area.contains(connection->path.getPointAlongPath(distance += 20.0f).toInt()))
+            if (area.contains(connection->path.getPointAlongPath(distance += 10.0f).toInt()))
             {
                 itemsFound.add(connection);
+                break;
             }
         }
     }
@@ -283,8 +311,10 @@ SelectedItemSet<PhiConnection*>& Connections::getLassoSelection() {return select
 
 void Connections::changeListenerCallback (ChangeBroadcaster* source)
 {
-    if (source == &selectedConnections)
-    {
+    if (source == &selectedConnections) {
         repaint();
+    } else if (auto colourSelector = dynamic_cast<ColourSelector*>(source)){
+//        This is where you change the colors for all selected connections
+//        connections need to store their own colour to be drawn with
     }
 }

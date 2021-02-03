@@ -16,6 +16,26 @@
 #include "modules/Modules.h"
 #include "UIobjects/ui_ToggleButton.h"
 
+
+namespace PhiColourIds {
+    enum Module {
+        Background,
+        OutlineAndText,
+        SelectedOutlineAndText,
+        HeaderLine,
+        Highlight
+    };
+    
+    // #TODO define Plug colour ids
+    enum Plug {
+        IntletOutline,
+        IntletCenter,
+        OutletCenter,
+        OutletOutline,
+        Text
+    };
+};
+
 //==============================================================================
 /*
 */
@@ -38,25 +58,6 @@ public:
     /// The hosted moduleUI
     std::unique_ptr<ModuleUI> moduleUI;
     
-    struct ColourIds {
-        enum Module {
-            Background,
-            OutlineAndText,
-            SelectedOutlineAndText,
-            HeaderLine,
-            Highlight
-        };
-        
-        // #TODO define Plug colour ids
-        enum Plug {
-            IntletOutline,
-            IntletCenter,
-            OutletCenter,
-            OutletOutline,
-            Text
-        };
-    };
-    
     /// Sets the highlight colour of the module
     void setHighlightColour(Colour&&);
 
@@ -71,12 +72,12 @@ private:
         ModuleLookAndFeel()
         {
             setHighlightColour(Colours::cyan.withSaturation(0.5f));
-            setColour(ColourIds::Module::Background, Colours::darkgrey.darker());
-            setColour(ColourIds::Module::OutlineAndText, Colours::grey);
-            setColour(ColourIds::Module::SelectedOutlineAndText, Colours::grey.brighter());
-            setColour(ColourIds::Module::HeaderLine, Colours::grey);
+            setColour(PhiColourIds::Module::Background, Colours::darkgrey.darker());
+            setColour(PhiColourIds::Module::OutlineAndText, Colours::grey);
+            setColour(PhiColourIds::Module::SelectedOutlineAndText, Colours::grey.brighter());
+            setColour(PhiColourIds::Module::HeaderLine, Colours::grey);
             
-            setColour(Slider::thumbColourId, findColour(ColourIds::Module::Highlight));
+            setColour(Slider::thumbColourId, findColour(PhiColourIds::Module::Highlight));
             setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.21));
             setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
             setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
@@ -87,14 +88,13 @@ private:
             setColour(TextEditor::focusedOutlineColourId, Colour());
             setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
             setColour(TextButton::textColourOnId, Colours::grey.brighter());
-            setColour(ColourSelector::backgroundColourId, Colours::transparentBlack);
         }
         
         void setModuleOn(bool isOn)
         {
             if (isOn)
             {
-                setColour(Slider::thumbColourId, findColour(ColourIds::Module::Highlight));
+                setColour(Slider::thumbColourId, findColour(PhiColourIds::Module::Highlight));
                 setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
                 setColour(TextButton::textColourOnId, Colours::grey.brighter());
             }
@@ -109,18 +109,19 @@ private:
         void drawCallOutBoxBackground (CallOutBox& box, Graphics& g, const Path&, Image&) override {
             auto bounds = box.getLocalBounds().reduced(15).toFloat();
             
-            g.setColour (findColour(ColourIds::Module::Background));
+            g.setColour (findColour(PhiColourIds::Module::Background));
             g.fillRoundedRectangle(bounds, 2.f);
             
-            g.setColour (findColour(ColourIds::Module::SelectedOutlineAndText));
+            g.setColour (findColour(PhiColourIds::Module::SelectedOutlineAndText));
             g.drawRoundedRectangle(bounds, 2.f, 2);
         };
         
         /// Sets the highlight colour of the module
         void setHighlightColour(Colour colour)
         {
-            setColour(ColourIds::Module::Highlight, colour);
+            setColour(PhiColourIds::Module::Highlight, colour);
         }
+        
         
     } lookandfeel;
 

@@ -32,8 +32,6 @@ tooltipWindow{this}
     addAndMakeVisible(connections);
     addAndMakeVisible(lasso);
     
-    // Pass mouse activity to connections
-    const MessageManagerLock mmLock;
     addMouseListener(&connections, true);
     
     connections.addChangeListener(this);
@@ -66,7 +64,7 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         selectedModules.deselectAll();
     
     // Right Click
-    if (e.mods.isRightButtonDown()){
+    if (e.mods.isRightButtonDown() && !connections.onMouseRightButton(e)){
         // Displays the menu and returns the ID of the selected item (0 if clicked outside)
         const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(getParentComponent()));
         

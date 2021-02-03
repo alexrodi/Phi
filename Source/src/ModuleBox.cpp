@@ -55,19 +55,19 @@ ModuleBox::~ModuleBox()
 void ModuleBox::paint (Graphics& g)
 {
     // Box
-    g.setColour (findColour(ColourIds::Module::Background));
+    g.setColour (findColour(PhiColourIds::Module::Background));
     g.fillRoundedRectangle(moduleBoxRectangle, 2.f);
     
     bool isSelected = moduleSelection.isSelected(this);
     // Outline
-    g.setColour (findColour(isSelected ? ColourIds::Module::SelectedOutlineAndText : ColourIds::OutlineAndText));
+    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutlineAndText : PhiColourIds::OutlineAndText));
     g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name
     g.drawText(moduleUI->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
-    g.setColour (findColour(ColourIds::Module::HeaderLine));
+    g.setColour (findColour(PhiColourIds::Module::HeaderLine));
     g.fillRect(headerLine);
 }
 
@@ -135,8 +135,7 @@ void ModuleBox::forEachSelected(std::function<void(ModuleBox*)> callback)
 void ModuleBox::openColourSelector()
 {
     auto colourSelector = std::make_unique<ColourSelector>(ColourSelector::showColourspace);
-    colourSelector->setLookAndFeel(&lookandfeel);
-    colourSelector->setCurrentColour (findColour(ColourIds::Module::Highlight));
+    colourSelector->setCurrentColour (findColour(PhiColourIds::Module::Highlight));
     colourSelector->setSize (150, 130);
     colourSelector->addChangeListener(this);
 
