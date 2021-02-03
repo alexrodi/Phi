@@ -96,7 +96,6 @@ private:
     void changeListenerCallback (ChangeBroadcaster* source) override;
     
     void findLassoItemsInArea (Array<ModuleBox*>& itemsFound, const Rectangle<int>& area) override;
-
     SelectedItemSet<ModuleBox*>& getLassoSelection() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainPatcher)

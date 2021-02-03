@@ -18,6 +18,10 @@
 Connections::Connections() :
 getConnectionPath{patchCordTypeBCallback}
 {
+    addChildComponent(lasso);
+    
+    selectedConnections.addChangeListener(this);
+    
     setAlwaysOnTop(true);
     setPaintingIsUnclipped(true);
     setInterceptsMouseClicks(false, false);
@@ -72,7 +76,7 @@ void Connections::updateDragPath()
     }
 }
 
-void Connections::updateConnectionPath (Connection& connection)
+void Connections::updateConnectionPath (PhiConnection& connection)
 {
     auto path = getConnectionPath (getPlugCenterPositionFromId(PlugMode::Inlet, connection.destination)
                                           , getPlugCenterPositionFromId(PlugMode::Outlet, connection.source));
@@ -98,7 +102,7 @@ void Connections::onConnectionStart(PlugMode plugMode, PlugID plugID)
 }
 
 void Connections::onConnectionEnd(std::pair<PlugID, PlugID> sourceDestination)
-{    
+{
     createConnection(sourceDestination);
     repaint();
 }
@@ -134,7 +138,7 @@ bool Connections::containsConnectionWith (std::pair<PlugID,PlugID>& sourceDestin
 void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
 {
     if (!containsConnectionWith(sourceDestination)) {
-        auto newConnection = connections.add(std::make_unique<Connection>(sourceDestination));
+        auto newConnection = connections.add(std::make_unique<PhiConnection>(sourceDestination));
         
         sendChangeMessage(); // trigger connections refresh
         
@@ -143,7 +147,7 @@ void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
     }
 }
 
-void Connections::removeConnectionsIf(std::function<bool(Connection&)> predicate)
+void Connections::removeConnectionsIf(std::function<bool(PhiConnection&)> predicate)
 {
     int i = 0;
     while (i < connections.size())
@@ -158,14 +162,13 @@ void Connections::removeConnectionsIf(std::function<bool(Connection&)> predicate
 
 void Connections::removeModule(uint32 moduleId)
 {
-    removeConnectionsIf( [moduleId] (Connection& connection) {
+    removeConnectionsIf( [moduleId] (PhiConnection& connection) {
         return connection.source.moduleID() == moduleId || connection.destination.moduleID() == moduleId;
     });
     idStore.removeModule(moduleId);
-    deselectAll();
 }
 
-OwnedArray<Connections::Connection>& Connections::getConnections()
+const OwnedArray<PhiConnection>& Connections::getConnections()
 {
     return connections;
 }
@@ -224,8 +227,7 @@ void Connections::mouseDown(const MouseEvent& e)
     {
         if (connection->path.contains(e.position)) {
             selectedConnections.addToSelectionOnMouseDown(connection, e.mods);
-            updateConnectionPath(*connection);
-            repaint();
+            lasso.endLasso();
             return;
         }
     }
@@ -239,7 +241,7 @@ void Connections::mouseMove(const MouseEvent& e)
 
 void Connections::deleteAllSelectedConnections()
 {
-    removeConnectionsIf( [this] (Connection& connection) {
+    removeConnectionsIf( [this] (PhiConnection& connection) {
         return selectedConnections.isSelected(&connection);
     });
     deselectAll();
@@ -257,6 +259,32 @@ bool Connections::keyPressed (const KeyPress& key)
         deleteAllSelectedConnections();
         sendChangeMessage(); // trigger connections refresh
         repaint();
+        return true;
     }
-    return true;
+    return false;
+}
+
+void Connections::findLassoItemsInArea (Array<PhiConnection*>& itemsFound, const Rectangle<int>& area)
+{
+    for (auto& connection : connections)
+    {
+        float length = connection->path.getLength();
+        float distance = 0.0f;
+        while (distance < length){
+            if (area.contains(connection->path.getPointAlongPath(distance += 20.0f).toInt()))
+            {
+                itemsFound.add(connection);
+            }
+        }
+    }
+}
+
+SelectedItemSet<PhiConnection*>& Connections::getLassoSelection() {return selectedConnections;}
+
+void Connections::changeListenerCallback (ChangeBroadcaster* source)
+{
+    if (source == &selectedConnections)
+    {
+        repaint();
+    }
 }

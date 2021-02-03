@@ -89,17 +89,20 @@ void MainPatcher::mouseDown(const MouseEvent& e)
         }
     } else {
         lasso.beginLasso(e, this);
+        connections.lasso.beginLasso(e, &connections);
     }
 }
 
 void MainPatcher::mouseUp(const MouseEvent& e)
 {
     lasso.endLasso();
+    connections.lasso.endLasso();
 }
 
 void MainPatcher::mouseDrag(const MouseEvent& e)
 {
     lasso.dragLasso(e);
+    connections.lasso.dragLasso(e);
 }
 
 void MainPatcher::deleteModule(ModuleBox* moduleBox)
@@ -121,11 +124,8 @@ bool MainPatcher::keyPressed (const KeyPress& key)
 {
     if (selectedModules.getNumSelected() > 0 && key == KeyPress::backspaceKey){
         deleteAllSelectedModules();
-        return true;
-    } else {
-        connections.keyPressed(key);
     }
-    return false;
+    return connections.keyPressed(key);
 }
 
 void MainPatcher::togglePatchCordType(bool toggle)
@@ -186,7 +186,7 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
     {
         audioEngine->applyAudioConnections(connections.getConnections());
     }
-    else if (source == &selectedModules && selectedModules.getNumSelected() > 0)
+    else if (source == &selectedModules && selectedModules.getNumSelected() > 0 && !isMouseOverOrDragging())
     {
         connections.deselectAll();
     }

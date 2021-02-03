@@ -30,7 +30,7 @@ AudioEngine::~AudioEngine()
 }
 
 
-void AudioEngine::applyAudioConnections(OwnedArray<Connections::Connection>& connectionsToApply)
+void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connectionsToApply)
 {
     for (auto& node : getNodes()) {
         disconnectNode(node->nodeID);
