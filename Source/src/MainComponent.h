@@ -4,6 +4,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
+#include "PhiColours.h"
 #include "MainPatcher.h"
 #include "UIobjects/ui_SliderButton.h"
 
@@ -53,6 +54,8 @@ public:
             setColour(PhiColourIds::Module::OutlineAndText, Colours::grey);
             setColour(PhiColourIds::Module::SelectedOutlineAndText, Colours::grey.brighter());
             setColour(PhiColourIds::Module::HeaderLine, Colours::grey);
+            setColour(PhiColourIds::Connection::DefaultFill, Colours::grey);
+            setColour(PhiColourIds::Connection::Selected, Colours::grey.brighter());
         }
         
         void drawCallOutBoxBackground (CallOutBox& box, Graphics& g, const Path&, Image&) override {

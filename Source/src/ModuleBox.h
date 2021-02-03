@@ -13,28 +13,9 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
+#include "PhiColours.h"
 #include "modules/Modules.h"
 #include "UIobjects/ui_ToggleButton.h"
-
-
-namespace PhiColourIds {
-    enum Module {
-        Background,
-        OutlineAndText,
-        SelectedOutlineAndText,
-        HeaderLine,
-        Highlight
-    };
-    
-    // #TODO define Plug colour ids
-    enum Plug {
-        IntletOutline,
-        IntletCenter,
-        OutletCenter,
-        OutletOutline,
-        Text
-    };
-};
 
 //==============================================================================
 /*

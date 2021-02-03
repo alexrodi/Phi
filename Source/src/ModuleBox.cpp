@@ -60,7 +60,7 @@ void ModuleBox::paint (Graphics& g)
     
     bool isSelected = moduleSelection.isSelected(this);
     // Outline
-    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutlineAndText : PhiColourIds::OutlineAndText));
+    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutlineAndText : PhiColourIds::Module::OutlineAndText));
     g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
     
     // Module Name

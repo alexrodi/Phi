@@ -327,6 +327,13 @@
 			path = ../../Source/src/ModuleUI.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		30C2AB522B6552600E8CF527 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = PhiColours.h;
+			path = ../../Source/src/PhiColours.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		31CFF8A706671D42510E4B9D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -952,6 +959,7 @@
 				2E7E7852D0848860099DB3DB,
 				990AF7D8C66075467EE3C89E,
 				F0573FFC6CBEEC6D2FE55C6A,
+				30C2AB522B6552600E8CF527,
 				2C801919BD633E22C05A3E87,
 			);
 			name = src;
