@@ -16,7 +16,7 @@
 //==============================================================================
 
 Connections::Connections() :
-getConnectionPath{patchCordTypeBCallback}
+getConnectionPath(patchCordTypeBCallback)
 {
     addChildComponent(lasso);
     
@@ -41,13 +41,12 @@ void Connections::paint (Graphics& g)
 
     for (auto& connection : connections)
     {
+        g.setColour (connection->colour);
+        g.fillPath (connection->path);
+        
         if (selectedConnections.isSelected(connection)) {
-            g.setColour (Colours::grey.brighter());
+            g.setColour (findColour(PhiColourIds::Connection::Selected));
             g.strokePath (connection->path, PathStrokeType(2.0f));
-        }
-        else {
-            g.setColour (Colours::grey);
-            g.fillPath (connection->path);
         }
     }
 }
@@ -142,6 +141,7 @@ void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
         
         sendChangeMessage(); // trigger connections refresh
         
+        newConnection->colour = findColour(PhiColourIds::Connection::DefaultFill);
         updateConnectionPath(*newConnection);
         repaint();
     }
@@ -216,11 +216,12 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
     return path;
 }
 
-void Connections::openColourSelector(Rectangle<int> boundsToPointTo)
+void Connections::openColourSelector(Rectangle<int> boundsToPointTo, Colour initialColour)
 {
     auto colourSelector = std::make_unique<ColourSelector>(ColourSelector::showColourspace);
     colourSelector->setSize (150, 130);
     colourSelector->addChangeListener(this);
+    colourSelector->setCurrentColour(initialColour);
 
     auto& callOutBox = CallOutBox::launchAsynchronously(
         std::move(colourSelector),
@@ -259,7 +260,7 @@ bool Connections::onMouseRightButton(const MouseEvent& e)
     for (auto& connection : connections)
     {
         if (connection->path.contains(e.position)) {
-            openColourSelector(connection->path.getBounds().toNearestInt());
+            openColourSelector(connection->path.getBounds().toNearestInt(), connection->colour);
             return true;
         }
     }
@@ -316,5 +317,11 @@ void Connections::changeListenerCallback (ChangeBroadcaster* source)
     } else if (auto colourSelector = dynamic_cast<ColourSelector*>(source)){
 //        This is where you change the colors for all selected connections
 //        connections need to store their own colour to be drawn with
+        
+        auto selected = selectedConnections.getItemArray();
+        for (auto& connection : selected)
+            connection->colour = colourSelector->getCurrentColour();
+        
+        repaint();
     }
 }

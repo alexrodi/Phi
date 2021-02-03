@@ -13,6 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
+#include "PhiColours.h"
 #include "Plug.h"
 
 //==============================================================================
@@ -40,9 +41,10 @@ struct PhiConnection
     {
         return other.source == source && other.destination == destination;
     }
-
+    
     PlugID source, destination;
     Path path;
+    Colour colour;
 };
 
 /// The connection manager and drawer
@@ -182,7 +184,7 @@ private:
     
     bool containsConnectionWith (std::pair<PlugID,PlugID>&);
     
-    void openColourSelector(Rectangle<int> boundsToPointTo);
+    void openColourSelector(Rectangle<int> boundsToPointTo, Colour initialColour);
     
     void onConnectionStart (PlugMode, PlugID) override;
     void onConnectionEnd (std::pair<PlugID, PlugID>) override;
