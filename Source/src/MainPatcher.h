@@ -56,11 +56,6 @@ private:
     /// The graphical component that represents connections between modules. It is drawn always on top of everything in the patcher.
     Connections connections;
     
-    /// The right click menu
-    PopupMenu rightClickMenu;
-    /// The "Modules" sub-menu
-    PopupMenu modulesSubMenu;
-    
     TooltipWindow tooltipWindow;
     
     class PhiLasso: public LassoComponent<ModuleBox*> {
@@ -91,6 +86,8 @@ private:
     void deleteModule(ModuleBox*);
     /// Runs deleteModule() for every selected module
     void deleteAllSelectedModules();
+    
+    void openMenu(const MouseEvent& e);
     
     /// We use this currently to get notified from Connections when a new connection is made, so that it may be correspondingly applied in the AudioEngine
     void changeListenerCallback (ChangeBroadcaster* source) override;

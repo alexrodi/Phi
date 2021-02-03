@@ -34,7 +34,7 @@ public:
 
     struct Connection {enum Val{
         DefaultFill = ColourClass::Connection,
-        Selected
+        SelectedStroke
     };};
     
     // #TODO define Plug colour ids

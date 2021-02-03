@@ -20,15 +20,6 @@ tooltipWindow{this}
 {
     setWantsKeyboardFocus(true);
     
-    // Menu and submenus content
-    // Submenus must be filled before the main
-    // #TODO Obviously there will be a better way to do this for more modules
-    modulesSubMenu.addItem (1, "Impulse");
-    modulesSubMenu.addItem (2, "String");
-    modulesSubMenu.addItem (3, "Gain");
-    modulesSubMenu.addItem (4, "Output");
-    rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
-    
     addAndMakeVisible(connections);
     addAndMakeVisible(lasso);
     
@@ -43,8 +34,6 @@ tooltipWindow{this}
 
 MainPatcher::~MainPatcher()
 {
-    rightClickMenu.dismissAllActiveMenus();
-    modulesSubMenu.dismissAllActiveMenus();
 }
 
 
@@ -65,26 +54,7 @@ void MainPatcher::mouseDown(const MouseEvent& e)
     
     // Right Click
     if (e.mods.isRightButtonDown() && !connections.onMouseRightButton(e)){
-        // Displays the menu and returns the ID of the selected item (0 if clicked outside)
-        const int result = rightClickMenu.showMenu(PopupMenu::Options().withParentComponent(getParentComponent()));
-        
-        // #TODO Obviously there will be a better way to do this for more modules
-        if (result==1)
-        {
-            createModule<ImpulseProcessor>(e.position);
-        }
-        else if (result==2)
-        {
-            createModule<StringProcessor>(e.position);
-        }
-        else if (result==3)
-        {
-            createModule<GainProcessor>(e.position);
-        }
-        else if (result==4)
-        {
-            createModule<OutputProcessor>(e.position);
-        }
+        openMenu(e);
     } else {
         lasso.beginLasso(e, this);
         connections.lasso.beginLasso(e, &connections);
@@ -101,6 +71,40 @@ void MainPatcher::mouseDrag(const MouseEvent& e)
 {
     lasso.dragLasso(e);
     connections.lasso.dragLasso(e);
+}
+
+void MainPatcher::openMenu(const MouseEvent& e)
+{
+    // #TODO Obviously there will be a better way to do this for more modules
+    
+    PopupMenu rightClickMenu;
+    PopupMenu modulesSubMenu;
+    
+    modulesSubMenu.addItem (1, "Impulse");
+    modulesSubMenu.addItem (2, "String");
+    modulesSubMenu.addItem (3, "Gain");
+    modulesSubMenu.addItem (4, "Output");
+    rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
+    
+    // Returns the ID of the selected item (0 if clicked outside)
+    rightClickMenu.showMenuAsync(PopupMenu::Options().withParentComponent(this), [this, e] (int result) {
+        if (result==1)
+        {
+            createModule<ImpulseProcessor>(e.position);
+        }
+        else if (result==2)
+        {
+            createModule<StringProcessor>(e.position);
+        }
+        else if (result==3)
+        {
+            createModule<GainProcessor>(e.position);
+        }
+        else if (result==4)
+        {
+            createModule<OutputProcessor>(e.position);
+        }
+    });
 }
 
 void MainPatcher::deleteModule(ModuleBox* moduleBox)

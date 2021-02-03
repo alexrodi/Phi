@@ -184,7 +184,7 @@ private:
     
     bool containsConnectionWith (std::pair<PlugID,PlugID>&);
     
-    void openColourSelector(Rectangle<int> boundsToPointTo, Colour initialColour);
+    void openColourSelector(Point<int> pointTo, Colour initialColour);
     
     void onConnectionStart (PlugMode, PlugID) override;
     void onConnectionEnd (std::pair<PlugID, PlugID>) override;

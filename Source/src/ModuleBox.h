@@ -69,6 +69,8 @@ private:
             setColour(TextEditor::focusedOutlineColourId, Colour());
             setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
             setColour(TextButton::textColourOnId, Colours::grey.brighter());
+            
+            setColour(ColourSelector::backgroundColourId, Colours::transparentBlack);
         }
         
         void setModuleOn(bool isOn)

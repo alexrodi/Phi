@@ -55,7 +55,7 @@ public:
             setColour(PhiColourIds::Module::SelectedOutlineAndText, Colours::grey.brighter());
             setColour(PhiColourIds::Module::HeaderLine, Colours::grey);
             setColour(PhiColourIds::Connection::DefaultFill, Colours::grey);
-            setColour(PhiColourIds::Connection::Selected, Colours::grey.brighter());
+            setColour(PhiColourIds::Connection::SelectedStroke, Colours::grey.brighter());
         }
         
         void drawCallOutBoxBackground (CallOutBox& box, Graphics& g, const Path&, Image&) override {

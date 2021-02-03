@@ -45,7 +45,7 @@ void Connections::paint (Graphics& g)
         g.fillPath (connection->path);
         
         if (selectedConnections.isSelected(connection)) {
-            g.setColour (findColour(PhiColourIds::Connection::Selected));
+            g.setColour (findColour(PhiColourIds::Connection::SelectedStroke));
             g.strokePath (connection->path, PathStrokeType(2.0f));
         }
     }
@@ -216,7 +216,7 @@ Path Connections::patchCordTypeBCallback (Point<float> positionA, Point<float> p
     return path;
 }
 
-void Connections::openColourSelector(Rectangle<int> boundsToPointTo, Colour initialColour)
+void Connections::openColourSelector(Point<int> pointTo, Colour initialColour)
 {
     auto colourSelector = std::make_unique<ColourSelector>(ColourSelector::showColourspace);
     colourSelector->setSize (150, 130);
@@ -225,7 +225,7 @@ void Connections::openColourSelector(Rectangle<int> boundsToPointTo, Colour init
 
     auto& callOutBox = CallOutBox::launchAsynchronously(
         std::move(colourSelector),
-        getTopLevelComponent()->getLocalArea(this, boundsToPointTo),
+        getTopLevelComponent()->getLocalArea(this, Rectangle<int>(pointTo.x, pointTo.y, 1, 1)),
         getTopLevelComponent()
     );
     
@@ -260,7 +260,7 @@ bool Connections::onMouseRightButton(const MouseEvent& e)
     for (auto& connection : connections)
     {
         if (connection->path.contains(e.position)) {
-            openColourSelector(connection->path.getBounds().toNearestInt(), connection->colour);
+            openColourSelector(e.position.toInt(), connection->colour);
             return true;
         }
     }
