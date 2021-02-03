@@ -54,19 +54,19 @@ void ui_SliderButton::resized()
         Rectangle<float> bounds{getLocalBounds().toFloat()};
         
         switch (labelPosition) {
-            case Above:
+            case LabelPosition::Above:
                 sliderBounds = bounds.removeFromBottom(SLIDER_SIZE);
                 labelTextJustification = Justification::centredTop;
                 break;
-            case Below:
+            case LabelPosition::Below:
                 sliderBounds = bounds.removeFromTop(SLIDER_SIZE);
                 labelTextJustification = Justification::centredBottom;
                 break;
-            case Left:
+            case LabelPosition::Left:
                 sliderBounds = bounds.removeFromRight(SLIDER_WIDTH);
                 labelTextJustification = Justification::centredLeft;
                 break;
-            case Right:
+            case LabelPosition::Right:
                 sliderBounds = bounds.removeFromLeft(SLIDER_WIDTH);
                 labelTextJustification = Justification::centredRight;
                 break;

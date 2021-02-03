@@ -21,7 +21,7 @@ Plug::Plug(PlugMode modeToUse, const String& nameToUse) :
 name(nameToUse),
 mode(modeToUse)
 {
-    colors = mode==Inlet
+    colors = mode == PlugMode::Inlet
              ? ColourPair(Colours::grey, Colours::darkgrey)
              : ColourPair(Colours::darkgrey, Colours::grey);
     

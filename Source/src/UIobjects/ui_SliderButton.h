@@ -21,7 +21,7 @@ class ui_SliderButton    : public Button,
                            public Button::Listener
 {
 public:
-    enum LabelPosition
+    enum class LabelPosition
     {
         Above,
         Below,
@@ -29,7 +29,7 @@ public:
         Right
     };
     
-    explicit ui_SliderButton(const String&, LabelPosition = Above);
+    explicit ui_SliderButton(const String&, LabelPosition = LabelPosition::Above);
     ~ui_SliderButton();
 
     void paintButton (Graphics&, bool, bool) override;
