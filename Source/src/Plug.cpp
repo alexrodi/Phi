@@ -60,7 +60,7 @@ void Plug::resized()
 
 void Plug::mouseDown(const MouseEvent& e)
 {
-    emitEvent(PlugMouseEvent(mode, plugID, e, PlugMouseEvent::Type::MouseDown));
+    emitEvent(PlugEvent(PlugEvent::StartConnection, e, mode, plugID));
 }
 
 void Plug::mouseUp(const MouseEvent& e)
@@ -70,13 +70,13 @@ void Plug::mouseUp(const MouseEvent& e)
     auto componentUnderMouse = topLevelComponent->getComponentAt(mousePosition);
     
     if (auto plug = dynamic_cast<Plug*>(componentUnderMouse)) {
-        emitEvent(PlugMouseEvent(plug->mode, plug->plugID, e, PlugMouseEvent::Type::MouseUp));
+        emitEvent(PlugEvent(PlugEvent::EndConnection, e, plug->mode, plug->plugID));
     } else {
-        emitEvent(PlugEndDragEvent{});
+        emitEvent(PlugEvent(PlugEvent::AbortConnection, e));
     }
 }
 
 void Plug::mouseDrag(const MouseEvent& e)
 {
-    emitEvent(PlugMouseEvent(mode, plugID, e, PlugMouseEvent::Type::MouseDrag));
+    emitEvent(PlugEvent(PlugEvent::Drag, e, mode, plugID));
 }

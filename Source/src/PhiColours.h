@@ -41,8 +41,8 @@ public:
     struct Plug {enum Val{
         IntletOutline = ColourClass::Plug,
         IntletCenter,
-        OutletCenter,
         OutletOutline,
+        OutletCenter,
         Text
     };};
 };
