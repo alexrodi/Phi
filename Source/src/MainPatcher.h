@@ -80,7 +80,7 @@ private:
     void registerInletsAndOutlets(ModuleUI&);
     
     /// Creates a module of type moduleClass at certain (top-left) point in the patcher, registers it to connections and adds it to audioEngine
-    template <class> void createModule(Point<float>);
+    void createModule(std::unique_ptr<ModuleProcessor>, Point<float>);
     
     /// Deletes a module and all its connections from the patcher and audioEngine, unregisters it from connections
     void deleteModule(ModuleBox*);

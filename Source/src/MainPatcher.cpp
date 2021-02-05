@@ -75,35 +75,14 @@ void MainPatcher::mouseDrag(const MouseEvent& e)
 
 void MainPatcher::openMenu(const MouseEvent& e)
 {
-    // #TODO Obviously there will be a better way to do this for more modules
     
-    PopupMenu rightClickMenu;
-    PopupMenu modulesSubMenu;
-    
-    modulesSubMenu.addItem (1, "Impulse");
-    modulesSubMenu.addItem (2, "String");
-    modulesSubMenu.addItem (3, "Gain");
-    modulesSubMenu.addItem (4, "Output");
-    rightClickMenu.addSubMenu ("Add Module...", modulesSubMenu);
+    PopupMenu menu;
+    menu.addSubMenu ("Add Module...", Modules::getMenu());
     
     // Returns the ID of the selected item (0 if clicked outside)
-    rightClickMenu.showMenuAsync(PopupMenu::Options().withParentComponent(this), [this, e] (int result) {
-        if (result==1)
-        {
-            createModule<ImpulseProcessor>(e.position);
-        }
-        else if (result==2)
-        {
-            createModule<StringProcessor>(e.position);
-        }
-        else if (result==3)
-        {
-            createModule<GainProcessor>(e.position);
-        }
-        else if (result==4)
-        {
-            createModule<OutputProcessor>(e.position);
-        }
+    menu.showMenuAsync(PopupMenu::Options().withParentComponent(this), [this, e] (int result) {
+        if (result > 0)
+            createModule(Modules::createProcessorFromMenuIndex(result), e.position);
     });
 }
 
@@ -156,17 +135,14 @@ void MainPatcher::registerInletsAndOutlets(ModuleUI& module)
     registerPlugs(module.outlets, module.nodeID.uid);
 }
 
-template <class moduleClass>
-void MainPatcher::createModule(Point<float> position)
+void MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProcessor, Point<float> position)
 {
-    auto moduleProcessor = std::make_unique<moduleClass>();
-    
     auto moduleUI = moduleProcessor->createUI();
     
     auto newNode = audioEngine->addNode(std::move(moduleProcessor));
     
     // Set is_output flag for output modules
-    newNode->properties.set("is_output", typeid(moduleClass) == typeid(OutputProcessor));
+    newNode->properties.set("is_output", typeid(moduleProcessor) == typeid(OutputProcessor));
     
     moduleUI->nodeID = newNode->nodeID;
     
