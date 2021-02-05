@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Dial.h
+    PhiDial.h
     Created: 9 Feb 2020 11:02:38pm
     Author:  Alexandre Rodrigues
 
@@ -17,12 +17,12 @@
 //==============================================================================
 /*
 */
-class ui_Dial    : public Slider,
+class PhiDial    : public Slider,
                    public Slider::Listener
 {
 public:
-    ui_Dial(std::string, float, float, double = 1, std::string = "", int = 2, Slider::Listener* = nullptr);
-    ~ui_Dial();
+    PhiDial(std::string, float, float, double = 1.0f, std::string = "", int = 2, Slider::Listener* = nullptr);
+    ~PhiDial();
     
     void paint (Graphics& g) override;
     void resized () override;
@@ -55,5 +55,5 @@ private:
     
     void sliderValueChanged (Slider*) override;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ui_Dial)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PhiDial)
 };

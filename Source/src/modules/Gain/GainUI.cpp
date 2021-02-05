@@ -22,7 +22,7 @@ ModuleUI({
             .minimumHeight = 100,
             .processor = processor
         }),
-gainDial("Gain", -70, 12, 1, " dB"),
+gainDial("Gain", -70.0f, 12.0f, 1.0, " dB"),
 gainAttachment(*processor.params.getParameter("gain"), gainDial)
 {
     addAndMakeVisible(gainDial);

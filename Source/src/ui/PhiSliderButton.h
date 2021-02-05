@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    ui_SliderButton.h
+    PhiSliderButton.h
     Created: 15 Apr 2020 12:20:11am
     Author:  Alexandre Rodrigues
 
@@ -17,7 +17,7 @@
 //==============================================================================
 /*
 */
-class ui_SliderButton    : public Button,
+class PhiSliderButton    : public Button,
                            public Button::Listener
 {
 public:
@@ -29,8 +29,8 @@ public:
         Right
     };
     
-    explicit ui_SliderButton(const String&, LabelPosition = LabelPosition::Above);
-    ~ui_SliderButton();
+    explicit PhiSliderButton(const String&, LabelPosition = LabelPosition::Above);
+    ~PhiSliderButton();
 
     void paintButton (Graphics&, bool, bool) override;
     void resized() override;
@@ -59,5 +59,5 @@ private:
     void buttonStateChanged(Button*) override;
     void buttonClicked (Button*) override {};
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ui_SliderButton)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PhiSliderButton)
 };

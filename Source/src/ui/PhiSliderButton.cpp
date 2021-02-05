@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    ui_SliderButton.cpp
+    PhiSliderButton.cpp
     Created: 15 Apr 2020 12:20:11am
     Author:  Alexandre Rodrigues
 
@@ -10,10 +10,10 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "ui_SliderButton.h"
+#include "PhiSliderButton.h"
 
 //==============================================================================
-ui_SliderButton::ui_SliderButton(const String& labelText, LabelPosition labelPositionToUse) :
+PhiSliderButton::PhiSliderButton(const String& labelText, LabelPosition labelPositionToUse) :
 Button{labelText},
 labelPosition{labelPositionToUse},
 labelTextJustification{Justification::centredTop}
@@ -27,11 +27,11 @@ labelTextJustification{Justification::centredTop}
     addListener(this);
 }
 
-ui_SliderButton::~ui_SliderButton()
+PhiSliderButton::~PhiSliderButton()
 {
 }
 
-void ui_SliderButton::paintButton (Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
+void PhiSliderButton::paintButton (Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 {
     if (shouldDraw)
     {
@@ -43,7 +43,7 @@ void ui_SliderButton::paintButton (Graphics& g, bool shouldDrawButtonAsHighlight
     }
 }
 
-void ui_SliderButton::resized()
+void PhiSliderButton::resized()
 {
     Path knobpath{};
     
@@ -84,7 +84,7 @@ void ui_SliderButton::resized()
     knob.setPath(knobpath);
 }
 
-Rectangle<int> ui_SliderButton::getKnobBounds()
+Rectangle<int> PhiSliderButton::getKnobBounds()
 {
     return sliderBounds
            .toNearestInt()
@@ -92,7 +92,7 @@ Rectangle<int> ui_SliderButton::getKnobBounds()
            .translated( getToggleState() ? sliderBounds.getWidth()-SLIDER_SIZE : 0, 0);
 }
 
-void ui_SliderButton::buttonStateChanged (Button* button)
+void PhiSliderButton::buttonStateChanged (Button* button)
 {
     if (button == this)
     {
@@ -100,7 +100,7 @@ void ui_SliderButton::buttonStateChanged (Button* button)
     }
 }
 
-void ui_SliderButton::lookAndFeelChanged()
+void PhiSliderButton::lookAndFeelChanged()
 {
     knob.setFill(findColour(Slider::thumbColourId));
     textColour = findColour(TextButton::textColourOnId);

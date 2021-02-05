@@ -14,7 +14,7 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "ImpulseProcessor.h"
-#include "../../UIobjects/ui_Dial.h"
+#include "../../ui/PhiDial.h"
 
 //==============================================================================
 /*
@@ -38,7 +38,7 @@ private:
     ImpulseProcessor& processor;
     
     //Dials
-    ui_Dial frequencyDial, shapeDial;
+    PhiDial frequencyDial, shapeDial;
     SliderParameterAttachment frequencyAttachment, shapeAttachment;
     
     //Waveform

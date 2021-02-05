@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    phi_Dial.cpp
+    PhiDial.cpp
     Created: 9 Feb 2020 11:02:38pm
     Author:  Alexandre Rodrigues
 
@@ -11,9 +11,9 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "ui_Dial.h"
+#include "PhiDial.h"
 
-ui_Dial::ui_Dial(std::string name, float rangeLow, float rangeHigh, double skewFactor, std::string valueSuffix, int decimals, Slider::Listener* listener) :
+PhiDial::PhiDial(std::string name, float rangeLow, float rangeHigh, double skewFactor, std::string valueSuffix, int decimals, Slider::Listener* listener) :
 valueRange{rangeLow, rangeHigh, 0, skewFactor}
 {
     setNormalisableRange         (valueRange);
@@ -33,12 +33,12 @@ valueRange{rangeLow, rangeHigh, 0, skewFactor}
     updateDial();
 }
 
- ui_Dial::~ui_Dial()
+ PhiDial::~PhiDial()
 {
 }
 
 
-void ui_Dial::paint (Graphics& g)
+void PhiDial::paint (Graphics& g)
 {
     
     if (shouldDrawText)
@@ -62,7 +62,7 @@ void ui_Dial::paint (Graphics& g)
 
 }
 
-void ui_Dial::resized ()
+void PhiDial::resized ()
 {
     Slider::resized();
     
@@ -85,7 +85,7 @@ void ui_Dial::resized ()
     updateDial();
 }
 
-void ui_Dial::lookAndFeelChanged ()
+void PhiDial::lookAndFeelChanged ()
 {
     Slider::lookAndFeelChanged();
     colour = findColour(thumbColourId);
@@ -93,7 +93,7 @@ void ui_Dial::lookAndFeelChanged ()
     nameColour = findColour(textBoxTextColourId);
 }
 
-void ui_Dial::updateDial ()
+void PhiDial::updateDial ()
 {
     angle = startAngle + valueRange.convertTo0to1(getValue()) * angleRange;
     
@@ -108,7 +108,7 @@ void ui_Dial::updateDial ()
     }
 }
 
-void ui_Dial::sliderValueChanged (Slider* slider)
+void PhiDial::sliderValueChanged (Slider* slider)
 {
     if (slider == this) updateDial();
 }

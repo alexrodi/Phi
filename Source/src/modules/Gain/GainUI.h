@@ -14,7 +14,7 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "../../ModuleUI.h"
-#include "../../UIobjects/ui_Dial.h"
+#include "../../ui/PhiDial.h"
 
 class GainUI    : public ModuleUI
 {
@@ -26,7 +26,7 @@ public:
     void wasResized(Rectangle<int> moduleBounds) override;
 
 private:
-    ui_Dial gainDial;
+    PhiDial gainDial;
     SliderParameterAttachment gainAttachment;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainUI)

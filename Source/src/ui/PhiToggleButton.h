@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    ui_ToggleButton.h
+    PhiToggleButton.h
     Created: 16 Apr 2020 12:33:07am
     Author:  Alexandre Rodrigues
 
@@ -17,10 +17,10 @@
 //==============================================================================
 /*
 */
-class ui_ToggleButton : public Button
+class PhiToggleButton : public Button
 {
 public:
-    ui_ToggleButton() :
+    PhiToggleButton() :
     Button("")
     {
         setPaintingIsUnclipped(true);
@@ -44,5 +44,5 @@ private:
         buttonRect = getLocalBounds().reduced(1).toFloat();
     }
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ui_ToggleButton)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PhiToggleButton)
 };

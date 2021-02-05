@@ -97,13 +97,13 @@
 			isa = PBXBuildFile;
 			fileRef = AE6C5955A7354EAD78B4F2A7;
 		};
-		01A4E6EBA2219235A88B9C95 = {
+		F07C70DCD17A7F3BAA283430 = {
 			isa = PBXBuildFile;
-			fileRef = 811B653714F088EA2BBA3929;
+			fileRef = C5D5FCB589781DF5A85941D7;
 		};
-		A249EE488566F4FBFB1D51F5 = {
+		0A295114C1E5A971E95D2E5A = {
 			isa = PBXBuildFile;
-			fileRef = F36CF727F6E51C702EB8B73B;
+			fileRef = AB9A517B05482368DD8CDA95;
 		};
 		6B2879B2F18F77EF3D55C6C0 = {
 			isa = PBXBuildFile;
@@ -404,13 +404,6 @@
 			path = ../../JuceLibraryCode/BinaryData.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
-		52F12C84C2366CFF28505B8C = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = "ui_Dial.h";
-			path = "../../Source/src/UIobjects/ui_Dial.h";
-			sourceTree = "SOURCE_ROOT";
-		};
 		57C94D13FE046325415E64C0 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -500,13 +493,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = GainProcessor.h;
 			path = ../../Source/src/modules/Gain/GainProcessor.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		811B653714F088EA2BBA3929 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = "ui_Dial.cpp";
-			path = "../../Source/src/UIobjects/ui_Dial.cpp";
 			sourceTree = "SOURCE_ROOT";
 		};
 		84837EC52CB7C65DD7BE5BE7 = {
@@ -614,6 +600,13 @@
 			path = "../../JuceLibraryCode/include_juce_gui_extra.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
+		AB9A517B05482368DD8CDA95 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = PhiSliderButton.cpp;
+			path = ../../Source/src/ui/PhiSliderButton.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		AE6C5955A7354EAD78B4F2A7 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -649,11 +642,11 @@
 			path = ../../Source/src/ModuleProcessor.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		B5AF4F01244ADC39C30F8EF9 = {
+		BD02D0D7AB0D480579BE2B03 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = "ui_ToggleButton.h";
-			path = "../../Source/src/UIobjects/ui_ToggleButton.h";
+			name = PhiDial.h;
+			path = ../../Source/src/ui/PhiDial.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		BEB6A8524C4767153279AF14 = {
@@ -676,6 +669,13 @@
 			name = IOKit.framework;
 			path = System/Library/Frameworks/IOKit.framework;
 			sourceTree = SDKROOT;
+		};
+		C5D5FCB589781DF5A85941D7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = PhiDial.cpp;
+			path = ../../Source/src/ui/PhiDial.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		C6BC69395A408132E6CF6E85 = {
 			isa = PBXFileReference;
@@ -733,13 +733,6 @@
 			path = Phi.app;
 			sourceTree = "BUILT_PRODUCTS_DIR";
 		};
-		DC8076A94432EE181FBF0BD6 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = "ui_SliderButton.h";
-			path = "../../Source/src/UIobjects/ui_SliderButton.h";
-			sourceTree = "SOURCE_ROOT";
-		};
 		DCB5F76B27DEC2F9BC121238 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -766,6 +759,13 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = ModuleUI.cpp;
 			path = ../../Source/src/ModuleUI.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		E9CA5E42D829690E02EA6139 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = PhiSliderButton.h;
+			path = ../../Source/src/ui/PhiSliderButton.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		EBF22CAF1C6435C5AE96B848 = {
@@ -817,18 +817,18 @@
 			path = ../../Source/src/AudioEngine.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
-		F36CF727F6E51C702EB8B73B = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = "ui_SliderButton.cpp";
-			path = "../../Source/src/UIobjects/ui_SliderButton.cpp";
-			sourceTree = "SOURCE_ROOT";
-		};
 		F534E2373FC08A1B035C02D3 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = ImpulseUI.cpp;
 			path = ../../Source/src/modules/Impulse/ImpulseUI.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		F9F59D6B70A102C03C61E4D4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = PhiToggleButton.h;
+			path = ../../Source/src/ui/PhiToggleButton.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		FBF09B8922398BFC21E5D424 = {
@@ -925,23 +925,23 @@
 			name = modules;
 			sourceTree = "<group>";
 		};
-		D3D6419ED58B4A6E2B71046F = {
+		558166647C42BDD5BCCB70DE = {
 			isa = PBXGroup;
 			children = (
-				811B653714F088EA2BBA3929,
-				52F12C84C2366CFF28505B8C,
-				F36CF727F6E51C702EB8B73B,
-				DC8076A94432EE181FBF0BD6,
-				B5AF4F01244ADC39C30F8EF9,
+				C5D5FCB589781DF5A85941D7,
+				BD02D0D7AB0D480579BE2B03,
+				AB9A517B05482368DD8CDA95,
+				E9CA5E42D829690E02EA6139,
+				F9F59D6B70A102C03C61E4D4,
 			);
-			name = UIobjects;
+			name = ui;
 			sourceTree = "<group>";
 		};
 		A6AFB4919A4559DF7E4DD254 = {
 			isa = PBXGroup;
 			children = (
 				E83C7510652D6C4A7857D3D9,
-				D3D6419ED58B4A6E2B71046F,
+				558166647C42BDD5BCCB70DE,
 				F34B0FF7351AFAF263D2AC9C,
 				081D690EC2AE63EDB1893EA9,
 				393E037534A45D85E3B35F80,
@@ -1306,8 +1306,8 @@
 				8B509AE3AA268FB6F283DE05,
 				079A3EDF93CB4AEB7625C502,
 				08FCA5AE95AF90E3A68B9A1A,
-				01A4E6EBA2219235A88B9C95,
-				A249EE488566F4FBFB1D51F5,
+				F07C70DCD17A7F3BAA283430,
+				0A295114C1E5A971E95D2E5A,
 				6B2879B2F18F77EF3D55C6C0,
 				EC554A4D6620CEF336EDE61F,
 				22EF847F8F61472D88E5B7F8,

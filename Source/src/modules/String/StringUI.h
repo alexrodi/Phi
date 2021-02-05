@@ -14,8 +14,8 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "../../ModuleUI.h"
-#include "../../UIobjects/ui_Dial.h"
-#include "../../UIobjects/ui_SliderButton.h"
+#include "../../ui/PhiDial.h"
+#include "../../ui/PhiSliderButton.h"
 
 class StringUI    : public ModuleUI
 {
@@ -27,8 +27,8 @@ public:
     void wasResized(Rectangle<int> moduleBounds) override;
 
 private:
-    ui_Dial frequencyDial, positionDial, dampDial, decayDial;
-    ui_SliderButton modeButton;
+    PhiDial frequencyDial, positionDial, dampDial, decayDial;
+    PhiSliderButton modeButton;
     SliderParameterAttachment frequencyAttachment, positionAttachment, dampAttachment, decayAttachment;
     ButtonParameterAttachment modeAttachment;
     

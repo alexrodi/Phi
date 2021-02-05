@@ -30,7 +30,7 @@ public:
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
     void releaseResources() override;
     
-    std::unique_ptr<ModuleUI> createUI();
+    std::unique_ptr<ModuleUI> createUI() override;
 
 private:
     

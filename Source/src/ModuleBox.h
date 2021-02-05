@@ -15,7 +15,7 @@
 ///@endcond
 #include "PhiColours.h"
 #include "modules/Modules.h"
-#include "UIobjects/ui_ToggleButton.h"
+#include "ui/PhiToggleButton.h"
 
 //==============================================================================
 /*
@@ -118,7 +118,7 @@ private:
     //==================================================================================
     
     /// The top-left button for enabling and disabling the contained module
-    ui_ToggleButton powerButton;
+    PhiToggleButton powerButton;
 
     /// Imposes a draggable corner on the component for resizing
     ResizableCornerComponent resizer;

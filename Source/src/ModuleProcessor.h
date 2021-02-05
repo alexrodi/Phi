@@ -13,6 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
+class ModuleUI;
 
 //==============================================================================
 /*
@@ -44,6 +45,8 @@ public:
     AudioProcessorValueTreeState params;
     
     bool hasEditor() const override { return true; }
+    
+    virtual std::unique_ptr<ModuleUI> createUI() = 0;
     
 private:
     

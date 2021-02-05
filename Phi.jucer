@@ -46,15 +46,15 @@
         </GROUP>
         <FILE id="zBfsIA" name="Modules.h" compile="0" resource="0" file="Source/src/modules/Modules.h"/>
       </GROUP>
-      <GROUP id="{57E53FF3-34BD-C4AB-2718-7C8EBD57C653}" name="UIobjects">
-        <FILE id="bBaCcY" name="ui_Dial.cpp" compile="1" resource="0" file="Source/src/UIobjects/ui_Dial.cpp"/>
-        <FILE id="zXXbV7" name="ui_Dial.h" compile="0" resource="0" file="Source/src/UIobjects/ui_Dial.h"/>
-        <FILE id="MmvgEP" name="ui_SliderButton.cpp" compile="1" resource="0"
-              file="Source/src/UIobjects/ui_SliderButton.cpp"/>
-        <FILE id="jfe8cU" name="ui_SliderButton.h" compile="0" resource="0"
-              file="Source/src/UIobjects/ui_SliderButton.h"/>
-        <FILE id="wGh6kJ" name="ui_ToggleButton.h" compile="0" resource="0"
-              file="Source/src/UIobjects/ui_ToggleButton.h"/>
+      <GROUP id="{43548976-3311-21A9-2FFB-B897874B39F7}" name="ui">
+        <FILE id="Ej3A5L" name="PhiDial.cpp" compile="1" resource="0" file="Source/src/ui/PhiDial.cpp"/>
+        <FILE id="Gk4wPv" name="PhiDial.h" compile="0" resource="0" file="Source/src/ui/PhiDial.h"/>
+        <FILE id="gfqSyR" name="PhiSliderButton.cpp" compile="1" resource="0"
+              file="Source/src/ui/PhiSliderButton.cpp"/>
+        <FILE id="DEOj3t" name="PhiSliderButton.h" compile="0" resource="0"
+              file="Source/src/ui/PhiSliderButton.h"/>
+        <FILE id="AG5mPg" name="PhiToggleButton.h" compile="0" resource="0"
+              file="Source/src/ui/PhiToggleButton.h"/>
       </GROUP>
       <FILE id="B1b1AK" name="AudioEngine.cpp" compile="1" resource="0" file="Source/src/AudioEngine.cpp"/>
       <FILE id="CRK48Q" name="AudioEngine.h" compile="0" resource="0" file="Source/src/AudioEngine.h"/>
