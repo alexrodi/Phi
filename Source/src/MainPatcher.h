@@ -40,11 +40,10 @@ public:
     /// Toggles inlet/outlet name display type
     void toggleInoutType(bool);
     
-    /// Listener for key presses
     bool keyPressed (const KeyPress& key) override;
     
 private:
-    /// A pointer to the AudioEngine to add processors (modules) and make connections
+    /// An AudioEngine instance to run the patcher
     std::unique_ptr<AudioEngine> audioEngine;
     
     /// An OwnedArray for storing and accessing all the modules (ModuleBox's) in the patcher
@@ -72,14 +71,16 @@ private:
         }
     } lasso;
     
+    /** Registers an array of plugs with the connections component.
+     This function performs three jobs for each plug:
+     registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it. */
     void registerPlugs(OwnedArray<Plug>&, uint32);
     
-    /** Registers all inlets and outlets of a module with the connections component.
-     This function performs three jobs for each inlet/outlet:
-     registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it. */
+    /// Runs registerPlugs() for each inlet and outet of the module
     void registerInletsAndOutlets(ModuleUI&);
     
-    /// Creates a module of type moduleClass at certain (top-left) point in the patcher, registers it to connections and adds it to audioEngine
+    /// Creates a module from its ModuleProcessor at a position in the patcher,
+    /// it also registers its connections and adds it to the audioEngine
     void createModule(std::unique_ptr<ModuleProcessor>, Point<float>);
     
     /// Deletes a module and all its connections from the patcher and audioEngine, unregisters it from connections

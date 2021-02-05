@@ -56,12 +56,12 @@ void ModuleBox::paint (Graphics& g)
 {
     // Box
     g.setColour (findColour(PhiColourIds::Module::Background));
-    g.fillRoundedRectangle(moduleBoxRectangle, 2.f);
+    g.fillRoundedRectangle(moduleBoxRectangle, 2.0f);
     
     bool isSelected = moduleSelection.isSelected(this);
     // Outline
     g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutlineAndText : PhiColourIds::Module::OutlineAndText));
-    g.drawRoundedRectangle(moduleBoxRectangle, 2.f, isSelected ? 2 : 0.5);
+    g.drawRoundedRectangle(moduleBoxRectangle, 2.0f, isSelected ? 2.0f : 0.5f);
     
     // Module Name
     g.drawText(moduleUI->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
@@ -74,11 +74,12 @@ void ModuleBox::paint (Graphics& g)
 void ModuleBox::resized()
 {
     // Check height to constrain size
-    if (getHeight() < moduleUI->props.minimumHeight)
-        setSize(getWidth(), HEADER_HEIGHT + 3);
+    bool isCollapsed = getHeight() < moduleUI->props.minimumHeight;
+    if (isCollapsed)
+        setSize(getWidth(), HEADER_HEIGHT);
     
     // Module Box area (padded)
-    moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5, 1.5);
+    moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5f, 1.5f);
     
     // Set box position constraints
     /**
@@ -92,7 +93,7 @@ void ModuleBox::resized()
     resizer.setBoundsToFit(getLocalBounds().reduced(3), Justification::bottomRight, true);
     
     // Place header line
-    headerLine = Rectangle<float>(CONTENT_PADDING, HEADER_HEIGHT - 2, getWidth()-CONTENT_PADDING * 2, 1);
+    headerLine = Rectangle<float>(CONTENT_PADDING, HEADER_HEIGHT - 2.0f, getWidth()-CONTENT_PADDING * 2.0f, isCollapsed ? 0.0f : 1.0f);
     
     // Module area
     auto moduleRect = getLocalBounds();
@@ -106,7 +107,7 @@ void ModuleBox::resized()
     nameRectangle = boxHeader.toFloat();
     
     // Place Module
-    moduleUI->setBounds(moduleRect.reduced(CONTENT_PADDING));// (padded)
+    moduleUI->setBounds(isCollapsed ? Rectangle<int>(-13, HEADER_HEIGHT*0.5f, getWidth()+26, 0) : moduleRect.reduced(CONTENT_PADDING));// (padded)
     
     sendChangeMessage();
 }

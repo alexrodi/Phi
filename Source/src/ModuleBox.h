@@ -44,8 +44,8 @@ public:
 
 //==================================================================================
 private:
-    const float HEADER_HEIGHT = 27;
-    const float CONTENT_PADDING = 10;
+    const float HEADER_HEIGHT = 27.0f;
+    const float CONTENT_PADDING = 10.0f;
     
     /// Our LookAndFeel instance for this module box
     struct ModuleLookAndFeel  : public LookAndFeel_V4
@@ -59,15 +59,15 @@ private:
             setColour(PhiColourIds::Module::HeaderLine, Colours::grey);
             
             setColour(Slider::thumbColourId, findColour(PhiColourIds::Module::Highlight));
-            setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.21));
-            setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17));
-            setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2));
+            setColour(Slider::rotarySliderOutlineColourId, Colour::greyLevel(0.21f));
+            setColour(Slider::rotarySliderFillColourId, Colour::greyLevel(0.17f));
+            setColour(Slider::textBoxHighlightColourId, Colour::greyLevel(0.2f));
             setColour(Slider::textBoxTextColourId, Colours::grey.brighter());
             setColour(Slider::textBoxOutlineColourId, Colour()); // no color
-            setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3));
-            setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8));
+            setColour(Label::backgroundWhenEditingColourId, Colour::greyLevel(0.3f));
+            setColour(CaretComponent::caretColourId, Colour::greyLevel(0.8f));
             setColour(TextEditor::focusedOutlineColourId, Colour());
-            setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7));
+            setColour(TextEditor::highlightedTextColourId, Colour::greyLevel(0.7f));
             setColour(TextButton::textColourOnId, Colours::grey.brighter());
             
             setColour(ColourSelector::backgroundColourId, Colours::transparentBlack);
@@ -93,10 +93,10 @@ private:
             auto bounds = box.getLocalBounds().reduced(15).toFloat();
             
             g.setColour (findColour(PhiColourIds::Module::Background));
-            g.fillRoundedRectangle(bounds, 2.f);
+            g.fillRoundedRectangle(bounds, 2.0f);
             
             g.setColour (findColour(PhiColourIds::Module::SelectedOutlineAndText));
-            g.drawRoundedRectangle(bounds, 2.f, 2);
+            g.drawRoundedRectangle(bounds, 2.0f, 2.0f);
         };
         
         /// Sets the highlight colour of the module
