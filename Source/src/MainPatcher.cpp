@@ -82,11 +82,9 @@ void MainPatcher::openMenu(const MouseEvent& e)
     // Returns the ID of the selected item (0 if clicked outside)
     menu.showMenuAsync(PopupMenu::Options().withParentComponent(this), [this, e] (int result) {
         if (result > 0) {
-            undoManager.beginNewTransaction();
-            undoManager.perform(new CreateModule(
-                [this, result, e](){ return createModule(Modules::createProcessorFromMenuIndex(result), e.position); },
-                [this](ModuleBox* moduleBox){ return deleteModule(moduleBox); }
-            ));
+            createModule(Modules::createProcessorFromMenuIndex(result), e.position);
+//            undoManager.beginNewTransaction();
+//            undoManager.perform(new CreateModule(Modules::createProcessorFromMenuIndex(result), e.position, this));
         }
     });
 }
@@ -100,8 +98,8 @@ void MainPatcher::deleteModule(ModuleBox* moduleBox)
 
 void MainPatcher::deleteAllSelectedModules()
 {
-    for (int i=0; i < selectedModules.getNumSelected(); i++)
-        deleteModule(selectedModules.getSelectedItem(i));
+    for (auto module : selectedModules.getItemArray())
+        deleteModule(module);
     
     selectedModules.deselectAll();
 }
@@ -110,11 +108,15 @@ bool MainPatcher::keyPressed (const KeyPress& key)
 {
     if (selectedModules.getNumSelected() > 0 && key == KeyPress::backspaceKey){
         deleteAllSelectedModules();
-    } else if (key.getModifiers().commandModifier) {
-        if (key.getKeyCode() == 90/*Z*/) {
-            undoManager.undo();
-        }
     }
+//  else if (key.getModifiers().commandModifier) {
+//        if (key.getKeyCode() == 90/*Z*/) {
+//            if (key.getModifiers().isShiftDown())
+//                undoManager.redo();
+//            else
+//                undoManager.undo();
+//        }
+//    }
     return connections.keyPressed(key);
 }
 

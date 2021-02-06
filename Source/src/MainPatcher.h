@@ -74,29 +74,54 @@ private:
     
 //  STATE undo/redo
 //  ========================
-    struct CreateModule: public UndoableAction {
-        CreateModule(std::function<ModuleBox*()> createModule, std::function<void(ModuleBox*)> deleteModule):
-        createModule(createModule),
-        deleteModule(deleteModule)
-        {}
-        
-        bool perform() override {
-            moduleBox = createModule();
-            return true;
-        }
-        
-        bool undo() override {
-            deleteModule(moduleBox);
-            return true;
-        }
-        
-        std::function<ModuleBox*()> createModule;
-        std::function<void(ModuleBox*)> deleteModule;
-        ModuleBox* moduleBox;
-    };
-    
-    UndoManager undoManager;
-    
+//    struct CreateModule: public UndoableAction {
+//        CreateModule(std::unique_ptr<ModuleProcessor> processor, Point<float> position, MainPatcher* patcher):
+//        processor(std::move(processor)),
+//        position(position),
+//        patcher(patcher)
+//        {}
+//        
+//        bool perform() override {
+//            moduleBox = patcher->createModule(std::move(processor), position);
+//            return true;
+//        }
+//        
+//        bool undo() override {
+//            if (moduleBox != nullptr) {
+//                patcher->deleteModule(moduleBox);
+//                return true;
+//            }
+//            else return false;
+//        }
+//        
+//        std::unique_ptr<ModuleProcessor> processor;
+//        Point<float> position;
+//        MainPatcher* patcher;
+//        ModuleBox* moduleBox;
+//    };
+//    
+//    struct DeleteModule: public UndoableAction {
+//        DeleteModule(ModuleBox* moduleBox, MainPatcher* patcher):
+//        moduleBox(moduleBox)
+//        {}
+//        
+//        bool perform() override {
+//            patcher->deleteModule(moduleBox);
+//            return true;
+//        }
+//        
+//        bool undo() override {
+//            
+//            return true;
+//        }
+//    
+//        Point<float> position;
+//        MainPatcher* patcher;
+//        ModuleBox* moduleBox;
+//    };
+//    
+//    UndoManager undoManager;
+//    
     
     
     /** Registers an array of plugs with the connections component.
