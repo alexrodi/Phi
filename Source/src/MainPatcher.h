@@ -81,13 +81,11 @@ private:
         {}
         
         bool perform() override {
-            std::cout << "creating..." << std::endl;
             moduleBox = createModule();
             return true;
         }
         
         bool undo() override {
-            std::cout << "deleting..." << std::endl;
             deleteModule(moduleBox);
             return true;
         }

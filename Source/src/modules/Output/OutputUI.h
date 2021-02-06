@@ -13,7 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "../../ModuleUI.h"
+#include "../../ModuleProcessor.h"
 
 //==============================================================================
 /*

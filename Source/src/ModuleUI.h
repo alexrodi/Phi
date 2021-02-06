@@ -14,7 +14,7 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "Plug.h"
-#include "ModuleProcessor.h"
+class ModuleProcessor;
 
 //==============================================================================
 /*

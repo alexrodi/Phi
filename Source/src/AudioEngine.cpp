@@ -36,7 +36,7 @@ void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connect
         disconnectNode(node->nodeID);
         
         // When we detect an output module, we hook it up to the output node
-        if (node->properties.getWithDefault("is_output", false))
+        if (static_cast<ModuleProcessor*>(node->getProcessor())->isOutput)
             connectToOuput(node);
     }
     
@@ -57,8 +57,7 @@ void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connect
 void AudioEngine::connectToOuput(Node::Ptr nodeToConnect)
 {
     int connectionNumber = nodeToConnect->getProcessor()->getTotalNumOutputChannels();
+    
     for (int i = 0; i < connectionNumber; i++)
-    {
         addConnection ({ { nodeToConnect->nodeID, i }, { outputNode->nodeID, i } });
-    }
 }

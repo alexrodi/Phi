@@ -13,7 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-class ModuleUI;
+#include "ModuleUI.h"
 
 //==============================================================================
 /*
@@ -44,9 +44,13 @@ public:
     /// Any parameters introduced in the constructor will be available via this object
     AudioProcessorValueTreeState params;
     
-    bool hasEditor() const override { return true; }
+    bool isOutput = false;
     
-    virtual std::unique_ptr<ModuleUI> createUI() = 0;
+    std::unique_ptr<ModuleUI> createUI() {
+        return std::unique_ptr<ModuleUI>(static_cast<ModuleUI*>(createEditor()));
+    }
+    
+    bool hasEditor() const override { return true; }
     
 private:
     
@@ -62,7 +66,6 @@ private:
     void changeProgramName (int index, const String& newName) override {}
     void getStateInformation (MemoryBlock& destData) override {}
     void setStateInformation (const void* data, int sizeInBytes) override {}
-    AudioProcessorEditor* createEditor() override {return nullptr;}
     ///@endcond
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModuleProcessor)

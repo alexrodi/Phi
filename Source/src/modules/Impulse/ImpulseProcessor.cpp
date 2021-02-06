@@ -94,7 +94,7 @@ void ImpulseProcessor::triggerImpulse()
     triggered.set(true);
 }
 
-std::unique_ptr<ModuleUI> ImpulseProcessor::createUI()
+AudioProcessorEditor* ImpulseProcessor::createEditor()
 {
-   return std::make_unique<ImpulseUI>(*this);
+   return new ImpulseUI(*this);
 }

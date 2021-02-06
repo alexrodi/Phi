@@ -169,7 +169,7 @@ void StringProcessor::releaseResources()
 {
 }
 
-std::unique_ptr<ModuleUI> StringProcessor::createUI()
+AudioProcessorEditor* StringProcessor::createEditor()
 {
-    return std::make_unique<StringUI>(*this);
+    return new StringUI(*this);
 }

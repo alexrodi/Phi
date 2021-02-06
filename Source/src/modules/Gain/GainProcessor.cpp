@@ -44,7 +44,7 @@ void GainProcessor::releaseResources()
 {
 }
 
-std::unique_ptr<ModuleUI> GainProcessor::createUI()
+AudioProcessorEditor* GainProcessor::createEditor()
 {
-    return std::make_unique<GainUI>(*this);
+    return new GainUI(*this);
 }

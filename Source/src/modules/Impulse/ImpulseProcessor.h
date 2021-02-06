@@ -14,7 +14,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "../../ModuleUI.h"
+#include "../../ModuleProcessor.h"
 
 class ImpulseProcessor : public ModuleProcessor
 {
@@ -27,7 +27,7 @@ public:
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
     void releaseResources() override;
     
-    std::unique_ptr<ModuleUI> createUI() override;
+    AudioProcessorEditor* createEditor() override;
     
     void triggerImpulse();
     

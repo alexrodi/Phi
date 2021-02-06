@@ -150,9 +150,6 @@ ModuleBox* MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProc
     
     auto newNode = audioEngine->addNode(std::move(moduleProcessor));
     
-    // Set is_output flag for output modules
-    newNode->properties.set("is_output", typeid(moduleProcessor) == typeid(OutputProcessor));
-    
     moduleUI->nodeID = newNode->nodeID;
     
     registerInletsAndOutlets(*moduleUI);

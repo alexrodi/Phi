@@ -12,8 +12,9 @@
 #include "OutputUI.h"
 
 OutputProcessor::OutputProcessor() :
-ModuleProcessor( 2, 2 ) // Output cheats on the number of output channels, the two outs are only used to patch it to the actual output device
+ModuleProcessor(2, 2) // Output cheats on the number of output channels, the two outs are only used to patch it to the actual output device
 {
+    isOutput = true;
 }
 
 OutputProcessor::~OutputProcessor()
@@ -30,8 +31,8 @@ void OutputProcessor::releaseResources()
 {
 }
 
-std::unique_ptr<ModuleUI> OutputProcessor::createUI()
+AudioProcessorEditor* OutputProcessor::createEditor()
 {
-    return std::make_unique<OutputUI>(*this);
+    return new OutputUI(*this);
 }
 

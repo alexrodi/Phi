@@ -13,7 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "../../ModuleUI.h"
+#include "../../ModuleProcessor.h"
 #include "../../ui/PhiDial.h"
 #include "../../ui/PhiSliderButton.h"
 

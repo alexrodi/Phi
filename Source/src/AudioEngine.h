@@ -14,6 +14,7 @@
 #include <JuceHeader.h>
 ///@endcond
 #include "Connections.h"
+#include "ModuleProcessor.h"
 
 /// The class where each module's DSP routine gets implemented as nodes and patched together
 class AudioEngine : public AudioProcessorGraph
