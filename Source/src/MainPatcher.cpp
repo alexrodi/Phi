@@ -81,8 +81,13 @@ void MainPatcher::openMenu(const MouseEvent& e)
     
     // Returns the ID of the selected item (0 if clicked outside)
     menu.showMenuAsync(PopupMenu::Options().withParentComponent(this), [this, e] (int result) {
-        if (result > 0)
-            createModule(Modules::createProcessorFromMenuIndex(result), e.position);
+        if (result > 0) {
+            undoManager.beginNewTransaction();
+            undoManager.perform(new CreateModule(
+                [this, result, e](){ return createModule(Modules::createProcessorFromMenuIndex(result), e.position); },
+                [this](ModuleBox* moduleBox){ return deleteModule(moduleBox); }
+            ));
+        }
     });
 }
 
@@ -105,6 +110,10 @@ bool MainPatcher::keyPressed (const KeyPress& key)
 {
     if (selectedModules.getNumSelected() > 0 && key == KeyPress::backspaceKey){
         deleteAllSelectedModules();
+    } else if (key.getModifiers().commandModifier) {
+        if (key.getKeyCode() == 90/*Z*/) {
+            undoManager.undo();
+        }
     }
     return connections.keyPressed(key);
 }
@@ -135,7 +144,7 @@ void MainPatcher::registerInletsAndOutlets(ModuleUI& module)
     registerPlugs(module.outlets, module.nodeID.uid);
 }
 
-void MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProcessor, Point<float> position)
+ModuleBox* MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProcessor, Point<float> position)
 {
     auto moduleUI = moduleProcessor->createUI();
     
@@ -156,6 +165,8 @@ void MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProcessor,
     addAndMakeVisible(moduleBox);
     moduleBox->setTopLeftPosition(position.toInt());
     moduleBox->addChangeListener(this);
+    
+    return moduleBox;
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)

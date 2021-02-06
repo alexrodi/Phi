@@ -36,6 +36,7 @@ public:
     };
     
     ModuleUI(Props);
+    ~ModuleUI();
     
     /** This module's props
     @see ModuleUI::Props

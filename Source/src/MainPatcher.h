@@ -71,6 +71,36 @@ private:
         }
     } lasso;
     
+    
+//  STATE undo/redo
+//  ========================
+    struct CreateModule: public UndoableAction {
+        CreateModule(std::function<ModuleBox*()> createModule, std::function<void(ModuleBox*)> deleteModule):
+        createModule(createModule),
+        deleteModule(deleteModule)
+        {}
+        
+        bool perform() override {
+            std::cout << "creating..." << std::endl;
+            moduleBox = createModule();
+            return true;
+        }
+        
+        bool undo() override {
+            std::cout << "deleting..." << std::endl;
+            deleteModule(moduleBox);
+            return true;
+        }
+        
+        std::function<ModuleBox*()> createModule;
+        std::function<void(ModuleBox*)> deleteModule;
+        ModuleBox* moduleBox;
+    };
+    
+    UndoManager undoManager;
+    
+    
+    
     /** Registers an array of plugs with the connections component.
      This function performs three jobs for each plug:
      registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it. */
@@ -81,7 +111,7 @@ private:
     
     /// Creates a module from its ModuleProcessor at a position in the patcher,
     /// it also registers its connections and adds it to the audioEngine
-    void createModule(std::unique_ptr<ModuleProcessor>, Point<float>);
+    ModuleBox* createModule(std::unique_ptr<ModuleProcessor>, Point<float>);
     
     /// Deletes a module and all its connections from the patcher and audioEngine, unregisters it from connections
     void deleteModule(ModuleBox*);

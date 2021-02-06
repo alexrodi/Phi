@@ -30,6 +30,11 @@ props(arguments)
     setBufferedToImage(true);
 }
 
+ModuleUI::~ModuleUI()
+{
+    props.processor.editorBeingDeleted(this);
+}
+
 void ModuleUI::resized()
 {
     auto moduleBounds = getLocalBounds();
