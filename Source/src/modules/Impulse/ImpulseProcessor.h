@@ -14,42 +14,97 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "../../ModuleProcessor.h"
+#include "ImpulseUI.h"
 
 class ImpulseProcessor : public ModuleProcessor
 {
 public:
-    ImpulseProcessor();
+    static const float constexpr invTwoPi = 1.0f/MathConstants<float>::twoPi;
     
-    ~ImpulseProcessor();
+    ImpulseProcessor() :
+    ModuleProcessor( 3, 2,
+                        std::make_unique<AudioParameterFloat> (
+                                                               "freq",
+                                                               "Frequency",
+                                                               NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
+                                                               20.0f,
+                                                               "Frequency",
+                                                               AudioParameterFloat::genericParameter,
+                                                               [](float value, int) { return String (value, 1); },
+                                                               [](const String& text) { return text.getFloatValue(); }
+                                                               ),
+                        std::make_unique<AudioParameterFloat> (
+                                                               "shape",
+                                                               "Shape",
+                                                               NormalisableRange<float> (0.0f, 1.0f),
+                                                               0.0f,
+                                                               "Shape",
+                                                               AudioParameterFloat::genericParameter,
+                                                               [](float value, int) { return String (floorf(value * 100.0f), 0); },
+                                                               [](const String& text) { return text.getFloatValue() * 0.01f; }
+                                                               ),
+                        std::make_unique<AudioParameterBool>  (
+                                                               "trigger",
+                                                               "Trigger",
+                                                               false
+                                                               )
+    )
+    {}
     
-    void prepareToPlay (double, int) override;
-    void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
-    void releaseResources() override;
+    ~ImpulseProcessor() {};
     
-    AudioProcessorEditor* createEditor() override;
-    
-    void triggerImpulse();
-    
-    // Definition is public for the UI to build a faithful representation
-    inline static float processImpulse(float phase, float shape)
+    void prepareToPlay (double newSampleRate, int maximumExpectedSamplesPerBlock) override
     {
-        const float fundamentalAttenuator = (-0.5*tanhf(phase*(-fmax(shape,0.88)+1.01)-1)+0.5);
-
-        return (phase==float_Pi)
-               ? 0.0f
-               : sinf((sinf(phase))/((-shape + 1.006f)*(phase-float_Pi)))*fundamentalAttenuator;
+        sampleRate = float(newSampleRate);
     }
+    
+    void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
+    {
+        const float* readBufferTrigger = buffer.getReadPointer(0);
+        
+        // @todo CV Implementations
+        //const float* readBufferFreq = buffer.getReadPointer(1);
+        //const float* readBufferShape = buffer.getReadPointer(2);
+        
+        const float shape = powf(*params.getRawParameterValue("shape"), 0.1f);
+        
+        const float phaseIncrement = (1.0f/(sampleRate/(*params.getRawParameterValue("freq")))) * MathConstants<float>::twoPi;
+        
+        float* writeBufferOut = buffer.getWritePointer(0);
+        float* writeBufferRamp = buffer.getWritePointer(1);
+        
+        // for now, we constantly process audio, but ideally, the module should know if it is connected
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+        {
+            const float trigger = *readBufferTrigger++;
+            const float triggerDelta = previousTrigger - trigger;
+            previousTrigger = trigger;
+            
+            if (triggerDelta > 0.5f || wasExternallyTriggered()) currentPhase = 0.0f;
+            
+            *writeBufferOut++ = processImpulse(currentPhase, shape);
+            *writeBufferRamp++ = currentPhase * invTwoPi;
+
+            currentPhase += phaseIncrement;
+        }
+        
+    }
+    
+    void releaseResources() override {};
+
+    AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
     
 private:
 
     float currentPhase = 0.0f;
     float previousTrigger = 0.0f;
     float sampleRate = 44100.0f;
-    Atomic<bool> triggered;
     
-    bool externallyTriggered();
+    bool wasExternallyTriggered()
+    {
+        auto triggered = params.getRawParameterValue("trigger");
+        bool shouldTrigger = *triggered > 0.0f;
+        triggered->exchange(0.0f);
+        return shouldTrigger;
+    }
 };
-
-
-

@@ -13,7 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "../../ModuleProcessor.h"
+#include "GainUI.h"
 
 //==============================================================================
 /*
@@ -21,15 +21,34 @@
 class GainProcessor    : public ModuleProcessor
 {
 public:
-    GainProcessor();
+    GainProcessor() :
+    ModuleProcessor( 1, 1,
+        std::make_unique<AudioParameterFloat> (
+                                               "gain",
+                                               "Gain",
+                                               NormalisableRange<float> (-70.0f, 12.0f),
+                                               0.0f,
+                                               "Gain",
+                                               AudioParameterFloat::genericParameter,
+                                               [](float value, int) { return String (value, 1); },
+                                               [](const String& text) { return text.getFloatValue(); }
+                                               )
+                    )
+    {
+    }
     
-    ~GainProcessor();
+    ~GainProcessor() {}
     
-    void prepareToPlay (double, int) override;
-    void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override;
-    void releaseResources() override;
+    void prepareToPlay (double sampleRate, int maxBlockSize) override {};
     
-    AudioProcessorEditor* createEditor() override;
+    void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override
+    {
+       buffer.applyGain( *params.getRawParameterValue("gain") );
+    }
+    
+    void releaseResources() override {};
+    
+    AudioProcessorEditor* createEditor() override {return new GainUI(*this);};
 
 private:
     

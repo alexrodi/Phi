@@ -19,11 +19,31 @@
 class GainUI    : public ModuleUI
 {
 public:
-    GainUI(ModuleProcessor&);
-    ~GainUI();
+    GainUI(ModuleProcessor& processor) :
+    ModuleUI({
+                // All modules must initialize these properties
+                .name =  "Gain",
+                .inlets = {"In"},
+                .outlets = {"Out"},
+                .width = 150,
+                .height = 150,
+                .minimumHeight = 100,
+                .processor = processor
+            }),
+    gainDial("Gain", -70.0f, 12.0f, 1.0, " dB"),
+    gainAttachment(*processor.params.getParameter("gain"), gainDial)
+    {
+        addAndMakeVisible(gainDial);
+    }
+    
+    ~GainUI() {};
 
-    void paint (Graphics&) override;
-    void wasResized(Rectangle<int> moduleBounds) override;
+    void paint (Graphics& g) override {};
+    
+    void wasResized(Rectangle<int> moduleBounds) override
+    {
+        gainDial.setBounds( moduleBounds );
+    }
 
 private:
     PhiDial gainDial;
@@ -31,5 +51,3 @@ private:
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainUI)
 };
-
-
