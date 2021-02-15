@@ -28,11 +28,8 @@
           <FILE id="CGqaDm" name="OutputUI.h" compile="0" resource="0" file="Source/src/modules/Output/OutputUI.h"/>
         </GROUP>
         <GROUP id="{126D45FA-CBCE-F59D-DAD3-1DF376CA6BFF}" name="String">
-          <FILE id="i3dOUW" name="StringProcessor.cpp" compile="1" resource="0"
-                file="Source/src/modules/String/StringProcessor.cpp"/>
           <FILE id="O1ys42" name="StringProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/String/StringProcessor.h"/>
-          <FILE id="d1f7B0" name="StringUI.cpp" compile="1" resource="0" file="Source/src/modules/String/StringUI.cpp"/>
           <FILE id="o5O0WA" name="StringUI.h" compile="0" resource="0" file="Source/src/modules/String/StringUI.h"/>
         </GROUP>
         <FILE id="zBfsIA" name="Modules.h" compile="0" resource="0" file="Source/src/modules/Modules.h"/>

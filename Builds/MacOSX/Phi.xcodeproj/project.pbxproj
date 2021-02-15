@@ -65,14 +65,6 @@
 			isa = PBXBuildFile;
 			fileRef = 72878FBED160E7898B877B43;
 		};
-		079A3EDF93CB4AEB7625C502 = {
-			isa = PBXBuildFile;
-			fileRef = 23FF022BAEF0E672670C1E16;
-		};
-		08FCA5AE95AF90E3A68B9A1A = {
-			isa = PBXBuildFile;
-			fileRef = AE6C5955A7354EAD78B4F2A7;
-		};
 		F07C70DCD17A7F3BAA283430 = {
 			isa = PBXBuildFile;
 			fileRef = C5D5FCB589781DF5A85941D7;
@@ -252,13 +244,6 @@
 			lastKnownFileType = file.svg;
 			name = "Speaker_Icon.svg";
 			path = "../../Source/resources/svg/Speaker_Icon.svg";
-			sourceTree = "SOURCE_ROOT";
-		};
-		23FF022BAEF0E672670C1E16 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = StringProcessor.cpp;
-			path = ../../Source/src/modules/String/StringProcessor.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		26FC13B483B6A269DB4195D1 = {
@@ -562,13 +547,6 @@
 			path = ../../Source/src/ui/PhiSliderButton.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
-		AE6C5955A7354EAD78B4F2A7 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = StringUI.cpp;
-			path = ../../Source/src/modules/String/StringUI.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
 		B2B98BF43C0586F6EAEAE04D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -833,9 +811,7 @@
 		2E8A9597C5D8E9AD85D146BA = {
 			isa = PBXGroup;
 			children = (
-				23FF022BAEF0E672670C1E16,
 				B2F32D68843E365564EA716D,
-				AE6C5955A7354EAD78B4F2A7,
 				B2B98BF43C0586F6EAEAE04D,
 			);
 			name = String;
@@ -1226,8 +1202,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				079A3EDF93CB4AEB7625C502,
-				08FCA5AE95AF90E3A68B9A1A,
 				F07C70DCD17A7F3BAA283430,
 				0A295114C1E5A971E95D2E5A,
 				6B2879B2F18F77EF3D55C6C0,
