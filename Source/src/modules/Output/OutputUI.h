@@ -21,13 +21,50 @@
 class OutputUI    : public ModuleUI
 {
 public:
-    OutputUI(ModuleProcessor&);
-    ~OutputUI();
+    OutputUI(ModuleProcessor& processor) :
+    ModuleUI{{
+        // All modules must initialize these properties
+        .name =  "Output",
+        .inlets = {"R", "L"},
+        .outlets = {},
+        .width = 150,
+        .height = 150,
+        .minimumHeight = 100,
+        .processor = processor
+    }},
+    speakerImage(Drawable::createFromSVG(*XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
+    colour(findColour(Slider::thumbColourId))
+    {
+        speakerImage->replaceColour(Colours::black, colour);
+        addAndMakeVisible (*speakerImage);
+    }
+    
+    ~OutputUI() {}
 
-    void paint (Graphics&) override;
-    void wasResized(Rectangle<int>) override;
+    void paint (Graphics&) override {}
+    void wasResized(Rectangle<int> moduleBounds) override
+    {
+        auto height = moduleBounds.getHeight();
+        auto width = moduleBounds.getWidth();
+        
+        bool svgVisible = jmin(height, width) > 30;
+        
+        speakerImage->setVisible(svgVisible);
+        
+        if (svgVisible)
+        {
+            auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
+            
+            speakerImage->setTransformToFit(bounds.toFloat(), 0);
+        }
+    }
 
-    void lookAndFeelChanged() override;
+    void lookAndFeelChanged() override
+    {
+        Colour newColour = findColour(Slider::thumbColourId);
+        speakerImage->replaceColour(colour, newColour);
+        colour = newColour;
+    }
 
 private:
     std::unique_ptr<Drawable> speakerImage;

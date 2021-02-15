@@ -13,7 +13,7 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "../../ModuleProcessor.h"
+#include "OutputUI.h"
 
 //==============================================================================
 /*
@@ -21,15 +21,19 @@
 class OutputProcessor    : public ModuleProcessor
 {
 public:
-    OutputProcessor();
+    OutputProcessor() :
+    ModuleProcessor(2, 2) // Output cheats on the number of output channels, the two outs are only used to patch it to the actual output device
+    {
+        isOutput = true;
+    }
     
-    ~OutputProcessor();
+    ~OutputProcessor() {};
     
-    void prepareToPlay (double, int) override;
-    void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override;
-    void releaseResources() override;
+    void prepareToPlay (double sampleRate, int maxBlockSize) override {}
+    void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override {}
+    void releaseResources() override {}
     
-    AudioProcessorEditor* createEditor() override;
+    AudioProcessorEditor* createEditor() override {return new OutputUI(*this);}
 
 private:
     

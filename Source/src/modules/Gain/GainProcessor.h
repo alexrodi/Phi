@@ -34,21 +34,20 @@ public:
                                                [](const String& text) { return text.getFloatValue(); }
                                                )
                     )
-    {
-    }
+    {}
     
     ~GainProcessor() {}
     
-    void prepareToPlay (double sampleRate, int maxBlockSize) override {};
+    void prepareToPlay (double sampleRate, int maxBlockSize) override {}
     
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
        buffer.applyGain( *params.getRawParameterValue("gain") );
     }
     
-    void releaseResources() override {};
+    void releaseResources() override {}
     
-    AudioProcessorEditor* createEditor() override {return new GainUI(*this);};
+    AudioProcessorEditor* createEditor() override {return new GainUI(*this);}
 
 private:
     

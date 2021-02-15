@@ -23,37 +23,37 @@ public:
     
     ImpulseProcessor() :
     ModuleProcessor( 3, 2,
-                        std::make_unique<AudioParameterFloat> (
-                                                               "freq",
-                                                               "Frequency",
-                                                               NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
-                                                               20.0f,
-                                                               "Frequency",
-                                                               AudioParameterFloat::genericParameter,
-                                                               [](float value, int) { return String (value, 1); },
-                                                               [](const String& text) { return text.getFloatValue(); }
-                                                               ),
-                        std::make_unique<AudioParameterFloat> (
-                                                               "shape",
-                                                               "Shape",
-                                                               NormalisableRange<float> (0.0f, 1.0f),
-                                                               0.0f,
-                                                               "Shape",
-                                                               AudioParameterFloat::genericParameter,
-                                                               [](float value, int) { return String (floorf(value * 100.0f), 0); },
-                                                               [](const String& text) { return text.getFloatValue() * 0.01f; }
-                                                               ),
-                        std::make_unique<AudioParameterBool>  (
-                                                               "trigger",
-                                                               "Trigger",
-                                                               false
-                                                               )
+        std::make_unique<AudioParameterFloat> (
+           "freq",
+           "Frequency",
+           NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
+           20.0f,
+           "Frequency",
+           AudioParameterFloat::genericParameter,
+           [](float value, int) { return String (value, 1); },
+           [](const String& text) { return text.getFloatValue(); }
+        ),
+        std::make_unique<AudioParameterFloat> (
+           "shape",
+           "Shape",
+           NormalisableRange<float> (0.0f, 1.0f),
+           0.0f,
+           "Shape",
+           AudioParameterFloat::genericParameter,
+           [](float value, int) { return String (floorf(value * 100.0f), 0); },
+           [](const String& text) { return text.getFloatValue() * 0.01f; }
+        ),
+        std::make_unique<AudioParameterBool> (
+           "trigger",
+           "Trigger",
+           false
+        )
     )
     {}
     
-    ~ImpulseProcessor() {};
+    ~ImpulseProcessor() {}
     
-    void prepareToPlay (double newSampleRate, int maximumExpectedSamplesPerBlock) override
+    void prepareToPlay (double newSampleRate, int maxBlockSize) override
     {
         sampleRate = float(newSampleRate);
     }
@@ -90,7 +90,7 @@ public:
         
     }
     
-    void releaseResources() override {};
+    void releaseResources() override {}
 
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
     
