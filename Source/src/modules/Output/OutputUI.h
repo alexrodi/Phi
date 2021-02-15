@@ -26,11 +26,12 @@ public:
         // All modules must initialize these properties
         .name =  "Output",
         .inlets = {"R", "L"},
-        .outlets = {},
+        .outlets = {}, // outlets are hidden because this is an output module
         .width = 150,
         .height = 150,
         .minimumHeight = 100,
-        .processor = processor
+        .processor = processor,
+        .isOutput = true
     }},
     speakerImage(Drawable::createFromSVG(*XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
     colour(findColour(Slider::thumbColourId))

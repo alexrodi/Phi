@@ -21,15 +21,15 @@ class GainUI    : public ModuleUI
 public:
     GainUI(ModuleProcessor& processor) :
     ModuleUI({
-                // All modules must initialize these properties
-                .name =  "Gain",
-                .inlets = {"In"},
-                .outlets = {"Out"},
-                .width = 150,
-                .height = 150,
-                .minimumHeight = 100,
-                .processor = processor
-            }),
+        // All modules must initialize these properties
+        .name =  "Gain",
+        .inlets = {"In"},
+        .outlets = {"Out"},
+        .width = 150,
+        .height = 150,
+        .minimumHeight = 100,
+        .processor = processor
+    }),
     gainDial("Gain", -70.0f, 12.0f, 1.0, " dB"),
     gainAttachment(*processor.params.getParameter("gain"), gainDial)
     {

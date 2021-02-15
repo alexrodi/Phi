@@ -22,7 +22,10 @@ public:
     static const float constexpr invTwoPi = 1.0f/MathConstants<float>::twoPi;
     
     ImpulseProcessor() :
-    ModuleProcessor( 3, 2,
+    ModuleProcessor(
+        3, // Inlets
+        2, // Outlets
+        //============= Parameters =============
         std::make_unique<AudioParameterFloat> (
            "freq",
            "Frequency",

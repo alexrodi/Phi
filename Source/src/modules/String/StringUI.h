@@ -22,15 +22,15 @@ class StringUI    : public ModuleUI
 public:
     StringUI(ModuleProcessor& processor) :
     ModuleUI({
-                // All modules must initialize these properties
-                .name =  "String",
-                .inlets = {"In 1", "In 2"},
-                .outlets = {"Out 1", "Out 2"},
-                .width = 330,
-                .height = 160,
-                .minimumHeight = 100,
-                .processor = processor
-            }),
+        // All modules must initialize these properties
+        .name =  "String",
+        .inlets = {"In 1", "In 2"},
+        .outlets = {"Out 1", "Out 2"},
+        .width = 330,
+        .height = 160,
+        .minimumHeight = 100,
+        .processor = processor
+    }),
     frequencyDial( "Frequency" , 20.0f, 10000.0f, 0.3f, " Hz"),
     positionDial(  "Position"  , 0.0f , 1.0f    , 1.0f, " %",  0),
     dampDial(      "Damping"   , 0.0f , 1.0f    , 1.0f, " %",  0),

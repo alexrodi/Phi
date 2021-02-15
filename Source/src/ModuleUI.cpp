@@ -20,6 +20,8 @@ ModuleUI::ModuleUI(Props arguments) :
 AudioProcessorEditor(arguments.processor),
 props(arguments)
 {
+    arguments.processor.isOutput = arguments.isOutput;
+    
     // Add all inlets and outlets as children and make them visible
     for (String inletName : props.inlets)
         addAndMakeVisible( inlets.add( std::make_unique<InletPlug>(inletName) ) );

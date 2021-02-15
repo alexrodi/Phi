@@ -23,7 +23,7 @@ class StringProcessor    : public ModuleProcessor
 {
 public:
     StringProcessor() :
-    ModuleProcessor( 2, 2,
+    ModuleProcessor(2, 2,
         std::make_unique<AudioParameterFloat> (
             "freq",
             "Frequency",

@@ -33,6 +33,7 @@ public:
         const int height; /// The default height to use when creating this module
         const int minimumHeight; /// The minimum height that the module should have to present its UI, any less, and the ModuleBox will collapse to only display the header
         ModuleProcessor& processor; /// A reference to the ModuleProcessor that spawned this UI
+        bool isOutput = false;
     };
     
     ModuleUI(Props);
