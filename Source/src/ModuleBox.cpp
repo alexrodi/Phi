@@ -15,8 +15,8 @@
 
 //==============================================================================
 ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
-moduleUI{std::move(moduleUi)},
-powerButton{},
+moduleUI(std::move(moduleUi)),
+powerButton(PhiButton::Toggle),
 resizer(this, this),
 moduleSelection{selectionChangeSource}
 {

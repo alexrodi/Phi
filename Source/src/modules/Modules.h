@@ -14,6 +14,7 @@
 #include "Impulse/ImpulseProcessor.h"
 #include "Output/OutputProcessor.h"
 #include "String/StringProcessor.h"
+#include "Trigger/TriggerProcessor.h"
 // Add Module processor headers here
 
 class Modules {
@@ -50,6 +51,7 @@ class Modules {
 public:
     static std::vector<std::unique_ptr<ModuleInfo>> moduleList() {
         return initFromMoveable<ModuleInfo>(
+            moduleInfo<TriggerProcessor>("Trigger"),
             moduleInfo<ImpulseProcessor>("Impulse"),
             moduleInfo<StringProcessor>("String"),
             moduleInfo<GainProcessor>("Gain"),
