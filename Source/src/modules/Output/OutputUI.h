@@ -54,7 +54,7 @@ public:
         
         if (svgVisible)
         {
-            auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
+            auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds.reduced(15));
             
             speakerImage->setTransformToFit(bounds.toFloat(), 0);
         }
