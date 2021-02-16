@@ -25,9 +25,9 @@ public:
         .name =  "Trigger",
         .inlets = {},
         .outlets = {"Out"},
-        .width = 150,
-        .height = 150,
-        .minimumHeight = 100,
+        .width = 105,
+        .height = 100,
+        .minimumHeight = 90,
         .processor = processor
     }),
     triggerButton(PhiButton::Momentary),
