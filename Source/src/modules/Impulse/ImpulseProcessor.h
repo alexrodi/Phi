@@ -80,7 +80,7 @@ public:
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
             const float trigger = *readBufferTrigger++;
-            const float triggerDelta = previousTrigger - trigger;
+            const float triggerDelta = trigger - previousTrigger;
             previousTrigger = trigger;
             
             if (triggerDelta > 0.5f || wasExternallyTriggered()) currentPhase = 0.0f;
