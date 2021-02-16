@@ -13,6 +13,11 @@
     </GROUP>
     <GROUP id="{0AEC8051-0D68-DE0B-116C-A216490944C2}" name="src">
       <GROUP id="{F11C30C8-B067-140A-9DB3-E55CC73BA1AF}" name="modules">
+        <GROUP id="{2F5C49F3-7067-8D57-ACB5-4A428895F8B0}" name="Trigger">
+          <FILE id="sOY4Rs" name="TriggerProcessor.h" compile="0" resource="0"
+                file="Source/src/modules/Trigger/TriggerProcessor.h"/>
+          <FILE id="arydNj" name="TriggerUI.h" compile="0" resource="0" file="Source/src/modules/Trigger/TriggerUI.h"/>
+        </GROUP>
         <GROUP id="{0B654586-A950-E2ED-3125-442650756008}" name="Gain">
           <FILE id="tDgUvC" name="GainProcessor.h" compile="0" resource="0" file="Source/src/modules/Gain/GainProcessor.h"/>
           <FILE id="H11Pgd" name="GainUI.h" compile="0" resource="0" file="Source/src/modules/Gain/GainUI.h"/>
@@ -35,14 +40,13 @@
         <FILE id="zBfsIA" name="Modules.h" compile="0" resource="0" file="Source/src/modules/Modules.h"/>
       </GROUP>
       <GROUP id="{43548976-3311-21A9-2FFB-B897874B39F7}" name="ui">
+        <FILE id="JTzBXh" name="PhiButton.h" compile="0" resource="0" file="Source/src/ui/PhiButton.h"/>
         <FILE id="Ej3A5L" name="PhiDial.cpp" compile="1" resource="0" file="Source/src/ui/PhiDial.cpp"/>
         <FILE id="Gk4wPv" name="PhiDial.h" compile="0" resource="0" file="Source/src/ui/PhiDial.h"/>
         <FILE id="gfqSyR" name="PhiSliderButton.cpp" compile="1" resource="0"
               file="Source/src/ui/PhiSliderButton.cpp"/>
         <FILE id="DEOj3t" name="PhiSliderButton.h" compile="0" resource="0"
               file="Source/src/ui/PhiSliderButton.h"/>
-        <FILE id="AG5mPg" name="PhiToggleButton.h" compile="0" resource="0"
-              file="Source/src/ui/PhiToggleButton.h"/>
       </GROUP>
       <FILE id="B1b1AK" name="AudioEngine.cpp" compile="1" resource="0" file="Source/src/AudioEngine.cpp"/>
       <FILE id="CRK48Q" name="AudioEngine.h" compile="0" resource="0" file="Source/src/AudioEngine.h"/>

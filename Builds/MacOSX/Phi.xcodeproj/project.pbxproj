@@ -547,6 +547,13 @@
 			path = ../../Source/src/ui/PhiSliderButton.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		AC33D885276D664F45A3B1A7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TriggerProcessor.h;
+			path = ../../Source/src/modules/Trigger/TriggerProcessor.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		B2B98BF43C0586F6EAEAE04D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -559,6 +566,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = StringProcessor.h;
 			path = ../../Source/src/modules/String/StringProcessor.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		B33FBD5E38961EFF5FF19A5A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = PhiButton.h;
+			path = ../../Source/src/ui/PhiButton.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		B4B863547DB34DA8E46CB477 = {
@@ -601,6 +615,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = DSPUtils.h;
 			path = ../../Source/src/DSPUtils.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		CC574D1D1C8CC597B478CAA5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TriggerUI.h;
+			path = ../../Source/src/modules/Trigger/TriggerUI.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		CFF258DA3335F73A535212B6 = {
@@ -736,13 +757,6 @@
 			path = ../../Source/src/AudioEngine.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
-		F9F59D6B70A102C03C61E4D4 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = PhiToggleButton.h;
-			path = ../../Source/src/ui/PhiToggleButton.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		FBF09B8922398BFC21E5D424 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -779,6 +793,15 @@
 				BFA5CFE1CCF7014715AA84E9,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		0A74B7DEB22FD6A66B3373A7 = {
+			isa = PBXGroup;
+			children = (
+				AC33D885276D664F45A3B1A7,
+				CC574D1D1C8CC597B478CAA5,
+			);
+			name = Trigger;
 			sourceTree = "<group>";
 		};
 		E3E1DB1ADC5C180E3431D578 = {
@@ -820,6 +843,7 @@
 		E83C7510652D6C4A7857D3D9 = {
 			isa = PBXGroup;
 			children = (
+				0A74B7DEB22FD6A66B3373A7,
 				E3E1DB1ADC5C180E3431D578,
 				4CA3C1FBE6DE9368D4F38209,
 				39CADD06E75E9BB859E4CBE8,
@@ -832,11 +856,11 @@
 		558166647C42BDD5BCCB70DE = {
 			isa = PBXGroup;
 			children = (
+				B33FBD5E38961EFF5FF19A5A,
 				C5D5FCB589781DF5A85941D7,
 				BD02D0D7AB0D480579BE2B03,
 				AB9A517B05482368DD8CDA95,
 				E9CA5E42D829690E02EA6139,
-				F9F59D6B70A102C03C61E4D4,
 			);
 			name = ui;
 			sourceTree = "<group>";
