@@ -41,7 +41,7 @@ public:
         setPlayConfigDetails (inletNumber, outletNumber, getSampleRate(), getBlockSize());
     }
     
-    /// Any parameters introduced in the constructor will be available via this object
+    /// Any parameters introduced in the constructor will be stored in this object
     AudioProcessorValueTreeState params;
     
     bool isOutput = false;
