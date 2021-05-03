@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['samplerate',['sampleRate',['../class_impulse_processor.html#a2f922e8842416eefc0b26e4af6597e51',1,'ImpulseProcessor::sampleRate()'],['../class_string_processor.html#a9888bec2bf9c8ee0fd17aaa4af02e6dc',1,'StringProcessor::sampleRate()']]],
+  ['selectedconnections',['selectedConnections',['../class_connections.html#a9222b9db9df6a11b4d8f0171123a8223',1,'Connections']]],
+  ['selectedmodules',['selectedModules',['../class_main_patcher.html#a4212b7f0083f007f4b0e5425864d1682',1,'MainPatcher']]],
+  ['selectionresult',['selectionResult',['../class_module_box.html#abb91461436b1f6a2e82a84a4e0230915',1,'ModuleBox']]],
+  ['shapeattachment',['shapeAttachment',['../class_impulse_u_i.html#a82650c78b1f5bd0e0b02c8da6ac06a9d',1,'ImpulseUI']]],
+  ['shapedial',['shapeDial',['../class_impulse_u_i.html#ad08a378205be929f07a49dfa16147f2d',1,'ImpulseUI']]],
+  ['shoulddraw',['shouldDraw',['../class_phi_slider_button.html#aa0b1e8e06fb008e223ea5a3df54da980',1,'PhiSliderButton']]],
+  ['shoulddrawtext',['shouldDrawText',['../class_phi_dial.html#a528ff597576729b6c944edffd4469535',1,'PhiDial']]],
+  ['size',['size',['../class_phi_dial.html#ae2a40cb71b76b5612fe3c32b3dbd7120',1,'PhiDial']]],
+  ['slider_5fcorner',['SLIDER_CORNER',['../class_phi_slider_button.html#a2e79016aa340599ba37ad5798b793a90',1,'PhiSliderButton']]],
+  ['slider_5fsize',['SLIDER_SIZE',['../class_phi_slider_button.html#a883be038810f3eff15a5c32e2f290953',1,'PhiSliderButton']]],
+  ['slider_5fwidth',['SLIDER_WIDTH',['../class_phi_slider_button.html#acbb8a66891442eaf34b8da702ba46903',1,'PhiSliderButton']]],
+  ['sliderbounds',['sliderBounds',['../class_phi_slider_button.html#ac585fd32d57c6938b0abf99289326a44',1,'PhiSliderButton']]],
+  ['source',['source',['../struct_phi_connection.html#ad9bb75eb31e2c7ce09470f7b3acea4ac',1,'PhiConnection']]],
+  ['sourceplug',['sourcePlug',['../class_plug_handler.html#a11cd9544af3d6670844a0bfb7235eb53',1,'PlugHandler']]],
+  ['speakerimage',['speakerImage',['../class_output_u_i.html#aabdacfee62a982e16e8283b44248c8ed',1,'OutputUI']]],
+  ['startangle',['startAngle',['../class_phi_dial.html#a3af4e77a16314e9611ab6a685483b894',1,'PhiDial']]],
+  ['strokecolour',['strokeColour',['../class_waveform.html#aa4ed1a6336a82aa8870a7a4b446649bd',1,'Waveform']]],
+  ['stroketype',['strokeType',['../class_connections.html#a33194051f2f954f3b8afa58c1308de81',1,'Connections']]],
+  ['strokewidth',['strokeWidth',['../class_waveform.html#a251b01d398f6d73cfd02b87dbc96b375',1,'Waveform']]]
+];

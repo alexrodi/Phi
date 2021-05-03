@@ -1,0 +1,17 @@
+<map id="Modules.h" name="Modules.h">
+<area shape="rect" id="node2" href="$_gain_processor_8h.html" title="Gain/GainProcessor.h" alt="" coords="230,80,389,107"/>
+<area shape="rect" id="node9" href="$_impulse_processor_8h.html" title="Impulse/ImpulseProcessor.h" alt="" coords="5,80,205,107"/>
+<area shape="rect" id="node11" href="$_output_processor_8h.html" title="Output/OutputProcessor.h" alt="" coords="413,80,601,107"/>
+<area shape="rect" id="node13" href="$_string_processor_8h.html" title="String/StringProcessor.h" alt="" coords="625,80,801,107"/>
+<area shape="rect" id="node3" href="$_gain_u_i_8h.html" title="GainUI.h" alt="" coords="294,155,370,181"/>
+<area shape="rect" id="node4" href="$_module_processor_8h.html" title="../../ModuleProcessor.h" alt="" coords="379,229,546,256"/>
+<area shape="rect" id="node8" href="$_phi_dial_8h.html" title="../../ui/PhiDial.h" alt="" coords="239,229,355,256"/>
+<area shape="rect" id="node5" href="$_module_u_i_8h.html" title="ModuleUI.h" alt="" coords="416,304,509,331"/>
+<area shape="rect" id="node6" href="$_plug_8h.html" title="Plug.h" alt="" coords="432,379,493,405"/>
+<area shape="rect" id="node7" href="$_plug_handler_8h.html" title="PlugHandler.h" alt="" coords="407,453,518,480"/>
+<area shape="rect" id="node10" href="$_impulse_u_i_8h.html" title="ImpulseUI.h" alt="" coords="173,155,270,181"/>
+<area shape="rect" id="node12" href="$_output_u_i_8h.html" title="OutputUI.h" alt="" coords="417,155,508,181"/>
+<area shape="rect" id="node14" href="$_string_u_i_8h.html" title="StringUI.h" alt="" coords="671,155,756,181"/>
+<area shape="rect" id="node16" href="$_d_s_p_utils_8h.html" title="../../DSPUtils.h" alt="" coords="533,155,646,181"/>
+<area shape="rect" id="node15" href="$_phi_slider_button_8h.html" title="../../ui/PhiSliderButton.h" alt="" coords="628,229,799,256"/>
+</map>

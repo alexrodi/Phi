@@ -1,0 +1,4 @@
+<map id="Connections" name="Connections">
+<area shape="rect" id="node5" href="$class_plug_handler.html" title="The PlugHandler implements patching mechanics between sources and destinations &#45; dragging, clicking and keeping connected with the Shift key. " alt="" coords="222,157,321,184"/>
+<area shape="rect" id="node6" href="$class_plug_listener.html" title="PlugListener" alt="" coords="5,157,105,184"/>
+</map>

@@ -1,0 +1,16 @@
+<map id="modules" name="modules">
+<area shape="rect" id="node2" href="dir_e14469299eae5429eab03579686c6f48.html" title="Gain" alt="" coords="37,159,109,207"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000001_000002.html" title="1" alt="" coords="124,148,133,163"/>
+<area shape="rect" id="node3" href="dir_d4dd16131998e336dcdf7005c2ba16ec.html" title="Impulse" alt="" coords="133,159,205,207"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000001_000003.html" title="1" alt="" coords="192,139,202,154"/>
+<area shape="rect" id="node4" href="dir_4ed0c9ca3c7b0e26eb16b1ebef388305.html" title="Output" alt="" coords="229,159,301,207"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000001_000004.html" title="1" alt="" coords="248,131,257,146"/>
+<area shape="rect" id="node5" href="dir_a67105bb74687f149dfa0b25ca34c993.html" title="String" alt="" coords="325,159,397,207"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000001_000006.html" title="1" alt="" coords="311,134,320,149"/>
+<area shape="rect" id="node6" href="dir_da5c6b39c0a2f54e57df6799511cd3ab.html" title="ui" alt="" coords="133,255,205,303"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000002_000005.html" title="1" alt="" coords="134,228,143,243"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000003_000005.html" title="1" alt="" coords="173,229,182,244"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000006_000005.html" title="2" alt="" coords="220,266,230,280"/>
+<area shape="rect" id="clust2" href="dir_ddb4d7e95cc2d6c8e1ade10a20d7247d.html" alt="" coords="27,52,408,217"/>
+<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,419,228"/>
+</map>

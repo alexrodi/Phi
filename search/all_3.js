@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['dampattachment',['dampAttachment',['../class_string_u_i.html#a9ef6d75dd7b64caefdf675087ed2c914',1,'StringUI']]],
+  ['dampdial',['dampDial',['../class_string_u_i.html#a84e1884f73c12856687d7f3237173f0e',1,'StringUI']]],
+  ['dcblock',['DCBlock',['../class_d_c_block.html',1,'DCBlock&lt; Type &gt;'],['../class_one_pole.html#abb62e4fb2b66bcaac66c4c06acc97985',1,'OnePole::dcBlock()']]],
+  ['dcblock1',['dcBlock1',['../class_string_processor.html#a7402e4e94548923853b4cb494db61c1d',1,'StringProcessor']]],
+  ['dcblock2',['dcBlock2',['../class_string_processor.html#a069b8f2810280f03867ba3137fb0adf8',1,'StringProcessor']]],
+  ['dcblock_3c_20float_20_3e',['DCBlock&lt; float &gt;',['../class_d_c_block.html',1,'']]],
+  ['decayattachment',['decayAttachment',['../class_string_u_i.html#ae09bc8970fa0d07adc481adbed036eea',1,'StringUI']]],
+  ['decaydial',['decayDial',['../class_string_u_i.html#acb08cb86e11b94ccc9ede5791162ce6b',1,'StringUI']]],
+  ['defaultfill',['DefaultFill',['../struct_phi_colour_ids_1_1_connection.html#a85c523819a8138914b5f7b9f395f8d49a8f156e60f7c1583e92a7a4e57de03010',1,'PhiColourIds::Connection']]],
+  ['delayline',['DelayLine',['../class_delay_line.html',1,'']]],
+  ['delayline_3c_20float_20_3e',['DelayLine&lt; float &gt;',['../class_delay_line.html',1,'']]],
+  ['deleteallselectedconnections',['deleteAllSelectedConnections',['../class_connections.html#a911efa42ae4caf92a8de95579a3fdde1',1,'Connections']]],
+  ['deleteallselectedmodules',['deleteAllSelectedModules',['../class_main_patcher.html#a1367d7dfa5d0ca3a5fceda0fdf368914',1,'MainPatcher']]],
+  ['deletemodule',['deleteModule',['../class_main_patcher.html#a9542e485d160827b3398e4ceb69d7cea',1,'MainPatcher']]],
+  ['deselectall',['deselectAll',['../class_connections.html#a7558bb2ca126b6b09a69df6d631c8182',1,'Connections']]],
+  ['destination',['destination',['../struct_phi_connection.html#a79b5b0d81bbb7b4b3a730462963a6a2f',1,'PhiConnection']]],
+  ['destinationplug',['destinationPlug',['../class_plug_handler.html#a1e6db960779cfa332a87cbf8abb787e7',1,'PlugHandler']]],
+  ['devicemanager',['deviceManager',['../class_audio_engine.html#a4afb6b6a9666c3ef4e233b1303609a63',1,'AudioEngine']]],
+  ['dial',['dial',['../class_phi_dial.html#a4df94710895295f24a06e114d4accb4b',1,'PhiDial']]],
+  ['drag',['Drag',['../struct_plug_event.html#ab54c0327a4e4d44f6abd505ad196b283aa4ec1eb254650a3f3148574694353b27',1,'PlugEvent']]],
+  ['dragpath',['dragPath',['../class_connections.html#a69cdb4757262974a0dd27d1832c25e8c',1,'Connections']]],
+  ['dragpathanchor',['dragPathAnchor',['../class_connections.html#a999721df5fd3d11cb97c55c86caca907',1,'Connections']]],
+  ['drawcalloutboxbackground',['drawCallOutBoxBackground',['../struct_main_component_1_1_phi_look_and_feel.html#a1a2ca548cf5b78ff6e3f501a9a9698ca',1,'MainComponent::PhiLookAndFeel::drawCallOutBoxBackground()'],['../struct_module_box_1_1_module_look_and_feel.html#a3378970fd4c6eb55e08f319058a88eda',1,'ModuleBox::ModuleLookAndFeel::drawCallOutBoxBackground()']]],
+  ['drawname',['drawName',['../namespace_plug_options.html#abb5c215fd6025085254c7ddfe89e098e',1,'PlugOptions']]],
+  ['dsputils_2eh',['DSPUtils.h',['../_d_s_p_utils_8h.html',1,'']]]
+];

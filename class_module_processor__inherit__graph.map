@@ -1,0 +1,6 @@
+<map id="ModuleProcessor" name="ModuleProcessor">
+<area shape="rect" id="node3" href="$class_gain_processor.html" title="GainProcessor" alt="" coords="5,155,120,181"/>
+<area shape="rect" id="node4" href="$class_impulse_processor.html" title="ImpulseProcessor" alt="" coords="145,155,279,181"/>
+<area shape="rect" id="node5" href="$class_output_processor.html" title="OutputProcessor" alt="" coords="303,155,433,181"/>
+<area shape="rect" id="node6" href="$class_string_processor.html" title="StringProcessor" alt="" coords="457,155,580,181"/>
+</map>

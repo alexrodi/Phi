@@ -1,0 +1,13 @@
+<map id="PhiColours.h" name="PhiColours.h">
+<area shape="rect" id="node2" href="$_connections_8h.html" title="Connections.h" alt="" coords="213,80,326,107"/>
+<area shape="rect" id="node6" href="$_main_component_8h.html" title="MainComponent.h" alt="" coords="469,304,608,331"/>
+<area shape="rect" id="node11" href="$_module_box_8h.html" title="ModuleBox.h" alt="" coords="360,80,464,107"/>
+<area shape="rect" id="node3" href="$_audio_engine_8h.html" title="AudioEngine.h" alt="" coords="13,155,126,181"/>
+<area shape="rect" id="node5" href="$_main_patcher_8h.html" title="MainPatcher.h" alt="" coords="282,229,393,256"/>
+<area shape="rect" id="node10" href="$_connections_8cpp.html" title="Connections.cpp" alt="" coords="151,155,279,181"/>
+<area shape="rect" id="node4" href="$_audio_engine_8cpp.html" title="AudioEngine.cpp" alt="" coords="5,229,133,256"/>
+<area shape="rect" id="node9" href="$_main_patcher_8cpp.html" title="MainPatcher.cpp" alt="" coords="274,304,401,331"/>
+<area shape="rect" id="node7" href="$_main_8cpp.html" title="Main.cpp" alt="" coords="429,379,507,405"/>
+<area shape="rect" id="node8" href="$_main_component_8cpp.html" title="MainComponent.cpp" alt="" coords="532,379,687,405"/>
+<area shape="rect" id="node12" href="$_module_box_8cpp.html" title="ModuleBox.cpp" alt="" coords="405,155,523,181"/>
+</map>

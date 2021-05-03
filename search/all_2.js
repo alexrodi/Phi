@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['canfittext',['canFitText',['../class_plug.html#a7b196a80326a822e60ac90f724452a3e',1,'Plug']]],
+  ['centrey',['centreY',['../class_waveform.html#a66a96cec54f99429f04f17ced0eb7217',1,'Waveform']]],
+  ['changelistenercallback',['changeListenerCallback',['../class_connections.html#a4dc438ec19896d6d55d3b94d9c5896d6',1,'Connections::changeListenerCallback()'],['../class_main_patcher.html#abad5860b98ef1f68ab7c3f7725f2a09c',1,'MainPatcher::changeListenerCallback()'],['../class_module_box.html#a2c313e588e5dcaf0d6987165ce3d6bee',1,'ModuleBox::changeListenerCallback()']]],
+  ['clear',['clear',['../class_delay_line.html#afe87c9882fbb4238841f89c8f624e649',1,'DelayLine']]],
+  ['closebuttonpressed',['closeButtonPressed',['../class_phi_application_1_1_main_window.html#aba320c26218c4e1517a253292f27e7e0',1,'PhiApplication::MainWindow']]],
+  ['colors',['colors',['../class_plug.html#a3c3e37609ff97053ec0906de19b3c11f',1,'Plug']]],
+  ['colour',['colour',['../struct_phi_connection.html#a9992573db7bf4bb5de78f263bed9915a',1,'PhiConnection::colour()'],['../class_output_u_i.html#a267a0e61331799f375b997b2f8b3cb99',1,'OutputUI::colour()'],['../class_phi_dial.html#a912c67278f2b26c427cf5a3a2ad758b6',1,'PhiDial::colour()']]],
+  ['colourclass',['ColourClass',['../class_phi_colour_ids.html#ad25fcdc2bc949413bdd1cfa1997cecc8',1,'PhiColourIds']]],
+  ['colourpair',['ColourPair',['../class_plug.html#a0b461db51af7079f0730fa4da1881bcf',1,'Plug']]],
+  ['connection',['Connection',['../struct_phi_colour_ids_1_1_connection.html',1,'PhiColourIds']]],
+  ['connection',['Connection',['../class_phi_colour_ids.html#ad25fcdc2bc949413bdd1cfa1997cecc8ae9121cf60c4642859976fdf1e873bc05',1,'PhiColourIds']]],
+  ['connections',['Connections',['../class_connections.html',1,'Connections'],['../class_connections.html#a824635e554a8e396e434e5a330b908fe',1,'Connections::connections()'],['../class_main_patcher.html#a5f679f82dfd05eb857ea9c733cedd364',1,'MainPatcher::connections()'],['../class_connections.html#ac88d39f818e8a52e8c630cb388ed520c',1,'Connections::Connections()']]],
+  ['connections_2ecpp',['Connections.cpp',['../_connections_8cpp.html',1,'']]],
+  ['connections_2eh',['Connections.h',['../_connections_8h.html',1,'']]],
+  ['connecttoouput',['connectToOuput',['../class_audio_engine.html#ab555f7932941217161e55d30042d9f78',1,'AudioEngine']]],
+  ['containsconnectionwith',['containsConnectionWith',['../class_connections.html#a21e0c18ae9464bcac0a546dc267cc97d',1,'Connections']]],
+  ['content_5fpadding',['CONTENT_PADDING',['../class_module_box.html#a7ff72d65d2f862be73412a1d9a9f202a',1,'ModuleBox']]],
+  ['cord_5fweight',['CORD_WEIGHT',['../class_connections.html#aaf7acce38eabea9ae9ba74ad405937f0',1,'Connections']]],
+  ['create',['create',['../struct_modules_1_1_module_info.html#a229be6710ba802a08ba63bd29c95acab',1,'Modules::ModuleInfo::create()'],['../struct_modules_1_1_module_entry.html#a673f5578c1147937e7ff340ad1182a85',1,'Modules::ModuleEntry::create()']]],
+  ['createconnection',['createConnection',['../class_connections.html#aca65f833e5b351f81bd9ce6447496034',1,'Connections']]],
+  ['createeditor',['createEditor',['../class_gain_processor.html#a1ffa1f0a4c2a9021d0cbd9882381782c',1,'GainProcessor::createEditor()'],['../class_impulse_processor.html#a3d97254938df8e5349dac4900a445151',1,'ImpulseProcessor::createEditor()'],['../class_output_processor.html#a05312fc87e1719ab9acd5be244cbbfd0',1,'OutputProcessor::createEditor()'],['../class_string_processor.html#aad1b7469770708808e1d502309f12e9d',1,'StringProcessor::createEditor()']]],
+  ['createmodule',['createModule',['../class_main_patcher.html#aa3745665405e7b275aad797483d26a03',1,'MainPatcher']]],
+  ['createprocessorfrommenuindex',['createProcessorFromMenuIndex',['../class_modules.html#ab1fbcd4715de3f417769d11269857b44',1,'Modules']]],
+  ['createui',['createUI',['../class_module_processor.html#a390c7f0a2b3be855cb754e53cfa95c4f',1,'ModuleProcessor']]],
+  ['currentphase',['currentPhase',['../class_impulse_processor.html#aa54e56da59233321cf36ceeb2b3a71c7',1,'ImpulseProcessor']]]
+];

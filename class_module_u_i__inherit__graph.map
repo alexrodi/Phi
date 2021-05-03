@@ -1,0 +1,6 @@
+<map id="ModuleUI" name="ModuleUI">
+<area shape="rect" id="node3" href="$class_gain_u_i.html" title="GainUI" alt="" coords="5,155,69,181"/>
+<area shape="rect" id="node4" href="$class_impulse_u_i.html" title="ImpulseUI" alt="" coords="93,155,179,181"/>
+<area shape="rect" id="node5" href="$class_output_u_i.html" title="OutputUI" alt="" coords="203,155,282,181"/>
+<area shape="rect" id="node6" href="$class_string_u_i.html" title="StringUI" alt="" coords="306,155,379,181"/>
+</map>

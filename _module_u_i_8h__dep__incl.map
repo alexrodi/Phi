@@ -1,0 +1,22 @@
+<map id="ModuleUI.h" name="ModuleUI.h">
+<area shape="rect" id="node2" href="$_module_processor_8h.html" title="ModuleProcessor.h" alt="" coords="478,80,621,107"/>
+<area shape="rect" id="node21" href="$_module_u_i_8cpp.html" title="ModuleUI.cpp" alt="" coords="729,155,837,181"/>
+<area shape="rect" id="node3" href="$_audio_engine_8h.html" title="AudioEngine.h" alt="" coords="114,155,227,181"/>
+<area shape="rect" id="node10" href="$_gain_u_i_8h.html" title="GainUI.h" alt="" coords="267,155,343,181"/>
+<area shape="rect" id="node15" href="$_impulse_u_i_8h.html" title="ImpulseUI.h" alt="" coords="382,155,479,181"/>
+<area shape="rect" id="node17" href="$_output_u_i_8h.html" title="OutputUI.h" alt="" coords="504,155,595,181"/>
+<area shape="rect" id="node19" href="$_string_u_i_8h.html" title="StringUI.h" alt="" coords="619,155,704,181"/>
+<area shape="rect" id="node4" href="$_audio_engine_8cpp.html" title="AudioEngine.cpp" alt="" coords="5,229,133,256"/>
+<area shape="rect" id="node5" href="$_main_patcher_8h.html" title="MainPatcher.h" alt="" coords="175,453,286,480"/>
+<area shape="rect" id="node6" href="$_main_component_8h.html" title="MainComponent.h" alt="" coords="83,528,221,555"/>
+<area shape="rect" id="node9" href="$_main_patcher_8cpp.html" title="MainPatcher.cpp" alt="" coords="246,528,373,555"/>
+<area shape="rect" id="node7" href="$_main_8cpp.html" title="Main.cpp" alt="" coords="42,603,121,629"/>
+<area shape="rect" id="node8" href="$_main_component_8cpp.html" title="MainComponent.cpp" alt="" coords="145,603,300,629"/>
+<area shape="rect" id="node11" href="$_gain_processor_8h.html" title="GainProcessor.h" alt="" coords="208,229,333,256"/>
+<area shape="rect" id="node12" href="$_modules_8h.html" title="Modules.h" alt="" coords="387,304,474,331"/>
+<area shape="rect" id="node13" href="$_module_box_8h.html" title="ModuleBox.h" alt="" coords="348,379,452,405"/>
+<area shape="rect" id="node14" href="$_module_box_8cpp.html" title="ModuleBox.cpp" alt="" coords="341,453,459,480"/>
+<area shape="rect" id="node16" href="$_impulse_processor_8h.html" title="ImpulseProcessor.h" alt="" coords="357,229,504,256"/>
+<area shape="rect" id="node18" href="$_output_processor_8h.html" title="OutputProcessor.h" alt="" coords="529,229,669,256"/>
+<area shape="rect" id="node20" href="$_string_processor_8h.html" title="StringProcessor.h" alt="" coords="693,229,827,256"/>
+</map>

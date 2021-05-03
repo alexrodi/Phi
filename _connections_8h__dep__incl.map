@@ -1,0 +1,10 @@
+<map id="Connections.h" name="Connections.h">
+<area shape="rect" id="node2" href="$_audio_engine_8h.html" title="AudioEngine.h" alt="" coords="62,80,175,107"/>
+<area shape="rect" id="node4" href="$_main_patcher_8h.html" title="MainPatcher.h" alt="" coords="158,155,269,181"/>
+<area shape="rect" id="node9" href="$_connections_8cpp.html" title="Connections.cpp" alt="" coords="251,80,379,107"/>
+<area shape="rect" id="node3" href="$_audio_engine_8cpp.html" title="AudioEngine.cpp" alt="" coords="5,155,133,181"/>
+<area shape="rect" id="node5" href="$_main_component_8h.html" title="MainComponent.h" alt="" coords="65,229,204,256"/>
+<area shape="rect" id="node8" href="$_main_patcher_8cpp.html" title="MainPatcher.cpp" alt="" coords="229,229,355,256"/>
+<area shape="rect" id="node6" href="$_main_8cpp.html" title="Main.cpp" alt="" coords="25,304,103,331"/>
+<area shape="rect" id="node7" href="$_main_component_8cpp.html" title="MainComponent.cpp" alt="" coords="128,304,283,331"/>
+</map>
