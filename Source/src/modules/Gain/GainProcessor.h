@@ -45,7 +45,7 @@ public:
     
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-       buffer.applyGain( *params.getRawParameterValue("gain") );
+       buffer.applyGain(juce::Decibels::decibelsToGain((float)*params.getRawParameterValue("gain")));
     }
     
     void releaseResources() override {}
