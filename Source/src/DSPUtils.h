@@ -15,11 +15,6 @@ static const float clip(const float input, const float min, const float max) noe
     return (input > max) ? max : ( (input < min) ? min : input );
 }
 
-static const float msToSamps(float ms, float sampleRate)
-{
-    return ms*0.001 * sampleRate;
-}
-
 static const float mixf(float outputWhenInterp0, float outputWhenInterp1, float interp)
 {
     // Clip at 0-1
@@ -103,12 +98,12 @@ public:
     }
     void reset()
     {
-        previousInput = 0.0f;
-        previousOutput = 0.0f;
+        previousInput = 0.0;
+        previousOutput = 0.0;
     }
 private:
-    Type previousInput = 0.0f;
-    Type previousOutput = 0.0f;
+    Type previousInput = 0.0;
+    Type previousOutput = 0.0;
 };
 
 template <typename Type>
@@ -128,11 +123,11 @@ public:
     
     void reset()
     {
-        previous = 0.0f;
+        previous = 0.0;
         dcBlock.reset();
     }
 private:
-    Type previous = 0.0f;
+    Type previous = 0.0;
     DCBlock<Type> dcBlock;
 };
 
@@ -147,8 +142,8 @@ public:
     
     void reset()
     {
-        previous = 0.0f;
+        previous = 0.0;
     }
 private:
-    Type previous = 0.0f;
+    Type previous = 0.0;
 };
