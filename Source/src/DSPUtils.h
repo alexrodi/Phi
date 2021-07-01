@@ -10,6 +10,23 @@
 
 #pragma once
 
+static const float clip(const float input, const float min, const float max) noexcept
+{
+    return (input > max) ? max : ( (input < min) ? min : input );
+}
+
+static const float msToSamps(float ms, float sampleRate)
+{
+    return ms*0.001 * sampleRate;
+}
+
+static const float mixf(float outputWhenInterp0, float outputWhenInterp1, float interp)
+{
+    // Clip at 0-1
+    interp = clip(interp, 0.0f, 1.0f);
+    
+    return outputWhenInterp1 * interp + outputWhenInterp0 * ( 1.0f - interp );
+};
 
 template <typename Type>
 class DelayLine
@@ -42,6 +59,17 @@ public:
 
         return rawData[(leastRecentIndex + 1 + delayInSamples) % size()];
     }
+    
+    Type getInterpolated (float delayInSamples) const noexcept
+    {
+        jassert (delayInSamples >= 0.0f && delayInSamples < static_cast<float>(size()));
+        
+        float position = static_cast<float>(leastRecentIndex + 1) + delayInSamples;
+        float lowIndex = floor(position);
+        size_t index = static_cast<size_t>(lowIndex);
+        
+        return mixf(rawData[index % size()], rawData[(index + 1) % size()], position - lowIndex);
+    }
 
     /** Set the specified sample in the delay line */
     void set (size_t delayInSamples, Type newValue) noexcept
@@ -61,14 +89,6 @@ public:
 private:
     std::vector<Type> rawData;
     size_t leastRecentIndex = 0;
-};
-
-inline float mixf(float outputWhenInterp0, float outputWhenInterp1, float interp)
-{
-    // Clip at 0-1
-    interp = fmax(fmin(interp, 1.0f), 0.0f);
-    
-    return outputWhenInterp1 * interp + outputWhenInterp0 * ( 1.0f - interp );
 };
 
 template <typename Type>
@@ -99,6 +119,11 @@ public:
     {
         previous = mixf(input, previous, cutoff);
         return dcBlock.process(previous);
+    }
+    
+    Type processInverse(Type input, float cutoff)
+    {
+        return input - process(input, cutoff);
     }
     
     void reset()
