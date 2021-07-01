@@ -23,7 +23,7 @@ class ModuleProcessor    :    public AudioProcessor
 {
 public:
     /**
-     A Module Processor takes three arguments: Inlet Numbet, Outlet Numbet, juce::AudioProcessorValueTreeState::ParameterLayout...
+     A Module Processor takes three arguments: Inlet Number, Outlet Number, juce::AudioProcessorValueTreeState::ParameterLayout...
      The third and any other following argument allows you to declare any parameters for this processor in the current best practice, via an initializer list:
      @code
      MyModuleProcessor::MyModuleProcessor() :
