@@ -30,7 +30,11 @@ inline static float processImpulse(float phase, float shape)
 class Waveform : public Component
 {
 public:
-    Waveform() = default;
+    Waveform()
+    {
+        setBufferedToImage(true);
+        setPaintingIsUnclipped(true);
+    }
     
     const void setColour(const Colour& newStrokeColour, const Colour& newFillColour)
     {
