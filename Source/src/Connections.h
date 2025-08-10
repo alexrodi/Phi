@@ -18,26 +18,26 @@
 
 //==============================================================================
 /// A connection holds an inlet and an outlet (outlet, inlet)
-struct PhiConnection
+struct Connection
 {
-    PhiConnection(){}
+    Connection(){}
     
-    PhiConnection(PlugID source, PlugID destination):
+    Connection(PlugID source, PlugID destination):
     source(source),
     destination(destination)
     {}
     
-    PhiConnection(std::pair<PlugID,PlugID> sourceDestination):
+    Connection(std::pair<PlugID,PlugID> sourceDestination):
     source(sourceDestination.first),
     destination(sourceDestination.second)
     {}
     
-    PhiConnection(const PhiConnection& other):
+    Connection(const Connection& other):
     source(other.source),
     destination(other.destination)
     {}
     
-    bool operator== (const PhiConnection& other) const noexcept
+    bool operator== (const Connection& other) const noexcept
     {
         return other.source == source && other.destination == destination;
     }
@@ -52,7 +52,7 @@ class Connections : public Component,
                     public ChangeBroadcaster,
                     public ChangeListener,
                     public PlugHandler,
-                    public LassoSource<PhiConnection*>
+                    public LassoSource<Connection*>
 {
 //==============================================================================
 public:
@@ -66,7 +66,7 @@ public:
     PlugID registerPlug (uint32, Plug*);
     
     /// Returns all existing connections as an Array of PlugID pairs (outlet, inlet)
-    const OwnedArray<PhiConnection>& getConnections();
+    const OwnedArray<Connection>& getConnections();
     
     /// Removes a module and unregisters all its inlets and outlets given its nodeID
     void removeModule(uint32);
@@ -86,7 +86,7 @@ public:
     /// Listener for key presses
     bool keyPressed (const KeyPress& key) override;
     
-    class HiddenLasso: public LassoComponent<PhiConnection*> {
+    class HiddenLasso: public LassoComponent<Connection*> {
         void paint(Graphics& g) {}
     } lasso;
     
@@ -143,7 +143,7 @@ private:
     PathStrokeType strokeType = PathStrokeType(5.0f, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded);
     
     /// All the existing connections are stored in this Array
-    OwnedArray<PhiConnection> connections;
+    OwnedArray<Connection> connections;
     
     /// A solo path to use when dragging connections
     Path dragPath;
@@ -154,7 +154,7 @@ private:
     std::function<Path(Point<float>,Point<float>)> getConnectionPath;
     
     /// The list of selected connections
-    SelectedItemSet<PhiConnection*> selectedConnections;
+    SelectedItemSet<Connection*> selectedConnections;
 
     //============================================================
     
@@ -163,9 +163,9 @@ private:
     /// Forces an update of all patch cords, evaulating all inlet/outlet positions
     void updateAllConnectionPaths ();
     
-    void updateConnectionPath (PhiConnection& connection);
+    void updateConnectionPath (Connection& connection);
     
-    void removeConnectionsIf(std::function<bool(PhiConnection&)> predicate);
+    void removeConnectionsIf(std::function<bool(Connection&)> predicate);
     
     void deleteAllSelectedConnections();
   
@@ -193,8 +193,8 @@ private:
     
     void changeListenerCallback (ChangeBroadcaster* source) override;
     
-    void findLassoItemsInArea (Array<PhiConnection*>& itemsFound, const Rectangle<int>& area) override;
-    SelectedItemSet<PhiConnection*>& getLassoSelection() override;
+    void findLassoItemsInArea (Array<Connection*>& itemsFound, const Rectangle<int>& area) override;
+    SelectedItemSet<Connection*>& getLassoSelection() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
 };

@@ -75,7 +75,7 @@ void Connections::updateDragPath()
     }
 }
 
-void Connections::updateConnectionPath (PhiConnection& connection)
+void Connections::updateConnectionPath (Connection& connection)
 {
     auto path = getConnectionPath (getPlugCenterPositionFromId(PlugMode::Inlet, connection.destination)
                                           , getPlugCenterPositionFromId(PlugMode::Outlet, connection.source));
@@ -137,7 +137,7 @@ bool Connections::containsConnectionWith (std::pair<PlugID,PlugID>& sourceDestin
 void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
 {
     if (!containsConnectionWith(sourceDestination)) {
-        auto newConnection = connections.add(std::make_unique<PhiConnection>(sourceDestination));
+        auto newConnection = connections.add(std::make_unique<Connection>(sourceDestination));
         
         sendChangeMessage(); // trigger connections refresh
         
@@ -147,7 +147,7 @@ void Connections::createConnection(std::pair<PlugID,PlugID> sourceDestination)
     }
 }
 
-void Connections::removeConnectionsIf(std::function<bool(PhiConnection&)> predicate)
+void Connections::removeConnectionsIf(std::function<bool(Connection&)> predicate)
 {
     int i = 0;
     while (i < connections.size())
@@ -162,13 +162,13 @@ void Connections::removeConnectionsIf(std::function<bool(PhiConnection&)> predic
 
 void Connections::removeModule(uint32 moduleId)
 {
-    removeConnectionsIf( [moduleId] (PhiConnection& connection) {
+    removeConnectionsIf( [moduleId] (Connection& connection) {
         return connection.source.moduleID() == moduleId || connection.destination.moduleID() == moduleId;
     });
     idStore.removeModule(moduleId);
 }
 
-const OwnedArray<PhiConnection>& Connections::getConnections()
+const OwnedArray<Connection>& Connections::getConnections()
 {
     return connections;
 }
@@ -269,7 +269,7 @@ bool Connections::onMouseRightButton(const MouseEvent& e)
 
 void Connections::deleteAllSelectedConnections()
 {
-    removeConnectionsIf( [this] (PhiConnection& connection) {
+    removeConnectionsIf( [this] (Connection& connection) {
         return selectedConnections.isSelected(&connection);
     });
     deselectAll();
@@ -292,7 +292,7 @@ bool Connections::keyPressed (const KeyPress& key)
     return false;
 }
 
-void Connections::findLassoItemsInArea (Array<PhiConnection*>& itemsFound, const Rectangle<int>& area)
+void Connections::findLassoItemsInArea (Array<Connection*>& itemsFound, const Rectangle<int>& area)
 {
     for (auto& connection : connections)
     {
@@ -308,7 +308,7 @@ void Connections::findLassoItemsInArea (Array<PhiConnection*>& itemsFound, const
     }
 }
 
-SelectedItemSet<PhiConnection*>& Connections::getLassoSelection() {return selectedConnections;}
+SelectedItemSet<Connection*>& Connections::getLassoSelection() {return selectedConnections;}
 
 void Connections::changeListenerCallback (ChangeBroadcaster* source)
 {

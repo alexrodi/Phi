@@ -30,7 +30,7 @@ AudioEngine::~AudioEngine()
 }
 
 
-void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connectionsToApply)
+void AudioEngine::applyAudioConnections(const OwnedArray<Connection>& connectionsToApply)
 {
     for (auto c : getConnections())
         removeConnection(c);
