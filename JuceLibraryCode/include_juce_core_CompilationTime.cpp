@@ -6,4 +6,4 @@
 */
 
 #include "AppConfig.h"
-#include <juce_blocks_basics/juce_blocks_basics.cpp>
+#include <juce_core/juce_core_CompilationTime.cpp>

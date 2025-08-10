@@ -6,4 +6,4 @@
 */
 
 #include "AppConfig.h"
-#include <juce_cryptography/juce_cryptography.mm>
+#include <juce_graphics/juce_graphics_Sheenbidi.c>

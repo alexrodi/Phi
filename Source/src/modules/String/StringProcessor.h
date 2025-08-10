@@ -143,18 +143,14 @@ private:
     const float processLine1Node(float damp, float decay, float interval, bool mode)
     {
         // Line 1 gets a "special" function to liven the sound up a bit...
-        float line1Node = sinf(
-                               onePole1.process(
-                                                line1.get( interval ),
-                                                damp
-                                                )
-                               * MathConstants<float>::twoPi * 1.5f
-                               )
-        * decay * (0.1063f + mode * 0.00005f); // mode needs a small adjustment
+        float line1Node = sinf( onePole1.process( line1.get( interval ), damp ) * MathConstants<float>::twoPi * 1.5f );
         
-        // For our B mode, inverting a node changes the sound
-        if ( mode )
-            line1Node *= -1.0f;
+        // Apply decay
+        line1Node *= decay * 0.1063f;
+        
+        // For our B mode, inverting the node changes the sound
+        if ( mode ) line1Node *= -1.00005f;
+        
         return line1Node;
     }
     
@@ -168,22 +164,14 @@ private:
     
     const float readOutput1(float pickupPosition)
     {
-        // Read from the delay line with the current position, intergrate and highpass (dcblock)
-        return dcBlock1.process(
-                                accum1.process(
-                                               line1.get( pickupPosition )
-                                               )
-                                );
+        // Read from the delay line with the current position, integrate and highpass (dcblock)
+        return dcBlock1.process( accum1.process( line1.get( pickupPosition )));
     }
     
     const float readOutput2(float pickupPosition)
     {
-        // Read from the delay line with the current position, intergrate and highpass (dcblock)
-        return dcBlock2.process(
-                                accum2.process(
-                                               - line2.get( pickupPosition )
-                                               )
-                                );
+        // Read from the delay line with the current position, integrate and highpass (dcblock)
+        return dcBlock2.process( accum2.process( - line2.get( pickupPosition )));
     }
     const float scaleDecay(float decay, bool mode)
     {
