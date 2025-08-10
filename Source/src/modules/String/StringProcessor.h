@@ -86,11 +86,8 @@ public:
         onePole1.reset();
         onePole2.reset();
         
-        dcBlock1.reset();
-        dcBlock2.reset();
-        
-        accum1.reset();
-        accum2.reset();
+        dcBlock.reset();
+        accum.reset();
        
     }
     
@@ -113,7 +110,8 @@ public:
         const float interval = periodInSamples / static_cast<float>(static_cast<int>(mode) + 1 );
         
         // Pickup position is always a fraction of the interval
-        const float pickupPosition = interval * *params.getRawParameterValue("pos");
+        const float line1Pos = interval * *params.getRawParameterValue("pos");
+        const float line2Pos = interval - line1Pos;
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
@@ -122,7 +120,7 @@ public:
             line1.push(   input + processLine1Node(damp, decay, interval, mode) );
             line2.push( - input + processLine2Node(damp, decay, interval) );
             
-            *outputSamples++ = readOutput1(interval - pickupPosition);
+            *outputSamples++ = readOutput(line1Pos, line2Pos);
         }
     }
     
@@ -136,8 +134,8 @@ private:
     
     DelayLine<float> line1, line2;
     OnePole<float> onePole1, onePole2;
-    DCBlock<float> dcBlock1, dcBlock2;
-    Accum<float> accum1, accum2;
+    DCBlock<float> dcBlock;
+    Accum<float> accum;
     
     const float processLine1Node(float damp, float decay, float interval, bool mode)
     {
@@ -161,17 +159,12 @@ private:
         return line2Node;
     }
     
-    const float readOutput1(float pickupPosition)
+    const float readOutput(float line1Pos, float line2Pos)
     {
         // Read from the delay line with the current position, integrate and highpass (dcblock)
-        return dcBlock1.process( accum1.process( line1.get( pickupPosition )));
+        return dcBlock.process( accum.process( line1.get( line1Pos ) + line2.get( line2Pos )));
     }
     
-    const float readOutput2(float pickupPosition)
-    {
-        // Read from the delay line with the current position, integrate and highpass (dcblock)
-        return dcBlock2.process( accum2.process( - line2.get( pickupPosition )));
-    }
     const float scaleDecay(float decay, bool mode)
     {
         return powf(decay, mode ? 0.0005f : 0.05f);
