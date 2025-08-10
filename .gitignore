@@ -1,2 +1,6 @@
-Builds/MacOSX/DerivedData/
-Builds/MacOSX/build/
+.DS_Store
+
+JuceLibraryCode/
+Builds/
+build/
+Output/
