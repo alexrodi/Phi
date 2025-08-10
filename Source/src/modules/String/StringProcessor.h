@@ -23,7 +23,7 @@ class StringProcessor    : public ModuleProcessor
 {
 public:
     StringProcessor() :
-    ModuleProcessor(2, 2,
+    ModuleProcessor(1, 1,
         std::make_unique<AudioParameterFloat> (
             "freq",
             "Frequency",
@@ -96,11 +96,9 @@ public:
     
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-        const float* input1 = buffer.getReadPointer(0);
-        const float* input2 = buffer.getReadPointer(1);
+        const float* inputSamples = buffer.getReadPointer(0);
         
-        float* out1 = buffer.getWritePointer(0);
-        float* out2 = buffer.getWritePointer(1);
+        float* outputSamples = buffer.getWritePointer(0);
         
         const bool mode = *params.getRawParameterValue("mode");
         const float damp = *params.getRawParameterValue("damp");
@@ -119,11 +117,12 @@ public:
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
-            line1.push(   (*input1++)*0.05f + processLine1Node(damp, decay, interval, mode) );
-            line2.push( - (*input2++)*0.05f + processLine2Node(damp, decay, interval) );
+            float input = (*inputSamples++) * 0.05f;
             
-            *out1++ = readOutput1(interval - pickupPosition);
-            *out2++ = readOutput2(pickupPosition);
+            line1.push(   input + processLine1Node(damp, decay, interval, mode) );
+            line2.push( - input + processLine2Node(damp, decay, interval) );
+            
+            *outputSamples++ = readOutput1(interval - pickupPosition);
         }
     }
     

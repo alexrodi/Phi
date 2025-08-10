@@ -24,8 +24,8 @@ public:
     ModuleUI({
         // All modules must initialize these properties
         .name =  "String",
-        .inlets = {"In 1", "In 2"},
-        .outlets = {"Out 1", "Out 2"},
+        .inlets = {"Input"},
+        .outlets = {"Output"},
         .width = 330,
         .height = 160,
         .minimumHeight = 100,
