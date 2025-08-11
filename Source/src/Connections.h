@@ -88,7 +88,7 @@ private:
         PlugID storePlug (uint32 moduleID, const Plug& plug)
         {
             int plugId = newPlugId(moduleID, plug);
-            mapOfMode(plug.getMode())[moduleID][plugId] = &plug;
+            mapOfMode(plug.getType())[moduleID][plugId] = &plug;
             return {moduleID, plugId};
         }
         
@@ -101,7 +101,7 @@ private:
         /// Generates a new ID for an inlet or outlet, given a nodeID
         int newPlugId (uint32 moduleID, const Plug& plug)
         {
-            auto plugs = mapOfMode(plug.getMode());
+            auto plugs = mapOfMode(plug.getType());
             if (plugs.find(moduleID) == plugs.end()) return 0;
             return plugs[moduleID].rbegin()->first + 1;
         }

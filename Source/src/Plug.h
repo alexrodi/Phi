@@ -43,8 +43,8 @@ public:
     /// Sets the ID that the Plug will use when broadcasting (assigned on module creation)
     void setID(PlugID);
     
-    PlugType getMode() const {
-        return mode;
+    PlugType getType() const {
+        return type;
     }
     
     PlugID getID() const {
@@ -58,7 +58,7 @@ private:
     const int STROKE_WIDTH = 3;
     
     /// The plug's name - `Inlet` or `Outlet`
-    PlugType mode;
+    PlugType type;
     
     /// The ID of this plug, containing the moduleID and plugID, that the Plug will use when broadcasting
     PlugID plugID;

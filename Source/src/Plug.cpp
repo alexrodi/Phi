@@ -19,7 +19,7 @@ namespace PlugOptions
 
 Plug::Plug(PlugType mode, const String& name) :
 HoverPopupClient(this),
-mode(mode)
+type(mode)
 {
     setName(name);
     
@@ -31,7 +31,7 @@ mode(mode)
 }
 
 Plug::Plug(Plug&& other) noexcept :
-Plug(other.mode, other.getName())
+Plug(other.type, other.getName())
 {}
 
 void Plug::setID(PlugID ioId)
@@ -66,7 +66,7 @@ void Plug::resized()
 
 void Plug::mouseDown(const MouseEvent& e)
 {
-    emitEvent(PlugEvent(PlugEvent::StartConnection, e, mode, plugID));
+    emitEvent(PlugEvent(PlugEvent::StartConnection, e, type, plugID));
 }
 
 void Plug::mouseUp(const MouseEvent& e)
@@ -76,7 +76,7 @@ void Plug::mouseUp(const MouseEvent& e)
     auto componentUnderMouse = topLevelComponent->getComponentAt(mousePosition);
     
     if (auto plug = dynamic_cast<Plug*>(componentUnderMouse)) {
-        emitEvent(PlugEvent(PlugEvent::EndConnection, e, plug->mode, plug->plugID));
+        emitEvent(PlugEvent(PlugEvent::EndConnection, e, plug->type, plug->plugID));
     } else {
         emitEvent(PlugEvent(PlugEvent::AbortConnection, e));
     }
@@ -84,7 +84,7 @@ void Plug::mouseUp(const MouseEvent& e)
 
 void Plug::mouseDrag(const MouseEvent& e)
 {
-    emitEvent(PlugEvent(PlugEvent::Drag, e, mode, plugID));
+    emitEvent(PlugEvent(PlugEvent::Drag, e, type, plugID));
 }
 
 juce::Point<float> Plug::hoverPopupPosition() {
