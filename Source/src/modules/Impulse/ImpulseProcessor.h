@@ -30,7 +30,7 @@ public:
            "freq",
            "Frequency",
            NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
-           20.0f,
+           1000.0f,
            "Frequency",
            AudioParameterFloat::genericParameter,
            [](float value, int) { return String (value, 1); },
