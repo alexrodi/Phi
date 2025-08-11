@@ -84,8 +84,10 @@ public:
         
         const float phaseIncrement = (1.0f/(sampleRate/(*params.getRawParameterValue("freq")))) * MathConstants<float>::twoPi;
         
-        float* writeBufferOut = buffer.getWritePointer(0);
-        float* writeBufferRamp = buffer.getWritePointer(1);
+        float* outSamples = buffer.getWritePointer(0);
+        float* rampSamples = buffer.getWritePointer(1);
+        
+        if (triggerParameterWasOn()) currentPhase = 0.0f;
         
         // for now, we constantly process audio, but ideally, the module should know if it is connected
         for (int n = 0; n < buffer.getNumSamples(); n++)
@@ -94,10 +96,10 @@ public:
             const float triggerDelta = previousTrigger - trigger;
             previousTrigger = trigger;
             
-            if (triggerDelta > 0.5f || wasExternallyTriggered()) currentPhase = 0.0f;
+            if (triggerDelta > 0.5f) currentPhase = 0.0f;
             
-            *writeBufferOut++ = processImpulse(currentPhase, shape);
-            *writeBufferRamp++ = currentPhase * invTwoPi;
+            *outSamples++ = processImpulse(currentPhase, shape);
+            *rampSamples++ = currentPhase * invTwoPi;
 
             currentPhase += phaseIncrement;
         }
@@ -114,7 +116,7 @@ private:
     float previousTrigger = 0.0f;
     float sampleRate = 44100.0f;
     
-    bool wasExternallyTriggered()
+    bool triggerParameterWasOn()
     {
         auto triggered = params.getRawParameterValue("trigger");
         bool shouldTrigger = *triggered > 0.0f;
