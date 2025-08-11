@@ -19,11 +19,12 @@
 // Definition is global for the UI to build a faithful representation
 inline static float processImpulse(float phase, float shape)
 {
-    const float fundamentalAttenuator = (-0.5*tanhf(phase*(-fmax(shape,0.88)+1.01)-1)+0.5);
+    const float shapeFactor = -std::max(shape, 0.88f) + 1.01f;
+    const float fundamentalAttenuator = -0.5 * tanh( phase * shapeFactor - 1.0f ) + 0.5;
 
-    return (phase==float_Pi)
+    return (phase == MathConstants<float>::pi)
            ? 0.0f
-           : sinf((sinf(phase))/((-shape + 1.006f)*(phase-float_Pi)))*fundamentalAttenuator;
+           : sin((sin(phase))/((-shape + 1.006f)*(phase-MathConstants<float>::pi)))*fundamentalAttenuator;
 }
 
 //Waveform
