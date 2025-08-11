@@ -17,8 +17,8 @@
 class ModuleProcessor;
 
 //==============================================================================
-/*
- ModuleUI - The base class for all modules' UI view
+/**
+ The base class for all modules' UI view
 */
 class ModuleUI    : public AudioProcessorEditor
 {

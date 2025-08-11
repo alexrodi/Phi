@@ -16,8 +16,8 @@
 #include "ModuleUI.h"
 
 //==============================================================================
-/*
- ModuleProcessor - The base class for all modules' DSP implementation
+/**
+ The base class for all modules' DSP implementation
 */
 class ModuleProcessor    : public AudioProcessor
 {
@@ -28,10 +28,13 @@ public:
     bool isOutput = false;
     
     /**
-     A Module Processor takes three arguments: Inlet Number, Outlet Number, juce::AudioProcessorValueTreeState::ParameterLayout...
-     The third and any other following argument allows you to declare any parameters for this processor in the current best practice, via an initializer list:
+     * Constructs a processor for a module
+     * The third and any other following argument allows you to declare any parameters for this processor as parameter pack
+     * @param inletNumber Number of inlets
+     * @param outletNumber Number of outlets (in output modules, this number corresponds to the number of channels to connect to the audio output device)
+     * @param paramsToUse Parameter pack of std::unique_ptr<RangedAudioParameter> to initialize the processor parameter tree
      @code
-     MyModuleProcessor::MyModuleProcessor() :
+     MyModuleProcessor() :
      ModuleProcessor( 2, 2,
        std::make_unique<AudioParameterFloat> ("gain", "Gain", NormalisableRange<float> (0.0f, 1.0f), 1.0f),
        std::make_unique<AudioParameterFloat> ("freq", "Frequency", NormalisableRange<float> (20.0f, 20000.0f), 20.0f)
