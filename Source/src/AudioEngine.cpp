@@ -30,7 +30,7 @@ AudioEngine::~AudioEngine()
 }
 
 
-void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connectionsToApply)
+void AudioEngine::applyAudioConnections(const std::vector<PhiConnection>& connectionsToApply)
 {
     for (auto c : getConnections())
         removeConnection(c);
@@ -40,7 +40,7 @@ void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connect
             connectToOuput(node);
     
     for (auto& connection : connectionsToApply)
-        addConnection (*connection);
+        addConnection (connection);
     
     removeIllegalConnections();
 }

@@ -45,10 +45,10 @@ public:
     void resized () override;
     
     /// Registers an inlet or outlet with the Connections component, making it patchable
-    PlugID registerPlug (uint32, Plug*);
+    PlugID registerPlug (uint32, const Plug&);
     
     /// Returns all existing connections as an Array of PlugID pairs (outlet, inlet)
-    const OwnedArray<PhiConnection>& getConnections();
+    const std::vector<PhiConnection>& getConnections();
     
     /// Removes a module and unregisters all its inlets and outlets given its nodeID
     void removeModule(uint32);
@@ -77,7 +77,7 @@ private:
     /// This class holds the information on the inlets and outlets that currently exist in the patcher in the form of two 2D hash-maps and functions to add & remove entries.
     class IdStore
     {
-        typedef std::map<uint32, std::map<int, Plug*>> PlugMap;
+        typedef std::map<uint32, std::map<int, const Plug*>> PlugMap;
     public:
         /// The inlets map holds Inlet* and is accessed by two keys: nodeID & inletID
         PlugMap inlets;
@@ -85,21 +85,21 @@ private:
         PlugMap outlets;
         
         /// Adds an entry to inlets or outlets and returns the resulting unique identifier
-        PlugID storePlug (uint32 moduleID, Plug* plug)
+        PlugID storePlug (uint32 moduleID, const Plug& plug)
         {
-            int plugId = newPlugId(moduleID, *plug);
-            mapOfMode(plug->getMode())[moduleID][plugId] = plug;
+            int plugId = newPlugId(moduleID, plug);
+            mapOfMode(plug.getMode())[moduleID][plugId] = &plug;
             return {moduleID, plugId};
         }
         
         /// Gets a stored inlet or outlet
-        Plug* getPlug (PlugMode plugMode, PlugID plugID)
+        const Plug& getPlug (PlugMode plugMode, PlugID plugID)
         {
-            return mapOfMode(plugMode)[plugID.moduleID()][plugID.plugID()];
+            return *mapOfMode(plugMode)[plugID.moduleID()][plugID.plugID()];
         }
         
         /// Generates a new ID for an inlet or outlet, given a nodeID
-        int newPlugId (uint32 moduleID, Plug& plug)
+        int newPlugId (uint32 moduleID, const Plug& plug)
         {
             auto plugs = mapOfMode(plug.getMode());
             if (plugs.find(moduleID) == plugs.end()) return 0;
@@ -125,7 +125,7 @@ private:
     PathStrokeType strokeType = PathStrokeType(5.0f, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded);
     
     /// All the existing connections are stored in this Array
-    OwnedArray<PhiConnection> connections;
+    std::vector<PhiConnection> connections;
     
     /// A solo path to use when dragging connections
     Path dragPath;

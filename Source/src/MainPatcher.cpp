@@ -93,7 +93,9 @@ void MainPatcher::deleteModule(ModuleBox* moduleBox)
 {
     connections.removeModule(moduleBox->moduleUI->nodeID.uid);
     audioEngine->removeNode(moduleBox->moduleUI->nodeID);
-    modules.removeObject(moduleBox);
+    modules.erase(std::find_if(modules.begin(), modules.end(), [&] (const auto& ptr) {
+        return ptr.get() == moduleBox;
+    }));
 }
 
 void MainPatcher::deleteAllSelectedModules()
@@ -131,12 +133,12 @@ void MainPatcher::toggleInoutType(bool toggle)
     sendLookAndFeelChange();
 }
 
-void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, uint32 moduleID)
+void MainPatcher::registerPlugs(std::vector<Plug>& plugs, uint32 moduleID)
 {
-    for (auto& plug : plugArray)
+    for (auto& plug : plugs)
     {
-        plug->setID(connections.registerPlug(moduleID, plug));
-        plug->addListener(&connections);
+        plug.setID(connections.registerPlug(moduleID, plug));
+        plug.addListener(&connections);
     }
 }
 
@@ -146,7 +148,7 @@ void MainPatcher::registerInletsAndOutlets(ModuleUI& module)
     registerPlugs(module.outlets, module.nodeID.uid);
 }
 
-ModuleBox* MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProcessor, Point<float> position)
+ModuleBox& MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProcessor, Point<float> position)
 {
     auto moduleUI = moduleProcessor->createUI();
     
@@ -156,14 +158,13 @@ ModuleBox* MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProc
     
     registerInletsAndOutlets(*moduleUI);
     
-    auto moduleBox = modules.add(
-        std::make_unique<ModuleBox>(std::move(moduleUI), selectedModules)
-    );
+    modules.push_back(std::make_unique<ModuleBox>(std::move(moduleUI), selectedModules));
+    auto& moduleBox = *modules.back();
     
     // Display and set its position
     addAndMakeVisible(moduleBox);
-    moduleBox->setTopLeftPosition(position.toInt());
-    moduleBox->addChangeListener(this);
+    moduleBox.setTopLeftPosition(position.toInt());
+    moduleBox.addChangeListener(this);
     
     return moduleBox;
 }
@@ -178,7 +179,7 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
     {
         connections.deselectAll();
     }
-    else if (modules.contains(dynamic_cast<ModuleBox*>(source)))
+    else if (dynamic_cast<ModuleBox*>(source))
     {
         connections.refresh();
     }
@@ -186,9 +187,9 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 
 void MainPatcher::findLassoItemsInArea (Array<ModuleBox*>& itemsFound, const Rectangle<int>& area)
 {
-    for (auto& module : modules)
-        if (module->getBounds().intersects(area))
-            itemsFound.add(module);
+    for (auto& item : modules)
+        if (item->getBounds().intersects(area))
+            itemsFound.add(item.get());
 }
 
 SelectedItemSet<ModuleBox*>& MainPatcher::getLassoSelection() {return selectedModules;}

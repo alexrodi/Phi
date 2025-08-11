@@ -41,12 +41,12 @@ void Connections::paint (Graphics& g)
 
     for (auto& connection : connections)
     {
-        g.setColour (connection->colour);
-        g.fillPath (connection->path);
+        g.setColour (connection.colour);
+        g.fillPath (connection.path);
         
-        if (selectedConnections.isSelected(connection)) {
+        if (selectedConnections.isSelected(&connection)) {
             g.setColour (findColour(PhiColourIds::Connection::SelectedStroke));
-            g.strokePath (connection->path, PathStrokeType(2.0f));
+            g.strokePath (connection.path, PathStrokeType(2.0f));
         }
     }
 }
@@ -55,16 +55,16 @@ void Connections::resized ()
 {
 }
 
-PlugID Connections::registerPlug (uint32 moduleId, Plug* plug)
+PlugID Connections::registerPlug (uint32 moduleId, const Plug& plug)
 {
     return idStore.storePlug(moduleId, plug);
 }
 
 Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const PlugID plugID)
 {
-    auto plug = idStore.getPlug(plugMode, plugID);
+    auto& plug = idStore.getPlug(plugMode, plugID);
     
-    return getLocalPoint(&*plug, plug->getLocalBounds().getCentre().toFloat()) ;
+    return getLocalPoint(&plug, plug.getLocalBounds().getCentre().toFloat()) ;
 }
 
 void Connections::updateDragPath()
@@ -90,7 +90,7 @@ void Connections::updateConnectionPath (PhiConnection& connection)
 void Connections::updateAllConnectionPaths ()
 {
     for (auto& connection : connections)
-        updateConnectionPath(*connection);
+        updateConnectionPath(connection);
  
     repaint();
 }
@@ -126,7 +126,7 @@ void Connections::deselectAll()
 bool Connections::containsConnectionWith (const PhiConnection& connection)
 {
     for (auto item : connections)
-        if (connection == *item) return true;
+        if (connection == item) return true;
 
     return false;
 }
@@ -134,26 +134,23 @@ bool Connections::containsConnectionWith (const PhiConnection& connection)
 void Connections::createConnection(const PhiConnection& connection)
 {
     if (!containsConnectionWith(connection)) {
-        auto newConnection = connections.add(std::make_unique<PhiConnection>(connection));
+        connections.push_back(connection);
         
         sendChangeMessage(); // trigger connections refresh
         
-        newConnection->colour = findColour(PhiColourIds::Connection::DefaultFill);
-        updateConnectionPath(*newConnection);
+        connections.back().colour = findColour(PhiColourIds::Connection::DefaultFill);
+        updateConnectionPath(connections.back());
         repaint();
     }
 }
 
 void Connections::removeConnectionsIf(std::function<bool(PhiConnection&)> predicate)
 {
-    int i = 0;
-    while (i < connections.size())
+    auto it = connections.begin();
+    while (it < connections.end())
     {
-        if (predicate(*connections[i]))
-        {
-            connections.remove(i);
-        }
-        else i++;
+        if (predicate(*it)) connections.erase(it);
+        else it++;
     }
 }
 
@@ -165,7 +162,7 @@ void Connections::removeModule(uint32 moduleId)
     idStore.removeModule(moduleId);
 }
 
-const OwnedArray<PhiConnection>& Connections::getConnections()
+const std::vector<PhiConnection>& Connections::getConnections()
 {
     return connections;
 }
@@ -238,8 +235,8 @@ void Connections::mouseDown(const MouseEvent& e)
 
     for (auto& connection : connections)
     {
-        if (connection->path.contains(e.position)) {
-            selectedConnections.addToSelectionOnMouseDown(connection, e.mods);
+        if (connection.path.contains(e.position)) {
+            selectedConnections.addToSelectionOnMouseDown(&connection, e.mods);
             lasso.endLasso();
             return;
         }
@@ -256,8 +253,8 @@ bool Connections::onMouseRightButton(const MouseEvent& e)
 {
     for (auto& connection : connections)
     {
-        if (connection->path.contains(e.position)) {
-            openColourSelector(e.position.toInt(), connection->colour);
+        if (connection.path.contains(e.position)) {
+            openColourSelector(e.position.toInt(), connection.colour);
             return true;
         }
     }
@@ -293,12 +290,12 @@ void Connections::findLassoItemsInArea (Array<PhiConnection*>& itemsFound, const
 {
     for (auto& connection : connections)
     {
-        float length = connection->path.getLength();
+        float length = connection.path.getLength();
         float distance = 0.0f;
         while (distance < length){
-            if (area.contains(connection->path.getPointAlongPath(distance += 10.0f).toInt()))
+            if (area.contains(connection.path.getPointAlongPath(distance += 10.0f).toInt()))
             {
-                itemsFound.add(connection);
+                itemsFound.add(&connection);
                 break;
             }
         }

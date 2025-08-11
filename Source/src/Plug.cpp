@@ -28,6 +28,10 @@ mode(modeToUse)
     setPaintingIsUnclipped(true);
 }
 
+Plug::Plug(Plug&& other) noexcept :
+Plug(other.mode, other.name)
+{}
+
 void Plug::setID(PlugID ioId)
 {
     plugID = ioId;

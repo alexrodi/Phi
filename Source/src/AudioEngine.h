@@ -25,7 +25,7 @@ public:
     ~AudioEngine();
    
    /// Takes an array of Connections::PlugID pairs (output, input) and iterates through it to apply the connections in the AudioProcessorGraph
-    void applyAudioConnections(const OwnedArray<PhiConnection>&);
+    void applyAudioConnections(const std::vector<PhiConnection>&);
    
    /** Connects all the outlets of a node to the output node.
     This function should only be called on modules that are meant as an audio output to the patcher.

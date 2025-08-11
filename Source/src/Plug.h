@@ -31,6 +31,9 @@ public:
     /// To construct a plug you must specify a mode and a name
     Plug(PlugMode, const String&);
     
+    /// Move Constructor
+    Plug(Plug&& other) noexcept;
+    
     ~Plug() {};
 
     void paint (Graphics&) override;
@@ -39,15 +42,15 @@ public:
     /// Sets the ID that the Plug will use when broadcasting (assigned on module creation)
     void setID(PlugID);
     
-    String getName() {
+    String getName() const {
         return name;
     }
     
-    PlugMode getMode() {
+    PlugMode getMode() const {
         return mode;
     }
     
-    PlugID getID() {
+    PlugID getID() const {
         return plugID;
     }
 

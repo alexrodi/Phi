@@ -46,8 +46,8 @@ private:
     /// An AudioEngine instance to run the patcher
     std::unique_ptr<AudioEngine> audioEngine;
     
-    /// An OwnedArray for storing and accessing all the modules (ModuleBox's) in the patcher
-    OwnedArray<ModuleBox> modules;
+    /// A vector for storing and accessing all the modules in the patcher
+    std::vector<std::unique_ptr<ModuleBox>> modules;
     
     /// The list of selected modules, it gets passed to each module because they subscribe themselves to the list, they also use it for dragging behaviour
     SelectedItemSet<ModuleBox*> selectedModules;
@@ -127,14 +127,14 @@ private:
     /** Registers an array of plugs with the connections component.
      This function performs three jobs for each plug:
      registers with connections, sets the resulting registry ID in the inlet/outlet and adds connections as a listener so that it may receive actions from it. */
-    void registerPlugs(OwnedArray<Plug>&, uint32);
+    void registerPlugs(std::vector<Plug>&, uint32);
     
     /// Runs registerPlugs() for each inlet and outet of the module
     void registerInletsAndOutlets(ModuleUI&);
     
     /// Creates a module from its ModuleProcessor at a position in the patcher,
     /// it also registers its connections and adds it to the audioEngine
-    ModuleBox* createModule(std::unique_ptr<ModuleProcessor>, Point<float>);
+    ModuleBox& createModule(std::unique_ptr<ModuleProcessor>, Point<float>);
     
     /// Deletes a module and all its connections from the patcher and audioEngine, unregisters it from connections
     void deleteModule(ModuleBox*);

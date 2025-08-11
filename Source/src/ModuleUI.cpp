@@ -23,11 +23,17 @@ props(arguments)
     arguments.processor.isOutput = arguments.isOutput;
     
     // Add all inlets and outlets as children and make them visible
-    for (String inletName : props.inlets)
-        addAndMakeVisible( inlets.add( std::make_unique<InletPlug>(inletName) ) );
+    inlets.reserve(props.inlets.size());
+    for (auto& inletName : props.inlets) {
+        inlets.push_back( InletPlug{inletName} );
+        addAndMakeVisible( inlets.back() );
+    }
     
-    for (String outletName : props.outlets)
-        addAndMakeVisible( outlets.add( std::make_unique<OutletPlug>(outletName) ) );
+    outlets.reserve(props.outlets.size());
+    for (auto& outletName : props.outlets) {
+        outlets.push_back( OutletPlug{outletName} );
+        addAndMakeVisible( outlets.back() );
+    }
         
     setPaintingIsUnclipped(true);
     setBufferedToImage(true);
@@ -47,16 +53,13 @@ void ModuleUI::resized()
     wasResized(moduleBounds);
 }
 
-void ModuleUI::placePlugs(OwnedArray<Plug>& plugArray, Rectangle<int> plugBounds)
+void ModuleUI::placePlugs(std::vector<Plug>& plugs, Rectangle<int> plugBounds)
 {
-    const int plugHeight = (float)plugBounds.getHeight()/(float)plugArray.size();
+    const int plugHeight = plugBounds.getHeight() / (int)plugs.size();
     
-    if (! plugArray.isEmpty())
-    {
-        // Divide the space to each plug
-        for (auto plug : plugArray)
-            plug->setBounds( plugBounds.removeFromTop(plugHeight) );
-    }
+    // Divide the space for each plug
+    for (auto& plug : plugs)
+        plug.setBounds( plugBounds.removeFromTop(plugHeight) );
 }
 
 
