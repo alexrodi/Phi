@@ -20,8 +20,6 @@ ModuleUI::ModuleUI(Props arguments) :
 AudioProcessorEditor(arguments.processor),
 props(arguments)
 {
-    arguments.processor.isOutput = arguments.isOutput;
-    
     // Add all inlets and outlets as children and make them visible
     inlets.reserve(props.inlets.size());
     for (auto& inletName : props.inlets) {

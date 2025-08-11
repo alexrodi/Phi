@@ -30,8 +30,7 @@ public:
         .width = 150,
         .height = 150,
         .minimumHeight = 100,
-        .processor = processor,
-        .isOutput = true
+        .processor = processor
     }},
     speakerImage(Drawable::createFromSVG(*XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
     colour(findColour(Slider::thumbColourId))
@@ -45,7 +44,7 @@ public:
     void paint (Graphics&) override {}
     void onResize(Rectangle<int> moduleBounds) override
     {
-        auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
+        auto bounds = moduleBounds.withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
         
         speakerImage->setTransformToFit(bounds.toFloat(), 0);
         

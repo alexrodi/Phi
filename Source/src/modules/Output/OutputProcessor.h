@@ -22,9 +22,10 @@ class OutputProcessor    : public ModuleProcessor
 {
 public:
     OutputProcessor() :
-    // Output modules must define the number of output channels but the UI shouldn't create outlets for them
     ModuleProcessor(2/* Inlets */, 2/* Outlets */)
-    {}
+    {
+        isOutput = true;
+    }
     
     ~OutputProcessor() {};
     

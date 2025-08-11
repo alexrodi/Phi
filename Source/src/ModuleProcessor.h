@@ -19,9 +19,14 @@
 /*
  ModuleProcessor - The base class for all modules' DSP implementation
 */
-class ModuleProcessor    :    public AudioProcessor
+class ModuleProcessor    : public AudioProcessor
 {
 public:
+    /// Any parameters introduced in the constructor will be stored in this object
+    AudioProcessorValueTreeState params;
+    /// Output modules must set this to true, they should still define the number of output channels but they won't be displayed in the UI
+    bool isOutput = false;
+    
     /**
      A Module Processor takes three arguments: Inlet Number, Outlet Number, juce::AudioProcessorValueTreeState::ParameterLayout...
      The third and any other following argument allows you to declare any parameters for this processor in the current best practice, via an initializer list:
@@ -40,11 +45,6 @@ public:
     {
         setPlayConfigDetails (inletNumber, outletNumber, getSampleRate(), getBlockSize());
     }
-    
-    /// Any parameters introduced in the constructor will be stored in this object
-    AudioProcessorValueTreeState params;
-    
-    bool isOutput = false;
     
     std::unique_ptr<ModuleUI> createUI() {
         return std::unique_ptr<ModuleUI>(static_cast<ModuleUI*>(createEditor()));

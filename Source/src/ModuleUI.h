@@ -41,8 +41,6 @@ public:
         const int minimumHeight;
         /** A reference to the ModuleProcessor that spawned this UI. */
         ModuleProcessor& processor;
-        /** A flag to determine if the module is an output module. */
-        bool isOutput = false;
     };
 
     ModuleUI(Props);
