@@ -63,8 +63,11 @@ void ModuleUI::placePlugs(std::vector<Plug>& plugs, Rectangle<int> plugBounds)
 
 Rectangle<int> ModuleUI::placeInletsAndOutlets(Rectangle<int> moduleBounds)
 {
-    placePlugs(inlets, moduleBounds.removeFromLeft(PLUG_COLUMN_WIDTH));
-    placePlugs(outlets, moduleBounds.removeFromRight(PLUG_COLUMN_WIDTH));
+    if (!inlets.empty())
+        placePlugs(inlets, moduleBounds.removeFromLeft(PLUG_COLUMN_WIDTH));
+    
+    if (!outlets.empty())
+        placePlugs(outlets, moduleBounds.removeFromRight(PLUG_COLUMN_WIDTH));
     
     return moduleBounds;
 }
