@@ -33,13 +33,18 @@ public:
     void connectToOuput(Node::Ptr);
 
 private:
-    
     /// Interfaces with output devices
     AudioDeviceManager deviceManager;
     /// Allows to playback our Processor Graph
     AudioProcessorPlayer player;
     /// A constant output node to plug output modules to
     Node::Ptr outputNode;
+    
+    // Assure flush-to-zero
+    void processBlock (AudioBuffer<float>&  audio, MidiBuffer& midi) override {
+        ScopedNoDenormals nodenormals;
+        AudioProcessorGraph::processBlock (audio, midi);
+    }
    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioEngine)
 };
