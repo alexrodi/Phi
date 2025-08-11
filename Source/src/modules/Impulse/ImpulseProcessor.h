@@ -74,11 +74,11 @@ public:
     
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
-        const float* readBufferTrigger = buffer.getReadPointer(0);
+        const float* triggerSamples = buffer.getReadPointer(0);
         
-        // @todo CV Implementations
-        //const float* readBufferFreq = buffer.getReadPointer(1);
-        //const float* readBufferShape = buffer.getReadPointer(2);
+        //TODO: CV Implementations
+        //const float* freqSamples = buffer.getReadPointer(1);
+        //const float* shapeSamples = buffer.getReadPointer(2);
         
         const float shape = powf(*params.getRawParameterValue("shape"), 0.1f);
         
@@ -90,7 +90,7 @@ public:
         // for now, we constantly process audio, but ideally, the module should know if it is connected
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
-            const float trigger = *readBufferTrigger++;
+            const float trigger = *triggerSamples++;
             const float triggerDelta = previousTrigger - trigger;
             previousTrigger = trigger;
             
