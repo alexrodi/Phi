@@ -102,6 +102,7 @@ public:
             *rampSamples++ = currentPhase * invTwoPi;
 
             currentPhase += freq * incrFactor;
+            currentPhase = std::min(std::numeric_limits<float>::max(), currentPhase);
         }
         
     }
