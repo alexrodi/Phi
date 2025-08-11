@@ -16,17 +16,6 @@
 #include "../../ModuleProcessor.h"
 #include "../../ui/PhiDial.h"
 
-// Definition is global for the UI to build a faithful representation
-inline static float processImpulse(float phase, float shape)
-{
-    const float shapeFactor = -std::max(shape, 0.88f) + 1.01f;
-    const float fundamentalAttenuator = -0.5 * tanh( phase * shapeFactor - 1.0f ) + 0.5;
-
-    return (phase == MathConstants<float>::pi)
-           ? 0.0f
-           : sin((sin(phase))/((-shape + 1.006f)*(phase-MathConstants<float>::pi)))*fundamentalAttenuator;
-}
-
 //Waveform
 class Waveform : public Component
 {
