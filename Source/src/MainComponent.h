@@ -42,7 +42,6 @@ public:
             setColour(Slider::thumbColourId, Colour::greyLevel(0.8f));
             
             // Hints
-            setColour(TooltipWindow::outlineColourId, Colours::transparentBlack);
             setColour(TooltipWindow::backgroundColourId, Colours::grey);
             setColour(TooltipWindow::textColourId, Colours::darkgrey.darker());
             
