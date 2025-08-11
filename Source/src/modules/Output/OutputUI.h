@@ -25,7 +25,7 @@ public:
     ModuleUI{{
         // All modules must initialize these properties
         .name =  "Output",
-        .inlets = {"R", "L"},
+        .inlets = {"L", "R"},
         .outlets = {}, // outlets are hidden because this is an output module
         .width = 150,
         .height = 150,
