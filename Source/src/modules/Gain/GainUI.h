@@ -25,8 +25,8 @@ public:
         .name =  "Gain",
         .inlets = {"In"},
         .outlets = {"Out"},
-        .width = 150,
-        .height = 150,
+        .width = 160,
+        .height = 160,
         .minimumHeight = 100,
         .processor = processor
     }),
