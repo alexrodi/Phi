@@ -63,6 +63,7 @@ public:
     virtual void wasResized(Rectangle<int>) {};
     
 private:
+    const int PLUG_COLUMN_WIDTH = 40;
     
     /// Places all plugs equidistant in a column ( top -> bottom ).
     void placePlugs(std::vector<Plug>&, Rectangle<int>);

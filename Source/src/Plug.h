@@ -15,6 +15,7 @@
 ///@endcond
 
 #include "PlugHandler.h"
+#include "HoverPopup.h"
 
 //==============================================================================
 namespace PlugOptions
@@ -24,12 +25,12 @@ namespace PlugOptions
 
 /// A base class for Inlet and Outlet - This is a UI class for handling connection and dragging behaviors, it also draws the Inlet/Outlet itself
 class Plug    : public Component,
-                public SettableTooltipClient,
+                public HoverPopupClient,
                 public PlugEventEmitter
 {
 public:
     /// To construct a plug you must specify a mode and a name
-    Plug(PlugMode, const String&);
+    Plug(PlugType, const String&);
     
     /// Move Constructor
     Plug(Plug&& other) noexcept;
@@ -42,11 +43,7 @@ public:
     /// Sets the ID that the Plug will use when broadcasting (assigned on module creation)
     void setID(PlugID);
     
-    String getName() const {
-        return name;
-    }
-    
-    PlugMode getMode() const {
+    PlugType getMode() const {
         return mode;
     }
     
@@ -55,20 +52,19 @@ public:
     }
 
 private:
-    typedef std::pair<Colour, Colour> ColourPair;
-    typedef std::pair<String, String> StringPair;
+    struct PlugColors { Colour inner, outer; };
     
-    /// The plug's name - to be displayed or hinted
-    String name;
+    const int SIZE = 12;
+    const int STROKE_WIDTH = 3;
     
     /// The plug's name - `Inlet` or `Outlet`
-    PlugMode mode;
+    PlugType mode;
     
     /// The ID of this plug, containing the moduleID and plugID, that the Plug will use when broadcasting
     PlugID plugID;
     
-    /// The Plug's colors - {inner, outer}
-    ColourPair colors;
+    /// The Plug's colors
+    PlugColors colors;
     
     /// This Plug's bounds
     Rectangle<float> bounds;
@@ -85,6 +81,8 @@ private:
     void mouseDown(const MouseEvent&) override;
     void mouseUp(const MouseEvent&) override;
     void mouseDrag(const MouseEvent&) override;
+    juce::Point<float> hoverPopupPosition() override;
+    juce::String getPopupText() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plug)
 };
@@ -93,7 +91,7 @@ private:
 class InletPlug : public Plug
 {
 public:
-    explicit InletPlug(const String& name) : Plug(PlugMode::Inlet, name)
+    explicit InletPlug(const String& name) : Plug(PlugType::Inlet, name)
     {}
 };
 
@@ -101,6 +99,6 @@ public:
 class OutletPlug : public Plug
 {
 public:
-    explicit OutletPlug(const String& name) : Plug(PlugMode::Outlet, name)
+    explicit OutletPlug(const String& name) : Plug(PlugType::Outlet, name)
     {}
 };

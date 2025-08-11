@@ -17,19 +17,21 @@ namespace PlugOptions
     bool drawName = false;
 }
 
-Plug::Plug(PlugMode modeToUse, const String& nameToUse) :
-name(nameToUse),
-mode(modeToUse)
+Plug::Plug(PlugType mode, const String& name) :
+HoverPopupClient(this),
+mode(mode)
 {
-    colors = mode == PlugMode::Inlet
-             ? ColourPair(Colours::grey, Colours::darkgrey)
-             : ColourPair(Colours::darkgrey, Colours::grey);
+    setName(name);
+    
+    colors = mode == PlugType::Inlet
+            ? PlugColors{Colours::grey, Colours::darkgrey}
+            : PlugColors{Colours::darkgrey, Colours::grey};
     
     setPaintingIsUnclipped(true);
 }
 
 Plug::Plug(Plug&& other) noexcept :
-Plug(other.mode, other.name)
+Plug(other.mode, other.getName())
 {}
 
 void Plug::setID(PlugID ioId)
@@ -39,18 +41,18 @@ void Plug::setID(PlugID ioId)
 
 void Plug::paint (Graphics& g)
 {
-    if (PlugOptions::drawName && canFitText)
-    {
+    if (PlugOptions::drawName && canFitText) {
         g.setColour(Colours::grey);
-        g.drawFittedText(name, nameBounds, nameJustification, 3);
-        setTooltip("");
+        g.drawText(getName(), nameBounds, nameJustification);
+        setHoverPopupEnabled(false);
+    } else {
+        setHoverPopupEnabled(true); // Display the tooltip if not showing text
     }
-    else setTooltip(name); // Display the tooltip if not showing text
     
-    g.setColour(colors.first);
+    g.setColour(colors.inner);
     g.fillEllipse(bounds);
-    g.setColour(colors.second);
-    g.drawEllipse(bounds, 3);
+    g.setColour(colors.outer);
+    g.drawEllipse(bounds, STROKE_WIDTH);
 }
 
 void Plug::resized()
@@ -59,7 +61,7 @@ void Plug::resized()
     nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
     canFitText = nameBounds.getHeight() > 11;
     
-    bounds = getLocalBounds().withSizeKeepingCentre(12, 12).toFloat();
+    bounds = getLocalBounds().withSizeKeepingCentre(SIZE, SIZE).toFloat();
 }
 
 void Plug::mouseDown(const MouseEvent& e)
@@ -84,3 +86,9 @@ void Plug::mouseDrag(const MouseEvent& e)
 {
     emitEvent(PlugEvent(PlugEvent::Drag, e, mode, plugID));
 }
+
+juce::Point<float> Plug::hoverPopupPosition() {
+    return getLocalBounds().toFloat().getCentre().translated(0, -SIZE - 10);
+}
+
+juce::String Plug::getPopupText() { return getName(); }

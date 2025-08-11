@@ -19,8 +19,8 @@ struct PlugID : AudioProcessorGraph::NodeAndChannel {
     int plugID() { return channelIndex; }
 };
 
-/// This Class may exist in one of two modes
-enum class PlugMode { Inlet, Outlet };
+/// This Class may exist as one of two types
+enum class PlugType { Inlet, Outlet };
 
 struct PlugEvent {
     enum Type {
@@ -30,14 +30,14 @@ struct PlugEvent {
         AbortConnection
     };
     
-    PlugEvent(const Type type, const MouseEvent& mouseEvent, const PlugMode& plugMode = PlugMode(), const PlugID& plugID = PlugID()):
-    plugMode(plugMode),
+    PlugEvent(const Type type, const MouseEvent& mouseEvent, const PlugType& plugType = {}, const PlugID& plugID = {}):
+    plugType(plugType),
     plugID(plugID),
     mouse(mouseEvent),
     type(type)
     {}
     
-    const PlugMode& plugMode;
+    const PlugType& plugType;
     const PlugID& plugID;
     const MouseEvent& mouse;
     const Type type;
@@ -74,25 +74,25 @@ public:
     void abortConnection() { isConnecting = false; onConnectionRelease(); }
 
 
-    virtual void onConnectionStart (PlugMode plugMode, PlugID plugID) {};
+    virtual void onConnectionStart (PlugType plugType, PlugID plugID) {};
     virtual void onConnectionDrag () {};
     virtual void onConnectionRelease () {};
     virtual void onConnectionEnd (PlugID source, PlugID destination) {};
 
 private:
-    bool isConnecting;
-    PlugMode originMode;
+    bool isConnecting = false;
+    PlugType originType;
     PlugID sourcePlug, destinationPlug;
     
     void startConnection()
     {
-        onConnectionStart(originMode, originMode == PlugMode::Inlet ? destinationPlug : sourcePlug);
+        onConnectionStart(originType, originType == PlugType::Inlet ? destinationPlug : sourcePlug);
     }
     
     void endConnection(const PlugEvent& e)
     {
         // Complete connection pair
-        if (originMode == PlugMode::Inlet) {
+        if (originType == PlugType::Inlet) {
             sourcePlug = e.plugID;
         } else {
             destinationPlug = e.plugID;
@@ -105,7 +105,7 @@ private:
         if (!keepConnection) onConnectionRelease();
         
         // Only accept connection if the plugs are of opposite modes and from different modules
-        if (originMode != e.plugMode
+        if (originType != e.plugType
             &&
             sourcePlug.moduleID() != destinationPlug.moduleID())
         {
@@ -120,14 +120,14 @@ private:
             if (isConnecting) {
                 endConnection(event);
             } else {
-                if (event.plugMode == PlugMode::Inlet) {
+                if (event.plugType == PlugType::Inlet) {
                     destinationPlug = event.plugID;
                     sourcePlug = PlugID();
                 } else {
                     destinationPlug = PlugID();
                     sourcePlug = event.plugID;
                 }
-                originMode = event.plugMode;
+                originType = event.plugType;
                 isConnecting = true;
                 startConnection();
             }

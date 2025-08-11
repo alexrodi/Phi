@@ -93,9 +93,9 @@ private:
         }
         
         /// Gets a stored inlet or outlet
-        const Plug& getPlug (PlugMode plugMode, PlugID plugID)
+        const Plug& getPlug (PlugType plugType, PlugID plugID)
         {
-            return *mapOfMode(plugMode)[plugID.moduleID()][plugID.plugID()];
+            return *mapOfMode(plugType)[plugID.moduleID()][plugID.plugID()];
         }
         
         /// Generates a new ID for an inlet or outlet, given a nodeID
@@ -106,9 +106,9 @@ private:
             return plugs[moduleID].rbegin()->first + 1;
         }
         
-        PlugMap& mapOfMode(PlugMode mode)
+        PlugMap& mapOfMode(PlugType mode)
         {
-            return mode == PlugMode::Inlet ? inlets : outlets;
+            return mode == PlugType::Inlet ? inlets : outlets;
         }
         
         /// Unregisters all inlets and outlets, given a nodeID
@@ -159,7 +159,7 @@ private:
     static Path patchCordTypeBCallback (const Point<float>, const Point<float>);
     
     /// Fetches the center position (relative to this component) of an inlet or outlet
-    Point<float> getPlugCenterPositionFromId (PlugMode, const PlugID);
+    Point<float> getPlugCenterPositionFromId (PlugType, const PlugID);
     
     /// Adds an entry to the connections Array and notifies ChangeListeners
     void createConnection  (const PhiConnection&);
@@ -168,7 +168,7 @@ private:
     
     void openColourSelector(Point<int> pointTo, Colour initialColour);
     
-    void onConnectionStart (PlugMode, PlugID) override;
+    void onConnectionStart (PlugType, PlugID) override;
     void onConnectionEnd (PlugID, PlugID) override;
     void onConnectionDrag () override;
     void onConnectionRelease () override;

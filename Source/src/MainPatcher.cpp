@@ -15,15 +15,13 @@
 
 //==============================================================================
 MainPatcher::MainPatcher(std::unique_ptr<AudioEngine> audioEngineToUse) :
-audioEngine(std::move(audioEngineToUse)),
-tooltipWindow{this}
+audioEngine(std::move(audioEngineToUse))
 {
     setWantsKeyboardFocus(true);
     
     addAndMakeVisible(connections);
     addAndMakeVisible(lasso);
-    
-    tooltipWindow.setOpaque(false);
+    addChildComponent(tooltip);
     
     addMouseListener(&connections, true);
     

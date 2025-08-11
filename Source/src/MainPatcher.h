@@ -55,7 +55,7 @@ private:
     /// The graphical component that represents connections between modules. It is drawn always on top of everything in the patcher.
     Connections connections;
     
-    TooltipWindow tooltipWindow;
+    HoverPopupWindow tooltip;
     
     class PhiLasso: public LassoComponent<ModuleBox*> {
         void paint(Graphics& g)

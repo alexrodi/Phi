@@ -60,9 +60,9 @@ PlugID Connections::registerPlug (uint32 moduleId, const Plug& plug)
     return idStore.storePlug(moduleId, plug);
 }
 
-Point<float> Connections::getPlugCenterPositionFromId (PlugMode plugMode, const PlugID plugID)
+Point<float> Connections::getPlugCenterPositionFromId (PlugType plugType, const PlugID plugID)
 {
-    auto& plug = idStore.getPlug(plugMode, plugID);
+    auto& plug = idStore.getPlug(plugType, plugID);
     
     return getLocalPoint(&plug, plug.getLocalBounds().getCentre().toFloat()) ;
 }
@@ -77,8 +77,8 @@ void Connections::updateDragPath()
 
 void Connections::updateConnectionPath (PhiConnection& connection)
 {
-    auto path = getConnectionPath (getPlugCenterPositionFromId(PlugMode::Inlet, connection.destination)
-                                          , getPlugCenterPositionFromId(PlugMode::Outlet, connection.source));
+    auto path = getConnectionPath (getPlugCenterPositionFromId(PlugType::Inlet, connection.destination)
+                                          , getPlugCenterPositionFromId(PlugType::Outlet, connection.source));
     
     Path strokePath;
     
@@ -95,9 +95,9 @@ void Connections::updateAllConnectionPaths ()
     repaint();
 }
 
-void Connections::onConnectionStart(PlugMode plugMode, PlugID plugID)
+void Connections::onConnectionStart(PlugType plugType, PlugID plugID)
 {
-    dragPathAnchor = getPlugCenterPositionFromId(plugMode, plugID);
+    dragPathAnchor = getPlugCenterPositionFromId(plugType, plugID);
 }
 
 void Connections::onConnectionEnd(PlugID source, PlugID destination)

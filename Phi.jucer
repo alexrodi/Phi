@@ -49,6 +49,7 @@
       <FILE id="PyFuKJ" name="Connections.cpp" compile="1" resource="0" file="Source/src/Connections.cpp"/>
       <FILE id="PtnFYM" name="Connections.h" compile="0" resource="0" file="Source/src/Connections.h"/>
       <FILE id="PwNvq1" name="DSPUtils.h" compile="0" resource="0" file="Source/src/DSPUtils.h"/>
+      <FILE id="w0RTOC" name="HoverPopup.h" compile="0" resource="0" file="Source/src/HoverPopup.h"/>
       <FILE id="OaKC3c" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
       <FILE id="U6GVYL" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/src/MainComponent.cpp"/>
