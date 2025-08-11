@@ -10,17 +10,20 @@
 
 #pragma once
 
-static const float clip(const float input, const float min, const float max) noexcept
-{
-    return (input > max) ? max : ( (input < min) ? min : input );
+/// Clips `value` between `min` and `max` (both bounds inclusive)
+template<typename T>
+inline T clip(T value, T min, T max) noexcept {
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
 }
 
-static const float mixf(float outputWhenInterp0, float outputWhenInterp1, float interp)
-{
+template <std::floating_point T>
+inline T mix(T outputWhenInterp0, T outputWhenInterp1, T interp) noexcept {
     // Clip at 0-1
-    interp = clip(interp, 0.0f, 1.0f);
+    interp = clip(interp, (T)0.0, (T)1.0);
     
-    return outputWhenInterp1 * interp + outputWhenInterp0 * ( 1.0f - interp );
+    return outputWhenInterp1 * interp + outputWhenInterp0 * ( (T)1.0 - interp );
 };
 
 template <typename Type>
@@ -112,7 +115,7 @@ class OnePole
 public:
     Type process(Type input, float cutoff)
     {
-        previous = mixf(input, previous, cutoff);
+        previous = mix(input, previous, cutoff);
         return dcBlock.process(previous);
     }
     
