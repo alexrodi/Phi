@@ -23,6 +23,8 @@ tooltipWindow{this}
     addAndMakeVisible(connections);
     addAndMakeVisible(lasso);
     
+    tooltipWindow.setOpaque(false);
+    
     addMouseListener(&connections, true);
     
     connections.addChangeListener(this);
