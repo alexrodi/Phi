@@ -69,7 +69,7 @@ public:
     
     void prepareToPlay (double newSampleRate, int maxBlockSize) override
     {
-        sampleRate = float(newSampleRate);
+        incrFactor = MathConstants<float>::twoPi / (float)newSampleRate;
     }
     
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
@@ -82,7 +82,7 @@ public:
         
         const float shape = powf(*params.getRawParameterValue("shape"), 0.1f);
         
-        const float phaseIncrement = (1.0f/(sampleRate/(*params.getRawParameterValue("freq")))) * MathConstants<float>::twoPi;
+        const float freq = *params.getRawParameterValue("freq");
         
         float* outSamples = buffer.getWritePointer(0);
         float* rampSamples = buffer.getWritePointer(1);
@@ -101,7 +101,7 @@ public:
             *outSamples++ = processImpulse(currentPhase, shape);
             *rampSamples++ = currentPhase * invTwoPi;
 
-            currentPhase += phaseIncrement;
+            currentPhase += freq * incrFactor;
         }
         
     }
@@ -111,10 +111,9 @@ public:
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
     
 private:
-
+    float incrFactor = 1.0f;
     float currentPhase = 0.0f;
     float previousTrigger = 0.0f;
-    float sampleRate = 44100.0f;
     
     bool triggerParameterWasOn()
     {
