@@ -124,8 +124,6 @@ public:
         }
     }
     
-    void releaseResources() override {}
-    
     AudioProcessorEditor* createEditor() override {return new StringUI(*this);}
 
 private:

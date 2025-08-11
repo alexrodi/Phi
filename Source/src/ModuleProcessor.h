@@ -62,6 +62,7 @@ private:
     double getTailLengthSeconds() const override {return 0.0f;}
     bool acceptsMidi() const override {return false;}
     bool producesMidi() const override {return false;}
+    void releaseResources() override {}
     int getNumPrograms() override {return 0;}
     int getCurrentProgram() override {return 0;}
     void setCurrentProgram (int index) override {}

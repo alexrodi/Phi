@@ -105,8 +105,6 @@ public:
         }
         
     }
-    
-    void releaseResources() override {}
 
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
     

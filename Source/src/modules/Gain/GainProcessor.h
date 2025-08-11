@@ -48,8 +48,6 @@ public:
        buffer.applyGain(juce::Decibels::decibelsToGain((float)*params.getRawParameterValue("gain")));
     }
     
-    void releaseResources() override {}
-    
     AudioProcessorEditor* createEditor() override {return new GainUI(*this);}
 
 private:

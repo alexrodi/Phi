@@ -31,7 +31,6 @@ public:
     
     void prepareToPlay (double sampleRate, int maxBlockSize) override {}
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override {}
-    void releaseResources() override {}
     
     AudioProcessorEditor* createEditor() override {return new OutputUI(*this);}
 
