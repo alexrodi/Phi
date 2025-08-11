@@ -88,30 +88,30 @@ private:
         PlugID storePlug (uint32 moduleID, const Plug& plug)
         {
             int plugId = newPlugId(moduleID, plug);
-            mapOfMode(plug.getType())[moduleID][plugId] = &plug;
+            mapOfType(plug.getType())[moduleID][plugId] = &plug;
             return {moduleID, plugId};
         }
         
         /// Gets a stored inlet or outlet
         const Plug& getPlug (PlugType plugType, PlugID plugID)
         {
-            return *mapOfMode(plugType)[plugID.moduleID()][plugID.plugID()];
+            return *mapOfType(plugType)[plugID.moduleID()][plugID.plugID()];
         }
         
         /// Generates a new ID for an inlet or outlet, given a nodeID
         int newPlugId (uint32 moduleID, const Plug& plug)
         {
-            auto plugs = mapOfMode(plug.getType());
+            auto plugs = mapOfType(plug.getType());
             if (plugs.find(moduleID) == plugs.end()) return 0;
             return plugs[moduleID].rbegin()->first + 1;
         }
         
-        PlugMap& mapOfMode(PlugType mode)
+        PlugMap& mapOfType(PlugType type)
         {
-            return mode == PlugType::Inlet ? inlets : outlets;
+            return type == PlugType::Inlet ? inlets : outlets;
         }
         
-        /// Unregisters all inlets and outlets, given a nodeID
+        /// Unregisters all inlets and outlets, given a moduleID
         void removeModule (const uint32 moduleID)
         {
             inlets.erase(moduleID);
