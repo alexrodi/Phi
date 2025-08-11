@@ -43,7 +43,7 @@ public:
     ~OutputUI() {}
 
     void paint (Graphics&) override {}
-    void wasResized(Rectangle<int> moduleBounds) override
+    void onResize(Rectangle<int> moduleBounds) override
     {
         auto height = moduleBounds.getHeight();
         auto width = moduleBounds.getWidth();

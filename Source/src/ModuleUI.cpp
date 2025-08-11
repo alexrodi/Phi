@@ -50,7 +50,7 @@ void ModuleUI::resized()
     moduleBounds = placeInletsAndOutlets( moduleBounds );
     
     // Call the function to resize the module
-    wasResized(moduleBounds);
+    onResize(moduleBounds);
 }
 
 void ModuleUI::placePlugs(std::vector<Plug>& plugs, Rectangle<int> plugBounds)
@@ -63,7 +63,7 @@ void ModuleUI::placePlugs(std::vector<Plug>& plugs, Rectangle<int> plugBounds)
 }
 
 
-const Rectangle<int> ModuleUI::placeInletsAndOutlets(Rectangle<int> moduleBounds)
+Rectangle<int> ModuleUI::placeInletsAndOutlets(Rectangle<int> moduleBounds)
 {
     placePlugs(inlets, moduleBounds.removeFromLeft(PLUG_COLUMN_WIDTH));
     placePlugs(outlets, moduleBounds.removeFromRight(PLUG_COLUMN_WIDTH));

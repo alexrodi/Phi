@@ -132,7 +132,7 @@ public:
 
     void paint (Graphics&) override {}
     
-    void wasResized(Rectangle<int> moduleBounds) override
+    void onResize(Rectangle<int> moduleBounds) override
     {
         // Place the Dials
         Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);

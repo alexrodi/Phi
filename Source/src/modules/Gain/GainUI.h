@@ -40,7 +40,7 @@ public:
 
     void paint (Graphics& g) override {};
     
-    void wasResized(Rectangle<int> moduleBounds) override
+    void onResize(Rectangle<int> moduleBounds) override
     {
         gainDial.setBounds( moduleBounds );
     }

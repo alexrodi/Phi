@@ -23,55 +23,69 @@ class ModuleProcessor;
 class ModuleUI    : public AudioProcessorEditor
 {
 public:
-    
+
+    /** The properties that define a module. */
     struct Props
     {
-        const String name; /// This module's name
-        const std::vector<String> inlets; /// An vector of inlet names to display in the UI (will correspond to the processor's inlets starting from the first)
-        const std::vector<String> outlets; /// An vector of outlet names to display in the UI (will correspond to the processor's outlets starting from the first)
-        const int width; /// The default width to use when creating this module
-        const int height; /// The default height to use when creating this module
-        const int minimumHeight; /// The minimum height that the module should have to present its UI, any less, and the ModuleBox will collapse to only display the header
-        ModuleProcessor& processor; /// A reference to the ModuleProcessor that spawned this UI
+        /** This module's name. */
+        const String name;
+        /** A vector of inlet names to display in the UI (will correspond to the processor's inlets). */
+        const std::vector<String> inlets;
+        /** A vector of outlet names to display in the UI (will correspond to the processor's outlets). */
+        const std::vector<String> outlets;
+        /** The default width to use when creating this module. */
+        const int width;
+        /** The default height to use when creating this module. */
+        const int height;
+        /** The minimum height that the module should have to present its UI, any less, and the ModuleBox will collapse to only display the header. */
+        const int minimumHeight;
+        /** A reference to the ModuleProcessor that spawned this UI. */
+        ModuleProcessor& processor;
+        /** A flag to determine if the module is an output module. */
         bool isOutput = false;
     };
-    
+
     ModuleUI(Props);
     ~ModuleUI();
-    
-    /** This module's props
-    @see ModuleUI::Props
+
+    /**
+     * This module's properties.
+     * @see ModuleUI::Props
      */
     Props props;
-    
-    /// The module's inlets
+
     std::vector<Plug> inlets;
-    /// The module's outlets
     std::vector<Plug> outlets;
-    
-    /// The NodeID belonging to the parent module, this is used for referencing the module's processing node in the audio graph
+
+    /** The NodeID belonging to the parent module, this is used for referencing the module's processing node in the audio graph. */
     AudioProcessorGraph::NodeID nodeID;
-    
+
     /**
-     The base-class overrides resized() and exposes wasResized(),
-     containing the actual module's rectangle.
-    */
-    void resized() override;
-    /** The function used by derived classes of ModuleUI to resize their contents,
-    its argument is the rectangle that the content of a derived class should be bound to.
-    */
-    virtual void wasResized(Rectangle<int>) {};
-    
+     * The function used by derived classes of ModuleUI to resize their contents.
+     * @param bounds The bounds in which to place the content of the derived class
+     */
+    virtual void onResize (Rectangle<int>) = 0;
+
 private:
     const int PLUG_COLUMN_WIDTH = 40;
-    
-    /// Places all plugs equidistant in a column ( top -> bottom ).
-    void placePlugs(std::vector<Plug>&, Rectangle<int>);
+
     /**
-     Places the inlets and outlets of this ModuleUI given a rectangle and returns the remaining area
-     The result is used to bound the module contents via wasResized().
-    */
-    const Rectangle<int> placeInletsAndOutlets (Rectangle<int>);
+     * Places all plugs equidistant in a column (top -> bottom).
+     * @param plugs A vector of plugs to be placed.
+     * @param bounds The rectangle to place the plugs within.
+     */
+    void placePlugs(std::vector<Plug>&, Rectangle<int>);
+
+    /**
+     * Places the inlets and outlets of this ModuleUI given a rectangle and returns the remaining area.
+     * The result is used to bound the module contents via wasResized().
+     * @param bounds The module's bounds to place the inlets and outlets within.
+     * @return The remaining area after placing the plugs.
+     */
+    Rectangle<int> placeInletsAndOutlets (Rectangle<int>);
     
+    /** This base-class overrides resized() and exposes wasResized(), containing the actual module's rectangle. */
+    void resized() override;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModuleUI)
 };

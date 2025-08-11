@@ -55,7 +55,7 @@ public:
 
     void paint (Graphics&) override {}
     
-    void wasResized(Rectangle<int> moduleBounds) override
+    void onResize(Rectangle<int> moduleBounds) override
     {
         const int dialWidth = (float)moduleBounds.getWidth()/4.0f;
         
