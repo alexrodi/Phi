@@ -10,51 +10,13 @@
 
 #pragma once
 
-struct PlugID
-{
-    PlugID(std::pair<uint32, uint32> moduleplugID) :
-    ownID( (uint64(moduleplugID.first) << 32) | uint64(moduleplugID.second) )
-    {}
-
-    PlugID(uint64 moduleplugID) : ownID(moduleplugID)
-    {}
+struct PlugID : AudioProcessorGraph::NodeAndChannel {
+    PlugID() = default;
+    PlugID(NodeAndChannel nodeAndChannel) : NodeAndChannel(nodeAndChannel) {}
+    PlugID(uint32 moduleID, int plugID) : NodeAndChannel(AudioProcessorGraph::NodeID{moduleID}, plugID) {}
     
-    PlugID(int64 moduleplugID) : ownID(moduleplugID)
-    {}
-    
-    PlugID(String moduleplugIDString) : ownID(moduleplugIDString.toUTF8().getIntValue64())
-    {}
-    
-    PlugID() : ownID(0)
-    {}
-    
-    PlugID operator= (uint64 other) { ownID = other; return *this; }
-    
-    uint32 moduleID() const noexcept
-    {
-        return uint32(ownID >> 32);
-    }
-    
-    uint32 plugID() const noexcept
-    {
-        return uint32(ownID & 0x00000FFFFF);
-    }
-    
-    String toString() const noexcept
-    {
-        return String(ownID);
-    }
-    
-    operator uint64() const noexcept {return ownID;}
-    operator int64() const noexcept {return ownID;}
-    
-    bool operator== (const PlugID& other) const noexcept
-    {
-        return other.ownID == ownID;
-    }
-    
-private:
-    uint64 ownID;
+    uint32 moduleID() { return nodeID.uid; }
+    int plugID() { return channelIndex; }
 };
 
 /// This Class may exist in one of two modes
@@ -103,6 +65,8 @@ private:
     ListenerList<PlugListener> listeners;
 };
 
+struct PhiConnection;
+
 /// The PlugHandler implements patching mechanics between sources and destinations - dragging, clicking and keeping connected with the Shift key
 class PlugHandler: public PlugListener {
 public:
@@ -113,7 +77,7 @@ public:
     virtual void onConnectionStart (PlugMode plugMode, PlugID plugID) {};
     virtual void onConnectionDrag () {};
     virtual void onConnectionRelease () {};
-    virtual void onConnectionEnd (std::pair<PlugID, PlugID> sourceDestination) {};
+    virtual void onConnectionEnd (PlugID source, PlugID destination) {};
 
 private:
     bool isConnecting;
@@ -145,7 +109,7 @@ private:
             &&
             sourcePlug.moduleID() != destinationPlug.moduleID())
         {
-            onConnectionEnd({sourcePlug, destinationPlug});
+            onConnectionEnd(sourcePlug, destinationPlug);
         }
     }
     

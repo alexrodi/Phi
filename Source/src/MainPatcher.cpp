@@ -135,7 +135,7 @@ void MainPatcher::registerPlugs(OwnedArray<Plug>& plugArray, uint32 moduleID)
 {
     for (auto& plug : plugArray)
     {
-        plug->setId(connections.registerPlug(moduleID, plug));
+        plug->setID(connections.registerPlug(moduleID, plug));
         plug->addListener(&connections);
     }
 }

@@ -30,7 +30,7 @@ AudioEngine::~AudioEngine()
 }
 
 
-void AudioEngine::applyAudioConnections(const OwnedArray<Connection>& connectionsToApply)
+void AudioEngine::applyAudioConnections(const OwnedArray<PhiConnection>& connectionsToApply)
 {
     for (auto c : getConnections())
         removeConnection(c);
@@ -40,15 +40,8 @@ void AudioEngine::applyAudioConnections(const OwnedArray<Connection>& connection
             connectToOuput(node);
     
     for (auto& connection : connectionsToApply)
-    {
-        NodeAndChannel source { {}, int(connection->source.plugID()) };
-        NodeAndChannel destination { {}, int(connection->destination.plugID()) };
-        
-        source.nodeID.uid = connection->source.moduleID();
-        destination.nodeID.uid = connection->destination.moduleID();
-        
-        addConnection ({ source, destination });
-    }
+        addConnection (*connection);
+    
     removeIllegalConnections();
 }
 

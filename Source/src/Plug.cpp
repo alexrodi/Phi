@@ -28,7 +28,7 @@ mode(modeToUse)
     setPaintingIsUnclipped(true);
 }
 
-void Plug::setId(uint64 ioId)
+void Plug::setID(PlugID ioId)
 {
     plugID = ioId;
 }

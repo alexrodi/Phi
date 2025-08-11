@@ -37,7 +37,7 @@ public:
     void resized() override;
     
     /// Sets the ID that the Plug will use when broadcasting (assigned on module creation)
-    void setId(uint64);
+    void setID(PlugID);
     
     String getName() {
         return name;
