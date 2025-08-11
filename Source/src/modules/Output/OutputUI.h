@@ -45,19 +45,11 @@ public:
     void paint (Graphics&) override {}
     void onResize(Rectangle<int> moduleBounds) override
     {
-        auto height = moduleBounds.getHeight();
-        auto width = moduleBounds.getWidth();
+        auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
         
-        bool svgVisible = jmin(height, width) > 30;
+        speakerImage->setTransformToFit(bounds.toFloat(), 0);
         
-        speakerImage->setVisible(svgVisible);
-        
-        if (svgVisible)
-        {
-            auto bounds = getLocalBounds().withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
-            
-            speakerImage->setTransformToFit(bounds.toFloat(), 0);
-        }
+        speakerImage->setVisible(std::min(moduleBounds.getHeight(), moduleBounds.getWidth()) > 30);
     }
 
     void lookAndFeelChanged() override
