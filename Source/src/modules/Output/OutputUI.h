@@ -44,7 +44,7 @@ public:
     void paint (Graphics&) override {}
     void onResize(Rectangle<int> moduleBounds) override
     {
-        auto bounds = moduleBounds.withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds);
+        auto bounds = moduleBounds.withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds.reduced(10));
         
         speakerImage->setTransformToFit(bounds.toFloat(), 0);
         

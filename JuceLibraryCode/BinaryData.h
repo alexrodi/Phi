@@ -9,7 +9,7 @@
 namespace BinaryData
 {
     extern const char*   Speaker_Icon_svg;
-    const int            Speaker_Icon_svgSize = 513;
+    const int            Speaker_Icon_svgSize = 949;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 1;

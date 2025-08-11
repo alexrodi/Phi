@@ -11,10 +11,16 @@ namespace BinaryData
 
 //================== Speaker_Icon.svg ==================
 static const unsigned char temp_binary_data_0[] =
-"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-"<svg version=\"1.0\" width=\"500\" height=\"500\" viewBox=\"0 0 75 75\" xmlns=\"http://www.w3.org/2000/svg\">\n"
-"  <path d=\"M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z\" style=\"stroke-width: 5; stroke-linejoin: round; stroke: rgb(0, 0, 0);\"/>\n"
-"  <path d=\"M48,27.6a19.5,19.5 0 0 1 0,21.4M55.1,20.5a30,30 0 0 1 0,35.6M61.6,14a38.8,38.8 0 0 1 0,48.6\" style=\"fill: none; stroke-width: 5; stroke-linecap: round; stroke: rgb(0, 0, 0);\"/>\n"
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<svg width=\"600px\" height=\"600px\" viewBox=\"0 0 600 600\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"
+"    <title>Speaker_Icon</title>\n"
+"    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">\n"
+"        <g id=\"Speaker_Icon\" transform=\"translate(86, 136.7933)\" stroke=\"#000000\" stroke-width=\"33.3333333\">\n"
+"            <polygon id=\"Path\" fill=\"#000000\" fill-rule=\"nonzero\" stroke-linejoin=\"round\" points=\"222.593333 0 108.233333 98.9133333 0 98.9133333 0 226.2 106.593333 226.2 222.593333 326.54\"></polygon>\n"
+"            <path d=\"M280,92.2066667 C308.425359,135.514553 308.425359,191.565447 280,234.873333 M327.333333,44.8733333 C379.344836,115.43572 379.344836,211.64428 327.333333,282.206667 M370.666667,1.54 C446.683196,96.1638131 446.683196,230.916187 37"
+"0.666667,325.54\" id=\"Shape\" stroke-linecap=\"round\"></path>\n"
+"        </g>\n"
+"    </g>\n"
 "</svg>";
 
 const char* Speaker_Icon_svg = (const char*) temp_binary_data_0;
@@ -31,7 +37,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
 
     switch (hash)
     {
-        case 0x89e74e1e:  numBytes = 513; return Speaker_Icon_svg;
+        case 0x89e74e1e:  numBytes = 949; return Speaker_Icon_svg;
         default: break;
     }
 
