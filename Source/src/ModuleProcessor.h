@@ -20,7 +20,8 @@
 /**
  The base class for all modules' DSP implementation
 */
-class ModuleProcessor    : public AudioProcessor
+class ModuleProcessor    : public AudioProcessor,
+                           public AudioProcessorValueTreeState::Listener
 {
 public:
     /// Any parameters introduced in the constructor will be stored in this object
@@ -48,13 +49,21 @@ public:
     params( *this, nullptr, "PARAMETERS", AudioProcessorValueTreeState::ParameterLayout(std::move(paramsToUse)...) )
     {
         setPlayConfigDetails (inletNumber, outletNumber, getSampleRate(), getBlockSize());
+        
+        for (int i = 0; i < params.state.getNumChildren(); i++)
+            params.addParameterListener(params.state.getChild(i).getProperty("id").toString(), this);
     }
+    
+    virtual ~ModuleProcessor() = default;
     
     std::unique_ptr<ModuleUI> createUI() {
         return std::unique_ptr<ModuleUI>(static_cast<ModuleUI*>(createEditor()));
     }
     
     bool hasEditor() const override { return true; }
+    
+    /// Override this to get notified of parameter changes
+    void parameterChanged (const String& parameterID, float newValue) override {}
     
 private:
     

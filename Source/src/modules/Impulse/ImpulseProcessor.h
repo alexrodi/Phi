@@ -74,14 +74,10 @@ public:
     
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
+        const float phaseIncrement = freq * incrFactor;
         const float* triggerSamples = buffer.getReadPointer(0);
         const float* freqCVSamples = buffer.getReadPointer(1);
         const float* shapeCVSamples = buffer.getReadPointer(2);
-        
-        const float shape = powf(*params.getRawParameterValue("shape"), 0.1f);
-        
-        const float freq = *params.getRawParameterValue("freq");
-        
         float* outSamples = buffer.getWritePointer(0);
         float* rampSamples = buffer.getWritePointer(1);
         
@@ -93,7 +89,7 @@ public:
             const float trigger = *triggerSamples++;
             if ((previousTrigger - trigger) > 0.5f) currentPhase = 0.0f;
             
-            float nextPhase = currentPhase + freq * pow(5.0f, *freqCVSamples++) * incrFactor;
+            float nextPhase = currentPhase + phaseIncrement * pow(5.0f, *freqCVSamples++);
             
             *outSamples++ = processImpulse(currentPhase, clip(shape + *shapeCVSamples++, 0.0f, 1.0f));
             *rampSamples++ = std::min(1.0f, currentPhase * invTwoPi);
@@ -102,7 +98,14 @@ public:
             currentPhase = std::min(std::numeric_limits<float>::max(), currentPhase);
             previousTrigger = trigger;
         }
-        
+    }
+    
+    void parameterChanged (const String& parameterID, float newValue) override {
+        if (parameterID == "freq") {
+            freq = newValue;
+        } else if (parameterID == "shape") {
+            shape =  pow(newValue, 0.1f);
+        }
     }
 
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
@@ -111,12 +114,10 @@ private:
     float incrFactor = 1.0f;
     float currentPhase = 0.0f;
     float previousTrigger = 0.0f;
+    float freq = 1.0f, shape = 0.0f;
     
     bool triggerParameterWasOn()
     {
-        auto triggered = params.getRawParameterValue("trigger");
-        bool shouldTrigger = *triggered > 0.0f;
-        triggered->exchange(0.0f);
-        return shouldTrigger;
+        return params.getRawParameterValue("trigger")->exchange(0.0f) > 0.0f;
     }
 };
