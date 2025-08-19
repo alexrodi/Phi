@@ -75,10 +75,8 @@ public:
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
         const float* triggerSamples = buffer.getReadPointer(0);
-        
-        //TODO: CV Implementations
-        //const float* freqSamples = buffer.getReadPointer(1);
-        //const float* shapeSamples = buffer.getReadPointer(2);
+        const float* freqCVSamples = buffer.getReadPointer(1);
+        const float* shapeCVSamples = buffer.getReadPointer(2);
         
         const float shape = powf(*params.getRawParameterValue("shape"), 0.1f);
         
@@ -93,16 +91,16 @@ public:
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
             const float trigger = *triggerSamples++;
-            const float triggerDelta = previousTrigger - trigger;
-            previousTrigger = trigger;
+            if ((previousTrigger - trigger) > 0.5f) currentPhase = 0.0f;
             
-            if (triggerDelta > 0.5f) currentPhase = 0.0f;
+            float nextPhase = currentPhase + freq * pow(5.0f, *freqCVSamples++) * incrFactor;
             
-            *outSamples++ = processImpulse(currentPhase, shape);
-            *rampSamples++ = currentPhase * invTwoPi;
+            *outSamples++ = processImpulse(currentPhase, clip(shape + *shapeCVSamples++, 0.0f, 1.0f));
+            *rampSamples++ = std::min(1.0f, currentPhase * invTwoPi);
 
-            currentPhase += freq * incrFactor;
+            currentPhase = nextPhase;
             currentPhase = std::min(std::numeric_limits<float>::max(), currentPhase);
+            previousTrigger = trigger;
         }
         
     }
