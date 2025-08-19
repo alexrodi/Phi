@@ -97,37 +97,42 @@ public:
         
         float* outputSamples = buffer.getWritePointer(0);
         
-        const bool mode = *params.getRawParameterValue("mode");
-        const float damp = *params.getRawParameterValue("damp");
-        
-        const float frequency = *params.getRawParameterValue("freq");
         const float periodInSamples = sampleRate / frequency;
         
-        const float decay = powf( scaleDecay( *params.getRawParameterValue("decay"), mode), periodInSamples * (0.01f + mode * 0.52f) ) * 0.997f;
+        float feedback = getFeedback(periodInSamples);
          
         // The interval to apply to each delay line
         // Mode B doubles the (perceived) interval so we must divide it accordingly
-        const float interval = periodInSamples / static_cast<float>(static_cast<int>(mode) + 1 );
+        const float interval = periodInSamples * (mode == Mode::B ? 0.5f : 1.0f);
         
         // Pickup position is always a fraction of the interval
-        const float line1Pos = interval * *params.getRawParameterValue("pos");
+        const float line1Pos = interval * pos;
         const float line2Pos = interval - line1Pos;
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
             float input = (*inputSamples++) * 0.05f;
             
-            line1.push(   input + processLine1Node(damp, decay, interval, mode) );
-            line2.push( - input + processLine2Node(damp, decay, interval) );
+            line1.push(   input + processLine1Node(damp, feedback, interval, mode) );
+            line2.push( - input + processLine2Node(damp, feedback, interval) );
             
             *outputSamples++ = readOutput(line1Pos, line2Pos);
         }
     }
     
+    void parameterChanged (const String& parameterID, float value) override {
+        if (parameterID == "mode") {
+            mode = (Mode)value;
+            decay = scaleDecay(value, mode);
+        } else if (parameterID == "damp") damp = value;
+        else if (parameterID == "freq") frequency = value;
+        else if (parameterID == "decay") decay = scaleDecay(value, mode);
+        else if (parameterID == "pos") pos = value;
+    }
+    
     AudioProcessorEditor* createEditor() override {return new StringUI(*this);}
 
 private:
-    
     float sampleRate = 44100.0f;
     
     DelayLine<float> line1, line2;
@@ -135,37 +140,45 @@ private:
     DCBlock<float> dcBlock;
     Accum<float> accum;
     
-    const float processLine1Node(float damp, float decay, float interval, bool mode)
+    enum class Mode {A, B} mode = Mode::A;
+    float damp = 0.0f, frequency = 1.0f, decay = 0.0f, pos = 0.0f;
+    
+    float processLine1Node(float damp, float feedback, float interval, Mode mode)
     {
         // Line 1 gets a "special" function to liven the sound up a bit...
         float line1Node = sinf( onePole1.process( line1.get( interval ), damp ) * MathConstants<float>::twoPi * 1.5f );
         
         // Apply decay
-        line1Node *= decay * 0.1063f;
+        line1Node *= feedback * 0.1063f;
         
         // For our B mode, inverting the node changes the sound
-        if ( mode ) line1Node *= -1.00005f;
+        if ( mode == Mode::B ) line1Node *= -1.00005f;
         
         return line1Node;
     }
     
-    const float processLine2Node(float damp, float decay, float interval)
+    float processLine2Node(float damp, float feedback, float interval)
     {
         // Normal case for Line 2
         // read from delay line, apply low pass and feedback (decay)
-        float line2Node = onePole2.process( line2.get( interval ), damp ) * decay;
+        float line2Node = onePole2.process( line2.get( interval ), damp ) * feedback;
         return line2Node;
     }
     
-    const float readOutput(float line1Pos, float line2Pos)
+    float readOutput(float line1Pos, float line2Pos)
     {
         // Read from the delay line with the current position, integrate and highpass (dcblock)
         return dcBlock.process( accum.process( line1.get( line1Pos ) + line2.get( line2Pos )));
     }
     
-    const float scaleDecay(float decay, bool mode)
+    constexpr float scaleDecay(float decay, Mode mode)
     {
-        return powf(decay, mode ? 0.0005f : 0.05f);
+        return powf(decay, mode == Mode::B ? 0.0005f : 0.05f);
+    }
+    
+    constexpr float getFeedback(float periodInSamples) {
+        float exponent = periodInSamples * (0.01f + (mode == Mode::B ? 0.52f : 0.0f));
+        return pow(decay, exponent) * 0.997f;
     }
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StringProcessor)

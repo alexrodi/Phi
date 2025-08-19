@@ -100,12 +100,9 @@ public:
         }
     }
     
-    void parameterChanged (const String& parameterID, float newValue) override {
-        if (parameterID == "freq") {
-            freq = newValue;
-        } else if (parameterID == "shape") {
-            shape =  pow(newValue, 0.1f);
-        }
+    void parameterChanged (const String& parameterID, float value) override {
+        if (parameterID == "freq") freq = value;
+        else if (parameterID == "shape") shape = pow(value, 0.1f);
     }
 
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
