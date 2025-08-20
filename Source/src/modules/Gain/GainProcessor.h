@@ -26,15 +26,12 @@ public:
         1, // Inlets
         1, // Outlets
         //============= Parameters =============
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
             "gain",
             "Gain",
             NormalisableRange<float> (-70.0f, 12.0f),
             0.0f,
-            "Gain",
-            AudioParameterFloat::genericParameter,
-            [](float value, int) { return String (value, 1); },
-            [](const String& text) { return text.getFloatValue(); }
+            FloatParameter::Attributes{}.withLabel("dB")
         )
     )
     {}
@@ -49,8 +46,4 @@ public:
     }
     
     AudioProcessorEditor* createEditor() override {return new GainUI(*this);}
-
-private:
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainProcessor)
 };
