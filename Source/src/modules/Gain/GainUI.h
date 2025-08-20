@@ -30,8 +30,7 @@ public:
         .minimumHeight = 100,
         .processor = processor
     }),
-    gainDial("Gain", -70.0f, 12.0f, 1.0, " dB"),
-    gainAttachment(*processor.params.getParameter("gain"), gainDial)
+    gainDial(*processor.params.getParameter("gain"))
     {
         addAndMakeVisible(gainDial);
     }
@@ -47,7 +46,4 @@ public:
 
 private:
     PhiDial gainDial;
-    SliderParameterAttachment gainAttachment;
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainUI)
 };

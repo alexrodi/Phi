@@ -13,24 +13,24 @@
 ///@endcond
 #include "PhiDial.h"
 
-PhiDial::PhiDial(std::string name, float rangeLow, float rangeHigh, double skewFactor, std::string valueSuffix, int decimals, Slider::Listener* listener) :
-valueRange{rangeLow, rangeHigh, 0, skewFactor}
+PhiDial::PhiDial()
 {
-    setNormalisableRange         (valueRange);
     setSliderStyle               (RotaryVerticalDrag);
     setTextBoxStyle              (TextBoxBelow, true, 80, 20);
     setTextBoxIsEditable         (true);
     
-    setName                      (name);
-    setTextValueSuffix           (valueSuffix);
-    setNumDecimalPlacesToDisplay (decimals);
-    
-    if (listener) addListener(listener);
     addListener(this);
     
     setPaintingIsUnclipped(true);
     
     updateDial();
+}
+
+PhiDial::PhiDial(RangedAudioParameter& parameter) :
+PhiDial()
+{
+    attachment = std::make_unique<juce::SliderParameterAttachment>(parameter, *this);
+    setName(parameter.getName(99));
 }
 
  PhiDial::~PhiDial()
@@ -95,7 +95,7 @@ void PhiDial::lookAndFeelChanged ()
 
 void PhiDial::updateDial ()
 {
-    angle = startAngle + valueRange.convertTo0to1(getValue()) * angleRange;
+    angle = startAngle + valueToProportionOfLength(getValue()) * angleRange;
     
     dial.clear();
     dial.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, angle, true);

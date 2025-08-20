@@ -21,7 +21,8 @@ class PhiDial    : public Slider,
                    public Slider::Listener
 {
 public:
-    PhiDial(std::string, float, float, double = 1.0f, std::string = "", int = 2, Slider::Listener* = nullptr);
+    PhiDial();
+    explicit PhiDial(RangedAudioParameter& parameter);
     ~PhiDial();
     
     void paint (Graphics& g) override;
@@ -30,15 +31,14 @@ public:
     void lookAndFeelChanged() override;
     
 private:
-    
-    NormalisableRange<double> valueRange;
-    
     Path groove, dial, pointerPath;
     AffineTransform pointerRotation;
     
     Rectangle<float> box;
     Rectangle<int> nameBounds;
     Colour colour, grooveColour, nameColour;
+    
+    std::unique_ptr<SliderParameterAttachment> attachment;
     
     const int padding = 10;
     const int thickness = 3;
