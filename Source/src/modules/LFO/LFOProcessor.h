@@ -23,7 +23,7 @@ struct LFOProcessor : ModuleProcessor
 {
     LFOProcessor() :
     ModuleProcessor(
-        0, // Inlets
+        2, // Inlets
         1, // Outlets
         //============= Parameters =============
         std::make_unique<FloatParameter> (
@@ -60,9 +60,13 @@ struct LFOProcessor : ModuleProcessor
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
         float* samples = buffer.getWritePointer(0);
+        const float* rateCVSamples = buffer.getReadPointer(0);
+        const float* shapeCVSamples = buffer.getReadPointer(1);
 
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
+            lfo.set_rate(clip(rate + *rateCVSamples++, 0.0f, 1.0f));
+            lfo.set_shape(clip(shape + *shapeCVSamples++, 0.0f, 1.0f));
             *samples++ = lfo.next();
         }
         
@@ -83,13 +87,14 @@ struct LFOProcessor : ModuleProcessor
     }
     
     void parameterChanged (const String& parameterID, float value) override {
-        if (parameterID == "rate") lfo.set_rate(value);
+        if (parameterID == "rate") rate = value;
         else if (parameterID == "wave") lfo.set_wave((LFO::Wave)floor(value));
-        else if (parameterID == "shape") lfo.set_shape(value * 0.01f);
+        else if (parameterID == "shape") shape = value * 0.01f;
     }
     
     AudioProcessorEditor* createEditor() override {return new LFOUI(*this);}
     
 private:
     LFO lfo;
+    float rate = 0.0f, shape = 1.0f;
 };

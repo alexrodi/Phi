@@ -23,7 +23,7 @@ struct LFOUI : ModuleUI
     ModuleUI({
         // All modules must initialize these properties
         .name =  "LFO",
-        .inlets = {},
+        .inlets = {"Rate", "Shape"},
         .outlets = {"Out"},
         .width = 260,
         .height = 180,
@@ -35,12 +35,12 @@ struct LFOUI : ModuleUI
     shapeDial(*processor.params.getParameter("shape"))
     {
         addAndMakeVisible(waveform);
-        addAndMakeVisible(rateDial);
         addAndMakeVisible(waveDial);
+        addAndMakeVisible(rateDial);
         addAndMakeVisible(shapeDial);
         
-        rateDial.onValueChange = [&](){updateWaveform();};
         waveDial.onValueChange = [&](){updateWaveform();};
+        rateDial.onValueChange = [&](){updateWaveform();};
         shapeDial.onValueChange = [&](){updateWaveform();};
     }
     
@@ -56,8 +56,8 @@ struct LFOUI : ModuleUI
         
         int dialWidth = moduleBounds.getWidth() / 3;
         
-        rateDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
         waveDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
+        rateDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
         shapeDial.setBounds( moduleBounds );
         
         updateWaveform();
@@ -124,7 +124,7 @@ private:
                 path.lineTo (x, y);
             }
             
-            path = path.createPathWithRoundedCorners(60);
+            path = path.createPathWithRoundedCorners(pixelsPerPoint);
             
             repaint();
         }

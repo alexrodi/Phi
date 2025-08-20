@@ -34,15 +34,15 @@ struct ImpulseUI : ModuleUI
     frequencyDial(*processor.params.getParameter("freq")),
     shapeDial(*processor.params.getParameter("shape"))
     {
-        waveForm.setInterceptsMouseClicks(false, false);
-        waveForm.setPaintingIsUnclipped(true);
-        waveForm.setBufferedToImage(true);
+        waveform.setInterceptsMouseClicks(false, false);
+        waveform.setPaintingIsUnclipped(true);
+        waveform.setBufferedToImage(true);
         
-        addAndMakeVisible(waveForm);
+        addAndMakeVisible(waveform);
         addAndMakeVisible(frequencyDial);
         addAndMakeVisible(shapeDial);
         
-        shapeDial.onValueChange = [&] () {waveForm.updateForm(shapeDial.getValue());};
+        shapeDial.onValueChange = [&] () {updateWaveform();};
     }
     
     ~ImpulseUI() {};
@@ -57,8 +57,8 @@ struct ImpulseUI : ModuleUI
         shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.48));
         
         // Place the waveform and update
-        waveForm.setBounds(moduleBounds.reduced(10,0));
-        waveForm.updateForm(shapeDial.getValue());
+        waveform.setBounds(moduleBounds.reduced(10,0));
+        updateWaveform();
     }
     
     void mouseDown(const MouseEvent& e) override
@@ -68,7 +68,7 @@ struct ImpulseUI : ModuleUI
     
     void lookAndFeelChanged() override
     {
-        waveForm.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
+        waveform.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
     }
 
 private:
@@ -117,7 +117,7 @@ private:
             }
             
             path.lineTo ( width, centreY );
-            path = path.createPathWithRoundedCorners(60);
+            path = path.createPathWithRoundedCorners(pixelsPerPoint);
             
             auto bottomPath = path;
             bottomPath.applyTransform( AffineTransform().verticalFlip( (float)getHeight() ) );
@@ -147,7 +147,11 @@ private:
         Path path;
     };
 
-    Waveform waveForm;
+    Waveform waveform;
     
     PhiDial frequencyDial, shapeDial;
+    
+    void updateWaveform() {
+        waveform.updateForm(shapeDial.getValue() * 0.01f);
+    }
 };
