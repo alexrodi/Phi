@@ -24,45 +24,33 @@ class StringProcessor    : public ModuleProcessor
 public:
     StringProcessor() :
     ModuleProcessor(5, 1,
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
             "freq",
             "Frequency",
-            NormalisableRange<float>(20.0f, 10000.0f, 0.0f, 0.3f),
+            NormalisableRange<float>(20.0f, 10000.0f, 0.01, 0.3f),
             220.0f,
-            "Frequency",
-            AudioParameterFloat::genericParameter,
-            [](float value, int) { return String (value, 1); },
-            [](const String& text) { return text.getFloatValue(); }
+            FloatParameter::Attributes{}.withLabel("Hz")
         ),
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
             "damp",
             "Damping",
-            NormalisableRange<float>(0.0f, 1.0f),
+            NormalisableRange<float>(0.0f, 100.0f),
             0.0f,
-            "Damping",
-            AudioParameterFloat::genericParameter,
-            [](float value, int) { return String (floorf(value * 100.0f), 0); },
-            [](const String& text) { return text.getFloatValue() * 0.01f; }
+            FloatParameter::Attributes{}.withLabel("%")
         ),
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
             "pos",
             "Position",
-            NormalisableRange<float>(0.0f, 1.0f),
-            0.25f,
-            "Position",
-            AudioParameterFloat::genericParameter,
-            [](float value, int) { return String (floorf(value * 100.0f), 0); },
-            [](const String& text) { return text.getFloatValue() * 0.01f; }
+            NormalisableRange<float>(0.0f, 100.0f),
+            25.0f,
+            FloatParameter::Attributes{}.withLabel("%")
         ),
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
             "decay",
             "Decay",
-            NormalisableRange<float>(0.0f, 1.0f),
-            0.9f,
-            "Decay",
-            AudioParameterFloat::genericParameter,
-            [](float value, int) { return String (floorf(value * 100.0f), 0); },
-            [](const String& text) { return text.getFloatValue() * 0.01f; }
+            NormalisableRange<float>(0.0f, 100.0f),
+            90.0f,
+            FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<AudioParameterBool>  (
             "mode" ,
@@ -106,7 +94,7 @@ public:
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
-            float periodInSamples = sampleRate / (frequency * pow(5.0f, *freqCVSamples++));
+            float periodInSamples = sampleRate / std::min(frequency * pow(5.0f, *freqCVSamples++), 10000.0f);
             
             float scaledDecay = scaleDecay(clip(decay + *decayCVSamples++, 0.0f, 1.0f), mode);
             float feedback = getFeedback(periodInSamples, scaledDecay);
@@ -130,10 +118,10 @@ public:
     
     void parameterChanged (const String& parameterID, float value) override {
         if (parameterID == "mode") mode = (Mode)value;
-        else if (parameterID == "damp") damp = value;
+        else if (parameterID == "damp") damp = value * 0.01f;
         else if (parameterID == "freq") frequency = value;
-        else if (parameterID == "decay") decay = value;
-        else if (parameterID == "pos") pos = value;
+        else if (parameterID == "decay") decay = value * 0.01f;
+        else if (parameterID == "pos") pos = value * 0.01f;
     }
     
     AudioProcessorEditor* createEditor() override {return new StringUI(*this);}
@@ -186,7 +174,5 @@ private:
         float exponent = periodInSamples * (0.01f + (mode == Mode::B ? 0.52f : 0.0f));
         return pow(decay, exponent) * 0.997f;
     }
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StringProcessor)
 };
 

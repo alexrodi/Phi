@@ -23,18 +23,15 @@ class GainProcessor    : public ModuleProcessor
 public:
     GainProcessor() :
     ModuleProcessor(
-        1, // Inlets
+        2, // Inlets
         1, // Outlets
         //============= Parameters =============
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
             "gain",
             "Gain",
             NormalisableRange<float> (-70.0f, 12.0f),
             0.0f,
-            "Gain",
-            AudioParameterFloat::genericParameter,
-            [](float value, int) { return String (value, 1); },
-            [](const String& text) { return text.getFloatValue(); }
+            FloatParameter::Attributes{}.withLabel("dB")
         )
     )
     {}
@@ -45,12 +42,13 @@ public:
     
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-       buffer.applyGain(juce::Decibels::decibelsToGain((float)*params.getRawParameterValue("gain")));
+        float gain = juce::Decibels::decibelsToGain(params.getRawParameterValue("gain")->load());
+        float* inOutSamples = buffer.getWritePointer(0);
+        const float* gainCVSamples = buffer.getReadPointer(1);
+        
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+            *inOutSamples++ *= clip(gain + *gainCVSamples++, 0.0f, 4.0f);
     }
     
     AudioProcessorEditor* createEditor() override {return new GainUI(*this);}
-
-private:
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainProcessor)
 };

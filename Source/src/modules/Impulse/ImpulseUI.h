@@ -114,10 +114,8 @@ public:
         .minimumHeight = 100,
         .processor = processor
     }},
-    frequencyDial("Frequency", 20.0f, 20000.0f, 0.2f, " Hz"),
-    shapeDial("Shape", 0.0f, 1.0f, 1.0f, " %", 0, this),
-    frequencyAttachment(*processor.params.getParameter("freq"), frequencyDial),
-    shapeAttachment(*processor.params.getParameter("shape"), shapeDial)
+    frequencyDial(*processor.params.getParameter("freq")),
+    shapeDial(*processor.params.getParameter("shape"))
     {
         waveForm.setInterceptsMouseClicks(false, false);
         waveForm.setPaintingIsUnclipped(true);
@@ -160,7 +158,6 @@ private:
     
     //Dials
     PhiDial frequencyDial, shapeDial;
-    SliderParameterAttachment frequencyAttachment, shapeAttachment;
     
     //Listeners
     void sliderValueChanged (Slider* slider) override
@@ -170,6 +167,4 @@ private:
             waveForm.updateForm(slider->getValue());
         }
     }
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ImpulseUI)
 };

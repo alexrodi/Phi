@@ -17,6 +17,36 @@
 #include "DSPUtils.h"
 
 //==============================================================================
+struct FloatParameter : AudioParameterFloat {
+    using Attributes = AudioParameterFloatAttributes;
+    
+    FloatParameter(const ParameterID& parameterID,
+                   const String& parameterName,
+                   NormalisableRange<float> normalisableRange,
+                   float defaultValue,
+                   const Attributes& attributes = {}) :
+    AudioParameterFloat(parameterID, parameterName, normalisableRange, defaultValue, [&] () {
+        if (attributes.getStringFromValueFunction() == nullptr) {
+            auto label = attributes.getAudioProcessorParameterWithIDAttributes().getLabel();
+            
+            return attributes.withStringFromValueFunction([label] (float value, int) {
+                auto upTo2Decimals = [] (float value) {
+                    return String(value, (abs(value) < 10.0f) ? 2 : 1);
+                };
+                
+                if (abs(value) < 100.0f)
+                    return upTo2Decimals(value) + " " + label;
+                else if (value > 1000.0f)
+                    return upTo2Decimals(value * 0.001f) + " k" + label;
+                else
+                    return String((int)value) + " " + label;
+            });
+        } else return attributes;
+    }())
+    {}
+};
+
+
 /**
  The base class for all modules' DSP implementation
 */

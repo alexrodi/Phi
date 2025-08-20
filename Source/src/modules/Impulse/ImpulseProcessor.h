@@ -37,25 +37,19 @@ public:
         3, // Inlets
         2, // Outlets
         //============= Parameters =============
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
            "freq",
            "Frequency",
-           NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
+           NormalisableRange<float> (20.0f, 20000.0f, 0.0, 0.2f),
            1000.0f,
-           "Frequency",
-           AudioParameterFloat::genericParameter,
-           [](float value, int) { return String (value, 1); },
-           [](const String& text) { return text.getFloatValue(); }
+           FloatParameter::Attributes{}.withLabel("Hz")
         ),
-        std::make_unique<AudioParameterFloat> (
+        std::make_unique<FloatParameter> (
            "shape",
            "Shape",
-           NormalisableRange<float> (0.0f, 1.0f),
+           NormalisableRange<float> (0.0f, 100.0f),
            0.0f,
-           "Shape",
-           AudioParameterFloat::genericParameter,
-           [](float value, int) { return String (floorf(value * 100.0f), 0); },
-           [](const String& text) { return text.getFloatValue() * 0.01f; }
+           FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<AudioParameterBool> (
            "trigger",
@@ -102,7 +96,7 @@ public:
     
     void parameterChanged (const String& parameterID, float value) override {
         if (parameterID == "freq") freq = value;
-        else if (parameterID == "shape") shape = pow(value, 0.1f);
+        else if (parameterID == "shape") shape = pow(value * 0.01f, 0.1f);
     }
 
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }

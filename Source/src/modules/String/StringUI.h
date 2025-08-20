@@ -31,15 +31,11 @@ public:
         .minimumHeight = 100,
         .processor = processor
     }),
-    frequencyDial( "Frequency" , 20.0f, 10000.0f, 0.3f, " Hz"),
-    positionDial(  "Position"  , 0.0f , 1.0f    , 1.0f, " %",  0),
-    dampDial(      "Damping"   , 0.0f , 1.0f    , 1.0f, " %",  0),
-    decayDial(     "Decay"     , 0.0f , 1.0f    , 1.0f, " %",  0),
-    modeButton(    "Mode", PhiSliderButton::LabelPosition::Left),
-    frequencyAttachment(*processor.params.getParameter("freq"), frequencyDial),
-    positionAttachment(*processor.params.getParameter("pos"), positionDial),
-    dampAttachment(*processor.params.getParameter("damp"), dampDial),
-    decayAttachment(*processor.params.getParameter("decay"), decayDial),
+    frequencyDial(*processor.params.getParameter("freq")),
+    positionDial(*processor.params.getParameter("pos")),
+    dampDial(*processor.params.getParameter("damp")),
+    decayDial(*processor.params.getParameter("decay")),
+    modeButton("Mode", PhiSliderButton::LabelPosition::Left),
     modeAttachment(*processor.params.getParameter("mode"), modeButton)
     {
         addAndMakeVisible(frequencyDial);
@@ -55,7 +51,7 @@ public:
     
     void onResize(Rectangle<int> moduleBounds) override
     {
-        const int dialWidth = (float)moduleBounds.getWidth()/4.0f;
+        int dialWidth = moduleBounds.getWidth() / 4;
         
         auto buttonRow = moduleBounds.removeFromTop(30);
         
@@ -70,8 +66,5 @@ public:
 private:
     PhiDial frequencyDial, positionDial, dampDial, decayDial;
     PhiSliderButton modeButton;
-    SliderParameterAttachment frequencyAttachment, positionAttachment, dampAttachment, decayAttachment;
     ButtonParameterAttachment modeAttachment;
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StringUI)
 };
