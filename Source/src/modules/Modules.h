@@ -14,7 +14,7 @@
 #include "Impulse/ImpulseProcessor.h"
 #include "Output/OutputProcessor.h"
 #include "String/StringProcessor.h"
-#include "Friction/FrictionProcessor.h"
+#include "Grit/GritProcessor.h"
 // Add Module processor headers here
 
 class Modules {
@@ -55,7 +55,7 @@ public:
             moduleInfo<StringProcessor>("String"),
             moduleInfo<GainProcessor>("Gain"),
             moduleInfo<OutputProcessor>("Output"),
-            moduleInfo<FrictionProcessor>("Friction")
+            moduleInfo<GritProcessor>("Grit")
             // Add Modules to list here
         );
     }

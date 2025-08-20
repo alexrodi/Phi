@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    FrictionProcessor.h
+    GritProcessor.h
     Created: 20 Aug 2025 1:56:03am
     Author:  Alexandre Rodrigues
 
@@ -13,12 +13,12 @@
 ///@cond
 #include <JuceHeader.h>
 ///@endcond
-#include "FrictionUI.h"
+#include "GritUI.h"
 
 //==============================================================================
 /*
 */
-class FrictionProcessor : public ModuleProcessor
+class GritProcessor : public ModuleProcessor
 {
     Random rng;
     IIRFilter filter;
@@ -27,7 +27,7 @@ class FrictionProcessor : public ModuleProcessor
     double sampleRate = 44100.0;
     
 public:
-    FrictionProcessor() :
+    GritProcessor() :
     ModuleProcessor(
         4, // Inlets
         1, // Outlets
@@ -56,7 +56,7 @@ public:
     )
     {}
     
-    ~FrictionProcessor() {}
+    ~GritProcessor() {}
     
     void prepare (double newSampleRate, int maxBlockSize) override {
         sampleRate = newSampleRate;
@@ -90,6 +90,6 @@ public:
         else if (parameterID == "cutoff") cutoff = value;
     }
     
-    AudioProcessorEditor* createEditor() override {return new FrictionUI(*this);}
+    AudioProcessorEditor* createEditor() override {return new GritUI(*this);}
     
 };

@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    FrictionUI.h
+    GritUI.h
     Created: 20 Aug 2025 1:56:03am
     Author:  Alexandre Rodrigues
 
@@ -16,13 +16,13 @@
 #include "../../ModuleProcessor.h"
 #include "../../ui/PhiDial.h"
 
-class FrictionUI    : public ModuleUI
+class GritUI    : public ModuleUI
 {
 public:
-    FrictionUI(ModuleProcessor& processor) :
+    GritUI(ModuleProcessor& processor) :
     ModuleUI({
         // All modules must initialize these properties
-        .name =  "Friction",
+        .name =  "Grit",
         .inlets = {"In", "Amount", "Density", "Cutoff"},
         .outlets = {"Out"},
         .width = 260,
@@ -39,7 +39,7 @@ public:
         addAndMakeVisible(cutoffDial);
     }
     
-    ~FrictionUI() {};
+    ~GritUI() {};
 
     void paint (Graphics& g) override {};
     
