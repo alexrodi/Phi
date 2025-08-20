@@ -40,11 +40,11 @@ struct FrictionProcessor : ModuleProcessor
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
-            "cutoff",
-            "Cutoff",
-            NormalisableRange<float> (20.0f, 20000.0f, 0.0, 0.2f),
-            1000.0f,
-            FloatParameter::Attributes{}.withLabel("Hz")
+            "drift",
+            "Drift",
+            NormalisableRange<float> (0.0f, 95.0f, 0.0, 0.5f),
+            0.0f,
+            FloatParameter::Attributes{}.withLabel("%")
         )
     )
     {}
@@ -61,22 +61,21 @@ struct FrictionProcessor : ModuleProcessor
         float* samples = buffer.getWritePointer(0);
         const float* freqCVSamples = buffer.getReadPointer(0);
         const float* jitterCVSamples = buffer.getReadPointer(1);
-        const float* cutoffCVSamples = buffer.getReadPointer(2);
+        const float* driftCVSamples = buffer.getReadPointer(2);
         
-        for (int n = 0; n < buffer.getNumSamples(); n++)
-        {
-            float saw = sawtooth.process(std::min(freq * pow(5.0f, *freqCVSamples++), 20000.0f), clip(jitter + *jitterCVSamples++, 0.0f, 1.0f));
-            
-            filter.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, clip(cutoff * pow(5.0f, *cutoffCVSamples++), 20.0f, 20000.0f)));
-            
-            *samples++ = filter.processSingleSampleRaw(saw);
+        for (int n = 0; n < buffer.getNumSamples(); n++) {
+            *samples++ = sawtooth.process(
+                std::min(freq * pow(5.0f, *freqCVSamples++), 20000.0f),
+                clip(jitter + *jitterCVSamples++, 0.0f, 1.0f),
+                clip(drift + *driftCVSamples++, 0.0f, 1.0f)
+            );
         }
     }
     
     void parameterChanged (const String& parameterID, float value) override {
         if (parameterID == "freq") freq = value;
         else if (parameterID == "jitter") jitter = value * 0.01f;
-        else if (parameterID == "cutoff") cutoff = value;
+        else if (parameterID == "drift") drift = value * 0.01f;
     }
     
     AudioProcessorEditor* createEditor() override {return new FrictionUI(*this);}
@@ -88,9 +87,20 @@ private:
             phase = 0.0f;
         }
         
-        /// freq: [0 , 20000]
-        float process (float freq, float jitter) {
-            double increment = (double)freq * incrFactor * jitterFactor;
+        float nextDriftValue() {
+            float f = driftValue + (rng.nextFloat() - 0.5f) * 0.1f;
+            
+            // Fold
+            if (f >= 1.0f)
+                f = 1.0f - (f - 1.0);
+            else if (f <= -1.0f)
+                f = -1.0 - (f + 1.0);
+            
+            return f;
+        }
+
+        float process (float freq, float jitter, float drift) {
+            double increment = (double)freq * incrFactor * jitterFactor * (1.0f + driftValue * drift);
             
             float saw = 2.0f * phase - 1.0f;
             
@@ -102,6 +112,9 @@ private:
                 // jitter changes the frequency of the next period
                 jitterFactor = pow(4.0, jitter * (rng.nextFloat() - 0.5f));
                 
+                // drift shifts the frequency in a random walk
+                driftValue = nextDriftValue();
+                
                 phase -= 1.0;
             }
             
@@ -110,7 +123,7 @@ private:
         
     private:
         Random rng;
-        double phase = 0.0, incrFactor = 0.01, jitterFactor = 1.0;
+        double phase = 0.0, incrFactor = 0.01, jitterFactor = 1.0, driftValue = 1.0;
         
         // A simple 3rd-order polynomial approximation for a BLEP.
         static constexpr float blep (float dt, float t) {
@@ -125,7 +138,6 @@ private:
         }
     } sawtooth;
     
-    IIRFilter filter;
-    float freq = 30.0f, jitter = 0.0f, cutoff = 20.0f;
+    float freq = 30.0f, jitter = 0.0f, drift = 0.0f;
     double sampleRate = 44100.0;
 };

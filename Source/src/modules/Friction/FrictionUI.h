@@ -22,20 +22,20 @@ struct FrictionUI : ModuleUI
     ModuleUI({
         // All modules must initialize these properties
         .name =  "Friction",
-        .inlets = {"Freq", "Jitter", "Cutoff"},
+        .inlets = {"Freq", "Jitter", "Drift"},
         .outlets = {"Out"},
-        .width = 260,
+        .width = 270,
         .height = 130,
         .minimumHeight = 100,
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),
     jitterDial(*processor.params.getParameter("jitter")),
-    cutoffDial(*processor.params.getParameter("cutoff"))
+    driftDial(*processor.params.getParameter("drift"))
     {
         addAndMakeVisible(freqDial);
         addAndMakeVisible(jitterDial);
-        addAndMakeVisible(cutoffDial);
+        addAndMakeVisible(driftDial);
     }
     
     ~FrictionUI() {};
@@ -48,9 +48,9 @@ struct FrictionUI : ModuleUI
         
         freqDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
         jitterDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        cutoffDial.setBounds( moduleBounds );
+        driftDial.setBounds( moduleBounds );
     }
 
 private:
-    PhiDial freqDial, jitterDial, cutoffDial;
+    PhiDial freqDial, jitterDial, driftDial;
 };
