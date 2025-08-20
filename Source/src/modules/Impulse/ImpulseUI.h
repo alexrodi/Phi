@@ -15,94 +15,11 @@
 ///@endcond
 #include "../../ModuleProcessor.h"
 #include "../../ui/PhiDial.h"
-
-//Waveform
-class Waveform : public Component
-{
-public:
-    Waveform()
-    {
-        setBufferedToImage(true);
-        setPaintingIsUnclipped(true);
-    }
-    
-    const void setColour(const Colour& newStrokeColour, const Colour& newFillColour)
-    {
-        strokeColour = newStrokeColour;
-        fillColour = newFillColour;
-    }
-    
-    const void updateForm(const float shape)
-    {
-        const float shapeValue = powf(shape, 0.1f);
-        
-        const int pixelsPerPoint = 2;
-        
-        const float width           =  getWidth();
-        const int   aaValue         =  8; // x8 AA
-        const float aaRatio         =  1.0f / aaValue;
-        // scale the values so that the waveform (more or less) fills the width
-        const float phaseIncrement  =  ( ( ( powf( shapeValue, 50.0f ) * 200.0f + 30.0f) / width) * (float)pixelsPerPoint) * aaRatio;
-        
-        float phase = 0.0f;
-        
-        path.clear();
-        path.startNewSubPath (strokeWidth, centreY);
-
-        // Add lines to path
-        for ( int x = strokeWidth; x < width; x += pixelsPerPoint )
-        {
-            float y = 0.0f;
-            for( int i = 0; i < aaValue; i++ )
-            {
-                y += fabsf( processImpulse( phase, shapeValue ) );
-                phase += phaseIncrement;
-            }
-            y *= aaRatio;
-            path.lineTo ( x, y * yRange + centreY );
-        }
-        
-        path.lineTo ( width, centreY );
-        path = path.createPathWithRoundedCorners(60);
-        
-        auto bottomPath = path;
-        bottomPath.applyTransform( AffineTransform().verticalFlip( (float)getHeight() ) );
-        path.addPath(bottomPath);
-        repaint();
-    }
-    
-    void resized() override
-    {
-        centreY = getBounds().toFloat().getCentreY();
-        yRange = (float)getHeight() * 0.57f;
-    }
-    
-    void paint(Graphics& g) override
-    {
-        g.setColour(fillColour);
-        g.fillPath(path);
-        
-        g.setColour(strokeColour);
-        g.strokePath (path, PathStrokeType (strokeWidth));
-    }
-private:
-    const float strokeWidth = 1;
-    float yRange;
-    float centreY;
-    Colour strokeColour;
-    Colour fillColour;
-    Path path;
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Waveform)
-};
-
 //==============================================================================
 /*
 */
-class ImpulseUI    : public ModuleUI,
-                     public Slider::Listener
+struct ImpulseUI : ModuleUI
 {
-public:
     ImpulseUI(ModuleProcessor& processor) :
     ModuleUI{{
         // All modules must initialize these properties
@@ -124,6 +41,8 @@ public:
         addAndMakeVisible(waveForm);
         addAndMakeVisible(frequencyDial);
         addAndMakeVisible(shapeDial);
+        
+        shapeDial.onValueChange = [&] () {waveForm.updateForm(shapeDial.getValue());};
     }
     
     ~ImpulseUI() {};
@@ -153,18 +72,83 @@ public:
     }
 
 private:
-    
+    struct Waveform : Component
+    {
+        Waveform()
+        {
+            setBufferedToImage(true);
+            setPaintingIsUnclipped(true);
+        }
+        
+        const void setColour(const Colour& newStrokeColour, const Colour& newFillColour)
+        {
+            strokeColour = newStrokeColour;
+            fillColour = newFillColour;
+        }
+        
+        const void updateForm(const float shape)
+        {
+            const float shapeValue = powf(shape, 0.1f);
+            
+            const int pixelsPerPoint = 2;
+            
+            const float width           =  getWidth();
+            const int   aaValue         =  8; // x8 AA
+            const float aaRatio         =  1.0f / aaValue;
+            // scale the values so that the waveform (more or less) fills the width
+            const float phaseIncrement  =  ( ( ( powf( shapeValue, 50.0f ) * 200.0f + 30.0f) / width) * (float)pixelsPerPoint) * aaRatio;
+            
+            float phase = 0.0f;
+            
+            path.clear();
+            path.startNewSubPath (strokeWidth, centreY);
+
+            // Add lines to path
+            for ( int x = strokeWidth; x < width; x += pixelsPerPoint )
+            {
+                float y = 0.0f;
+                for( int i = 0; i < aaValue; i++ )
+                {
+                    y += fabsf( processImpulse( phase, shapeValue ) );
+                    phase += phaseIncrement;
+                }
+                y *= aaRatio;
+                path.lineTo ( x, y * yRange + centreY );
+            }
+            
+            path.lineTo ( width, centreY );
+            path = path.createPathWithRoundedCorners(60);
+            
+            auto bottomPath = path;
+            bottomPath.applyTransform( AffineTransform().verticalFlip( (float)getHeight() ) );
+            path.addPath(bottomPath);
+            repaint();
+        }
+        
+        void resized() override
+        {
+            centreY = getBounds().toFloat().getCentreY();
+            yRange = (float)getHeight() * 0.57f;
+        }
+        
+        void paint(Graphics& g) override
+        {
+            g.setColour(fillColour);
+            g.fillPath(path);
+            
+            g.setColour(strokeColour);
+            g.strokePath (path, PathStrokeType (strokeWidth));
+        }
+    private:
+        const float strokeWidth = 1;
+        float yRange;
+        float centreY;
+        Colour strokeColour;
+        Colour fillColour;
+        Path path;
+    };
+
     Waveform waveForm;
     
-    //Dials
     PhiDial frequencyDial, shapeDial;
-    
-    //Listeners
-    void sliderValueChanged (Slider* slider) override
-    {
-        if (slider == &shapeDial)
-        {
-            waveForm.updateForm(slider->getValue());
-        }
-    }
 };
