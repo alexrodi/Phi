@@ -23,22 +23,18 @@ public:
     ModuleUI({
         // All modules must initialize these properties
         .name =  "Grit",
-        .inlets = {"In", "Amount", "Density", "Freq", "Q"},
+        .inlets = {"In", "Amount", "Density"},
         .outlets = {"Out"},
-        .width = 320,
+        .width = 230,
         .height = 130,
         .minimumHeight = 100,
         .processor = processor
     }),
     noiseDial(*processor.params.getParameter("amount")),
-    densityDial(*processor.params.getParameter("density")),
-    freqDial(*processor.params.getParameter("center-freq")),
-    qDial(*processor.params.getParameter("q"))
+    densityDial(*processor.params.getParameter("density"))
     {
         addAndMakeVisible(noiseDial);
         addAndMakeVisible(densityDial);
-        addAndMakeVisible(freqDial);
-        addAndMakeVisible(qDial);
     }
     
     ~GritUI() {};
@@ -47,14 +43,12 @@ public:
     
     void onResize(Rectangle<int> moduleBounds) override
     {
-        int dialWidth = moduleBounds.getWidth() / 4;
+        int dialWidth = moduleBounds.getWidth() / 2;
         
         noiseDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        densityDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        freqDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        qDial.setBounds( moduleBounds );
+        densityDial.setBounds( moduleBounds );
     }
 
 private:
-    PhiDial noiseDial, densityDial, freqDial, qDial;
+    PhiDial noiseDial, densityDial;
 };

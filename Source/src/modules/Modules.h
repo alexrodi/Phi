@@ -16,6 +16,7 @@
 #include "String/StringProcessor.h"
 #include "Grit/GritProcessor.h"
 #include "Friction/FrictionProcessor.h"
+#include "LFO/LFOProcessor.h"
 // Add Module processor headers here
 
 class Modules {
@@ -52,6 +53,7 @@ class Modules {
 public:
     static std::vector<std::unique_ptr<ModuleInfo>> moduleList() {
         return initFromMoveable<ModuleInfo>(
+            moduleInfo<LFOProcessor>("LFO"),
             moduleInfo<ImpulseProcessor>("Impulse"),
             moduleInfo<FrictionProcessor>("Friction"),
             moduleInfo<GritProcessor>("Grit"),

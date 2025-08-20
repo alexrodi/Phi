@@ -31,6 +31,11 @@
                 file="Source/src/modules/Impulse/ImpulseProcessor.h"/>
           <FILE id="JHHaue" name="ImpulseUI.h" compile="0" resource="0" file="Source/src/modules/Impulse/ImpulseUI.h"/>
         </GROUP>
+        <GROUP id="{BA714537-B0AA-F078-517E-A33558FC5C09}" name="LFO">
+          <FILE id="ubJrxg" name="LFO.h" compile="0" resource="0" file="Source/src/modules/LFO/LFO.h"/>
+          <FILE id="fOU5bh" name="LFOProcessor.h" compile="0" resource="0" file="Source/src/modules/LFO/LFOProcessor.h"/>
+          <FILE id="eTBGE9" name="LFOUI.h" compile="0" resource="0" file="Source/src/modules/LFO/LFOUI.h"/>
+        </GROUP>
         <GROUP id="{E13C73A8-5B69-3D24-43CB-CB8950CF9DFC}" name="Output">
           <FILE id="uekIeJ" name="OutputProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/Output/OutputProcessor.h"/>
