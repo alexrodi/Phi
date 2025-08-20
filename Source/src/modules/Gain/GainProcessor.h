@@ -18,9 +18,8 @@
 //==============================================================================
 /*
 */
-class GainProcessor    : public ModuleProcessor
+struct GainProcessor : ModuleProcessor
 {
-public:
     GainProcessor() :
     ModuleProcessor(
         2, // Inlets

@@ -18,15 +18,8 @@
 //==============================================================================
 /*
 */
-class GritProcessor : public ModuleProcessor
+struct GritProcessor : ModuleProcessor
 {
-    Random rng;
-    IIRFilter filter;
-    
-    float amount = 0.0f, density = 0.0f, freq = 20.0f, q = 1.0f;
-    double sampleRate = 44100.0;
-    
-public:
     GritProcessor() :
     ModuleProcessor(
         5, // Inlets
@@ -104,4 +97,10 @@ public:
     
     AudioProcessorEditor* createEditor() override {return new GritUI(*this);}
     
+private:
+    Random rng;
+    IIRFilter filter;
+    
+    float amount = 0.0f, density = 0.0f, freq = 20.0f, q = 1.0f;
+    double sampleRate = 44100.0;
 };
