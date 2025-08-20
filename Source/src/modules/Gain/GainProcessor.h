@@ -23,7 +23,7 @@ class GainProcessor    : public ModuleProcessor
 public:
     GainProcessor() :
     ModuleProcessor(
-        1, // Inlets
+        2, // Inlets
         1, // Outlets
         //============= Parameters =============
         std::make_unique<FloatParameter> (
@@ -42,7 +42,12 @@ public:
     
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-       buffer.applyGain(juce::Decibels::decibelsToGain(params.getRawParameterValue("gain")->load()));
+        float gain = juce::Decibels::decibelsToGain(params.getRawParameterValue("gain")->load());
+        float* inOutSamples = buffer.getWritePointer(0);
+        const float* gainCVSamples = buffer.getReadPointer(1);
+        
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+            *inOutSamples++ *= clip(gain + *gainCVSamples++, 0.0f, 4.0f);
     }
     
     AudioProcessorEditor* createEditor() override {return new GainUI(*this);}

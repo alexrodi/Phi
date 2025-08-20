@@ -23,7 +23,7 @@ public:
     ModuleUI({
         // All modules must initialize these properties
         .name =  "Gain",
-        .inlets = {"In"},
+        .inlets = {"In", "Gain"},
         .outlets = {"Out"},
         .width = 160,
         .height = 160,
