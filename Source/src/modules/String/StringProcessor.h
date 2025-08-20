@@ -23,7 +23,7 @@ class StringProcessor    : public ModuleProcessor
 {
 public:
     StringProcessor() :
-    ModuleProcessor(1, 1,
+    ModuleProcessor(5, 1,
         std::make_unique<AudioParameterFloat> (
             "freq",
             "Frequency",
@@ -94,39 +94,45 @@ public:
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
         const float* inputSamples = buffer.getReadPointer(0);
+        const float* freqCVSamples = buffer.getReadPointer(1);
+        const float* posCVSamples = buffer.getReadPointer(2);
+        const float* dampCVSamples = buffer.getReadPointer(3);
+        const float* decayCVSamples = buffer.getReadPointer(4);
         
         float* outputSamples = buffer.getWritePointer(0);
         
-        const float periodInSamples = sampleRate / frequency;
-        
-        float feedback = getFeedback(periodInSamples);
-         
-        // The interval to apply to each delay line
         // Mode B doubles the (perceived) interval so we must divide it accordingly
-        const float interval = periodInSamples * (mode == Mode::B ? 0.5f : 1.0f);
-        
-        // Pickup position is always a fraction of the interval
-        const float line1Pos = interval * pos;
-        const float line2Pos = interval - line1Pos;
+        float modeFactor = mode == Mode::B ? 0.5f : 1.0f;
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
+            float periodInSamples = sampleRate / (frequency * pow(5.0f, *freqCVSamples++));
+            
+            float scaledDecay = scaleDecay(clip(decay + *decayCVSamples++, 0.0f, 1.0f), mode);
+            float feedback = getFeedback(periodInSamples, scaledDecay);
+            float damping = clip(damp + *dampCVSamples++, 0.0f, 1.0f);
+            
+            // The interval to apply to each delay line
+            float interval = periodInSamples * modeFactor;
+            
+            // Pickup position is always a fraction of the interval
+            float line1Pos = interval * clip(pos + *posCVSamples++, 0.0f, 1.0f);
+            float line2Pos = interval - line1Pos;
+            
             float input = (*inputSamples++) * 0.05f;
             
-            line1.push(   input + processLine1Node(damp, feedback, interval, mode) );
-            line2.push( - input + processLine2Node(damp, feedback, interval) );
+            line1.push(   input + processLine1Node(damping, feedback, interval, mode) );
+            line2.push( - input + processLine2Node(damping, feedback, interval) );
             
             *outputSamples++ = readOutput(line1Pos, line2Pos);
         }
     }
     
     void parameterChanged (const String& parameterID, float value) override {
-        if (parameterID == "mode") {
-            mode = (Mode)value;
-            decay = scaleDecay(value, mode);
-        } else if (parameterID == "damp") damp = value;
+        if (parameterID == "mode") mode = (Mode)value;
+        else if (parameterID == "damp") damp = value;
         else if (parameterID == "freq") frequency = value;
-        else if (parameterID == "decay") decay = scaleDecay(value, mode);
+        else if (parameterID == "decay") decay = value;
         else if (parameterID == "pos") pos = value;
     }
     
@@ -141,7 +147,7 @@ private:
     Accum<float> accum;
     
     enum class Mode {A, B} mode = Mode::A;
-    float damp = 0.0f, frequency = 1.0f, decay = 0.0f, pos = 0.0f;
+    float damp = 0.0f, frequency = 20.0f, decay = 0.0f, pos = 0.0f;
     
     float processLine1Node(float damp, float feedback, float interval, Mode mode)
     {
@@ -173,10 +179,10 @@ private:
     
     constexpr float scaleDecay(float decay, Mode mode)
     {
-        return powf(decay, mode == Mode::B ? 0.0005f : 0.05f);
+        return pow(decay, mode == Mode::B ? 0.0005f : 0.05f);
     }
     
-    constexpr float getFeedback(float periodInSamples) {
+    constexpr float getFeedback(float periodInSamples, float decay) {
         float exponent = periodInSamples * (0.01f + (mode == Mode::B ? 0.52f : 0.0f));
         return pow(decay, exponent) * 0.997f;
     }

@@ -24,8 +24,8 @@ public:
     ModuleUI({
         // All modules must initialize these properties
         .name =  "String",
-        .inlets = {"Input"},
-        .outlets = {"Output"},
+        .inlets = {"In", "Freq", "Pos", "Damp", "Decay"},
+        .outlets = {"Out"},
         .width = 330,
         .height = 160,
         .minimumHeight = 100,
@@ -47,8 +47,6 @@ public:
         addAndMakeVisible(dampDial);
         addAndMakeVisible(decayDial);
         addAndMakeVisible(modeButton);
-        
-        frequencyDial.setValue(440.0f);
     }
     
     ~StringUI() {}
