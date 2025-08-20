@@ -94,7 +94,7 @@ public:
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
-            float periodInSamples = sampleRate / (frequency * pow(5.0f, *freqCVSamples++));
+            float periodInSamples = sampleRate / std::min(frequency * pow(5.0f, *freqCVSamples++), 10000.0f);
             
             float scaledDecay = scaleDecay(clip(decay + *decayCVSamples++, 0.0f, 1.0f), mode);
             float feedback = getFeedback(periodInSamples, scaledDecay);
