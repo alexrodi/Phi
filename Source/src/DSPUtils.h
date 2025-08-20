@@ -131,48 +131,65 @@ private:
 };
 
 template <typename Type>
-class DCBlock
-{
-public:
-    Type process(Type input)
+struct OnePole {
+    void setCutoff (float cutoffInHz) noexcept
     {
-        previousOutput = input - previousInput + 0.995 * previousOutput;
-        previousInput = input;
-        return previousOutput;
+        using fast = juce::dsp::FastMathApproximations;
+        
+        if (cutoffInHz == cutoff) return;
+        
+        mixFactor = clip(fast::exp(cutoffInHz * sampleFactor), 0.0f, 0.99999f);
+        cutoff = cutoffInHz;
     }
-    void reset()
+    
+    Type process (Type input) noexcept
     {
-        previousInput = 0.0;
-        previousOutput = 0.0;
+        return previous = mix(input, previous, mixFactor);
     }
+    
+    void prepare (double samplerate) noexcept
+    {
+        previous = 0.0;
+        sampleFactor = -juce::MathConstants<double>::twoPi / samplerate;
+        setCutoff(cutoff);
+    }
+
 private:
-    Type previousInput = 0.0;
-    Type previousOutput = 0.0;
+    Type previous = 0.0;
+    float cutoff = 20000.0f;
+    float sampleFactor = 0.0f, mixFactor = 0.0f;
 };
 
 template <typename Type>
-class OnePole
+struct OnePoleHigh : OnePole<Type>
 {
-public:
-    Type process(Type input, float cutoff)
+    OnePoleHigh() = default;
+    
+    Type process(Type input) noexcept
     {
-        previous = mix(input, previous, cutoff);
-        return dcBlock.process(previous);
+        return input - OnePole<Type>::process(input);
+    }
+};
+
+template <typename Type>
+struct DCBlock : OnePoleHigh<Type>
+{
+    DCBlock()
+    {
+        OnePoleHigh<Type>::setCutoff(10.0f);
     }
     
-    Type processInverse(Type input, float cutoff)
+    Type process(Type input) noexcept
     {
-        return input - process(input, cutoff);
+        return OnePoleHigh<Type>::process(input);
     }
     
-    void reset()
+    void prepare (double samplerate) noexcept
     {
-        previous = 0.0;
-        dcBlock.reset();
+        OnePoleHigh<Type>::prepare(samplerate);
     }
+    
 private:
-    Type previous = 0.0;
-    DCBlock<Type> dcBlock;
 };
 
 template <typename Type>
