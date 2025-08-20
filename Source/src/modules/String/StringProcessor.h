@@ -42,14 +42,14 @@ public:
             "pos",
             "Position",
             NormalisableRange<float>(0.0f, 100.0f),
-            0.25f,
+            25.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
             "decay",
             "Decay",
             NormalisableRange<float>(0.0f, 100.0f),
-            0.9f,
+            90.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<AudioParameterBool>  (
