@@ -33,11 +33,11 @@ struct FrictionProcessor : ModuleProcessor
             FloatParameter::Attributes{}.withLabel("Hz")
         ),
         std::make_unique<FloatParameter> (
-           "jitter",
-           "Jitter",
-           NormalisableRange<float> (0.0f, 100.0f, 0.0f, 0.3f),
-           0.0f,
-           FloatParameter::Attributes{}.withLabel("%")
+            "jitter",
+            "Jitter",
+            NormalisableRange<float> (0.0f, 100.0f, 0.0f, 0.3f),
+            0.0f,
+            FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
             "cutoff",
@@ -67,7 +67,7 @@ struct FrictionProcessor : ModuleProcessor
         {
             float saw = sawtooth.process(std::min(freq * pow(5.0f, *freqCVSamples++), 20000.0f), clip(jitter + *jitterCVSamples++, 0.0f, 1.0f));
             
-            filter.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, std::min(cutoff * pow(5.0f, *cutoffCVSamples++), 20000.0f)));
+            filter.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, clip(cutoff * pow(5.0f, *cutoffCVSamples++), 20.0f, 20000.0f)));
             
             *samples++ = filter.processSingleSampleRaw(saw);
         }
