@@ -67,12 +67,12 @@ public:
     
     ~ImpulseProcessor() {}
     
-    void prepareToPlay (double newSampleRate, int maxBlockSize) override
+    void prepare (double newSampleRate, int maxBlockSize) override
     {
         incrFactor = MathConstants<float>::twoPi / (float)newSampleRate;
     }
     
-    void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
+    void process (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
         const float phaseIncrement = freq * incrFactor;
         const float* triggerSamples = buffer.getReadPointer(0);
@@ -111,7 +111,7 @@ private:
     float incrFactor = 1.0f;
     float currentPhase = 0.0f;
     float previousTrigger = 0.0f;
-    float freq = 1.0f, shape = 0.0f;
+    float freq = 20.0f, shape = 0.0f;
     
     bool triggerParameterWasOn()
     {

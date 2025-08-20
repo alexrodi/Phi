@@ -74,7 +74,7 @@ public:
     
     ~StringProcessor() {}
     
-    void prepareToPlay (double newSampleRate, int maxBlockSize) override
+    void prepare (double newSampleRate, int maxBlockSize) override
     {
         sampleRate = newSampleRate;
         line1.resize(newSampleRate);
@@ -91,7 +91,7 @@ public:
        
     }
     
-    void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
         const float* inputSamples = buffer.getReadPointer(0);
         

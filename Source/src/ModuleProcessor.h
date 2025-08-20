@@ -50,20 +50,29 @@ public:
     {
         setPlayConfigDetails (inletNumber, outletNumber, getSampleRate(), getBlockSize());
         
-        for (int i = 0; i < params.state.getNumChildren(); i++)
-            params.addParameterListener(params.state.getChild(i).getProperty("id").toString(), this);
+        // Add parameter listeners
+        for (int i = 0; i < params.state.getNumChildren(); i++){
+            auto paramID = params.state.getChild(i).getProperty("id").toString();
+            params.addParameterListener(paramID, this);
+            parameterChanged(paramID, *params.getRawParameterValue(paramID));
+        }
     }
     
     virtual ~ModuleProcessor() = default;
     
+    /// Creates the UI for this Module
     std::unique_ptr<ModuleUI> createUI() {
         return std::unique_ptr<ModuleUI>(static_cast<ModuleUI*>(createEditor()));
     }
     
-    bool hasEditor() const override { return true; }
-    
     /// Override this to get notified of parameter changes
     void parameterChanged (const String& parameterID, float newValue) override {}
+    
+    /// Called before playback starts, to let the processor prepare itself.
+    virtual void prepare (double newSampleRate, int maxBlockSize) = 0;
+    
+    /// Renders the next block.
+    virtual void process (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) = 0;
     
 private:
     
@@ -80,6 +89,23 @@ private:
     void changeProgramName (int index, const String& newName) override {}
     void getStateInformation (MemoryBlock& destData) override {}
     void setStateInformation (const void* data, int sizeInBytes) override {}
+    bool hasEditor() const override { return true; }
+    
+    void prepareToPlay (double newSampleRate, int maxBlockSize) override
+    {
+        // Initialise parameters
+        for (int i = 0; i < params.state.getNumChildren(); i++){
+            auto paramID = params.state.getChild(i).getProperty("id").toString();
+            parameterChanged(paramID, *params.getRawParameterValue(paramID));
+        }
+        
+        prepare(newSampleRate, maxBlockSize);
+    }
+    
+    void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
+    {
+        process(buffer, midiMessages);
+    }
     ///@endcond
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModuleProcessor)

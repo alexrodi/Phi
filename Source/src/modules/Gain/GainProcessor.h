@@ -41,9 +41,9 @@ public:
     
     ~GainProcessor() {}
     
-    void prepareToPlay (double sampleRate, int maxBlockSize) override {}
+    void prepare (double sampleRate, int maxBlockSize) override {}
     
-    void processBlock (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
        buffer.applyGain(juce::Decibels::decibelsToGain((float)*params.getRawParameterValue("gain")));
     }
