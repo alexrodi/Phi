@@ -52,10 +52,10 @@ public:
     static std::vector<std::unique_ptr<ModuleInfo>> moduleList() {
         return initFromMoveable<ModuleInfo>(
             moduleInfo<ImpulseProcessor>("Impulse"),
+            moduleInfo<GritProcessor>("Grit"),
             moduleInfo<StringProcessor>("String"),
             moduleInfo<GainProcessor>("Gain"),
-            moduleInfo<OutputProcessor>("Output"),
-            moduleInfo<GritProcessor>("Grit")
+            moduleInfo<OutputProcessor>("Output")
             // Add Modules to list here
         );
     }

@@ -10,12 +10,53 @@
 
 #pragma once
 
+
+/// A mathematically accurate and waaaay faster implementation of `fmod()`
+template <typename T>
+inline T mod(T a, T b) noexcept {
+    return a - b * floor(a / b);
+}
+
+/// Returns the fractional part of `x`
+template <typename T>
+inline T frac(T x) noexcept {
+    return x - floor(x);
+}
+
 /// Clips `value` between `min` and `max` (both bounds inclusive)
 template<typename T>
 inline T clip(T value, T min, T max) noexcept {
     if (value < min) return min;
     if (value > max) return max;
     return value;
+}
+
+/// A mirrored version of the power function, where pow(-x) is equal to -pow(x)
+template <typename T>
+inline T bipow(T base, T exponent) noexcept
+{
+    T sign = (base<0.0) ? -1 : 1;
+    return pow(base * sign, exponent) * sign;
+}
+
+/// Converts a MIDI note number into a frequency value in Hz (midi 69 = 440Hz)
+inline float midi_to_freq(float noteNumber) noexcept
+{
+    return pow(2.0f, (noteNumber - 69.0f) * 0.08333333333f) * 440.0f;
+}
+
+/// Converts dB into an amplitude factor
+template <std::floating_point T>
+inline T db_to_a(T db) noexcept
+{
+    return pow(static_cast<T>(10.0), db * static_cast<T>(0.05));
+}
+
+/// Converts an amplitude factor into dB
+template <std::floating_point T>
+inline T a_to_db(T a) noexcept
+{
+    return static_cast<T>(20.0) * log10(a);
 }
 
 template <std::floating_point T>
