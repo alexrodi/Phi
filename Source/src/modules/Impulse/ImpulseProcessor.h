@@ -27,11 +27,8 @@ static constexpr float processImpulse(float phase, float shape)
 
 #include "ImpulseUI.h"
 
-class ImpulseProcessor : public ModuleProcessor
+struct ImpulseProcessor : ModuleProcessor
 {
-public:
-    static const float constexpr invTwoPi = 1.0f/MathConstants<float>::twoPi;
-    
     ImpulseProcessor() :
     ModuleProcessor(
         3, // Inlets
@@ -63,33 +60,33 @@ public:
     
     void prepare (double newSampleRate, int maxBlockSize) override
     {
-        incrFactor = MathConstants<float>::twoPi / (float)newSampleRate;
+        incrFactor = MathConstants<double>::twoPi / newSampleRate;
     }
     
     void process (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
-        const float phaseIncrement = freq * incrFactor;
+        double increment = (double)freq * incrFactor;
         const float* triggerSamples = buffer.getReadPointer(0);
         const float* freqCVSamples = buffer.getReadPointer(1);
         const float* shapeCVSamples = buffer.getReadPointer(2);
         float* outSamples = buffer.getWritePointer(0);
         float* rampSamples = buffer.getWritePointer(1);
         
-        if (triggerParameterWasOn()) currentPhase = 0.0f;
+        if (triggerParameterWasOn()) phase = 0.0;
         
         // for now, we constantly process audio, but ideally, the module should know if it is connected
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
             const float trigger = *triggerSamples++;
-            if ((previousTrigger - trigger) > 0.5f) currentPhase = 0.0f;
+            if ((previousTrigger - trigger) > 0.5f) phase = 0.0;
             
-            float nextPhase = currentPhase + phaseIncrement * pow(5.0f, *freqCVSamples++);
+            double nextPhase = phase + increment * (double)pow(5.0f, *freqCVSamples++);
             
-            *outSamples++ = processImpulse(currentPhase, clip(shape + *shapeCVSamples++, 0.0f, 1.0f));
-            *rampSamples++ = std::min(1.0f, currentPhase * invTwoPi);
+            *outSamples++ = processImpulse(phase, clip(shape + *shapeCVSamples++, 0.0f, 1.0f));
+            *rampSamples++ = std::min(1.0f, (float)phase * invTwoPi);
 
-            currentPhase = nextPhase;
-            currentPhase = std::min(std::numeric_limits<float>::max(), currentPhase);
+            phase = nextPhase;
+            phase = std::min(std::numeric_limits<double>::max(), phase);
             previousTrigger = trigger;
         }
     }
@@ -102,8 +99,9 @@ public:
     AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
     
 private:
-    float incrFactor = 1.0f;
-    float currentPhase = 0.0f;
+    static constexpr float invTwoPi = 1.0f/MathConstants<float>::twoPi;
+    
+    double incrFactor = 1.0, phase = 0.0;
     float previousTrigger = 0.0f;
     float freq = 20.0f, shape = 0.0f;
     

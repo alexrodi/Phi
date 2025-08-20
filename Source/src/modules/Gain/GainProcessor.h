@@ -18,9 +18,8 @@
 //==============================================================================
 /*
 */
-class GainProcessor    : public ModuleProcessor
+struct GainProcessor : ModuleProcessor
 {
-public:
     GainProcessor() :
     ModuleProcessor(
         2, // Inlets
@@ -42,7 +41,7 @@ public:
     
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-        float gain = juce::Decibels::decibelsToGain(params.getRawParameterValue("gain")->load());
+        float gain = db_to_a(params.getRawParameterValue("gain")->load());
         float* inOutSamples = buffer.getWritePointer(0);
         const float* gainCVSamples = buffer.getReadPointer(1);
         

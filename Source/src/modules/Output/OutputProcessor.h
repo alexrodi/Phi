@@ -18,9 +18,8 @@
 //==============================================================================
 /*
 */
-class OutputProcessor    : public ModuleProcessor
+struct OutputProcessor : ModuleProcessor
 {
-public:
     OutputProcessor() :
     ModuleProcessor(2/* Inlets */, 2/* Outlets */)
     {
