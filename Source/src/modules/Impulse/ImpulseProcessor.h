@@ -40,7 +40,7 @@ public:
         std::make_unique<FloatParameter> (
            "freq",
            "Frequency",
-           NormalisableRange<float> (20.0f, 20000.0f, 0, 0.2f),
+           NormalisableRange<float> (20.0f, 20000.0f, 0.0, 0.2f),
            1000.0f,
            FloatParameter::Attributes{}.withLabel("Hz")
         ),

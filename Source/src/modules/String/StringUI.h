@@ -51,7 +51,7 @@ public:
     
     void onResize(Rectangle<int> moduleBounds) override
     {
-        const int dialWidth = (float)moduleBounds.getWidth()/4.0f;
+        int dialWidth = moduleBounds.getWidth() / 4;
         
         auto buttonRow = moduleBounds.removeFromTop(30);
         

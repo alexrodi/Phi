@@ -42,7 +42,7 @@ public:
     
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-       buffer.applyGain(juce::Decibels::decibelsToGain((float)*params.getRawParameterValue("gain")));
+       buffer.applyGain(juce::Decibels::decibelsToGain(params.getRawParameterValue("gain")->load()));
     }
     
     AudioProcessorEditor* createEditor() override {return new GainUI(*this);}

@@ -14,6 +14,7 @@
 #include "Impulse/ImpulseProcessor.h"
 #include "Output/OutputProcessor.h"
 #include "String/StringProcessor.h"
+#include "Friction/FrictionProcessor.h"
 // Add Module processor headers here
 
 class Modules {
@@ -53,7 +54,8 @@ public:
             moduleInfo<ImpulseProcessor>("Impulse"),
             moduleInfo<StringProcessor>("String"),
             moduleInfo<GainProcessor>("Gain"),
-            moduleInfo<OutputProcessor>("Output")
+            moduleInfo<OutputProcessor>("Output"),
+            moduleInfo<FrictionProcessor>("Friction")
             // Add Modules to list here
         );
     }
@@ -62,10 +64,8 @@ public:
     {
         PopupMenu modulesMenu;
         
-        int index = 1;
-        for (auto& module : moduleList()) {
-            modulesMenu.addItem(index++, module->name);
-        }
+        for (int index = 1; auto& info : moduleList())
+            modulesMenu.addItem(index++, info->name);
         
         return modulesMenu;
     }
