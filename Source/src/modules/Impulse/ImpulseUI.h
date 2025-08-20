@@ -127,7 +127,7 @@ private:
         
         void resized() override
         {
-            centreY = getBounds().toFloat().getCentreY();
+            centreY = getLocalBounds().toFloat().getCentreY();
             yRange = (float)getHeight() * 0.57f;
         }
         
@@ -141,8 +141,7 @@ private:
         }
     private:
         const float strokeWidth = 1;
-        float yRange;
-        float centreY;
+        float yRange = 1.0, centreY = 0.0f;
         Colour strokeColour;
         Colour fillColour;
         Path path;

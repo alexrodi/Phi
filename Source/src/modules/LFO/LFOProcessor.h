@@ -30,7 +30,7 @@ struct LFOProcessor : ModuleProcessor
             "rate",
             "Rate",
             NormalisableRange<float> (0.0f, 1.0f),
-            0.1f,
+            0.3f,
             FloatParameter::Attributes{}.withStringFromValueFunction([] (float value, int) {
                 return juce::String(LFO::rate_to_hz(value), 2) + " Hz";
             })
