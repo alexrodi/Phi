@@ -20,16 +20,16 @@
 */
 class FrictionProcessor : public ModuleProcessor
 {
-    Random rng;;
-    std::vector<float> noiseSamples;
+    Random rng;
     IIRFilter filter;
     
+    float amount = 0.0f, density = 0.0f, cutoff = 20.0f;
     double sampleRate = 44100.0;
     
 public:
     FrictionProcessor() :
     ModuleProcessor(
-        1, // Inlets
+        4, // Inlets
         1, // Outlets
         //============= Parameters =============
         std::make_unique<FloatParameter> (
@@ -60,27 +60,36 @@ public:
     
     void prepare (double newSampleRate, int maxBlockSize) override {
         sampleRate = newSampleRate;
-        noiseSamples.resize(maxBlockSize);
     }
     
     void process (AudioBuffer<float>& buffer, MidiBuffer&) override
     {
-        float noiseGain = *params.getRawParameterValue("amount") * 0.01f;
-        float density = *params.getRawParameterValue("density") * 0.01f;
+        float* inOutSamples = buffer.getWritePointer(0);
+        const float* amountCVSamples = buffer.getReadPointer(1);
+        const float* densityCVSamples = buffer.getReadPointer(2);
+        const float* cutoffCVSamples = buffer.getReadPointer(3);
         
-        for (float& sample : noiseSamples)
-            sample = (rng.nextFloat() < density) ? rng.nextBool() ? 0.5f : -0.5f : 0.0f;
-        
-        filter.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, *params.getRawParameterValue("cutoff")));
-        
-        filter.processSamples(noiseSamples.data(), buffer.getNumSamples());
-        
-        FloatVectorOperations::multiply(noiseSamples.data(), noiseGain, buffer.getNumSamples());
-        
-        FloatVectorOperations::add(noiseSamples.data(), 1.0f - noiseGain, buffer.getNumSamples());
-        
-        FloatVectorOperations::multiply(buffer.getWritePointer(0), noiseSamples.data(), buffer.getNumSamples());
+        for (int n = 0; n < buffer.getNumSamples(); n++)
+        {
+            float thresh = density + *densityCVSamples++;
+            float noise = (rng.nextFloat() < thresh) ? rng.nextBool() ? 0.5f : -0.5f : 0.0f;
+            
+            filter.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, std::min(cutoff * pow(5.0f, *cutoffCVSamples++), 20000.0f)));
+            noise = filter.processSingleSampleRaw(noise);
+            
+            float gain = clip(amount + *amountCVSamples++, 0.0f, 1.0f);
+            noise = noise * gain + (1.0f - gain);
+            
+            *inOutSamples++ *= noise;
+        }
+    }
+    
+    void parameterChanged (const String& parameterID, float value) override {
+        if (parameterID == "amount") amount = value * 0.01f;
+        else if (parameterID == "density") density = value * 0.01f;
+        else if (parameterID == "cutoff") cutoff = value;
     }
     
     AudioProcessorEditor* createEditor() override {return new FrictionUI(*this);}
+    
 };
