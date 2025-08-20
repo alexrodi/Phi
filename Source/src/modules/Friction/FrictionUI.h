@@ -22,7 +22,7 @@ struct FrictionUI : ModuleUI
     ModuleUI({
         // All modules must initialize these properties
         .name =  "Friction",
-        .inlets = {"In", "Freq", "Jitter", "Cutoff"},
+        .inlets = {"Freq", "Jitter", "Cutoff"},
         .outlets = {"Out"},
         .width = 260,
         .height = 130,
