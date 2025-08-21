@@ -9,7 +9,7 @@
 #include "ui/PhiSliderButton.h"
 
 //==============================================================================
-/// The lowest-order component that includes all the content
+/// The top-most component that includes all the content
 class MainComponent   : public Component,
                         public Button::Listener
 

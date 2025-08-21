@@ -158,21 +158,21 @@ ModuleBox& MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProc
     
     registerInletsAndOutlets(*moduleUI);
     
-    modules.push_back(std::make_unique<ModuleBox>(std::move(moduleUI), selectedModules));
-    auto& moduleBox = *modules.back();
+    auto [moduleBox, _] = modules.insert(std::make_unique<ModuleBox>(std::move(moduleUI), selectedModules));
     
     // Display and set its position
-    addAndMakeVisible(moduleBox);
-    moduleBox.setTopLeftPosition(position.toInt());
-    moduleBox.addChangeListener(this);
+    addAndMakeVisible(**moduleBox);
+    (*moduleBox)->setTopLeftPosition(position.toInt());
+    (*moduleBox)->addChangeListener(this);
     
-    return moduleBox;
+    return **moduleBox;
 }
 
 void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == &connections)
     {
+        // TODO: I Believe this is wrong - the visual connections should follow the audio engine, not the other way around
         audioEngine.applyAudioConnections(connections.getConnections());
     }
     else if (source == &selectedModules && selectedModules.getNumSelected() > 0 && !isMouseOverOrDragging())

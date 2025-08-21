@@ -46,8 +46,8 @@ private:
     /// A reference to the AudioEngine instance
     AudioEngine& audioEngine;
     
-    /// A vector for storing and accessing all the modules in the patcher
-    std::vector<std::unique_ptr<ModuleBox>> modules;
+    /// A set for storing and accessing all the modules in the patcher
+    std::unordered_set<std::unique_ptr<ModuleBox>> modules;
     
     /// The list of selected modules, it gets passed to each module because they subscribe themselves to the list, they also use it for dragging behaviour
     SelectedItemSet<ModuleBox*> selectedModules;

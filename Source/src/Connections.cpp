@@ -146,8 +146,7 @@ void Connections::createConnection(const PhiConnection& connection)
 
 void Connections::removeConnectionsIf(std::function<bool(PhiConnection&)> predicate)
 {
-    auto it = connections.begin();
-    while (it < connections.end())
+    for (auto it = connections.begin(); it < connections.end();)
     {
         if (predicate(*it)) connections.erase(it);
         else it++;

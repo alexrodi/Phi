@@ -14,11 +14,10 @@
 #include "ModuleBox.h"
 
 //==============================================================================
-ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi, SelectedItemSet<ModuleBox*>& selectionChangeSource) :
+ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi, SelectedItemSet<ModuleBox*>& moduleSelectedSet) :
 moduleUI{std::move(moduleUi)},
-powerButton{},
 resizer(this, this),
-moduleSelection{selectionChangeSource}
+moduleSelection{moduleSelectedSet}
 {
     powerButton.setToggleState(true, NotificationType());
     
@@ -173,8 +172,11 @@ void ModuleBox::mouseDrag(const MouseEvent& e)
 //==============================================================================
 void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
 {
-    if (source == &moduleSelection) repaint();
-    else if (auto colourSelector = dynamic_cast<ColourSelector*>(source)){
+    if (source == &moduleSelection) {
+        repaint();
+    }
+    else if (auto colourSelector = dynamic_cast<ColourSelector*>(source))
+    {
         forEachSelected( [colourSelector] (ModuleBox* module) {
             module->setHighlightColour(colourSelector->getCurrentColour());
         });
