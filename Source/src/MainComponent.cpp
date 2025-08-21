@@ -2,8 +2,8 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent(std::unique_ptr<AudioEngine> audioEngine) :
-mainPatcher(std::move(audioEngine)),
+MainComponent::MainComponent(AudioEngine& audioEngine) :
+mainPatcher(audioEngine),
 patchCordTypeButton("Gravity"),
 inoutNamesTypeButton("Hint / Label")
 {

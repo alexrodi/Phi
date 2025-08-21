@@ -27,7 +27,8 @@ public:
     void initialise (const String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
-        mainWindow = std::make_unique<MainWindow> (getApplicationName(), std::make_unique<AudioEngine>());
+        audioEngine = std::make_unique<AudioEngine>();
+        mainWindow = std::make_unique<MainWindow> (getApplicationName(), *audioEngine);
     }
 
     void shutdown() override
@@ -58,13 +59,13 @@ public:
     class MainWindow    : public DocumentWindow
     {
     public:
-        MainWindow (String name, std::unique_ptr<AudioEngine> audioEngine)  : DocumentWindow (name,
-                                                    Desktop::getInstance().getDefaultLookAndFeel()
-                                                                          .findColour (ResizableWindow::backgroundColourId),
-                                                    DocumentWindow::allButtons)
+        MainWindow (String name, AudioEngine& audioEngine)  :
+        DocumentWindow (name,
+                        Desktop::getInstance().getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId),
+                        DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainComponent(std::move(audioEngine)), true);
+            setContentOwned (new MainComponent(audioEngine), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
@@ -96,6 +97,7 @@ public:
     };
 
 private:
+    std::unique_ptr<AudioEngine> audioEngine;
     std::unique_ptr<MainWindow> mainWindow;
 };
  

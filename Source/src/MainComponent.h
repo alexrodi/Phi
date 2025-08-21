@@ -16,7 +16,7 @@ class MainComponent   : public Component,
 {
 //==============================================================================
 public:
-    MainComponent(std::unique_ptr<AudioEngine>);
+    explicit MainComponent(AudioEngine&);
     ~MainComponent();
 
     void paint (Graphics& g) override;

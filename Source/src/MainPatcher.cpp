@@ -14,8 +14,8 @@
 #include "MainPatcher.h"
 
 //==============================================================================
-MainPatcher::MainPatcher(std::unique_ptr<AudioEngine> audioEngineToUse) :
-audioEngine(std::move(audioEngineToUse))
+MainPatcher::MainPatcher(AudioEngine& audioEngine) :
+audioEngine(audioEngine)
 {
     setWantsKeyboardFocus(true);
     
@@ -92,7 +92,7 @@ void MainPatcher::openMenu(const MouseEvent& e)
 void MainPatcher::deleteModule(ModuleBox* moduleBox)
 {
     connections.removeModule(moduleBox->moduleUI->nodeID.uid);
-    audioEngine->removeNode(moduleBox->moduleUI->nodeID);
+    audioEngine.removeNode(moduleBox->moduleUI->nodeID);
     modules.erase(std::find_if(modules.begin(), modules.end(), [&] (const auto& ptr) {
         return ptr.get() == moduleBox;
     }));
@@ -152,7 +152,7 @@ ModuleBox& MainPatcher::createModule(std::unique_ptr<ModuleProcessor> moduleProc
 {
     auto moduleUI = moduleProcessor->createUI();
     
-    auto newNode = audioEngine->addNode(std::move(moduleProcessor));
+    auto newNode = audioEngine.addNode(std::move(moduleProcessor));
     
     moduleUI->nodeID = newNode->nodeID;
     
@@ -173,7 +173,7 @@ void MainPatcher::changeListenerCallback (ChangeBroadcaster* source)
 {
     if (source == &connections)
     {
-        audioEngine->applyAudioConnections(connections.getConnections());
+        audioEngine.applyAudioConnections(connections.getConnections());
     }
     else if (source == &selectedModules && selectedModules.getNumSelected() > 0 && !isMouseOverOrDragging())
     {

@@ -24,7 +24,7 @@ class MainPatcher    : public Component,
                        public LassoSource<ModuleBox*>
 {
 public:
-    MainPatcher(std::unique_ptr<AudioEngine>);
+    explicit MainPatcher(AudioEngine&);
     ~MainPatcher();
 
     void paint (Graphics&) override;
@@ -43,8 +43,8 @@ public:
     bool keyPressed (const KeyPress& key) override;
     
 private:
-    /// An AudioEngine instance to run the patcher
-    std::unique_ptr<AudioEngine> audioEngine;
+    /// A reference to the AudioEngine instance
+    AudioEngine& audioEngine;
     
     /// A vector for storing and accessing all the modules in the patcher
     std::vector<std::unique_ptr<ModuleBox>> modules;

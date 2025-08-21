@@ -17,13 +17,13 @@ namespace PlugOptions
     bool drawName = false;
 }
 
-Plug::Plug(PlugType mode, const String& name) :
+Plug::Plug(PlugType type, const String& name) :
 HoverPopupClient(this),
-type(mode)
+type(type)
 {
     setName(name);
     
-    colors = mode == PlugType::Inlet
+    colors = type == PlugType::Inlet
             ? PlugColors{Colours::grey, Colours::darkgrey}
             : PlugColors{Colours::darkgrey, Colours::grey};
     
@@ -87,8 +87,8 @@ void Plug::mouseDrag(const MouseEvent& e)
     emitEvent(PlugEvent(PlugEvent::Drag, e, type, plugID));
 }
 
-juce::Point<float> Plug::hoverPopupPosition() {
+Point<float> Plug::hoverPopupPosition() {
     return getLocalBounds().toFloat().getCentre().translated(0, -SIZE - 10);
 }
 
-juce::String Plug::getPopupText() { return getName(); }
+String Plug::getPopupText() { return getName(); }

@@ -23,13 +23,13 @@ namespace PlugOptions
     extern bool drawName;
 }
 
-/// A base class for Inlet and Outlet - This is a UI class for handling connection and dragging behaviors, it also draws the Inlet/Outlet itself
+/// A base class for inlets and outlets - This is a UI class for handling connection and dragging behaviors, it also draws the Inlet/Outlet itself
 class Plug    : public Component,
                 public HoverPopupClient,
                 public PlugEventEmitter
 {
 public:
-    /// To construct a plug you must specify a mode and a name
+    /// To construct a plug you must specify a type and a name
     Plug(PlugType, const String&);
     
     /// Move Constructor
@@ -57,7 +57,7 @@ private:
     const int SIZE = 12;
     const int STROKE_WIDTH = 3;
     
-    /// The plug's name - `Inlet` or `Outlet`
+    /// The plug's type - `Inlet` or `Outlet`
     PlugType type;
     
     /// The ID of this plug, containing the moduleID and plugID, that the Plug will use when broadcasting
@@ -81,24 +81,22 @@ private:
     void mouseDown(const MouseEvent&) override;
     void mouseUp(const MouseEvent&) override;
     void mouseDrag(const MouseEvent&) override;
-    juce::Point<float> hoverPopupPosition() override;
-    juce::String getPopupText() override;
+    Point<float> hoverPopupPosition() override;
+    String getPopupText() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plug)
 };
 
 /// A Plug in Inlet mode (other functionality might be added here)
-class InletPlug : public Plug
+struct InletPlug : Plug
 {
-public:
     explicit InletPlug(const String& name) : Plug(PlugType::Inlet, name)
     {}
 };
 
 /// A Plug in Outlet mode (other functionality might be added here)
-class OutletPlug : public Plug
+struct OutletPlug : Plug
 {
-public:
     explicit OutletPlug(const String& name) : Plug(PlugType::Outlet, name)
     {}
 };
