@@ -26,7 +26,7 @@ struct StringProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "freq",
             "Frequency",
-            NormalisableRange<float>(20.0f, 10000.0f, 0.01, 0.3f),
+            NormalisableRange<float>(20.0f, 10000.0f, 0.0, 0.3f),
             220.0f,
             FloatParameter::Attributes{}.withLabel("Hz")
         ),
@@ -93,7 +93,7 @@ struct StringProcessor : ModuleProcessor
         
         for (int n = 0; n < buffer.getNumSamples(); n++)
         {
-            float periodInSamples = sampleRate / std::min(frequency * pow(5.0f, *freqCVSamples++), 10000.0f);
+            float periodInSamples = sampleRate / (double)std::min(frequency * pow(5.0f, *freqCVSamples++), 10000.0f);
             
             float scaledDecay = scaleDecay(clip(decay + *decayCVSamples++, 0.0f, 1.0f), mode);
             float feedback = getFeedback(periodInSamples, scaledDecay);
@@ -108,8 +108,8 @@ struct StringProcessor : ModuleProcessor
             
             float input = (*inputSamples++) * 0.05f;
             
-            line1.push(   input + processLine1Node(dampHz, feedback, interval, mode) );
-            line2.push( - input + processLine2Node(dampHz, feedback, interval) );
+            line1.push( processLine1Node(input, dampHz, feedback, interval, mode) );
+            line2.push( processLine2Node(input, dampHz, feedback, interval) );
             
             *outputSamples++ = readOutput(line1Pos, line2Pos);
         }
@@ -136,12 +136,12 @@ private:
     enum class Mode {A, B} mode = Mode::A;
     float damp = 0.0f, frequency = 20.0f, decay = 0.0f, pos = 0.0f;
     
-    float processLine1Node(float dampHz, float feedback, float interval, Mode mode)
+    float processLine1Node(float input, float dampHz, float feedback, float interval, Mode mode)
     {
         onePole1.setCutoff(dampHz);
         
         // Line 1 gets a "special" function to liven the sound up a bit...
-        float line1Node = sinf( onePole1.process( line1.get( interval ) ) * MathConstants<float>::twoPi * 1.5f );
+        float line1Node = sinf( onePole1.process( input + line1.getInterpolated( interval ) ) * MathConstants<float>::twoPi * 1.5f );
         
         // Apply decay
         line1Node *= feedback * 0.1063f;
@@ -152,20 +152,20 @@ private:
         return line1Node;
     }
     
-    float processLine2Node(float dampHz, float feedback, float interval)
+    float processLine2Node(float input, float dampHz, float feedback, float interval)
     {
         onePole2.setCutoff(dampHz);
         
         // Normal case for Line 2
         // read from delay line, apply low pass and feedback (decay)
-        float line2Node = onePole2.process( line2.get( interval ) ) * feedback;
+        float line2Node = onePole2.process( -input + line2.getInterpolated( interval ) ) * feedback;
         return line2Node;
     }
     
     float readOutput(float line1Pos, float line2Pos)
     {
         // Read from the delay line with the current position, integrate and highpass (dcblock)
-        return dcBlock.process( accum.process( line1.get( line1Pos ) + line2.get( line2Pos )));
+        return dcBlock.process( accum.process( line1.getInterpolated( line1Pos ) + line2.getInterpolated( line2Pos )));
     }
     
     constexpr float scaleDecay(float decay, Mode mode)
