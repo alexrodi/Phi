@@ -61,7 +61,7 @@ void Plug::resized()
     nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
     canFitText = nameBounds.getHeight() > 11;
     
-    bounds = getLocalBounds().withSizeKeepingCentre(SIZE, SIZE).toFloat();
+    bounds = getLocalBounds().toFloat().withSizeKeepingCentre(SIZE, SIZE);
 }
 
 void Plug::mouseDown(const MouseEvent& e)
