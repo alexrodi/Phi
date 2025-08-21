@@ -107,7 +107,7 @@ public:
         float lowIndex = floor(position);
         size_t index = static_cast<size_t>(lowIndex);
         
-        return mixf(rawData[index % size()], rawData[(index + 1) % size()], position - lowIndex);
+        return mix(rawData[index % size()], rawData[(index + 1) % size()], position - lowIndex);
     }
 
     /** Set the specified sample in the delay line */
@@ -207,4 +207,122 @@ public:
     }
 private:
     Type previous = 0.0;
+};
+
+class StateVariableFilter
+{
+    public:
+    struct Output { float low, band, high; };
+    
+    StateVariableFilter() = default;
+    
+    void reset() {
+        stage.reset();
+    }
+    
+    void prepare(float sampleRate)
+    {
+        freqLimit = sampleRate * 0.454f;
+        thetaFactor = Const::pi * (1.0f / (sampleRate * 2.0f));
+        
+        reset();
+    }
+    
+    /// First channel is input returns buffer with lowpass on channel 0, bandpass on channel 1 and highpass on channel 2
+    /// freqMod must be valid up to numSamples-1!
+    /// resMod must be valid up to numSamples-1!
+    void process(juce::AudioBuffer<float>& buffer, const float* freqMod = nullptr, const float* resMod = nullptr)
+    {
+        int numSamples = buffer.getNumSamples();
+        
+        const float* inSamples = buffer.getReadPointer(0);
+        float* lowSamples = buffer.getWritePointer(0);
+        float* bandSamples = buffer.getWritePointer(1);
+        float* highSamples = buffer.getWritePointer(2);
+        
+        for (int i = 0; i < numSamples; ++i) {
+            auto output = processSample(inSamples[i],
+                                        freqMod ? freqMod[i] : 0.0f,
+                                        resMod ? resMod[i] : 0.0f);
+            lowSamples[i] = output.low;
+            bandSamples[i] = output.band;
+            highSamples[i] = output.high;
+        }
+    }
+    
+    Output processSample(float sample, float freqMod = 0.0f, float resMod = 0.0f) noexcept
+    {
+        return stage.process(sample, getModdedFreqFactor(freqMod), getResonance(resonance + resMod));
+    }
+    
+    /// [20.0 - SR/2] - the cutoff/peak frequency of the filter
+    void setFrequency(float newFrequency) { frequency = newFrequency; }
+    
+    /// [0.0 - 1.0] - the feedback resonance of the filter
+    void setResonance(float newResonance) { resonance = newResonance; }
+    
+    /// An extra function to process a notch filter
+    float processNotch(float sample, float freqMod = 0.0f) noexcept
+    {
+        return sample - stage.process(sample, getModdedFreqFactor(freqMod), resonance).band;
+    }
+    
+    /// An extra function to process a bell/peak filter
+    float processPeak(float sample, float gainDB, float freqMod = 0.0f) noexcept
+    {
+        const float res = resonance;
+        auto output = stage.process(sample, getModdedFreqFactor(freqMod), res);
+        
+        return output.low + output.high + output.band * peakBandGain(gainDB, res);
+    }
+    
+    private:
+    using fast = juce::dsp::FastMathApproximations;
+    using Const = juce::MathConstants<float>;
+    float freqLimit = 20000.0f, thetaFactor = 0.00003561896433f;
+    float frequency = 20.0f, resonance = 0.85f;
+    
+    struct Stage {
+        float lastInput = 0.0f, low = 0.0f, band = 0.0f;
+        void reset() {
+            lastInput = 0.0f;
+            low = 0.0f;
+            band = 0.0f;
+        }
+        
+        Output process(float sample, float freqFactor, float res) {
+            //Run 1
+            low = low + freqFactor * band;
+            float high = 0.5 * (sample + lastInput) - low - res * band;
+            band = freqFactor * high + band;
+            
+            
+            //Run 2
+            low = low + freqFactor * band;
+            high = sample - low - res * band;
+            band = freqFactor * high + band;
+            
+            lastInput = sample;
+            
+            return {low, band, high};
+        }
+    } stage;
+    
+    float calculateFreqFactor(float freq) {
+        return 2.0f * fast::sin(clip(freq, 20.0f, freqLimit) * thetaFactor);
+    }
+    
+    float getModdedFreqFactor(float freqMod) {
+        return calculateFreqFactor(frequency * pow(5.0f, freqMod));
+    }
+    
+    constexpr float peakBandGain(float gainDB, float res) {
+        return db_to_a(gainDB) / (1.204819f * res - 0.02409638f);
+    }
+    
+    constexpr float getResonance(float res) {
+        return 0.85f - clip(res, 0.0f, 1.0f) * 0.83f;
+    }
+
+   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StateVariableFilter)
 };

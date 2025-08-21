@@ -13,6 +13,11 @@
     </GROUP>
     <GROUP id="{0AEC8051-0D68-DE0B-116C-A216490944C2}" name="src">
       <GROUP id="{F11C30C8-B067-140A-9DB3-E55CC73BA1AF}" name="modules">
+        <GROUP id="{620A3675-9035-FB9E-898A-2373BE3C29DD}" name="Filter">
+          <FILE id="WfZWuM" name="FilterProcessor.h" compile="0" resource="0"
+                file="Source/src/modules/Filter/FilterProcessor.h"/>
+          <FILE id="VJJ6JL" name="FilterUI.h" compile="0" resource="0" file="Source/src/modules/Filter/FilterUI.h"/>
+        </GROUP>
         <GROUP id="{BF8DE16A-F497-4DCC-5896-A9284D896C1D}" name="Friction">
           <FILE id="xdhutV" name="FrictionProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/Friction/FrictionProcessor.h"/>

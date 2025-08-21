@@ -17,6 +17,7 @@
 #include "Grit/GritProcessor.h"
 #include "Friction/FrictionProcessor.h"
 #include "LFO/LFOProcessor.h"
+#include "Filter/FilterProcessor.h"
 // Add Module processor headers here
 
 class Modules {
@@ -58,6 +59,7 @@ public:
             moduleInfo<FrictionProcessor>("Friction"),
             moduleInfo<GritProcessor>("Grit"),
             moduleInfo<StringProcessor>("String"),
+            moduleInfo<FilterProcessor>("Filter"),
             moduleInfo<GainProcessor>("Gain"),
             moduleInfo<OutputProcessor>("Output")
             // Add Modules to list here
