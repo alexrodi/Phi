@@ -76,7 +76,6 @@ private:
     void forEachSelected(CallbackType);
     
     // State listener overrides
-    void moduleAdded(ModuleID) override;
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;
     void moduleBoundsChanged(ModuleID, juce::Rectangle<int>) override;
@@ -92,6 +91,8 @@ private:
     void mouseDrag(const juce::MouseEvent& e) override;
     
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+    
+    void parentHierarchyChanged() override;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)

@@ -9,6 +9,7 @@
 */
 
 #include "Patcher.h"
+#include "MainComponent.h"
 
 //==============================================================================
 Patcher::Patcher(State& state) :
@@ -23,7 +24,6 @@ connections(state, *this)
         ModuleBox& moduleBox = *it->second;
         
         addAndMakeVisible(moduleBox);
-        moduleBox.addMouseListener(this, false);
     };
     
     setWantsKeyboardFocus(true);
@@ -232,4 +232,9 @@ void Patcher::openColourSelector()
     );
     
     callOutBox.setLookAndFeel(&getLookAndFeel());
+}
+
+void Patcher::parentHierarchyChanged() {
+    if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
+        mainComponent->addMouseListener(this, true);
 }

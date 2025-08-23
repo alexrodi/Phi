@@ -83,6 +83,8 @@ private:
     
     void changeListenerCallback(juce::ChangeBroadcaster*) override;
     
+    void parentHierarchyChanged() override;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Patcher)
 };

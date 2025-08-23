@@ -10,6 +10,7 @@
 
 #include "Connections.h"
 #include "Patcher.h"
+#include "MainComponent.h"
 
 //==============================================================================
 
@@ -149,16 +150,6 @@ void Connections::mouseDrag(const juce::MouseEvent& e)
     updateHeldConnectionPath(e.getEventRelativeTo(this));
 }
 
-void Connections::moduleAdded(ModuleID moduleID) {
-    if (auto* moduleUI = patcher.getModuleUI(moduleID)) {
-        for (auto& inlet : moduleUI->inlets)
-            inlet.addMouseListener(this, false);
-        
-        for (auto& outlet : moduleUI->outlets)
-            outlet.addMouseListener(this, false);
-    }
-}
-
 void Connections::connectionCreated(ConnectionID connectionID) {
     connections[connectionID] = {.colour = findColour(PhiColourIds::Connection::DefaultFill)};
     updateConnectionPath(connectionID);
@@ -267,6 +258,11 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
             }
         }
     }
+}
+
+void Connections::parentHierarchyChanged() {
+    if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
+        mainComponent->addMouseListener(this, true);
 }
 
 juce::SelectedItemSet<ConnectionID>& Connections::getLassoSelection() {return selectedConnections;}
