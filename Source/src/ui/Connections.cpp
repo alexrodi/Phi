@@ -124,12 +124,14 @@ void Connections::mouseUp(const juce::MouseEvent& e) {
     auto* destinationPort = dynamic_cast<PortUI*>(parent->getComponentAt(e.getEventRelativeTo(parent).position));
     
     if (originPort && destinationPort &&
-        originPort->getType() != destinationPort->getType())
+        originPort->getType() != destinationPort->getType()) // Must be opposing types
     {
         auto originPortID = patcher.getPortID(*originPort);
         auto destinationPortID = patcher.getPortID(*destinationPort);
         
-        if (originPortID && destinationPortID) {
+        if (originPortID && destinationPortID &&
+            originPortID->moduleID != destinationPortID->moduleID) // Must be different modules
+        {
             bool originIsOutlet = originPort->getType() == PortType::Outlet;
             
             state.createConnection({
