@@ -105,7 +105,7 @@ void Connections::mouseDown(const juce::MouseEvent& e)
     {
         if (auto portID = patcher.getPortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>();
-            heldConnection->anchor = getLocalPoint(port, port->getLocalBounds().getCentre().toFloat());
+            heldConnection->anchor = getLocalPoint(port, port->getLocalBounds().toFloat().getCentre());
             
             updateHeldConnectionPath(e.getEventRelativeTo(this));
         }
@@ -243,8 +243,8 @@ void Connections::updateConnectionPath(ConnectionID connectionID) {
     
     if (outlet && inlet) {
         auto path = getPath({
-            getLocalPoint(outlet, outlet->getLocalBounds().getCentre().toFloat()),
-            getLocalPoint(inlet, inlet->getLocalBounds().getCentre().toFloat())
+            getLocalPoint(outlet, outlet->getLocalBounds().toFloat().getCentre()),
+            getLocalPoint(inlet, inlet->getLocalBounds().toFloat().getCentre())
         });
         
         patchCordStroke.createStrokedPath(path, path);
