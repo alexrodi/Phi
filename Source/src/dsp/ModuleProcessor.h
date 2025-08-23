@@ -10,8 +10,9 @@
 
 #pragma once
 
-#include "DSPUtils.h"
-#include "ui/ModuleUI.h"
+#include "Utils.h"
+
+struct ModuleUI;
 
 //==============================================================================
 struct FloatParameter : juce::AudioParameterFloat {

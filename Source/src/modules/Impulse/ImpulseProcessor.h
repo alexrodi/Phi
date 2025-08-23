@@ -23,6 +23,7 @@ static constexpr float processImpulse(float phase, float shape)
 }
 
 #include "ImpulseUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 struct ImpulseProcessor : ModuleProcessor
 {

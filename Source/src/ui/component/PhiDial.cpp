@@ -37,7 +37,6 @@ PhiDial()
 
 void PhiDial::paint (juce::Graphics& g)
 {
-    
     if (shouldDrawText)
     {
         g.setColour(nameColour);
@@ -63,21 +62,20 @@ void PhiDial::resized ()
 {
     Slider::resized();
     
-    bool hasName = getName() != "";
-    bool enoughHeightForName = getHeight() > 40;
-    
-    shouldDrawText = hasName && enoughHeightForName;
+    shouldDrawText = getName().isNotEmpty() && getHeight() > 40;
     
     auto bounds = getLocalBounds();
     
     nameBounds = bounds.removeFromTop(15);
     
-    size = std::min(bounds.getWidth(), bounds.getHeight()-10);
-    box = bounds.toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -7);
-    radius = box.getWidth() * 0.55;
+    float size = std::min(bounds.getWidth(), bounds.getHeight()-10);
+    
+    dialBounds = bounds.toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0.0f, -7.0f);
+    
+    radius = dialBounds.getWidth() * 0.55f;
     
     groove.clear();
-    groove.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, endAngle, true);
+    groove.addCentredArc(dialBounds.getCentreX(), dialBounds.getCentreY(), radius, radius, 0, startAngle, endAngle, true);
     
     updateDial();
 }
@@ -95,13 +93,13 @@ void PhiDial::updateDial ()
     angle = startAngle + valueToProportionOfLength(getValue()) * angleRange;
     
     dial.clear();
-    dial.addCentredArc(box.getCentreX(), box.getCentreY(), radius, radius, 0, startAngle, angle, true);
+    dial.addCentredArc(dialBounds.getCentreX(), dialBounds.getCentreY(), radius, radius, 0, startAngle, angle, true);
     
     if (radius > 17)
     {
         pointerPath.clear();
-        pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(thickness, 9).withY(box.getY()+thickness+1), thickness * 0.5);
-        pointerRotation = juce::AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
+        pointerPath.addRoundedRectangle(dialBounds.withSizeKeepingCentre(thickness, 9).withY(dialBounds.getY()+thickness+1), thickness * 0.5);
+        pointerRotation = juce::AffineTransform::rotation(angle, dialBounds.getCentreX(), dialBounds.getCentreY());
     }
 }
 

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "GainUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*

@@ -9,7 +9,6 @@
 */
 
 #include "State.h"
-#include "ModuleProcessor.h"
 
 State::State() : state("PhiState") {}
 State::~State() {}

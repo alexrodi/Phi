@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 #include "../../ui/component/PhiDial.h"
 
 
@@ -22,7 +22,7 @@ struct LFOUI : ModuleUI
         .name =  "LFO",
         .inlets = {"Rate", "Shape"},
         .outlets = {"Out"},
-        .width = 260,
+        .width = 270,
         .height = 180,
         .minimumHeight = 100,
         .processor = processor
@@ -45,17 +45,19 @@ struct LFOUI : ModuleUI
 
     void paint (juce::Graphics& g) override {};
     
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        waveform.setBounds( moduleBounds.removeFromBottom(moduleBounds.getHeight() / 3) );
+        auto bounds = getLocalBounds();
         
-        moduleBounds.removeFromBottom(separatorHeight);
+        waveform.setBounds(bounds.removeFromBottom(bounds.getHeight() / 3));
         
-        int dialWidth = moduleBounds.getWidth() / 3;
+        bounds.removeFromBottom(5);
         
-        waveDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        rateDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        shapeDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 3;
+        
+        waveDial.setBounds(bounds.removeFromLeft(dialWidth));
+        rateDial.setBounds(bounds.removeFromLeft(dialWidth));
+        shapeDial.setBounds(bounds);
         
         updateWaveform();
     }
@@ -113,8 +115,6 @@ private:
                     y -= LFO::get_random(randomValues[(int)val], randomValues[(int)val+1], val, shape) * yRange;
                 }
                 
-                
-                
                 if (path.isEmpty())
                     path.startNewSubPath (x, y);
                 
@@ -150,8 +150,6 @@ private:
     Waveform waveform;
     
     PhiDial rateDial, waveDial, shapeDial;
-    
-    const int separatorHeight = 5;
     
     void updateWaveform() {
         waveform.updateForm(

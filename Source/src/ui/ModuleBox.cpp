@@ -9,7 +9,6 @@
 */
 
 #include "ModuleBox.h"
-#include "../ModuleProcessor.h"
 
 //==============================================================================
 ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi) :
@@ -18,18 +17,27 @@ resizer(this, this)
 {
     powerButton.setToggleState(true, juce::sendNotification);
     
-    // Listeners ======================================================
     powerButton.addListener(this);
     
-    // Sizes ======================================================
     // Box size constraints
     setSizeLimits(100, HEADER_HEIGHT + 5, 500, 300);
     resizer.setSize(8,8);
     
-    // Visibles ======================================================
     addAndMakeVisible(*moduleUI);
     addAndMakeVisible(powerButton);
+    
+    for (auto& inletName : moduleUI->props.inlets) {
+        inlets.push_back(std::make_unique<InletUI>(inletName));
+        addAndMakeVisible(*inlets.back());
+    }
+    
+    for (auto& outletName : moduleUI->props.outlets) {
+        outlets.push_back(std::make_unique<OutletUI>(outletName));
+        addAndMakeVisible(*outlets.back());
+    }
+    
     addAndMakeVisible(resizer);
+    
     setPaintingIsUnclipped(true);
     setBufferedToImage(true);
     setBroughtToFrontOnMouseClick(true);
@@ -95,13 +103,17 @@ void ModuleBox::resized()
     auto boxHeader = moduleRect.removeFromTop(HEADER_HEIGHT);
     
     // Place Power button
-    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(CONTENT_PADDING,6));
+    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(CONTENT_PADDING, 6));
     
     // Place Text
     nameRectangle = boxHeader.toFloat();
     
+    // Place Ports
+    moduleRect = placeInletsAndOutlets(moduleRect);
+    
     // Place Module
-    moduleUI->setBounds(isCollapsed ? juce::Rectangle<int>{-13, (int)(HEADER_HEIGHT*0.5f), getWidth()+26, 0} : moduleRect.reduced(CONTENT_PADDING));// (padded)
+    moduleUI->setVisible(!isCollapsed);
+    moduleUI->setBounds(moduleRect.reduced(0, CONTENT_PADDING));
 }
 
 void ModuleBox::setHighlightColour(const juce::Colour& colour)
@@ -112,7 +124,11 @@ void ModuleBox::setHighlightColour(const juce::Colour& colour)
 }
 
 void ModuleBox::setShowPortLabels(ShowPortLabels show) {
-    moduleUI->setShowPortLabels(show);
+    for (auto& port : inlets)
+        port->showLabel(show);
+    
+    for (auto& port : outlets)
+        port->showLabel(show);
 }
 
 void ModuleBox::buttonClicked (juce::Button* button)
@@ -125,4 +141,33 @@ void ModuleBox::buttonClicked (juce::Button* button)
         sendLookAndFeelChange();
     }
         
+}
+
+int ModuleBox::getPortIndex(const PortUI& port) const {
+    auto& v = port.getType() == PortType::Inlet ? inlets : outlets;
+    
+    auto it = std::find_if(v.begin(), v.end(), [&] (auto& item) { return item.get() == &port; });
+
+    if (it == v.end()) return -1;
+    
+    return (int)std::distance(v.begin(), it);
+}
+
+void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, juce::Rectangle<int> portBounds)
+{
+    if (ports.empty()) return;
+    
+    const int portHeight = portBounds.getHeight() / (int)ports.size();
+    
+    // Divide the space for each Port
+    for (auto& port : ports)
+        port->setBounds( portBounds.removeFromTop(portHeight) );
+}
+
+juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bounds)
+{
+    placePorts(inlets, bounds.removeFromLeft(PLUG_COLUMN_WIDTH));
+    placePorts(outlets, bounds.removeFromRight(PLUG_COLUMN_WIDTH));
+    
+    return bounds;
 }

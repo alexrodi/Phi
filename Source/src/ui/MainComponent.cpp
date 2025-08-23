@@ -6,7 +6,7 @@ MainComponent::MainComponent(State& state) :
 state(state),
 mainPatcher(state),
 patchCordTypeButton("Gravity"),
-inoutNamesTypeButton("Hint / Label")
+showPortLabelsButton("Hint", "Label")
 {
     setLookAndFeel (&phiLookAndFeel);
     
@@ -17,10 +17,10 @@ inoutNamesTypeButton("Hint / Label")
     viewport.setViewedComponent(&mainPatcher, false);
     
     addAndMakeVisible(patchCordTypeButton);
-    addAndMakeVisible(inoutNamesTypeButton);
+    addAndMakeVisible(showPortLabelsButton);
     
     patchCordTypeButton.addListener(this);
-    inoutNamesTypeButton.addListener(this);
+    showPortLabelsButton.addListener(this);
     
     sendLookAndFeelChange();
     
@@ -48,7 +48,7 @@ void MainComponent::resized()
     juce::Rectangle<int> buttonBounds(topBarBounds);
     
     patchCordTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
-    inoutNamesTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
+    showPortLabelsButton.setBounds(buttonBounds.removeFromRight(150).reduced(10));
     
     viewport.setBounds(windowBounds);
     mainPatcher.setSize(windowBounds.getWidth()*3, windowBounds.getHeight()*3);
@@ -58,6 +58,6 @@ void MainComponent::buttonClicked (juce::Button* button)
 {
     if (button == &patchCordTypeButton)
         state.setPatchCordType((PatchCordType)button->getToggleState());
-    else if (button == &inoutNamesTypeButton)
+    else if (button == &showPortLabelsButton)
         state.setShowPortLabels((ShowPortLabels)button->getToggleState());
 }

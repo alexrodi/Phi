@@ -11,7 +11,8 @@
 #pragma once
 
 #include "StringUI.h"
-#include "../../DSPUtils.h"
+#include "../../dsp/Utils.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*

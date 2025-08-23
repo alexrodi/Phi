@@ -11,9 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-
-struct ModuleUI;
-struct ModuleProcessor;
+#include "ui/ModuleUI.h"
+#include "dsp/ModuleProcessor.h"
 
 using ModuleID = juce::uint32;
 using PortID = int;
@@ -26,7 +25,7 @@ struct ModulePortID
     ModulePortID() : moduleID(0), portID(0) {}
     ModulePortID(ModuleID moduleID, PortID portID) : moduleID(moduleID), portID(portID) {}
     ModulePortID(const ModulePortID& other) : moduleID(other.moduleID), portID(other.portID) {}
-    ModulePortID(ModulePortID&& other) : moduleID(other.moduleID), portID(other.portID) {}
+    ModulePortID(ModulePortID&& other) noexcept : moduleID(other.moduleID), portID(other.portID) {}
     
     operator juce::AudioProcessorGraph::NodeAndChannel() const {
         return { juce::AudioProcessorGraph::NodeID{moduleID}, portID };
@@ -82,7 +81,6 @@ enum class PortType { Inlet, Outlet };
 enum class ShowPortLabels { Off, On };
 
 enum class PatchCordType { S, Arc };
-
 
 struct State {
     State();

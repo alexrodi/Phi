@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 
 //==============================================================================
 /*
@@ -39,13 +39,15 @@ public:
     ~OutputUI() {}
 
     void paint (juce::Graphics&) override {}
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    
+    void resized() override
     {
-        auto bounds = moduleBounds.withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds.reduced(10));
+        auto bounds = getLocalBounds();
+        auto speakerBounds = bounds.withSizeKeepingCentre(100, 100).constrainedWithin(bounds.reduced(10));
         
-        speakerImage->setTransformToFit(bounds.toFloat(), 0);
+        speakerImage->setTransformToFit(speakerBounds.toFloat(), 0);
         
-        speakerImage->setVisible(std::min(moduleBounds.getHeight(), moduleBounds.getWidth()) > 30);
+        speakerImage->setVisible(std::min(bounds.getHeight(), bounds.getWidth()) > 30);
     }
 
     void lookAndFeelChanged() override

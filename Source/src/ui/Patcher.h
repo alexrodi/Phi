@@ -26,7 +26,6 @@ struct Patcher : juce::Component,
     explicit Patcher(State&);
     ~Patcher();
     
-    ModuleUI* getModuleUI (ModuleID) const;
     const PortUI* getPortUI (ModulePortID, PortType) const;
     
     std::optional<ModuleID> getBoxModuleID(const ModuleBox&) const;

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "GritUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "OutputUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 #include "../../ui/component/PhiDial.h"
 
 class GainUI    : public ModuleUI
@@ -36,9 +36,9 @@ public:
 
     void paint (juce::Graphics& g) override {};
     
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        gainDial.setBounds( moduleBounds );
+        gainDial.setBounds(getLocalBounds());
     }
 
 private:

@@ -265,6 +265,10 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
 void Connections::parentHierarchyChanged() {
     if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
         mainComponent->addMouseListener(this, true);
+    
+    // addGlobalMouseListener ???maybe???
 }
+ 
+// TODO: LASSO!
 
 juce::SelectedItemSet<ConnectionID>& Connections::getLassoSelection() {return selectedConnections;}

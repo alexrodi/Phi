@@ -32,7 +32,7 @@ private:
     juce::Path groove, dial, pointerPath;
     juce::AffineTransform pointerRotation;
     
-    juce::Rectangle<float> box;
+    juce::Rectangle<float> dialBounds;
     juce::Rectangle<int> nameBounds;
     juce::Colour colour, grooveColour, nameColour;
     
@@ -45,7 +45,7 @@ private:
     const float angleRange = endAngle - startAngle;
     const juce::PathStrokeType stroke {thickness, juce::PathStrokeType::JointStyle::mitered, juce::PathStrokeType::EndCapStyle::rounded};
     
-    float size, radius;
+    float radius = 0.0f;
     float angle = startAngle;
     
     bool shouldDrawText = false;

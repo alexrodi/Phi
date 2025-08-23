@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 #include "../../ui/component/PhiDial.h"
 
 class GritUI    : public ModuleUI
@@ -38,12 +38,14 @@ public:
 
     void paint (juce::Graphics& g) override {};
     
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 2;
+        auto bounds = getLocalBounds();
         
-        noiseDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        densityDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 2;
+        
+        noiseDial.setBounds(bounds.removeFromLeft(dialWidth));
+        densityDial.setBounds(bounds);
     }
 
 private:

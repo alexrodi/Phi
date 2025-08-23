@@ -90,7 +90,7 @@ private:
     PhiSliderButton patchCordTypeButton;
     
     /// A simple button to toggle between inlet/outlet names being hinted or labeled
-    PhiSliderButton inoutNamesTypeButton;
+    PhiSliderButton showPortLabelsButton;
     
     /// The rectangle that constrains the top bar on the window
     juce::Rectangle<int> topBarBounds;

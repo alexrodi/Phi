@@ -22,9 +22,6 @@ struct PortUI : juce::Component,
     /// To construct a plug you must specify a type and a name
     PortUI(PortType, const juce::String&);
     
-    /// Move Constructor
-    PortUI(PortUI&& other) noexcept;
-    
     ~PortUI() {};
 
     void paint (juce::Graphics&) override;

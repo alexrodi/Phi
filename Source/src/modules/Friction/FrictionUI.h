@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 #include "../../ui/component/PhiDial.h"
 
 struct FrictionUI : ModuleUI
@@ -39,13 +39,15 @@ struct FrictionUI : ModuleUI
 
     void paint (juce::Graphics& g) override {};
     
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 3;
+        auto bounds = getLocalBounds();
         
-        freqDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        jitterDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        driftDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 3;
+        
+        freqDial.setBounds( bounds.removeFromLeft(dialWidth) );
+        jitterDial.setBounds( bounds.removeFromLeft(dialWidth) );
+        driftDial.setBounds( bounds );
     }
 
 private:

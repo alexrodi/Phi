@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "PortUI.h"
 #include "ModuleUI.h"
 #include "PhiColours.h"
 #include "component/PhiToggleButton.h"
@@ -29,18 +30,25 @@ struct ModuleBox : juce::Component,
     
     /// The hosted moduleUI
     std::unique_ptr<ModuleUI> moduleUI;
+    std::vector<std::unique_ptr<PortUI>> inlets;
+    std::vector<std::unique_ptr<PortUI>> outlets;
     
     /// Sets the highlight colour of the module
     void setHighlightColour(const juce::Colour&);
     
     void setShowPortLabels(ShowPortLabels);
     
+    /// Shows the selected state in the UI
     void setSelected(bool selected) { isSelected = selected; repaint(); }
+    
+    /// Returns -1 if not found
+    int getPortIndex(const PortUI&) const;
     
 private:
     const float HEADER_HEIGHT = 27.0f;
     const float CONTENT_PADDING = 10.0f;
-    
+    const int PLUG_COLUMN_WIDTH = 40;
+
     /// Our LookAndFeel instance for this module box
     struct ModuleLookAndFeel  : public juce::LookAndFeel_V4
     {
@@ -115,6 +123,23 @@ private:
     
     //==================================================================================
 
+    /**
+     * Places all Ports equidistant in a column (top -> bottom).
+     * @param Ports A vector of Ports to be placed.
+     * @param bounds The rectangle to place the Ports within.
+     */
+    void placePorts(const std::vector<std::unique_ptr<PortUI>>&, juce::Rectangle<int>);
+
+    /**
+     * Places the inlets and outlets of this ModuleUI given a rectangle and returns the remaining area.
+     * The result is used to bound the module contents via wasResized().
+     * @param bounds The module's bounds to place the inlets and outlets within.
+     * @return The remaining area after placing the Ports.
+     */
+    juce::Rectangle<int> placeInletsAndOutlets (juce::Rectangle<int>);
+    
+    //==================================================================================
+    
     /// Callback for Buttons (e.g. power button)
     void buttonClicked (juce::Button*) override;
     

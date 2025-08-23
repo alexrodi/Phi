@@ -17,15 +17,7 @@
 */
 struct PhiSliderButton : juce::Button
 {
-    enum class LabelPosition
-    {
-        Above,
-        Below,
-        Left,
-        Right
-    };
-    
-    explicit PhiSliderButton(const juce::String&, LabelPosition = LabelPosition::Above);
+    explicit PhiSliderButton(const juce::String& leftText = "", const juce::String& rightText = "");
     ~PhiSliderButton();
 
     void paintButton (juce::Graphics&, bool, bool) override;
@@ -34,25 +26,18 @@ struct PhiSliderButton : juce::Button
     void lookAndFeelChanged() override;
 
 private:
-    const float SLIDER_SIZE = 12;
-    const float SLIDER_WIDTH = SLIDER_SIZE * 2.5;
-    const float SLIDER_CORNER = (SLIDER_SIZE-2) * 0.5;
+    const int knobSize = 12;
+    const float sliderWidth = (float)knobSize * 2.5f;
     
-    bool shouldDraw = true;
-    
-    LabelPosition labelPosition;
-    juce::Justification labelTextJustification;
+    juce::String leftText, rightText;
     
     juce::DrawablePath knob;
     
-    juce::Rectangle<int> labelBounds;
-    juce::Rectangle<float> sliderBounds;
+    juce::Rectangle<float> sliderBounds, leftTextBounds, rightTextBounds;
     
     juce::Colour textColour;
     
-    juce::Rectangle<int> getKnobBounds();
-    
-    void clicked() override;
+    void buttonStateChanged() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PhiSliderButton)
 };

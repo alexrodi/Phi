@@ -11,6 +11,7 @@
 #pragma once
 
 #include "FilterUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*

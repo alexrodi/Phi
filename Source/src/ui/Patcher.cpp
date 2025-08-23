@@ -45,20 +45,11 @@ Patcher::~Patcher()
 }
 
 const PortUI* Patcher::getPortUI (ModulePortID portID, PortType type) const {
-    if (auto* moduleUI = getModuleUI(portID.moduleID)) {
+    if (modules.contains(portID.moduleID)) {
         if (type == PortType::Inlet)
-            return &moduleUI->inlets[portID.portID];
+            return modules.at(portID.moduleID)->inlets[portID.portID].get();
         else
-            return &moduleUI->outlets[portID.portID];
-    }
-    
-    return nullptr;
-}
-
-ModuleUI* Patcher::getModuleUI (ModuleID moduleIDToFind) const {
-    for (auto& [moduleID, item] : modules) {
-        if (moduleID == moduleIDToFind)
-            return item->moduleUI.get();
+            return modules.at(portID.moduleID)->outlets[portID.portID].get();
     }
     
     return nullptr;
@@ -75,7 +66,7 @@ std::optional<ModuleID> Patcher::getBoxModuleID(const ModuleBox& box) const {
 std::optional<ModulePortID> Patcher::getPortID(const PortUI& port) const {
     if (auto box = port.findParentComponentOfClass<ModuleBox>()) {
         if (auto moduleID = getBoxModuleID(*box))
-            return {{*moduleID, box->moduleUI->getPortIndex(port)}};
+            return {{*moduleID, box->getPortIndex(port)}};
     }
     
     return {};
@@ -171,6 +162,8 @@ void Patcher::openMenu(const juce::MouseEvent& e)
         if (result > 0)
             state.addModule(Modules::getInfoFromMenuIndex(result-1), pos.x, pos.y);
     });
+    
+    // TODO: How to make sure we exit of the popup menu?? it stays open sometimes
 }
 
 void Patcher::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) {

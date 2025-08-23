@@ -25,10 +25,6 @@ type(type)
     setPaintingIsUnclipped(true);
 }
 
-PortUI::PortUI(PortUI&& other) noexcept :
-PortUI(other.type, other.getName())
-{}
-
 void PortUI::paint (juce::Graphics& g)
 {
     if (drawName && canFitText) {

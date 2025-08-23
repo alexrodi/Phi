@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 #include "../../ui/component/PhiDial.h"
 
 struct FilterUI : ModuleUI
@@ -37,12 +37,14 @@ struct FilterUI : ModuleUI
 
     void paint (juce::Graphics& g) override {};
     
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 2;
+        auto bounds = getLocalBounds();
         
-        freqDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        resDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 2;
+        
+        freqDial.setBounds( bounds.removeFromLeft(dialWidth) );
+        resDial.setBounds( bounds );
     }
 
 private:

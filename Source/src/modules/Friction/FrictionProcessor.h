@@ -11,6 +11,7 @@
 #pragma once
 
 #include "FrictionUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*

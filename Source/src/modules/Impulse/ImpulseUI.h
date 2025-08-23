@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 #include "../../ui/component/PhiDial.h"
 //==============================================================================
 /*
@@ -23,7 +23,7 @@ struct ImpulseUI : ModuleUI
         .name =  "Impulse",
         .inlets = {"Trigger", "Freq", "Shape"},
         .outlets = {"Out", "Ramp"},
-        .width = 370,
+        .width = 220,
         .height = 220,
         .minimumHeight = 100,
         .processor = processor
@@ -46,16 +46,19 @@ struct ImpulseUI : ModuleUI
 
     void paint (juce::Graphics&) override {}
     
-    void onResize(juce::Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        // Place the Dials
-        juce::Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);
-        frequencyDial.setBounds( dialBounds.removeFromTop(getHeight()*0.48));
-        shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.48));
+        auto bounds = getLocalBounds();
         
         // Place the waveform and update
-        waveform.setBounds(moduleBounds.reduced(10,0));
+        waveform.setBounds(bounds.removeFromBottom(bounds.getHeight() / 2));
         updateWaveform();
+        
+        bounds.removeFromBottom(5);
+        
+        // Place the Dials
+        frequencyDial.setBounds(bounds.removeFromLeft(bounds.getWidth() / 2));
+        shapeDial.setBounds(bounds);
     }
     
     void mouseDown(const juce::MouseEvent& e) override
@@ -106,7 +109,7 @@ private:
                 float y = 0.0f;
                 for( int i = 0; i < aaValue; i++ )
                 {
-                    y += fabsf( processImpulse( phase, shapeValue ) );
+                    y += abs(processImpulse( phase, shapeValue ));
                     phase += phaseIncrement;
                 }
                 y *= aaRatio;
@@ -125,13 +128,13 @@ private:
         void resized() override
         {
             centreY = getLocalBounds().toFloat().getCentreY();
-            yRange = (float)getHeight() * 0.57f;
+            yRange = (float)getHeight() * 0.55f;
         }
         
         void paint(juce::Graphics& g) override
         {
             g.setColour(fillColour);
-            g.fillPath(path);
+            g.fillRect(getLocalBounds());
             
             g.setColour(strokeColour);
             g.strokePath (path, juce::PathStrokeType (strokeWidth));

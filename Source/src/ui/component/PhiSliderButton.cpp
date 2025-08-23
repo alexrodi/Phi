@@ -11,11 +11,15 @@
 #include "PhiSliderButton.h"
 
 //==============================================================================
-PhiSliderButton::PhiSliderButton(const juce::String& labelText, LabelPosition labelPositionToUse) :
-Button{labelText},
-labelPosition{labelPositionToUse},
-labelTextJustification{juce::Justification::centredTop}
+PhiSliderButton::PhiSliderButton(const juce::String& leftText, const juce::String& rightText) :
+juce::Button(""),
+leftText(leftText),
+rightText(rightText)
 {
+    juce::Path knobPath;
+    knobPath.addEllipse(0, 0, knobSize, knobSize);
+    
+    knob.setPath(knobPath);
     addAndMakeVisible(knob);
     knob.setPaintingIsUnclipped(true);
     
@@ -29,68 +33,42 @@ PhiSliderButton::~PhiSliderButton()
 
 void PhiSliderButton::paintButton (juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 {
-    if (shouldDraw)
+    if (getWidth() > sliderWidth && getWidth() > knobSize)
     {
         g.setColour(textColour);
-        g.drawFittedText(getName(), labelBounds, labelTextJustification, 1);
+        g.drawText(leftText, leftTextBounds, juce::Justification::centred, 1);
+        g.drawText(rightText, rightTextBounds, juce::Justification::centred, 1);
         
         g.setColour(juce::Colour::greyLevel(0.18));
-        g.fillRoundedRectangle(sliderBounds.reduced(1), SLIDER_CORNER);
+        g.fillRoundedRectangle(sliderBounds, sliderBounds.getHeight() * 0.5f);
     }
 }
 
 void PhiSliderButton::resized()
 {
-    juce::Path knobpath{};
+    auto bounds = getLocalBounds().toFloat();
     
-    if (getWidth() > SLIDER_WIDTH && getWidth() > SLIDER_SIZE)
-    {
-        shouldDraw = true;
-        
-        juce::Rectangle<float> bounds{getLocalBounds().toFloat()};
-        
-        switch (labelPosition) {
-            case LabelPosition::Above:
-                sliderBounds = bounds.removeFromBottom(SLIDER_SIZE);
-                labelTextJustification = juce::Justification::centredTop;
-                break;
-            case LabelPosition::Below:
-                sliderBounds = bounds.removeFromTop(SLIDER_SIZE);
-                labelTextJustification = juce::Justification::centredBottom;
-                break;
-            case LabelPosition::Left:
-                sliderBounds = bounds.removeFromRight(SLIDER_WIDTH);
-                labelTextJustification = juce::Justification::centredLeft;
-                break;
-            case LabelPosition::Right:
-                sliderBounds = bounds.removeFromLeft(SLIDER_WIDTH);
-                labelTextJustification = juce::Justification::centredRight;
-                break;
-        }
-        
-        sliderBounds = sliderBounds.withSizeKeepingCentre(SLIDER_WIDTH, SLIDER_SIZE);
-        
-        labelBounds = bounds.toNearestInt();
-        
-        juce::Point<int> ellipsePoint (getKnobBounds().getTopLeft());
-        knobpath.addEllipse(ellipsePoint.x, ellipsePoint.y, SLIDER_SIZE, SLIDER_SIZE);
-    }
-    else shouldDraw = false;
+    int numLabels = (leftText.isNotEmpty() ? 1 : 0) + (rightText.isNotEmpty() ? 1 : 0);
+    float labelWidth = (bounds.getWidth() - sliderWidth) / (float)numLabels;
     
-    knob.setPath(knobpath);
+    if (leftText.isNotEmpty())
+        leftTextBounds = bounds.removeFromLeft(labelWidth);
+    
+    if (rightText.isNotEmpty())
+        rightTextBounds = bounds.removeFromRight(labelWidth);
+    
+    sliderBounds = bounds.withSizeKeepingCentre(sliderWidth, knobSize).reduced(1);
+    
+    buttonStateChanged();
 }
 
-juce::Rectangle<int> PhiSliderButton::getKnobBounds()
+void PhiSliderButton::buttonStateChanged()
 {
-    return sliderBounds
-           .toNearestInt()
-           .withWidth(SLIDER_SIZE)
-           .translated( getToggleState() ? sliderBounds.getWidth()-SLIDER_SIZE : 0, 0);
-}
-
-void PhiSliderButton::clicked()
-{
-    juce::Desktop::getInstance().getAnimator().animateComponent(&knob, getKnobBounds(), 1.0f, 300, false, 0.5f, 0.5f);
+    auto knobBounds = sliderBounds.withSize(knobSize, knobSize)
+        .translated(getToggleState() ? sliderBounds.getWidth()-knobSize : 0, -1)
+        .toNearestInt();
+    
+    juce::Desktop::getInstance().getAnimator().animateComponent(&knob, knobBounds, 1.0f, 100, false, 0.5f, 0.5f);
 }
 
 void PhiSliderButton::lookAndFeelChanged()
