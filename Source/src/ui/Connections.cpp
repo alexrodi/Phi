@@ -101,7 +101,7 @@ void Connections::mouseDown(const juce::MouseEvent& e)
         if (e.mods.isRightButtonDown())
             openColourSelector(e.position.toInt(), connections[hitConnectionID].colour);
     }
-    else if (auto port = static_cast<PortUI*>(e.eventComponent))
+    else if (auto port = dynamic_cast<PortUI*>(e.eventComponent))
     {
         if (auto portID = patcher.getPortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>( HeldConnection {
@@ -119,8 +119,8 @@ void Connections::mouseDown(const juce::MouseEvent& e)
 void Connections::mouseUp(const juce::MouseEvent& e) {
     auto parent = getParentComponent();
     
-    auto* originPort = static_cast<PortUI*>(e.eventComponent);
-    auto* destinationPort = static_cast<PortUI*>(parent->getComponentAt(e.getEventRelativeTo(parent).position));
+    auto* originPort = dynamic_cast<PortUI*>(e.eventComponent);
+    auto* destinationPort = dynamic_cast<PortUI*>(parent->getComponentAt(e.getEventRelativeTo(parent).position));
     
     if (originPort && destinationPort &&
         originPort->getType() != destinationPort->getType())

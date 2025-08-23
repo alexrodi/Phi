@@ -93,15 +93,15 @@ void Patcher::resized()
 
 void Patcher::mouseDown(const juce::MouseEvent& e)
 {
+    if (!e.mods.isShiftDown())
+        selectedModuleIDs.deselectAll();
+    
     if (e.eventComponent == this)
     {
-        if (!e.mods.isShiftDown())
-            selectedModuleIDs.deselectAll();
-        
         if (e.mods.isRightButtonDown())
             openMenu(e);
     }
-    else if (auto box = static_cast<ModuleBox*>(e.eventComponent))
+    else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
         if (auto moduleID = getBoxModuleID(*box)) {
             if (e.mods.isRightButtonDown()) openColourSelector();
@@ -121,7 +121,7 @@ void Patcher::mouseUp(const juce::MouseEvent& e)
         if (e.mouseWasDraggedSinceMouseDown())
             lasso.endLasso();
     }
-    else if (auto box = static_cast<ModuleBox*>(e.eventComponent))
+    else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
         for (auto& [moduleID, item] : modules)
         {
@@ -138,7 +138,7 @@ void Patcher::mouseDrag(const juce::MouseEvent& e)
     if (e.eventComponent == this) {
         lasso.dragLasso(e);
     }
-    else if (auto box = static_cast<ModuleBox*>(e.eventComponent))
+    else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
         forEachSelected([&] (auto moduleID, auto& moduleBox) {
             dragComponent(&moduleBox, e, &moduleBox);
