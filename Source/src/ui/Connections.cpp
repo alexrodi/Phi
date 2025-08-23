@@ -160,6 +160,7 @@ void Connections::moduleAdded(ModuleID moduleID) {
 void Connections::connectionCreated(ConnectionID connectionID) {
     connections[connectionID] = {.colour = findColour(PhiColourIds::Connection::DefaultFill)};
     updateConnectionPath(connectionID);
+    repaint();
 }
 
 void Connections::connectionDeleted(ConnectionID connectionID) {
@@ -172,6 +173,8 @@ void Connections::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bo
         if (id.source.moduleID == moduleID || id.destination.moduleID == moduleID)
             updateConnectionPath(id);
     }
+    
+    repaint();
 }
 
 void Connections::patchCordTypeChanged(PatchCordType type) {
@@ -239,10 +242,14 @@ void Connections::updateConnectionPath(ConnectionID connectionID) {
     auto* inlet = patcher.getPortUI(connectionID.destination, PortType::Inlet);
     
     if (outlet && inlet) {
-        connections[connectionID].path = getPath({
+        auto path = getPath({
             getLocalPoint(outlet, outlet->getLocalBounds().getCentre().toFloat()),
             getLocalPoint(inlet, inlet->getLocalBounds().getCentre().toFloat())
         });
+        
+        patchCordStroke.createStrokedPath(path, path);
+        
+        connections[connectionID].path = path;
     }
 }
 
