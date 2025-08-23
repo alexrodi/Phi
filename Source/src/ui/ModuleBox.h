@@ -36,7 +36,7 @@ struct ModuleBox : juce::Component,
     void setShowPortLabels(ShowPortLabels);
     
     void setSelected(bool selected) { isSelected = selected; repaint(); }
-
+    
 private:
     const float HEADER_HEIGHT = 27.0f;
     const float CONTENT_PADDING = 10.0f;
@@ -48,8 +48,10 @@ private:
         {
             setHighlightColour(juce::Colours::cyan.withSaturation(0.5f));
             setColour(PhiColourIds::Module::Background, juce::Colours::darkgrey.darker());
-            setColour(PhiColourIds::Module::OutlineAndText, juce::Colours::grey);
-            setColour(PhiColourIds::Module::SelectedOutlineAndText, juce::Colours::grey.brighter());
+            setColour(PhiColourIds::Module::Outline, juce::Colours::grey);
+            setColour(PhiColourIds::Module::Text, juce::Colours::grey);
+            setColour(PhiColourIds::Module::SelectedOutline, juce::Colours::grey.brighter());
+            setColour(PhiColourIds::Module::SelectedText, juce::Colours::grey.brighter());
             setColour(PhiColourIds::Module::HeaderLine, juce::Colours::grey);
             
             setColour(juce::Slider::thumbColourId, findColour(PhiColourIds::Module::Highlight));

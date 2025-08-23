@@ -46,7 +46,7 @@ void Connections::paint (juce::Graphics& g)
         g.fillPath (connection.path);
         
         if (selectedConnections.isSelected(id)) {
-            g.setColour (findColour(PhiColourIds::Connection::SelectedStroke));
+            g.setColour (findColour(PhiColourIds::Connection::SelectedOutline));
             g.strokePath (connection.path, selectedStroke);
         }
     }

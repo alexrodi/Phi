@@ -43,16 +43,22 @@ public:
             setColour(juce::TooltipWindow::backgroundColourId, juce::Colours::grey);
             setColour(juce::TooltipWindow::textColourId, juce::Colours::darkgrey.darker());
             
+            // Colour Selector
             setColour(juce::ColourSelector::backgroundColourId, juce::Colours::transparentBlack);
             
-            LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
-            
+            // Modules
             setColour(PhiColourIds::Module::Background, juce::Colours::darkgrey.darker());
-            setColour(PhiColourIds::Module::OutlineAndText, juce::Colours::grey);
-            setColour(PhiColourIds::Module::SelectedOutlineAndText, juce::Colours::grey.brighter());
+            setColour(PhiColourIds::Module::Outline, juce::Colours::grey);
+            setColour(PhiColourIds::Module::Text, juce::Colours::grey);
+            setColour(PhiColourIds::Module::SelectedOutline, juce::Colours::grey.brighter());
+            setColour(PhiColourIds::Module::SelectedText, juce::Colours::grey.brighter());
             setColour(PhiColourIds::Module::HeaderLine, juce::Colours::grey);
+            
+            // Connections
             setColour(PhiColourIds::Connection::DefaultFill, juce::Colours::grey);
-            setColour(PhiColourIds::Connection::SelectedStroke, juce::Colours::grey.brighter());
+            setColour(PhiColourIds::Connection::SelectedOutline, juce::Colours::grey.brighter());
+            
+            LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
         }
         
         void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {
@@ -61,9 +67,11 @@ public:
             g.setColour (findColour(PhiColourIds::Module::Background));
             g.fillRoundedRectangle(bounds, 2.0f);
             
-            g.setColour (findColour(PhiColourIds::Module::SelectedOutlineAndText));
+            g.setColour (findColour(PhiColourIds::Module::SelectedOutline));
             g.drawRoundedRectangle(bounds, 2.0f, 2.0f);
         };
+        
+        int getPopupMenuBorderSize() override { return 1; }
         
     } phiLookAndFeel;
 

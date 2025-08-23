@@ -53,10 +53,11 @@ void ModuleBox::paint (juce::Graphics& g)
     g.fillRoundedRectangle(moduleBoxRectangle, 2.0f);
     
     // Outline
-    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutlineAndText : PhiColourIds::Module::OutlineAndText));
+    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutline : PhiColourIds::Module::Outline));
     g.drawRoundedRectangle(moduleBoxRectangle, 2.0f, isSelected ? 2.0f : 0.5f);
     
     // Module Name
+    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedText : PhiColourIds::Module::Text));
     g.drawText(moduleUI->props.name, nameRectangle, juce::Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line

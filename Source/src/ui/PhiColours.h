@@ -26,15 +26,17 @@ public:
 
     struct Module {enum Val{
         Background = ColourClass::Module,
-        OutlineAndText,
-        SelectedOutlineAndText,
+        Outline,
+        Text,
+        SelectedOutline,
+        SelectedText,
         HeaderLine,
         Highlight
     };};
 
     struct Connection {enum Val{
         DefaultFill = ColourClass::Connection,
-        SelectedStroke
+        SelectedOutline
     };};
     
     // #TODO define Port colour ids
