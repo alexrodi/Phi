@@ -8,11 +8,8 @@
   ==============================================================================
 */
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "ModuleUI.h"
-#include "ModuleProcessor.h"
+#include "../ModuleProcessor.h"
 
 //==============================================================================
 
@@ -23,13 +20,13 @@ props(arguments)
     // Add all inlets and outlets as children and make them visible
     inlets.reserve(props.inlets.size());
     for (auto& inletName : props.inlets) {
-        inlets.push_back( InletPlug{inletName} );
+        inlets.push_back( InletUI{inletName} );
         addAndMakeVisible( inlets.back() );
     }
     
     outlets.reserve(props.outlets.size());
     for (auto& outletName : props.outlets) {
-        outlets.push_back( OutletPlug{outletName} );
+        outlets.push_back( OutletUI{outletName} );
         addAndMakeVisible( outlets.back() );
     }
         
@@ -51,23 +48,31 @@ void ModuleUI::resized()
     onResize(moduleBounds);
 }
 
-void ModuleUI::placePlugs(std::vector<Plug>& plugs, Rectangle<int> plugBounds)
-{
-    const int plugHeight = plugBounds.getHeight() / (int)plugs.size();
+void ModuleUI::setShowPortLabels(ShowPortLabels show) {
+    for (auto& port : inlets)
+        port.showLabel(show);
     
-    // Divide the space for each plug
-    for (auto& plug : plugs)
-        plug.setBounds( plugBounds.removeFromTop(plugHeight) );
+    for (auto& port : outlets)
+        port.showLabel(show);
+}
+
+void ModuleUI::placePorts(std::vector<PortUI>& ports, juce::Rectangle<int> portBounds)
+{
+    const int portHeight = portBounds.getHeight() / (int)ports.size();
+    
+    // Divide the space for each Port
+    for (auto& port : ports)
+        port.setBounds( portBounds.removeFromTop(portHeight) );
 }
 
 
-Rectangle<int> ModuleUI::placeInletsAndOutlets(Rectangle<int> moduleBounds)
+juce::Rectangle<int> ModuleUI::placeInletsAndOutlets(juce::Rectangle<int> moduleBounds)
 {
     if (!inlets.empty())
-        placePlugs(inlets, moduleBounds.removeFromLeft(PLUG_COLUMN_WIDTH));
+        placePorts(inlets, moduleBounds.removeFromLeft(PLUG_COLUMN_WIDTH));
     
     if (!outlets.empty())
-        placePlugs(outlets, moduleBounds.removeFromRight(PLUG_COLUMN_WIDTH));
+        placePorts(outlets, moduleBounds.removeFromRight(PLUG_COLUMN_WIDTH));
     
     return moduleBounds;
 }

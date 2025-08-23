@@ -10,19 +10,16 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "ModuleUI.h"
 #include "DSPUtils.h"
+#include "ui/ModuleUI.h"
 
 //==============================================================================
-struct FloatParameter : AudioParameterFloat {
-    using Attributes = AudioParameterFloatAttributes;
+struct FloatParameter : juce::AudioParameterFloat {
+    using Attributes = juce::AudioParameterFloatAttributes;
     
-    FloatParameter(const ParameterID& parameterID,
-                   const String& parameterName,
-                   NormalisableRange<float> normalisableRange,
+    FloatParameter(const juce::ParameterID& parameterID,
+                   const juce::String& parameterName,
+                   juce::NormalisableRange<float> normalisableRange,
                    float defaultValue,
                    const Attributes& attributes = {}) :
     AudioParameterFloat(parameterID, parameterName, normalisableRange, defaultValue, [&] () {
@@ -31,7 +28,7 @@ struct FloatParameter : AudioParameterFloat {
             
             return attributes.withStringFromValueFunction([label] (float value, int) {
                 auto upTo2Decimals = [] (float value) {
-                    return String(value, (abs(value) < 10.0f) ? 2 : 1);
+                    return juce::String(value, (abs(value) < 10.0f) ? 2 : 1);
                 };
                 
                 if (abs(value) < 100.0f)
@@ -39,23 +36,24 @@ struct FloatParameter : AudioParameterFloat {
                 else if (value > 1000.0f)
                     return upTo2Decimals(value * 0.001f) + " k" + label;
                 else
-                    return String((int)value) + " " + label;
+                    return juce::String((int)value) + " " + label;
             });
         } else return attributes;
     }())
     {}
 };
 
-
 /**
  The base class for all modules' DSP implementation
 */
-class ModuleProcessor    : public AudioProcessor,
-                           public AudioProcessorValueTreeState::Listener
+class ModuleProcessor    : public juce::AudioProcessor,
+                           public juce::AudioProcessorValueTreeState::Listener
 {
 public:
+    using Parameters = juce::AudioProcessorValueTreeState::ParameterLayout;
+    
     /// Any parameters introduced in the constructor will be stored in this object
-    AudioProcessorValueTreeState params;
+    juce::AudioProcessorValueTreeState params;
     /// Output modules must set this to true, they should still define the number of output channels but they won't be displayed in the UI
     bool isOutput = false;
     
@@ -76,7 +74,7 @@ public:
      */
     template <typename... Items>
     ModuleProcessor(int inletNumber, int outletNumber, std::unique_ptr<Items>... paramsToUse) :
-    params( *this, nullptr, "PARAMETERS", AudioProcessorValueTreeState::ParameterLayout(std::move(paramsToUse)...) )
+    params( *this, nullptr, "PARAMETERS", juce::AudioProcessorValueTreeState::ParameterLayout(std::move(paramsToUse)...) )
     {
         setPlayConfigDetails (inletNumber, outletNumber, getSampleRate(), getBlockSize());
         
@@ -91,23 +89,21 @@ public:
     virtual ~ModuleProcessor() = default;
     
     /// Creates the UI for this Module
-    std::unique_ptr<ModuleUI> createUI() {
-        return std::unique_ptr<ModuleUI>(static_cast<ModuleUI*>(createEditor()));
-    }
-    
-    /// Override this to get notified of parameter changes
-    void parameterChanged (const String& parameterID, float newValue) override {}
+    virtual std::unique_ptr<ModuleUI> createUI() = 0;
     
     /// Called before playback starts, to let the processor prepare itself.
     virtual void prepare (double newSampleRate, int maxBlockSize) = 0;
     
     /// Renders the next block.
-    virtual void process (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) = 0;
+    virtual void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) = 0;
+    
+    /// Override this to get notified of parameter changes
+    virtual void parameterChanged (const juce::String& parameterID, float newValue) override {}
     
 private:
     
     ///@cond
-    const String getName() const override {return String("");}
+    const juce::String getName() const override {return "";}
     double getTailLengthSeconds() const override {return 0.0f;}
     bool acceptsMidi() const override {return false;}
     bool producesMidi() const override {return false;}
@@ -115,11 +111,12 @@ private:
     int getNumPrograms() override {return 0;}
     int getCurrentProgram() override {return 0;}
     void setCurrentProgram (int index) override {}
-    const String getProgramName (int index) override {return String("");}
-    void changeProgramName (int index, const String& newName) override {}
-    void getStateInformation (MemoryBlock& destData) override {}
+    const juce::String getProgramName (int index) override {return "";}
+    void changeProgramName (int index, const juce::String& newName) override {}
+    void getStateInformation (juce::MemoryBlock& destData) override {}
     void setStateInformation (const void* data, int sizeInBytes) override {}
-    bool hasEditor() const override { return true; }
+    juce::AudioProcessorEditor* createEditor() override { return nullptr; }
+    bool hasEditor() const override { return false; }
     
     void prepareToPlay (double newSampleRate, int maxBlockSize) override
     {
@@ -132,7 +129,7 @@ private:
         prepare(newSampleRate, maxBlockSize);
     }
     
-    void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
+    void processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override
     {
         process(buffer, midiMessages);
     }

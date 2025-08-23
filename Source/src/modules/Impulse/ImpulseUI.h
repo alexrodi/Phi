@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/component/PhiDial.h"
 //==============================================================================
 /*
 */
@@ -47,12 +44,12 @@ struct ImpulseUI : ModuleUI
     
     ~ImpulseUI() {};
 
-    void paint (Graphics&) override {}
+    void paint (juce::Graphics&) override {}
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void onResize(juce::Rectangle<int> moduleBounds) override
     {
         // Place the Dials
-        Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);
+        juce::Rectangle<int> dialBounds = moduleBounds.removeFromLeft(getWidth()*0.25);
         frequencyDial.setBounds( dialBounds.removeFromTop(getHeight()*0.48));
         shapeDial.setBounds( dialBounds.removeFromBottom(getHeight()*0.48));
         
@@ -61,14 +58,14 @@ struct ImpulseUI : ModuleUI
         updateWaveform();
     }
     
-    void mouseDown(const MouseEvent& e) override
+    void mouseDown(const juce::MouseEvent& e) override
     {
         *props.processor.params.getRawParameterValue("trigger") = 1.0f;
     }
     
     void lookAndFeelChanged() override
     {
-        waveform.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
+        waveform.setColour(findColour(juce::Slider::thumbColourId), findColour(juce::Slider::rotarySliderOutlineColourId));
     }
 
 private:
@@ -80,7 +77,7 @@ private:
             setPaintingIsUnclipped(true);
         }
         
-        const void setColour(const Colour& newStrokeColour, const Colour& newFillColour)
+        const void setColour(const juce::Colour& newStrokeColour, const juce::Colour& newFillColour)
         {
             strokeColour = newStrokeColour;
             fillColour = newFillColour;
@@ -120,7 +117,7 @@ private:
             path = path.createPathWithRoundedCorners(pixelsPerPoint);
             
             auto bottomPath = path;
-            bottomPath.applyTransform( AffineTransform().verticalFlip( (float)getHeight() ) );
+            bottomPath.applyTransform( juce::AffineTransform().verticalFlip( (float)getHeight() ) );
             path.addPath(bottomPath);
             repaint();
         }
@@ -131,20 +128,20 @@ private:
             yRange = (float)getHeight() * 0.57f;
         }
         
-        void paint(Graphics& g) override
+        void paint(juce::Graphics& g) override
         {
             g.setColour(fillColour);
             g.fillPath(path);
             
             g.setColour(strokeColour);
-            g.strokePath (path, PathStrokeType (strokeWidth));
+            g.strokePath (path, juce::PathStrokeType (strokeWidth));
         }
     private:
         const float strokeWidth = 1;
         float yRange = 1.0, centreY = 0.0f;
-        Colour strokeColour;
-        Colour fillColour;
-        Path path;
+        juce::Colour strokeColour;
+        juce::Colour fillColour;
+        juce::Path path;
     };
 
     Waveform waveform;

@@ -10,9 +10,6 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "OutputUI.h"
 
 //==============================================================================
@@ -29,7 +26,7 @@ struct OutputProcessor : ModuleProcessor
     ~OutputProcessor() {};
     
     void prepare (double sampleRate, int maxBlockSize) override {}
-    void process (AudioBuffer<float>& buffer, MidiBuffer&) override {}
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&) override {}
     
-    AudioProcessorEditor* createEditor() override {return new OutputUI(*this);}
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<OutputUI>(*this); }
 };

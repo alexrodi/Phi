@@ -1,0 +1,105 @@
+/*
+  ==============================================================================
+
+    Connections.h
+    Created: 20 Feb 2020 8:18:35pm
+    Author:  Alexandre Rodrigues
+
+  ==============================================================================
+*/
+
+#pragma once
+
+#include "../State.h"
+#include "PhiColours.h"
+
+struct Patcher;
+
+//==============================================================================
+
+/// The connection manager and drawer
+class Connections : public juce::Component,
+                    public State::Listener,
+                    public juce::ChangeListener,
+                    public juce::LassoSource<ConnectionID>
+{
+public:
+    explicit Connections(State& state, const Patcher& patcher);
+    ~Connections();
+    
+    void paint (juce::Graphics&) override;
+    void resized () override;
+    
+    void portMouseDown(ModulePortID, PortType);
+    void portMouseUp(ModulePortID, PortType);
+    void portMouseMove(ModulePortID, PortType, const juce::MouseEvent&);
+    
+private:
+    struct Connection {
+        juce::Path path;
+        juce::Colour colour;
+    };
+    
+    //==============================================================================
+    
+    State& state;
+    const Patcher& patcher;
+    
+    std::unordered_map<ConnectionID, Connection> connections;
+    juce::LassoComponent<ConnectionID> lasso;
+    juce::SelectedItemSet<ConnectionID> selectedConnections;
+    
+    struct HeldConnection {
+        juce::Path path;
+        ModulePortID originID;
+        PortType originType = PortType::Inlet;
+        juce::Point<float> anchor;
+    };
+    
+    std::unique_ptr<HeldConnection> heldConnection;
+    
+    static constexpr float CORD_WEIGHT = 0.2f;
+    juce::PathStrokeType selectedStroke {2.0f};
+    juce::PathStrokeType patchCordStroke = {5.0f, juce::PathStrokeType::JointStyle::mitered, juce::PathStrokeType::EndCapStyle::rounded};
+    
+    ConnectionID hitConnectionID;
+    
+    PatchCordType patchCordType;
+    
+    //==============================================================================
+    
+    /// A callback for drawing patch cords that applies a vertical weight
+    static juce::Path getArcPatchCordPath (const juce::Line<float>&);
+    /// A callback for drawing patch cords with a horizontal S shape
+    static juce::Path getSPatchCordPath (const juce::Line<float>&);
+    
+    void updateConnectionPath(ConnectionID);
+    void updateHeldConnectionPath(const juce::MouseEvent& e);
+    void completeHeldConnection(ModulePortID, PortType);
+    
+    void openColourSelector(juce::Point<int> point, juce::Colour initialColour);
+    
+    /// Runs a funtion on every currently selected Connection
+    template<class CallbackType>
+    void forEachSelected(CallbackType);
+    
+    // State listener overrides
+    void connectionCreated(ConnectionID) override;
+    void connectionDeleted(ConnectionID) override;
+    void moduleBoundsChanged(ModuleID, juce::Rectangle<int>) override;
+    void patchCordTypeChanged(PatchCordType) override;
+    
+    void findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, const juce::Rectangle<int>& area) override;
+    juce::SelectedItemSet<ConnectionID>& getLassoSelection() override;
+    
+    bool hitTest(int x, int y) override;
+    
+    void mouseDown(const juce::MouseEvent& e) override;
+    void mouseMove(const juce::MouseEvent& e) override;
+    
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+    
+    //==============================================================================
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
+};

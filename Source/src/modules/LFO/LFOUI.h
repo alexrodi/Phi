@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/component/PhiDial.h"
 
 
 struct LFOUI : ModuleUI
@@ -46,9 +43,9 @@ struct LFOUI : ModuleUI
     
     ~LFOUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void onResize(juce::Rectangle<int> moduleBounds) override
     {
         waveform.setBounds( moduleBounds.removeFromBottom(moduleBounds.getHeight() / 3) );
         
@@ -65,7 +62,7 @@ struct LFOUI : ModuleUI
     
     void lookAndFeelChanged() override
     {
-        waveform.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
+        waveform.setColour(findColour(juce::Slider::thumbColourId), findColour(juce::Slider::rotarySliderOutlineColourId));
     }
 
 private:
@@ -77,7 +74,7 @@ private:
             setPaintingIsUnclipped(true);
         }
         
-        const void setColour(const Colour& newStrokeColour, const Colour& newFillColour)
+        const void setColour(const juce::Colour& newStrokeColour, const juce::Colour& newFillColour)
         {
             strokeColour = newStrokeColour;
             fillColour = newFillColour;
@@ -131,21 +128,21 @@ private:
         
         void resized() override {}
         
-        void paint(Graphics& g) override
+        void paint(juce::Graphics& g) override
         {
             g.setColour(fillColour);
             g.fillRect(getLocalBounds());
             
             g.setColour(strokeColour);
-            g.strokePath (path, PathStrokeType (strokeWidth));
+            g.strokePath (path, juce::PathStrokeType (strokeWidth));
         }
     private:
         static constexpr int RATE_MULT = 4;
         const int pixelsPerPoint = 2;
         const float strokeWidth = 1;
-        Colour strokeColour;
-        Colour fillColour;
-        Path path;
+        juce::Colour strokeColour;
+        juce::Colour fillColour;
+        juce::Path path;
         
         const float randomValues[RATE_MULT+2] = {0.0f, 0.5f, -0.75f, -0.25f, 0.0f, 0.25f};
     };

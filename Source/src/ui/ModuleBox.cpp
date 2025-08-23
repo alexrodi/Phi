@@ -8,22 +8,18 @@
   ==============================================================================
 */
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "ModuleBox.h"
+#include "../ModuleProcessor.h"
 
 //==============================================================================
-ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi, SelectedItemSet<ModuleBox*>& moduleSelectedSet) :
+ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi) :
 moduleUI{std::move(moduleUi)},
-resizer(this, this),
-moduleSelection{moduleSelectedSet}
+resizer(this, this)
 {
-    powerButton.setToggleState(true, NotificationType());
+    powerButton.setToggleState(true, juce::sendNotification);
     
     // Listeners ======================================================
     powerButton.addListener(this);
-    moduleSelection.addChangeListener(this);
     
     // Sizes ======================================================
     // Box size constraints
@@ -46,24 +42,22 @@ moduleSelection{moduleSelectedSet}
 
 ModuleBox::~ModuleBox()
 {
-    moduleSelection.removeChangeListener(this);
     setLookAndFeel (nullptr);
 }
 
 //==============================================================================
-void ModuleBox::paint (Graphics& g)
+void ModuleBox::paint (juce::Graphics& g)
 {
     // Box
     g.setColour (findColour(PhiColourIds::Module::Background));
     g.fillRoundedRectangle(moduleBoxRectangle, 2.0f);
     
-    bool isSelected = moduleSelection.isSelected(this);
     // Outline
     g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutlineAndText : PhiColourIds::Module::OutlineAndText));
     g.drawRoundedRectangle(moduleBoxRectangle, 2.0f, isSelected ? 2.0f : 0.5f);
     
     // Module Name
-    g.drawText(moduleUI->props.name, nameRectangle, Justification::centredLeft, false); // (uses color from outline)
+    g.drawText(moduleUI->props.name, nameRectangle, juce::Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
     g.setColour (findColour(PhiColourIds::Module::HeaderLine));
@@ -89,10 +83,10 @@ void ModuleBox::resized()
     setMinimumOnscreenAmounts(getHeight(), getWidth(), getHeight(), getWidth());
     
     // Place resizer in bottom left corner
-    resizer.setBoundsToFit(getLocalBounds().reduced(3), Justification::bottomRight, true);
+    resizer.setBoundsToFit(getLocalBounds().reduced(3), juce::Justification::bottomRight, true);
     
     // Place header line
-    headerLine = Rectangle<float>(CONTENT_PADDING, HEADER_HEIGHT - 2.0f, getWidth()-CONTENT_PADDING * 2.0f, isCollapsed ? 0.0f : 1.0f);
+    headerLine = {CONTENT_PADDING, HEADER_HEIGHT - 2.0f, getWidth()-CONTENT_PADDING * 2.0f, isCollapsed ? 0.0f : 1.0f};
     
     // Module area
     auto moduleRect = getLocalBounds();
@@ -106,85 +100,21 @@ void ModuleBox::resized()
     nameRectangle = boxHeader.toFloat();
     
     // Place Module
-    moduleUI->setBounds(isCollapsed ? Rectangle<int>(-13, HEADER_HEIGHT*0.5f, getWidth()+26, 0) : moduleRect.reduced(CONTENT_PADDING));// (padded)
-    
-    sendChangeMessage();
+    moduleUI->setBounds(isCollapsed ? juce::Rectangle<int>{-13, (int)(HEADER_HEIGHT*0.5f), getWidth()+26, 0} : moduleRect.reduced(CONTENT_PADDING));// (padded)
 }
 
-void ModuleBox::moved()
-{
-    sendChangeMessage();
-}
-
-void ModuleBox::setHighlightColour(Colour&& colour)
+void ModuleBox::setHighlightColour(const juce::Colour& colour)
 {
     lookandfeel.setHighlightColour(colour);
     lookandfeel.setModuleOn(powerButton.getToggleState());
     sendLookAndFeelChange();
 }
 
-//==============================================================================
-
-void ModuleBox::forEachSelected(std::function<void(ModuleBox*)> callback)
-{
-    auto selected = moduleSelection.getItemArray();
-    for (auto& module : selected)
-       callback(module);
+void ModuleBox::setShowPortLabels(ShowPortLabels show) {
+    moduleUI->setShowPortLabels(show);
 }
 
-void ModuleBox::openColourSelector()
-{
-    auto colourSelector = std::make_unique<ColourSelector>(ColourSelector::showColourspace);
-    colourSelector->setCurrentColour (findColour(PhiColourIds::Module::Highlight));
-    colourSelector->setSize (150, 130);
-    colourSelector->addChangeListener(this);
-
-    auto& callOutBox = CallOutBox::launchAsynchronously(
-        std::move(colourSelector),
-        getTopLevelComponent()->getLocalArea(this, getLocalBounds()),
-        getTopLevelComponent()
-    );
-    
-    callOutBox.setLookAndFeel(&lookandfeel);
-}
-
-void ModuleBox::mouseDown(const MouseEvent& e)
-{
-    selectionResult = moduleSelection.addToSelectionOnMouseDown(this, e.mods);
-    auto selected = moduleSelection.getItemArray();
-    for (auto module : selected)
-        module->startDraggingComponent(module, e);
-    
-    if (e.mods.isRightButtonDown()) openColourSelector();
-}
-
-void ModuleBox::mouseUp(const MouseEvent& e)
-{
-    moduleSelection.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), selectionResult);
-}
-
-void ModuleBox::mouseDrag(const MouseEvent& e)
-{
-    forEachSelected([&e](ModuleBox* module){module->dragComponent(module, e, module);});
-}
-
-
-//==============================================================================
-void ModuleBox::changeListenerCallback (ChangeBroadcaster* source)
-{
-    if (source == &moduleSelection) {
-        repaint();
-    }
-    else if (auto colourSelector = dynamic_cast<ColourSelector*>(source))
-    {
-        forEachSelected( [colourSelector] (ModuleBox* module) {
-            module->setHighlightColour(colourSelector->getCurrentColour());
-        });
-    }
-}
-
-
-void ModuleBox::buttonClicked (Button* button)
+void ModuleBox::buttonClicked (juce::Button* button)
 {
     if (button == &powerButton){
         auto state = button->getToggleState();

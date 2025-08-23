@@ -10,12 +10,9 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
-#include "../../ui/PhiSliderButton.h"
+#include "../../ui/component/PhiDial.h"
+#include "../../ui/component/PhiSliderButton.h"
 
 class StringUI    : public ModuleUI
 {
@@ -47,9 +44,9 @@ public:
     
     ~StringUI() {}
 
-    void paint (Graphics&) override {}
+    void paint (juce::Graphics&) override {}
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void onResize(juce::Rectangle<int> moduleBounds) override
     {
         int dialWidth = moduleBounds.getWidth() / 4;
         
@@ -66,5 +63,5 @@ public:
 private:
     PhiDial frequencyDial, positionDial, dampDial, decayDial;
     PhiSliderButton modeButton;
-    ButtonParameterAttachment modeAttachment;
+    juce::ButtonParameterAttachment modeAttachment;
 };

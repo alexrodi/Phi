@@ -10,41 +10,32 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "Connections.h"
-#include "ModuleProcessor.h"
+#include "State.h"
+#include "Modules.h"
 
 /// The class where each module's DSP routine gets implemented as nodes and patched together
-class AudioEngine : public AudioProcessorGraph
+struct AudioEngine : juce::AudioProcessorGraph,
+                     State::Listener
 {
-public:
-    AudioEngine();
-
+    AudioEngine(State& state);
     ~AudioEngine();
-   
-   /// Takes an array of Connections::PlugID pairs (output, input) and iterates through it to apply the connections in the AudioProcessorGraph
-    void applyAudioConnections(const std::vector<PhiConnection>&);
-   
-   /** Connects all the outlets of a node to the output node.
-    This function should only be called on modules that are meant as an audio output to the patcher.
-    Its use however, still allows for the outlets to be connected to other modules in the patcher, if they are made available */
-    void connectToOuput(Node::Ptr);
 
 private:
+    State& state;
+    
     /// Interfaces with output devices
-    AudioDeviceManager deviceManager;
+    juce::AudioDeviceManager deviceManager;
     /// Allows to playback our Processor Graph
-    AudioProcessorPlayer player;
-    /// A constant output node to plug output modules to
+    juce::AudioProcessorPlayer player;
+    /// A constant output node to Port output modules to
     Node::Ptr outputNode;
     
+    void moduleDeleted(ModuleID moduleID) override;
+    
     // Assure flush-to-zero
-    void processBlock (AudioBuffer<float>&  audio, MidiBuffer& midi) override {
-        ScopedNoDenormals nodenormals;
-        AudioProcessorGraph::processBlock (audio, midi);
+    void processBlock (juce::AudioBuffer<float>&  audio, juce::MidiBuffer& midi) override {
+        juce::ScopedNoDenormals nodenormals;
+        juce::AudioProcessorGraph::processBlock (audio, midi);
     }
-   
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioEngine)
+    
 };

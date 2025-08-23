@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/component/PhiDial.h"
 
 class GritUI    : public ModuleUI
 {
@@ -39,9 +36,9 @@ public:
     
     ~GritUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void onResize(juce::Rectangle<int> moduleBounds) override
     {
         int dialWidth = moduleBounds.getWidth() / 2;
         

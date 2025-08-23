@@ -16,7 +16,7 @@ class PhiColourIds {
         General = 0x000,
         Module = 0x100,
         Connection = 0x200,
-        Plug = 0x300,
+        Port = 0x300,
     };
 public:
     struct General {enum Val{
@@ -37,9 +37,9 @@ public:
         SelectedStroke
     };};
     
-    // #TODO define Plug colour ids
-    struct Plug {enum Val{
-        IntletOutline = ColourClass::Plug,
+    // #TODO define Port colour ids
+    struct Port {enum Val{
+        IntletOutline = ColourClass::Port,
         IntletCenter,
         OutletOutline,
         OutletCenter,

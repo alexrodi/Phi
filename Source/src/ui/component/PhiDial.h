@@ -10,41 +10,40 @@
 
 #pragma once
 
-///@cond
 #include <JuceHeader.h>
-///@endcond
 
 //==============================================================================
 /*
 */
-class PhiDial    : public Slider,
-                   public Slider::Listener
+class PhiDial    : public juce::Slider,
+public juce::Slider::Listener
 {
 public:
     PhiDial();
-    explicit PhiDial(RangedAudioParameter& parameter);
+    explicit PhiDial(juce::RangedAudioParameter& parameter);
     ~PhiDial();
     
-    void paint (Graphics& g) override;
+    void paint (juce::Graphics& g) override;
     void resized () override;
     
     void lookAndFeelChanged() override;
     
 private:
-    Path groove, dial, pointerPath;
-    AffineTransform pointerRotation;
+    juce::Path groove, dial, pointerPath;
+    juce::AffineTransform pointerRotation;
     
-    Rectangle<float> box;
-    Rectangle<int> nameBounds;
-    Colour colour, grooveColour, nameColour;
+    juce::Rectangle<float> box;
+    juce::Rectangle<int> nameBounds;
+    juce::Colour colour, grooveColour, nameColour;
     
-    std::unique_ptr<SliderParameterAttachment> attachment;
+    std::unique_ptr<juce::SliderParameterAttachment> attachment;
     
     const int padding = 10;
-    const int thickness = 3;
+    const float thickness = 3.0f;
     const float startAngle = getRotaryParameters().startAngleRadians;
     const float endAngle = getRotaryParameters().endAngleRadians;
     const float angleRange = endAngle - startAngle;
+    const juce::PathStrokeType stroke {thickness, juce::PathStrokeType::JointStyle::mitered, juce::PathStrokeType::EndCapStyle::rounded};
     
     float size, radius;
     float angle = startAngle;
@@ -53,7 +52,7 @@ private:
     
     void updateDial();
     
-    void sliderValueChanged (Slider*) override;
+    void sliderValueChanged (juce::Slider*) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PhiDial)
 };

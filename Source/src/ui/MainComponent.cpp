@@ -2,8 +2,9 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent(AudioEngine& audioEngine) :
-mainPatcher(audioEngine),
+MainComponent::MainComponent(State& state) :
+state(state),
+mainPatcher(state),
 patchCordTypeButton("Gravity"),
 inoutNamesTypeButton("Hint / Label")
 {
@@ -32,19 +33,19 @@ MainComponent::~MainComponent()
 }
 
 //==============================================================================
-void MainComponent::paint (Graphics& g)
+void MainComponent::paint (juce::Graphics& g)
 {
-    g.fillAll (Colours::darkgrey);
-    g.setColour(Colours::darkgrey.darker());
+    g.fillAll (juce::Colours::darkgrey);
+    g.setColour(juce::Colours::darkgrey.darker());
     g.fillRect(topBarBounds);
 }
 
 void MainComponent::resized()
 {
-    Rectangle<int> windowBounds(getLocalBounds());
+    juce::Rectangle<int> windowBounds(getLocalBounds());
     topBarBounds = windowBounds.removeFromTop(50);
     
-    Rectangle<int> buttonBounds(topBarBounds);
+    juce::Rectangle<int> buttonBounds(topBarBounds);
     
     patchCordTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
     inoutNamesTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
@@ -53,10 +54,10 @@ void MainComponent::resized()
     mainPatcher.setSize(windowBounds.getWidth()*3, windowBounds.getHeight()*3);
 }
 
-void MainComponent::buttonClicked (Button* button)
+void MainComponent::buttonClicked (juce::Button* button)
 {
     if (button == &patchCordTypeButton)
-        mainPatcher.togglePatchCordType(button->getToggleState());
+        state.setPatchCordType((PatchCordType)button->getToggleState());
     else if (button == &inoutNamesTypeButton)
-        mainPatcher.toggleInoutType(button->getToggleState());
+        state.setShowPortLabels((ShowPortLabels)button->getToggleState());
 }

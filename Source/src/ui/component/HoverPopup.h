@@ -1,19 +1,17 @@
 
 #pragma once
 
-///@cond
 #include <JuceHeader.h>
-///@endcond
 
 class HoverPopupClient {
 public:
-    explicit HoverPopupClient(juce::Component* parentComponent) : parent(parentComponent), listener(this)
+    explicit HoverPopupClient(juce::Component* owner) : owner(owner), listener(this)
     {
-        parent->addMouseListener(&listener, true);
+        owner->addMouseListener(&listener, true);
     }
     
     virtual ~HoverPopupClient () {
-        parent->removeMouseListener(&listener);
+        owner->removeMouseListener(&listener);
     };
     
     bool wantsToShow() { return shouldBeShowing; }
@@ -31,7 +29,7 @@ public:
     std::function<juce::Point<float>(const juce::Rectangle<int>&)> customHoverPopupPosition;
     
 private:
-    juce::Component* parent;
+    juce::Component* owner;
     
     struct Listener : juce::MouseListener {
         explicit Listener(HoverPopupClient* owner) : owner(owner) {}
@@ -142,13 +140,13 @@ private:
     {
         if (auto clientComponent = dynamic_cast<Component*>(&client))
         {
-            backgroundColour = findColour(TooltipWindow::backgroundColourId);
+            backgroundColour = findColour(juce::TooltipWindow::backgroundColourId);
             
             auto text = (showComponentName ? componentName + ": " : "") + client.getPopupText();
             
             juce::AttributedString s;
             s.setJustification (juce::Justification::centred);
-            s.append (text, juce::Font{FontOptions{14.0f}}, findColour(TooltipWindow::textColourId));
+            s.append (text, juce::Font{juce::FontOptions{14.0f}}, findColour(juce::TooltipWindow::textColourId));
 
             tl.createLayoutWithBalancedLineLengths (s, s.getText().length() * 13);
         

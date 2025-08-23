@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    DSPUtils.h
+    Utils.h
     Created: 25 Apr 2020 1:16:41pm
     Author:  Alexandre Rodrigues
 
@@ -9,6 +9,8 @@
 */
 
 #pragma once
+
+#include <JuceHeader.h>
 
 
 /// A mathematically accurate and waaaay faster implementation of `fmod()`

@@ -10,9 +10,6 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "GritUI.h"
 
 //==============================================================================
@@ -28,14 +25,14 @@ struct GritProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "amount",
             "Amount",
-            NormalisableRange<float> (0.0, 100.0f, 0.0f, 0.5f),
+            juce::NormalisableRange<float> (0.0, 100.0f, 0.0f, 0.5f),
             50.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
            "density",
            "Density",
-           NormalisableRange<float> (0.0f, 100.0f, 0.0f, 0.3f),
+           juce::NormalisableRange<float> (0.0f, 100.0f, 0.0f, 0.3f),
            50.0f,
            FloatParameter::Attributes{}.withLabel("%")
         )
@@ -48,7 +45,7 @@ struct GritProcessor : ModuleProcessor
         sampleRate = newSampleRate;
     }
     
-    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&) override
     {
         float* inOutSamples = buffer.getWritePointer(0);
         const float* amountCVSamples = buffer.getReadPointer(1);
@@ -66,16 +63,16 @@ struct GritProcessor : ModuleProcessor
         }
     }
     
-    void parameterChanged (const String& parameterID, float value) override {
+    void parameterChanged (const juce::String& parameterID, float value) override {
         if (parameterID == "amount") amount = value * 0.01f;
         else if (parameterID == "density") density = value * 0.01f;
     }
     
-    AudioProcessorEditor* createEditor() override {return new GritUI(*this);}
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<GritUI>(*this); }
     
 private:
-    Random rng;
-    IIRFilter filter;
+    juce::Random rng;
+    juce::IIRFilter filter;
     
     float amount = 0.0f, density = 0.0f;
     double sampleRate = 44100.0;

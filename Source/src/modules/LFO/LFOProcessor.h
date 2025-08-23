@@ -10,9 +10,6 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "LFO.h"
 #include "LFOUI.h"
 
@@ -29,13 +26,13 @@ struct LFOProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "rate",
             "Rate",
-            NormalisableRange<float> (0.0f, 1.0f),
+            juce::NormalisableRange<float> (0.0f, 1.0f),
             0.3f,
             FloatParameter::Attributes{}.withStringFromValueFunction([] (float value, int) {
                 return juce::String(LFO::rate_to_hz(value), 2) + " Hz";
             })
         ),
-        std::make_unique<AudioParameterChoice> (
+        std::make_unique<juce::AudioParameterChoice> (
             "wave",
             "Wave",
             LFO::WAVE_STRINGS,
@@ -44,7 +41,7 @@ struct LFOProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "shape",
             "Shape",
-            NormalisableRange<float> (-100.0f, 100.0f),
+            juce::NormalisableRange<float> (-100.0f, 100.0f),
             0.0f,
             FloatParameter::Attributes{}.withLabel("%")
         )
@@ -57,7 +54,7 @@ struct LFOProcessor : ModuleProcessor
         lfo.prepare(newSampleRate);
     }
     
-    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&) override
     {
         float* samples = buffer.getWritePointer(0);
         const float* rateCVSamples = buffer.getReadPointer(0);
@@ -86,13 +83,13 @@ struct LFOProcessor : ModuleProcessor
 //        }
     }
     
-    void parameterChanged (const String& parameterID, float value) override {
+    void parameterChanged (const juce::String& parameterID, float value) override {
         if (parameterID == "rate") rate = value;
         else if (parameterID == "wave") lfo.set_wave((LFO::Wave)floor(value));
         else if (parameterID == "shape") shape = value * 0.01f;
     }
     
-    AudioProcessorEditor* createEditor() override {return new LFOUI(*this);}
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<LFOUI>(*this); }
     
 private:
     LFO lfo;

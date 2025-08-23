@@ -8,9 +8,6 @@
   ==============================================================================
 */
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "PhiDial.h"
 
 PhiDial::PhiDial()
@@ -26,7 +23,7 @@ PhiDial::PhiDial()
     updateDial();
 }
 
-PhiDial::PhiDial(RangedAudioParameter& parameter) :
+PhiDial::PhiDial(juce::RangedAudioParameter& parameter) :
 PhiDial()
 {
     attachment = std::make_unique<juce::SliderParameterAttachment>(parameter, *this);
@@ -38,20 +35,20 @@ PhiDial()
 }
 
 
-void PhiDial::paint (Graphics& g)
+void PhiDial::paint (juce::Graphics& g)
 {
     
     if (shouldDrawText)
     {
         g.setColour(nameColour);
-        g.drawFittedText(getName(), nameBounds, Justification::centredBottom, 1);
+        g.drawFittedText(getName(), nameBounds, juce::Justification::centredBottom, 1);
     }
 
     g.setColour(grooveColour);
-    g.strokePath(groove, PathStrokeType(thickness, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded));
+    g.strokePath(groove, stroke);
     
     g.setColour(colour);
-    g.strokePath(dial, PathStrokeType(thickness, PathStrokeType::JointStyle::mitered, PathStrokeType::EndCapStyle::rounded));
+    g.strokePath(dial, stroke);
     
     if (radius > 17)
     {
@@ -75,7 +72,7 @@ void PhiDial::resized ()
     
     nameBounds = bounds.removeFromTop(15);
     
-    size = jmin(bounds.getWidth(), bounds.getHeight()-10);
+    size = std::min(bounds.getWidth(), bounds.getHeight()-10);
     box = bounds.toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0, -7);
     radius = box.getWidth() * 0.55;
     
@@ -104,7 +101,7 @@ void PhiDial::updateDial ()
     {
         pointerPath.clear();
         pointerPath.addRoundedRectangle(box.withSizeKeepingCentre(thickness, 9).withY(box.getY()+thickness+1), thickness * 0.5);
-        pointerRotation = AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
+        pointerRotation = juce::AffineTransform::rotation(angle, box.getCentreX(), box.getCentreY());
     }
 }
 

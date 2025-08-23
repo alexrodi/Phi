@@ -10,46 +10,30 @@
 
 #include "AudioEngine.h"
 
-AudioEngine::AudioEngine()
+AudioEngine::AudioEngine(State& state) : state(state)
 {
-    enableAllBuses();
-
-    deviceManager.initialiseWithDefaultDevices (2, 2);
-    deviceManager.addAudioCallback (&player);
+    state.newProcessorCreated = [&] (auto processor, auto moduleID) {
+        addNode(std::move(processor), std::make_optional<NodeID>(moduleID));
+    };
     
-    player.setProcessor (this);
+    // Initialise the device manager and add the player
+    deviceManager.initialise(2, 2, nullptr, true, juce::String(), nullptr);
+    deviceManager.addAudioCallback(&player);
     
-    // Add an output node in the graph so that output modules may connect to it
+    // Add the output node to the graph
+    player.setProcessor(&*this);
     outputNode = addNode(std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode));
+    
+    state.setFirstModuleID(outputNode->nodeID.uid + 1);
 }
-
 
 AudioEngine::~AudioEngine()
 {
-    deviceManager.removeAudioCallback (&player);
+    deviceManager.removeAudioCallback(&player);
+    player.setProcessor(nullptr);
 }
 
-
-void AudioEngine::applyAudioConnections(const std::vector<PhiConnection>& connectionsToApply)
-{
-    for (auto c : getConnections())
-        removeConnection(c);
-    
-    for (auto node : getNodes())
-        if (static_cast<ModuleProcessor*>(node->getProcessor())->isOutput) // When we detect an output module, we hook it up to the output node
-            connectToOuput(node);
-    
-    for (auto& connection : connectionsToApply)
-        addConnection (connection);
-    
-    removeIllegalConnections();
+void AudioEngine::moduleDeleted(ModuleID moduleID) {
+    juce::AudioProcessorGraph::removeNode((NodeID)moduleID);
 }
 
-
-void AudioEngine::connectToOuput(Node::Ptr nodeToConnect)
-{
-    int connectionNumber = nodeToConnect->getProcessor()->getTotalNumOutputChannels();
-    
-    for (int i = 0; i < connectionNumber; i++)
-        addConnection ({ {nodeToConnect->nodeID, i}, {outputNode->nodeID, i} });
-}

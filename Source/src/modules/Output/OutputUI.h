@@ -10,9 +10,6 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "../../ModuleProcessor.h"
 
 //==============================================================================
@@ -32,17 +29,17 @@ public:
         .minimumHeight = 100,
         .processor = processor
     }},
-    speakerImage(Drawable::createFromSVG(*XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
-    colour(findColour(Slider::thumbColourId))
+    speakerImage(juce::Drawable::createFromSVG(*juce::XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
+    previousColour(findColour(juce::Slider::thumbColourId))
     {
-        speakerImage->replaceColour(Colours::black, colour);
+        speakerImage->replaceColour(juce::Colours::black, previousColour);
         addAndMakeVisible (*speakerImage);
     }
     
     ~OutputUI() {}
 
-    void paint (Graphics&) override {}
-    void onResize(Rectangle<int> moduleBounds) override
+    void paint (juce::Graphics&) override {}
+    void onResize(juce::Rectangle<int> moduleBounds) override
     {
         auto bounds = moduleBounds.withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds.reduced(10));
         
@@ -53,13 +50,12 @@ public:
 
     void lookAndFeelChanged() override
     {
-        Colour newColour = findColour(Slider::thumbColourId);
-        speakerImage->replaceColour(colour, newColour);
-        colour = newColour;
+        auto newColour = findColour(juce::Slider::thumbColourId);
+        speakerImage->replaceColour(previousColour, newColour);
+        previousColour = newColour;
     }
 
 private:
-    std::unique_ptr<Drawable> speakerImage;
-
-    Colour colour;
+    std::unique_ptr<juce::Drawable> speakerImage;
+    juce::Colour previousColour;
 };

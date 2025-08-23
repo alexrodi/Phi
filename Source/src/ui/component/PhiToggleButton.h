@@ -10,14 +10,11 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 
 //==============================================================================
 /*
 */
-class PhiToggleButton : public Button
+class PhiToggleButton : public juce::Button
 {
 public:
     PhiToggleButton() :
@@ -27,15 +24,15 @@ public:
         setClickingTogglesState(true);
     }
 private:
-    Rectangle<float> buttonRect;
+    juce::Rectangle<float> buttonRect;
     // Override the button's paint method
-    void paintButton (Graphics& g,
+    void paintButton (juce::Graphics& g,
                       bool shouldDrawButtonAsHighlighted,
                       bool shouldDrawButtonAsDown) override
     {
-        g.setColour(Colours::grey);
+        g.setColour(juce::Colours::grey);
         g.drawRect(buttonRect, 1);
-        g.setColour(findColour(Slider::thumbColourId));
+        g.setColour(findColour(juce::Slider::thumbColourId));
         g.fillRect(buttonRect.reduced(1));
     }
     

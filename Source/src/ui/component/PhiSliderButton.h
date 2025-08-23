@@ -10,17 +10,13 @@
 
 #pragma once
 
-///@cond
 #include <JuceHeader.h>
-///@endcond
 
 //==============================================================================
 /*
 */
-class PhiSliderButton    : public Button,
-                           public Button::Listener
+struct PhiSliderButton : juce::Button
 {
-public:
     enum class LabelPosition
     {
         Above,
@@ -29,10 +25,10 @@ public:
         Right
     };
     
-    explicit PhiSliderButton(const String&, LabelPosition = LabelPosition::Above);
+    explicit PhiSliderButton(const juce::String&, LabelPosition = LabelPosition::Above);
     ~PhiSliderButton();
 
-    void paintButton (Graphics&, bool, bool) override;
+    void paintButton (juce::Graphics&, bool, bool) override;
     void resized() override;
     
     void lookAndFeelChanged() override;
@@ -45,19 +41,18 @@ private:
     bool shouldDraw = true;
     
     LabelPosition labelPosition;
-    Justification labelTextJustification;
+    juce::Justification labelTextJustification;
     
-    DrawablePath knob;
+    juce::DrawablePath knob;
     
-    Rectangle<int> labelBounds;
-    Rectangle<float> sliderBounds;
+    juce::Rectangle<int> labelBounds;
+    juce::Rectangle<float> sliderBounds;
     
-    Colour textColour;
+    juce::Colour textColour;
     
-    Rectangle<int> getKnobBounds();
+    juce::Rectangle<int> getKnobBounds();
     
-    void buttonStateChanged(Button*) override;
-    void buttonClicked (Button*) override {};
+    void clicked() override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PhiSliderButton)
 };

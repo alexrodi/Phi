@@ -10,9 +10,6 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "GainUI.h"
 
 //==============================================================================
@@ -28,7 +25,7 @@ struct GainProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "gain",
             "Gain",
-            NormalisableRange<float> (-70.0f, 12.0f),
+                                          juce::NormalisableRange<float> (-70.0f, 12.0f),
             0.0f,
             FloatParameter::Attributes{}.withLabel("dB")
         )
@@ -39,7 +36,7 @@ struct GainProcessor : ModuleProcessor
     
     void prepare (double sampleRate, int maxBlockSize) override {}
     
-    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&) override
     {
         float gain = db_to_a(params.getRawParameterValue("gain")->load());
         float* inOutSamples = buffer.getWritePointer(0);
@@ -49,5 +46,5 @@ struct GainProcessor : ModuleProcessor
             *inOutSamples++ *= clip(gain + *gainCVSamples++, 0.0f, 4.0f);
     }
     
-    AudioProcessorEditor* createEditor() override {return new GainUI(*this);}
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<GainUI>(*this); }
 };
