@@ -24,7 +24,7 @@ class Connections : public juce::Component,
                     public juce::LassoSource<ConnectionID>
 {
 public:
-    explicit Connections(State& state, const Patcher& patcher);
+    Connections(State& state, const Patcher& patcher);
     ~Connections();
     
     void paint (juce::Graphics&) override;
@@ -48,8 +48,6 @@ private:
     std::unordered_map<ConnectionID, Connection> connections;
     juce::LassoComponent<ConnectionID> lasso;
     juce::SelectedItemSet<ConnectionID> selectedConnections;
-    
-    
     
     std::unique_ptr<HeldConnection> heldConnection;
     
