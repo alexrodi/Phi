@@ -30,6 +30,11 @@ public:
     void paint (juce::Graphics&) override;
     void resized () override;
     
+    void deleteAllSelected() {
+        for (auto connectionID : selectedConnections)
+            state.deleteConnection(connectionID);
+    }
+    
 private:
     struct Connection {
         juce::Path path;

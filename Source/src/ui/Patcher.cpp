@@ -154,6 +154,8 @@ bool Patcher::keyPressed (const juce::KeyPress& key)
         for (auto moduleID : selectedModuleIDs)
             state.deleteModule(moduleID);
         
+        connections.deleteAllSelected();
+        
         return true;
     }
     return false;
