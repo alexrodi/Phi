@@ -36,7 +36,7 @@ void Connections::paint (juce::Graphics& g)
     // Paint the temporary drag path if a connection is being made
     if (heldConnection)
     {
-        g.setColour ( findColour(PhiColourIds::Connection::DefaultFill) );
+        g.setColour ( heldConnection->colour );
         g.strokePath ( heldConnection->path, patchCordStroke );
     }
     
@@ -104,8 +104,10 @@ void Connections::mouseDown(const juce::MouseEvent& e)
     else if (auto port = static_cast<PortUI*>(e.eventComponent))
     {
         if (auto portID = patcher.getPortID(*port)) {
-            heldConnection = std::make_unique<HeldConnection>();
-            heldConnection->anchor = getLocalPoint(port, port->getLocalBounds().toFloat().getCentre());
+            heldConnection = std::make_unique<HeldConnection>( HeldConnection {
+                {.colour = findColour(PhiColourIds::Connection::DefaultFill)},
+                .anchor = getLocalPoint(port, port->getLocalBounds().toFloat().getCentre())
+            });
             
             updateHeldConnectionPath(e.getEventRelativeTo(this));
         }

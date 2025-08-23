@@ -68,8 +68,8 @@ public:
     } phiLookAndFeel;
 
 
-//==============================================================================
 private:
+    //==============================================================================
     State& state;
     
     /// The main editor, it has the means to create modules, connections and produce the resulting audio
@@ -86,6 +86,8 @@ private:
     
     /// The rectangle that constrains the top bar on the window
     juce::Rectangle<int> topBarBounds;
+    
+    //==============================================================================
     
     /// The callback for any button on this component
     void buttonClicked (juce::Button*) override;

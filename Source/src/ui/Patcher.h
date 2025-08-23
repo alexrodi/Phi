@@ -42,6 +42,7 @@ struct Patcher : juce::Component,
     bool keyPressed (const juce::KeyPress& key) override;
     
 private:
+    //==============================================================================
     /// A reference to the state
     State& state;
     
@@ -59,6 +60,8 @@ private:
     juce::TooltipWindow tooltip;
     
     bool selectionResult = false;
+    
+    //==============================================================================
     
     void openMenu(const juce::MouseEvent& e);
     
@@ -80,5 +83,6 @@ private:
     
     void changeListenerCallback(juce::ChangeBroadcaster*) override;
     
+    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Patcher)
 };

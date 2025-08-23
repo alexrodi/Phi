@@ -36,6 +36,10 @@ private:
         juce::Colour colour;
     };
     
+    struct HeldConnection : Connection {
+        juce::Point<float> anchor;
+    };
+    
     //==============================================================================
     
     State& state;
@@ -45,10 +49,7 @@ private:
     juce::LassoComponent<ConnectionID> lasso;
     juce::SelectedItemSet<ConnectionID> selectedConnections;
     
-    struct HeldConnection {
-        juce::Path path;
-        juce::Point<float> anchor;
-    };
+    
     
     std::unique_ptr<HeldConnection> heldConnection;
     
@@ -72,7 +73,7 @@ private:
     
     void openColourSelector(juce::Point<int> point, juce::Colour initialColour);
     
-    /// Runs a funtion on every currently selected Connection
+    /// Runs a function on every currently selected Connection
     template<class CallbackType>
     void forEachSelected(CallbackType);
     
@@ -95,6 +96,5 @@ private:
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     
     //==============================================================================
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)
 };
