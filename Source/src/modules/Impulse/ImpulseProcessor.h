@@ -90,7 +90,7 @@ struct ImpulseProcessor : ModuleProcessor
     
     void parameterChanged (const juce::String& parameterID, float value) override {
         if (parameterID == "freq") freq = value;
-        else if (parameterID == "shape") shape = pow(value * 0.01f, 0.1f);
+        else if (parameterID == "shape") shape = pow(value * 0.01f, 0.2f);
     }
 
     std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<ImpulseUI>(*this); }

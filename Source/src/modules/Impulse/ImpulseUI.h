@@ -85,7 +85,7 @@ private:
         
         const void updateForm(const float shape)
         {
-            const float shapeValue = powf(shape, 0.1f);
+            const float shapeValue = powf(shape, 0.2f);
             
             const int pixelsPerPoint = 2;
             
