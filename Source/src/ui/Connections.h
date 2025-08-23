@@ -47,8 +47,6 @@ private:
     
     struct HeldConnection {
         juce::Path path;
-        ModulePortID originID;
-        PortType originType = PortType::Inlet;
         juce::Point<float> anchor;
     };
     
@@ -71,7 +69,6 @@ private:
     
     void updateConnectionPath(ConnectionID);
     void updateHeldConnectionPath(const juce::MouseEvent& e);
-    void completeHeldConnection(ModulePortID, PortType);
     
     void openColourSelector(juce::Point<int> point, juce::Colour initialColour);
     

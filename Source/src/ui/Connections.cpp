@@ -56,17 +56,6 @@ void Connections::resized()
 {
 }
 
-void Connections::completeHeldConnection(ModulePortID modulePortID, PortType type) {
-    if (heldConnection->originType != type) {
-        bool originIsOutlet = heldConnection->originType == PortType::Outlet;
-        
-        state.createConnection({
-            originIsOutlet ? heldConnection->originID : modulePortID,
-            originIsOutlet ? modulePortID: heldConnection->originID
-        });
-    }
-}
-
 void Connections::updateHeldConnectionPath(const juce::MouseEvent& e) {
     if (heldConnection) {
         auto getPath = patchCordType == PatchCordType::S ? getSPatchCordPath : getArcPatchCordPath;
@@ -116,8 +105,6 @@ void Connections::mouseDown(const juce::MouseEvent& e)
     {
         if (auto portID = patcher.getPortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>();
-            heldConnection->originType = port->getType();
-            heldConnection->originID = *portID;
             heldConnection->anchor = getLocalPoint(port, port->getLocalBounds().getCentre().toFloat());
             
             updateHeldConnectionPath(e.getEventRelativeTo(this));
@@ -128,10 +115,24 @@ void Connections::mouseDown(const juce::MouseEvent& e)
 }
 
 void Connections::mouseUp(const juce::MouseEvent& e) {
-    if (auto port = static_cast<PortUI*>(e.eventComponent)) {
-        if (auto portID = patcher.getPortID(*port)) {
-            if (heldConnection)
-                completeHeldConnection(*portID, port->getType());
+    auto parent = getParentComponent();
+    
+    auto* originPort = static_cast<PortUI*>(e.eventComponent);
+    auto* destinationPort = static_cast<PortUI*>(parent->getComponentAt(e.getEventRelativeTo(parent).position));
+    
+    if (originPort && destinationPort &&
+        originPort->getType() != destinationPort->getType())
+    {
+        auto originPortID = patcher.getPortID(*originPort);
+        auto destinationPortID = patcher.getPortID(*destinationPort);
+        
+        if (originPortID && destinationPortID) {
+            bool originIsOutlet = originPort->getType() == PortType::Outlet;
+            
+            state.createConnection({
+                originIsOutlet ? *originPortID : *destinationPortID,
+                originIsOutlet ? *destinationPortID: *originPortID
+            });
         }
     }
     
