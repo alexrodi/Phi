@@ -28,9 +28,9 @@ public:
         /** This module's name. */
         const juce::String name;
         /** A vector of inlet names to display in the UI (will correspond to the processor's inlets). */
-        const std::vector<juce::String> inlets;
+        const juce::StringArray inlets;
         /** A vector of outlet names to display in the UI (will correspond to the processor's outlets). */
-        const std::vector<juce::String> outlets;
+        const juce::StringArray outlets;
         /** The default width to use when creating this module. */
         const int width;
         /** The default height to use when creating this module. */
