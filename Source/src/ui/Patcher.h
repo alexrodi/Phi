@@ -26,7 +26,11 @@ struct Patcher : juce::Component,
     explicit Patcher(State&);
     ~Patcher();
     
+    ModuleUI* getModuleUI (ModuleID) const;
     const PortUI* getPortUI (ModulePortID, PortType) const;
+    
+    std::optional<ModuleID> getBoxModuleID(const ModuleBox&) const;
+    std::optional<ModulePortID> getPortID(const PortUI&) const;
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -34,10 +38,8 @@ struct Patcher : juce::Component,
     void mouseDown(const juce::MouseEvent& e) override;
     void mouseUp(const juce::MouseEvent& e) override;
     void mouseDrag(const juce::MouseEvent& e) override;
-    void mouseMove(const juce::MouseEvent& e) override;
     
     bool keyPressed (const juce::KeyPress& key) override;
-    
     
 private:
     /// A reference to the state
@@ -57,9 +59,6 @@ private:
     juce::TooltipWindow tooltip;
     
     bool selectionResult = false;
-    
-    std::optional<ModuleID> getBoxModuleID(const ModuleBox&);
-    std::optional<ModulePortID> getPortID(const PortUI&);
     
     void openMenu(const juce::MouseEvent& e);
     

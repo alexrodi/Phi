@@ -30,10 +30,6 @@ public:
     void paint (juce::Graphics&) override;
     void resized () override;
     
-    void portMouseDown(ModulePortID, PortType);
-    void portMouseUp(ModulePortID, PortType);
-    void portMouseMove(ModulePortID, PortType, const juce::MouseEvent&);
-    
 private:
     struct Connection {
         juce::Path path;
@@ -64,7 +60,7 @@ private:
     
     ConnectionID hitConnectionID;
     
-    PatchCordType patchCordType;
+    PatchCordType patchCordType = PatchCordType::S;
     
     //==============================================================================
     
@@ -84,6 +80,7 @@ private:
     void forEachSelected(CallbackType);
     
     // State listener overrides
+    void moduleAdded(ModuleID) override;
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;
     void moduleBoundsChanged(ModuleID, juce::Rectangle<int>) override;
@@ -95,7 +92,8 @@ private:
     bool hitTest(int x, int y) override;
     
     void mouseDown(const juce::MouseEvent& e) override;
-    void mouseMove(const juce::MouseEvent& e) override;
+    void mouseUp(const juce::MouseEvent& e) override;
+    void mouseDrag(const juce::MouseEvent& e) override;
     
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     

@@ -82,7 +82,7 @@ void ModuleBox::resized()
      */
     setMinimumOnscreenAmounts(getHeight(), getWidth(), getHeight(), getWidth());
     
-    // Place resizer in bottom left corner
+    // Place resizer in bottom right corner
     resizer.setBoundsToFit(getLocalBounds().reduced(3), juce::Justification::bottomRight, true);
     
     // Place header line

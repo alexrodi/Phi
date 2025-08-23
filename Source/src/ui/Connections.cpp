@@ -56,32 +56,6 @@ void Connections::resized()
 {
 }
 
-void Connections::portMouseDown(ModulePortID modulePortID, PortType type) {
-    if (heldConnection)
-    {
-        completeHeldConnection(modulePortID, type);
-    }
-    else if (auto* portUI = patcher.getPortUI(modulePortID, type))
-    {
-        heldConnection = std::make_unique<HeldConnection>();
-        heldConnection->originType = type;
-        heldConnection->originID = modulePortID;
-        heldConnection->anchor = getLocalPoint(portUI, portUI->getLocalBounds().getCentre().toFloat());
-    }
-        
-    repaint();
-}
-
-
-void Connections::portMouseUp(ModulePortID modulePortID, PortType type) {
-    if (heldConnection)
-        completeHeldConnection(modulePortID, type);
-}
-
-void Connections::portMouseMove(ModulePortID modulePortID, PortType type, const juce::MouseEvent& e) {
-    updateHeldConnectionPath(e);
-}
-
 void Connections::completeHeldConnection(ModulePortID modulePortID, PortType type) {
     if (heldConnection->originType != type) {
         bool originIsOutlet = heldConnection->originType == PortType::Outlet;
@@ -91,8 +65,6 @@ void Connections::completeHeldConnection(ModulePortID modulePortID, PortType typ
             originIsOutlet ? modulePortID: heldConnection->originID
         });
     }
-    
-    heldConnection.reset();
 }
 
 void Connections::updateHeldConnectionPath(const juce::MouseEvent& e) {
@@ -132,18 +104,56 @@ void Connections::mouseDown(const juce::MouseEvent& e)
 {
     if (!e.mods.isShiftDown())
         selectedConnections.deselectAll();
-        
-    selectedConnections.addToSelectionOnMouseDown(hitConnectionID, e.mods);
     
-    if (e.mods.isRightButtonDown())
-        openColourSelector(e.position.toInt(), connections[hitConnectionID].colour);
+    if (e.eventComponent == this)
+    {
+        selectedConnections.addToSelectionOnMouseDown(hitConnectionID, e.mods);
+        
+        if (e.mods.isRightButtonDown())
+            openColourSelector(e.position.toInt(), connections[hitConnectionID].colour);
+    }
+    else if (auto port = static_cast<PortUI*>(e.eventComponent))
+    {
+        if (auto portID = patcher.getPortID(*port)) {
+            heldConnection = std::make_unique<HeldConnection>();
+            heldConnection->originType = port->getType();
+            heldConnection->originID = *portID;
+            heldConnection->anchor = getLocalPoint(port, port->getLocalBounds().getCentre().toFloat());
+            
+            updateHeldConnectionPath(e.getEventRelativeTo(this));
+        }
+    }
     
     lasso.endLasso();
 }
 
-void Connections::mouseMove(const juce::MouseEvent& e)
+void Connections::mouseUp(const juce::MouseEvent& e) {
+    if (auto port = static_cast<PortUI*>(e.eventComponent)) {
+        if (auto portID = patcher.getPortID(*port)) {
+            if (heldConnection)
+                completeHeldConnection(*portID, port->getType());
+        }
+    }
+    
+    // TODO: implement permanent held connection when shift is pressed
+    heldConnection.reset();
+    
+    repaint();
+}
+
+void Connections::mouseDrag(const juce::MouseEvent& e)
 {
-    updateHeldConnectionPath(e);
+    updateHeldConnectionPath(e.getEventRelativeTo(this));
+}
+
+void Connections::moduleAdded(ModuleID moduleID) {
+    if (auto* moduleUI = patcher.getModuleUI(moduleID)) {
+        for (auto& inlet : moduleUI->inlets)
+            inlet.addMouseListener(this, false);
+        
+        for (auto& outlet : moduleUI->outlets)
+            outlet.addMouseListener(this, false);
+    }
 }
 
 void Connections::connectionCreated(ConnectionID connectionID) {
@@ -240,9 +250,8 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
     for (auto& [id, connection] : connections) {
         float length = connection.path.getLength();
         float distance = 0.0f;
-        while (distance < length){
-            if (area.contains(connection.path.getPointAlongPath(distance += 10.0f).toInt()))
-            {
+        while (distance < length) {
+            if (area.contains(connection.path.getPointAlongPath(distance += 10.0f).toInt())) {
                 itemsFound.add(id);
                 break;
             }
