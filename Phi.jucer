@@ -5,91 +5,91 @@
   <MAINGROUP id="J6rtXw" name="Phi">
     <GROUP id="{F2E00F69-915E-CA9E-9822-68192A58DC0A}" name="resources">
       <GROUP id="{D10A4911-F6BB-D6F3-E0F6-51D177CDEF95}" name="png">
-        <FILE id="oRqanC" name="logo.png" compile="0" resource="1" file="Source/resources/png/logo.png"/>
+        <FILE id="NQZ8C5" name="logo.png" compile="0" resource="1" file="Source/resources/png/logo.png"/>
       </GROUP>
       <GROUP id="{477421B2-F67E-74AC-3CD6-19436415430B}" name="svg">
-        <FILE id="dY2lhG" name="Speaker_Icon.svg" compile="0" resource="1"
+        <FILE id="lk2m2t" name="Speaker_Icon.svg" compile="0" resource="1"
               file="Source/resources/svg/Speaker_Icon.svg"/>
       </GROUP>
     </GROUP>
     <GROUP id="{0AEC8051-0D68-DE0B-116C-A216490944C2}" name="src">
-      <GROUP id="{D51B50D3-2B64-65EC-5D68-54FDA3141FBA}" name="dsp">
-        <FILE id="ABP2BE" name="AudioEngine.cpp" compile="1" resource="0" file="Source/src/dsp/AudioEngine.cpp"/>
-        <FILE id="ra6kXU" name="AudioEngine.h" compile="0" resource="0" file="Source/src/dsp/AudioEngine.h"/>
-        <FILE id="xuXkYD" name="Utils.h" compile="0" resource="0" file="Source/src/dsp/Utils.h"/>
-        <FILE id="vq5KwS" name="ModuleProcessor.h" compile="0" resource="0"
+      <GROUP id="{A2F63D7A-D7C0-4E75-1C41-202195C66E3F}" name="dsp">
+        <FILE id="WhcYkf" name="AudioEngine.cpp" compile="1" resource="0" file="Source/src/dsp/AudioEngine.cpp"/>
+        <FILE id="nHib2t" name="AudioEngine.h" compile="0" resource="0" file="Source/src/dsp/AudioEngine.h"/>
+        <FILE id="IuNf3c" name="ModuleProcessor.h" compile="0" resource="0"
               file="Source/src/dsp/ModuleProcessor.h"/>
+        <FILE id="ld8gLm" name="Utils.h" compile="0" resource="0" file="Source/src/dsp/Utils.h"/>
       </GROUP>
-      <GROUP id="{18FDE961-3836-B67D-72BF-A6746DDAD2BE}" name="modules">
-        <GROUP id="{BC80DFA2-A72B-16CC-4186-C4E72BFB09ED}" name="Filter">
-          <FILE id="QvhKcj" name="FilterProcessor.h" compile="0" resource="0"
+      <GROUP id="{A9CF4ED6-C53D-D33B-0416-DF0A1324008C}" name="modules">
+        <GROUP id="{3910A4B6-7A37-CC81-4908-41AF3E2B023A}" name="Filter">
+          <FILE id="FTL24p" name="FilterProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/Filter/FilterProcessor.h"/>
-          <FILE id="stfGYN" name="FilterUI.h" compile="0" resource="0" file="Source/src/modules/Filter/FilterUI.h"/>
+          <FILE id="ESEfeH" name="FilterUI.h" compile="0" resource="0" file="Source/src/modules/Filter/FilterUI.h"/>
         </GROUP>
-        <GROUP id="{2DC32E51-EE1A-0311-D4C0-AA9D21DD6536}" name="Friction">
-          <FILE id="qwFhlq" name="FrictionProcessor.h" compile="0" resource="0"
+        <GROUP id="{20A92938-5319-5390-3CA7-1E4B71F6C168}" name="Friction">
+          <FILE id="yiFWp5" name="FrictionProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/Friction/FrictionProcessor.h"/>
-          <FILE id="K2UMQy" name="FrictionUI.h" compile="0" resource="0" file="Source/src/modules/Friction/FrictionUI.h"/>
+          <FILE id="xWyVSO" name="FrictionUI.h" compile="0" resource="0" file="Source/src/modules/Friction/FrictionUI.h"/>
         </GROUP>
-        <GROUP id="{2FBC1245-DA3D-E25D-92C5-C08CA03B70CD}" name="Gain">
-          <FILE id="HDVQ0o" name="GainProcessor.h" compile="0" resource="0" file="Source/src/modules/Gain/GainProcessor.h"/>
-          <FILE id="TPAaCZ" name="GainUI.h" compile="0" resource="0" file="Source/src/modules/Gain/GainUI.h"/>
+        <GROUP id="{21B4410B-FC1A-5511-B737-47869652281A}" name="Gain">
+          <FILE id="b0oi11" name="GainProcessor.h" compile="0" resource="0" file="Source/src/modules/Gain/GainProcessor.h"/>
+          <FILE id="rAZPdC" name="GainUI.h" compile="0" resource="0" file="Source/src/modules/Gain/GainUI.h"/>
         </GROUP>
-        <GROUP id="{3C8F6393-2361-B7B9-7443-EA61CFD1BC22}" name="Grit">
-          <FILE id="DoKeiO" name="GritProcessor.h" compile="0" resource="0" file="Source/src/modules/Grit/GritProcessor.h"/>
-          <FILE id="cmBtwt" name="GritUI.h" compile="0" resource="0" file="Source/src/modules/Grit/GritUI.h"/>
+        <GROUP id="{61D69D32-EB77-3D7B-C58E-54F562C0C936}" name="Grit">
+          <FILE id="IpPAkG" name="GritProcessor.h" compile="0" resource="0" file="Source/src/modules/Grit/GritProcessor.h"/>
+          <FILE id="KTp4TA" name="GritUI.h" compile="0" resource="0" file="Source/src/modules/Grit/GritUI.h"/>
         </GROUP>
-        <GROUP id="{4AF4FCFA-E394-88B6-4C95-F8C11AFBCC07}" name="Impulse">
-          <FILE id="K3yv1x" name="ImpulseProcessor.h" compile="0" resource="0"
+        <GROUP id="{102A8F0E-8100-D567-35D0-1F58EF2ED998}" name="Impulse">
+          <FILE id="Y9vFuD" name="ImpulseProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/Impulse/ImpulseProcessor.h"/>
-          <FILE id="xpoDZI" name="ImpulseUI.h" compile="0" resource="0" file="Source/src/modules/Impulse/ImpulseUI.h"/>
+          <FILE id="BzRaDt" name="ImpulseUI.h" compile="0" resource="0" file="Source/src/modules/Impulse/ImpulseUI.h"/>
         </GROUP>
-        <GROUP id="{19232A59-24DC-DDA0-018B-6B50EA2F6BF6}" name="LFO">
-          <FILE id="iXQaXv" name="LFO.h" compile="0" resource="0" file="Source/src/modules/LFO/LFO.h"/>
-          <FILE id="QPgYyt" name="LFOProcessor.h" compile="0" resource="0" file="Source/src/modules/LFO/LFOProcessor.h"/>
-          <FILE id="C26HmP" name="LFOUI.h" compile="0" resource="0" file="Source/src/modules/LFO/LFOUI.h"/>
+        <GROUP id="{93121311-E4A4-40BA-9C61-912B33B85DCC}" name="LFO">
+          <FILE id="jWwAJi" name="LFO.h" compile="0" resource="0" file="Source/src/modules/LFO/LFO.h"/>
+          <FILE id="hlMUmG" name="LFOProcessor.h" compile="0" resource="0" file="Source/src/modules/LFO/LFOProcessor.h"/>
+          <FILE id="MlpOXz" name="LFOUI.h" compile="0" resource="0" file="Source/src/modules/LFO/LFOUI.h"/>
         </GROUP>
-        <GROUP id="{9AE00FE9-C6DD-4CB9-FFE6-A07EE10C94D2}" name="Output">
-          <FILE id="LiWKPc" name="OutputProcessor.h" compile="0" resource="0"
+        <GROUP id="{8E1DD30F-2BC9-D1FB-8FAE-9D5B3AED9CAF}" name="Output">
+          <FILE id="krdBxr" name="OutputProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/Output/OutputProcessor.h"/>
-          <FILE id="PTBdJX" name="OutputUI.h" compile="0" resource="0" file="Source/src/modules/Output/OutputUI.h"/>
+          <FILE id="YLE58h" name="OutputUI.h" compile="0" resource="0" file="Source/src/modules/Output/OutputUI.h"/>
         </GROUP>
-        <GROUP id="{8FF0ECBB-0D50-1494-B3A8-6FAC16AB32BF}" name="String">
-          <FILE id="PjqNdS" name="StringProcessor.h" compile="0" resource="0"
+        <GROUP id="{2D1CB403-EC4E-8E29-90FE-88B810647C72}" name="String">
+          <FILE id="l815Fe" name="StringProcessor.h" compile="0" resource="0"
                 file="Source/src/modules/String/StringProcessor.h"/>
-          <FILE id="LQQNLp" name="StringUI.h" compile="0" resource="0" file="Source/src/modules/String/StringUI.h"/>
+          <FILE id="dd8yiA" name="StringUI.h" compile="0" resource="0" file="Source/src/modules/String/StringUI.h"/>
         </GROUP>
+        <FILE id="KZBeKn" name="Modules.h" compile="0" resource="0" file="Source/src/modules/Modules.h"/>
       </GROUP>
       <GROUP id="{FB8EDE1F-10FF-AFAF-BE42-B0249C935E4E}" name="ui">
         <GROUP id="{B0A81A62-35AC-419A-DF1B-C220D32F9237}" name="component">
-          <FILE id="gSYP46" name="HoverPopup.h" compile="0" resource="0" file="Source/src/ui/component/HoverPopup.h"/>
-          <FILE id="vgcodA" name="PhiDial.cpp" compile="1" resource="0" file="Source/src/ui/component/PhiDial.cpp"/>
-          <FILE id="SJcCrZ" name="PhiDial.h" compile="0" resource="0" file="Source/src/ui/component/PhiDial.h"/>
-          <FILE id="hCwTZG" name="PhiSliderButton.cpp" compile="1" resource="0"
+          <FILE id="QIWY0Y" name="HoverPopup.h" compile="0" resource="0" file="Source/src/ui/component/HoverPopup.h"/>
+          <FILE id="FP6YPl" name="PhiDial.cpp" compile="1" resource="0" file="Source/src/ui/component/PhiDial.cpp"/>
+          <FILE id="nHieB6" name="PhiDial.h" compile="0" resource="0" file="Source/src/ui/component/PhiDial.h"/>
+          <FILE id="D8pEZO" name="PhiSliderButton.cpp" compile="1" resource="0"
                 file="Source/src/ui/component/PhiSliderButton.cpp"/>
-          <FILE id="WwF3uJ" name="PhiSliderButton.h" compile="0" resource="0"
+          <FILE id="bUxaJ5" name="PhiSliderButton.h" compile="0" resource="0"
                 file="Source/src/ui/component/PhiSliderButton.h"/>
-          <FILE id="bfZzeq" name="PhiToggleButton.h" compile="0" resource="0"
+          <FILE id="TNSU5d" name="PhiToggleButton.h" compile="0" resource="0"
                 file="Source/src/ui/component/PhiToggleButton.h"/>
         </GROUP>
-        <FILE id="SlHy5b" name="Connections.cpp" compile="1" resource="0" file="Source/src/ui/Connections.cpp"/>
-        <FILE id="AEvZub" name="Connections.h" compile="0" resource="0" file="Source/src/ui/Connections.h"/>
-        <FILE id="ctQzRX" name="MainComponent.cpp" compile="1" resource="0"
+        <FILE id="WNVk8G" name="Connections.cpp" compile="1" resource="0" file="Source/src/ui/Connections.cpp"/>
+        <FILE id="w2cUdH" name="Connections.h" compile="0" resource="0" file="Source/src/ui/Connections.h"/>
+        <FILE id="ZqwNRU" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/src/ui/MainComponent.cpp"/>
-        <FILE id="rcscBS" name="MainComponent.h" compile="0" resource="0" file="Source/src/ui/MainComponent.h"/>
-        <FILE id="fdeu0I" name="ModuleBox.cpp" compile="1" resource="0" file="Source/src/ui/ModuleBox.cpp"/>
-        <FILE id="T7xei1" name="ModuleBox.h" compile="0" resource="0" file="Source/src/ui/ModuleBox.h"/>
-        <FILE id="WdLlY4" name="ModuleUI.h" compile="0" resource="0" file="Source/src/ui/ModuleUI.h"/>
-        <FILE id="UmREE7" name="Patcher.cpp" compile="1" resource="0" file="Source/src/ui/Patcher.cpp"/>
-        <FILE id="thZiDW" name="Patcher.h" compile="0" resource="0" file="Source/src/ui/Patcher.h"/>
-        <FILE id="WpcuUh" name="PhiColours.h" compile="0" resource="0" file="Source/src/ui/PhiColours.h"/>
-        <FILE id="jASHhg" name="PortUI.cpp" compile="1" resource="0" file="Source/src/ui/PortUI.cpp"/>
-        <FILE id="EjaLe3" name="PortUI.h" compile="0" resource="0" file="Source/src/ui/PortUI.h"/>
+        <FILE id="mQ5T4A" name="MainComponent.h" compile="0" resource="0" file="Source/src/ui/MainComponent.h"/>
+        <FILE id="jMI3bQ" name="ModuleBox.cpp" compile="1" resource="0" file="Source/src/ui/ModuleBox.cpp"/>
+        <FILE id="X0aArg" name="ModuleBox.h" compile="0" resource="0" file="Source/src/ui/ModuleBox.h"/>
+        <FILE id="gep1QG" name="ModuleUI.h" compile="0" resource="0" file="Source/src/ui/ModuleUI.h"/>
+        <FILE id="RAwy4e" name="Patcher.cpp" compile="1" resource="0" file="Source/src/ui/Patcher.cpp"/>
+        <FILE id="fM8gkk" name="Patcher.h" compile="0" resource="0" file="Source/src/ui/Patcher.h"/>
+        <FILE id="JVkjzw" name="PhiColours.h" compile="0" resource="0" file="Source/src/ui/PhiColours.h"/>
+        <FILE id="fjIuFa" name="PortUI.cpp" compile="1" resource="0" file="Source/src/ui/PortUI.cpp"/>
+        <FILE id="nKfXNY" name="PortUI.h" compile="0" resource="0" file="Source/src/ui/PortUI.h"/>
       </GROUP>
-      <FILE id="Um9ToA" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
-      <FILE id="VTKc8i" name="Modules.h" compile="0" resource="0" file="Source/src/Modules.h"/>
-      <FILE id="G3Yaxo" name="State.cpp" compile="1" resource="0" file="Source/src/State.cpp"/>
-      <FILE id="tpY2Rq" name="State.h" compile="0" resource="0" file="Source/src/State.h"/>
+      <FILE id="SwNQ4A" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
+      <FILE id="kYbBFT" name="State.cpp" compile="1" resource="0" file="Source/src/State.cpp"/>
+      <FILE id="UIi3JQ" name="State.h" compile="0" resource="0" file="Source/src/State.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
