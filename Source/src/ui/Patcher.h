@@ -75,8 +75,10 @@ private:
         }
         
         void moveOnMouseDrag(const juce::MouseEvent& e) {
-            for (auto& [box, position] : modulePositions)
-                box->setTopLeftPosition(position + e.getOffsetFromDragStart());
+            for (auto& [box, position] : modulePositions) {
+                juce::Rectangle<int> bounds = box->getBounds().withPosition(position + e.getOffsetFromDragStart());
+                box->setBoundsForComponent(box, bounds, false, false, false, false);
+            }
         }
         
     private:
