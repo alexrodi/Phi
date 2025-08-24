@@ -40,17 +40,21 @@ void PortUI::paint (juce::Graphics& g)
 
 void PortUI::resized()
 {
-    const int textHeight = 18;
-    const int portHeight = portSize + portStroke;
-    
-    bool canFitText = getHeight() > portHeight + textHeight + 12;
+    canFitText = getHeight() > portHeight + textHeight + 12;
     drawText = shouldShowLabel == ShowPortLabels::On && canFitText;
+    
+    portBounds = getPortBounds(shouldShowLabel);
+    nameBounds = {0, (int)portBounds.getY() - textHeight, getWidth(), textHeight};
+    
     setHoverPopupEnabled(!drawText);
+}
+
+juce::Rectangle<float> PortUI::getPortBounds(ShowPortLabels showLabel) const {
+    bool drawText = showLabel == ShowPortLabels::On && canFitText;
     
     auto bounds = getLocalBounds().withSizeKeepingCentre(getWidth(), portHeight + (drawText ? textHeight : 0));
     
-    portBounds = bounds.removeFromBottom(portHeight).toFloat().withSizeKeepingCentre(portSize, portSize);
-    nameBounds = bounds;
+    return bounds.removeFromBottom(portHeight).toFloat().withSizeKeepingCentre(portSize, portSize);
 }
 
 juce::Point<float> PortUI::hoverPopupPosition() {

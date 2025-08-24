@@ -35,8 +35,8 @@ struct PortUI : juce::Component,
         repaint();
     }
     
-    juce::Point<float> getCenter() const {
-        return portBounds.getCentre();
+    juce::Point<float> getConnectionPoint(ShowPortLabels showLabel) const {
+        return getPortBounds(showLabel).getCentre();
     }
 
 private:
@@ -44,6 +44,8 @@ private:
     
     const int portSize = 12;
     const int portStroke = 3;
+    const int textHeight = 18;
+    const int portHeight = portSize + portStroke;
     
     /// The plug's type - `Inlet` or `Outlet`
     PortType type;
@@ -59,7 +61,9 @@ private:
     juce::Rectangle<int> nameBounds;
     
     ShowPortLabels shouldShowLabel;
-    bool drawText = false;
+    bool drawText = false, canFitText = false;
+    
+    juce::Rectangle<float> getPortBounds(ShowPortLabels) const;
     
     juce::Point<float> hoverPopupPosition() override;
     juce::String getPopupText() override;

@@ -71,6 +71,7 @@ private:
     ConnectionID hitConnectionID;
     
     PatchCordType patchCordType = PatchCordType::S;
+    ShowPortLabels showPortLabels = ShowPortLabels::Off;
     
     //==============================================================================
     
@@ -96,6 +97,7 @@ private:
     void connectionDeleted(ConnectionID) override;
     void moduleBoundsChanged(ModuleID, juce::Rectangle<int>) override;
     void patchCordTypeChanged(PatchCordType) override;
+    void showPortLabelsChanged(ShowPortLabels show) override;
     
     void findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, const juce::Rectangle<int>& area) override;
     juce::SelectedItemSet<ConnectionID>& getLassoSelection() override;

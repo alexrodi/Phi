@@ -131,7 +131,7 @@ void Connections::onMouseDown(const juce::MouseEvent& e)
         if (auto portID = patcher.getModulePortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>( HeldConnection {
                 {.colour = findColour(PhiColourIds::Connection::DefaultFill)},
-                .anchor = getLocalPoint(port, port->getCenter())
+                .anchor = getLocalPoint(port, port->getConnectionPoint(showPortLabels))
             });
             
             updateHeldConnectionPath(e.getEventRelativeTo(this));
@@ -191,6 +191,15 @@ void Connections::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bo
 
 void Connections::patchCordTypeChanged(PatchCordType type) {
     patchCordType = type;
+    
+    for (auto& [id, _] : connections)
+        updateConnectionPath(id);
+    
+    repaint();
+}
+
+void Connections::showPortLabelsChanged(ShowPortLabels show) {
+    showPortLabels = show;
     
     for (auto& [id, _] : connections)
         updateConnectionPath(id);
@@ -260,8 +269,8 @@ void Connections::updateConnectionPath(ConnectionID connectionID) {
     
     if (outlet && inlet) {
         auto path = getPath({
-            getLocalPoint(outlet, outlet->getCenter()),
-            getLocalPoint(inlet, inlet->getCenter())
+            getLocalPoint(outlet, outlet->getConnectionPoint(showPortLabels)),
+            getLocalPoint(inlet, inlet->getConnectionPoint(showPortLabels))
         });
         
         patchCordStroke.createStrokedPath(path, path);
@@ -287,10 +296,6 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
 void Connections::parentHierarchyChanged() {
     if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
         mainComponent->addMouseListener(&mouseListener, true);
-    
-    // addGlobalMouseListener ???maybe???
 }
- 
-// TODO: LASSO!
 
 juce::SelectedItemSet<ConnectionID>& Connections::getLassoSelection() {return selectedConnections;}
