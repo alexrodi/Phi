@@ -122,13 +122,8 @@ void Patcher::mouseUp(const juce::MouseEvent& e)
     }
     else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
-        for (auto& [moduleID, item] : modules)
-        {
-            if (item.get() == box) {
-                selectedModuleIDs.addToSelectionOnMouseUp(moduleID, e.mods, e.mouseWasDraggedSinceMouseDown(), selectionResult);
-                break;
-            }
-        }
+        if (auto moduleID = getModuleID(*box))
+            selectedModuleIDs.addToSelectionOnMouseUp(*moduleID, e.mods, e.mouseWasDraggedSinceMouseDown(), selectionResult);
     }
 }
 
