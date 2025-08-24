@@ -260,8 +260,8 @@ void Connections::updateConnectionPath(ConnectionID connectionID) {
     
     if (outlet && inlet) {
         auto path = getPath({
-            getLocalPoint(outlet, outlet->getLocalBounds().toFloat().getCentre()),
-            getLocalPoint(inlet, inlet->getLocalBounds().toFloat().getCentre())
+            getLocalPoint(outlet, outlet->getCenter()),
+            getLocalPoint(inlet, inlet->getCenter())
         });
         
         patchCordStroke.createStrokedPath(path, path);

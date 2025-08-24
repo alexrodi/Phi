@@ -34,6 +34,10 @@ struct PortUI : juce::Component,
         resized();
         repaint();
     }
+    
+    juce::Point<float> getCenter() const {
+        return portBounds.getCentre();
+    }
 
 private:
     struct PortColors { juce::Colour inner, outer; };
