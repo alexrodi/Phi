@@ -24,7 +24,7 @@ public:
         .name =  "Output",
         .inlets = {"L", "R"},
         .outlets = {}, // outlets are hidden because this is an output module
-        .defaultSize = {150, 150},
+        .defaultSize = {130, 100},
         .minimumSize = {100, 100},
         .processor = processor
     }},
