@@ -19,6 +19,8 @@ moduleID(moduleID)
 {
     state.addListener(this);
     
+    powerButton.setToggleState(true, juce::dontSendNotification);
+    
     powerButton.onClick = [&, moduleID] () {
         state.setModuleEnabled(moduleID, powerButton.getToggleState());
     };
