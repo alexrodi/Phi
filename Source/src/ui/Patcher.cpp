@@ -25,6 +25,7 @@ mouseListener(this)
         ModuleBox& moduleBox = *it->second;
         
         addAndMakeVisible(moduleBox);
+        moduleBox.setShowPortLabels(showPortLabels);
         
         moduleBox.onMoveOrResize = [&, moduleID] () {
             state.setModuleBounds(moduleID, moduleBox.getBounds());
@@ -171,6 +172,13 @@ void Patcher::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds
 void Patcher::moduleDeleted(ModuleID moduleID)
 {
     modules.erase(moduleID);
+}
+
+void Patcher::showPortLabelsChanged(ShowPortLabels show) {
+    showPortLabels = show;
+    
+    for (auto& [id, box] : modules)
+        box->setShowPortLabels(showPortLabels);
 }
 
 template<class CallbackType>

@@ -27,12 +27,9 @@ type(type)
 
 void PortUI::paint (juce::Graphics& g)
 {
-    if (drawName && canFitText) {
+    if (shouldDrawText && canFitText) {
         g.setColour(juce::Colours::grey);
-        g.drawText(getName(), nameBounds, nameJustification);
-        setHoverPopupEnabled(false);
-    } else {
-        setHoverPopupEnabled(true); // Display the tooltip if not showing text
+        g.drawText(getName(), nameBounds, juce::Justification::centredBottom);
     }
     
     g.setColour(colors.inner);
@@ -43,11 +40,11 @@ void PortUI::paint (juce::Graphics& g)
 
 void PortUI::resized()
 {
-    nameJustification = juce::Justification::Flags::centredBottom;
     nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
-    canFitText = nameBounds.getHeight() > 11;
-    
     bounds = getLocalBounds().toFloat().withSizeKeepingCentre(SIZE, SIZE);
+    
+    canFitText = nameBounds.getHeight() > 11;
+    setHoverPopupEnabled(!(shouldDrawText && canFitText));
 }
 
 juce::Point<float> PortUI::hoverPopupPosition() {

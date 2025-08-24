@@ -29,7 +29,11 @@ struct PortUI : juce::Component,
     
     PortType getType() const { return type; }
     
-    void showLabel(ShowPortLabels show) { drawName = show == ShowPortLabels::On; }
+    void showLabel(ShowPortLabels show) {
+        shouldDrawText = show == ShowPortLabels::On;
+        setHoverPopupEnabled(!(shouldDrawText && canFitText));
+        repaint();
+    }
 
 private:
     struct PortColors { juce::Colour inner, outer; };
@@ -50,10 +54,7 @@ private:
      */
     juce::Rectangle<int> nameBounds;
     
-    /// A justification object to use when drawing the Name text
-    juce::Justification::Flags nameJustification;
-    
-    bool canFitText = false, drawName = false;
+    bool canFitText = false, shouldDrawText = false;
     
     juce::Point<float> hoverPopupPosition() override;
     juce::String getPopupText() override;
