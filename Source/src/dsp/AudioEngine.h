@@ -24,10 +24,12 @@ private:
     
     /// Interfaces with output devices
     juce::AudioDeviceManager deviceManager;
+    
     /// Allows to playback our Processor Graph
     juce::AudioProcessorPlayer player;
-    /// A constant output node to Port output modules to
-    Node::Ptr outputNode;
+    
+    /// A constant output node to plug output modules into
+    Node::Ptr mainOutput;
     
     /** Connects all the outlets of a node to the output node.
         This function should only be called on modules that are meant as an audio output to the patcher.

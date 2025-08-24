@@ -16,11 +16,11 @@ AudioEngine::AudioEngine(State& state) : state(state)
     deviceManager.initialise(2, 2, nullptr, true, juce::String(), nullptr);
     deviceManager.addAudioCallback(&player);
     
-    // Add the output node to the graph
+    // Add the main output node to the graph
     player.setProcessor(&*this);
-    outputNode = addNode(std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode));
+    mainOutput = addNode(std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode));
     
-    state.setFirstModuleID(outputNode->nodeID.uid + 1);
+    state.setFirstModuleID(mainOutput->nodeID.uid + 1);
     state.newProcessorCreated = [&] (auto processor, auto moduleID) {
         bool isOutput = processor->isOutput;
         if (auto node = addNode(std::move(processor), std::make_optional<NodeID>(moduleID))) {
@@ -64,5 +64,5 @@ void AudioEngine::connectToOuput(Node::Ptr nodeToConnect)
     int connectionNumber = nodeToConnect->getProcessor()->getTotalNumOutputChannels();
     
     for (int i = 0; i < connectionNumber; i++)
-        addConnection ({ {nodeToConnect->nodeID, i}, {outputNode->nodeID, i} });
+        addConnection ({ {nodeToConnect->nodeID, i}, {mainOutput->nodeID, i} });
 }
