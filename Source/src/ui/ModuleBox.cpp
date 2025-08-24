@@ -107,6 +107,9 @@ void ModuleBox::resized()
     // Place Text
     nameRectangle = boxHeader.toFloat();
     
+    if (isCollapsed)
+        moduleRect = getLocalBounds().withSizeKeepingCentre(getWidth() + PLUG_COLUMN_WIDTH + 2, 0);
+    
     // Place Ports
     moduleRect = placeInletsAndOutlets(moduleRect);
     
