@@ -43,7 +43,6 @@ resizer(this, this)
     setBroughtToFrontOnMouseClick(true);
     
     setLookAndFeel(&lookandfeel);
-    sendLookAndFeelChange();
     
     setSize(moduleUI->props.width, moduleUI->props.height);
 }
@@ -136,21 +135,26 @@ void ModuleBox::buttonClicked (juce::Button* button)
     if (button == &powerButton){
         auto state = button->getToggleState();
         
+        // TODO: this should be handled in State!
         moduleUI->props.processor.suspendProcessing(!state);
         lookandfeel.setModuleOn(state);
         sendLookAndFeelChange();
     }
-        
 }
 
-int ModuleBox::getPortIndex(const PortUI& port) const {
+PortID ModuleBox::getPortID(const PortUI& port) const {
     auto& v = port.getType() == PortType::Inlet ? inlets : outlets;
     
     auto it = std::find_if(v.begin(), v.end(), [&] (auto& item) { return item.get() == &port; });
 
     if (it == v.end()) return -1;
     
-    return (int)std::distance(v.begin(), it);
+    return (PortID)std::distance(v.begin(), it);
+}
+
+const PortUI& ModuleBox::getPort(PortType type, PortID portID) const {
+    if (type == PortType::Inlet) return *inlets[portID];
+    else return *outlets[portID];
 }
 
 void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, juce::Rectangle<int> portBounds)

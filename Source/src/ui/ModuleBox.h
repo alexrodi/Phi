@@ -28,11 +28,6 @@ struct ModuleBox : juce::Component,
     void paint(juce::Graphics&) override;
     void resized() override;
     
-    /// The hosted moduleUI
-    std::unique_ptr<ModuleUI> moduleUI;
-    std::vector<std::unique_ptr<PortUI>> inlets;
-    std::vector<std::unique_ptr<PortUI>> outlets;
-    
     /// Sets the highlight colour of the module
     void setHighlightColour(const juce::Colour&);
     
@@ -42,7 +37,9 @@ struct ModuleBox : juce::Component,
     void setSelected(bool selected) { isSelected = selected; repaint(); }
     
     /// Returns -1 if not found
-    int getPortIndex(const PortUI&) const;
+    PortID getPortID(const PortUI&) const;
+    
+    const PortUI& getPort(PortType, PortID) const;
     
 private:
     const float HEADER_HEIGHT = 27.0f;
@@ -50,7 +47,7 @@ private:
     const int PLUG_COLUMN_WIDTH = 40;
 
     /// Our LookAndFeel instance for this module box
-    struct ModuleLookAndFeel  : public juce::LookAndFeel_V4
+    struct ModuleLookAndFeel : juce::LookAndFeel_V4
     {
         ModuleLookAndFeel()
         {
@@ -101,7 +98,15 @@ private:
         
         
     } lookandfeel;
-
+    
+    /// The hosted moduleUI
+    std::unique_ptr<ModuleUI> moduleUI;
+    
+    /// The patchable inlets
+    std::vector<std::unique_ptr<PortUI>> inlets;
+    /// The patchable outlets
+    std::vector<std::unique_ptr<PortUI>> outlets;
+    
     /// This box's rectangle
     juce::Rectangle<float> moduleBoxRectangle;
     /// The line dividing the header from the module
@@ -116,7 +121,7 @@ private:
 
     /// Imposes a draggable corner on the component for resizing
     juce::ResizableCornerComponent resizer;
-
+    
     //==================================================================================
     
     bool isSelected = false;

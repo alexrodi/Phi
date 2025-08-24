@@ -45,17 +45,13 @@ Patcher::~Patcher()
 }
 
 const PortUI* Patcher::getPortUI (ModulePortID portID, PortType type) const {
-    if (modules.contains(portID.moduleID)) {
-        if (type == PortType::Inlet)
-            return modules.at(portID.moduleID)->inlets[portID.portID].get();
-        else
-            return modules.at(portID.moduleID)->outlets[portID.portID].get();
-    }
+    if (modules.contains(portID.moduleID))
+        return &modules.at(portID.moduleID)->getPort(type, portID.portID);
     
     return nullptr;
 }
 
-std::optional<ModuleID> Patcher::getBoxModuleID(const ModuleBox& box) const {
+std::optional<ModuleID> Patcher::getModuleID(const ModuleBox& box) const {
     for (auto& [moduleID, item] : modules)
         if (item.get() == &box)
             return {moduleID};
@@ -63,10 +59,10 @@ std::optional<ModuleID> Patcher::getBoxModuleID(const ModuleBox& box) const {
     return {};
 }
 
-std::optional<ModulePortID> Patcher::getPortID(const PortUI& port) const {
+std::optional<ModulePortID> Patcher::getModulePortID(const PortUI& port) const {
     if (auto box = port.findParentComponentOfClass<ModuleBox>()) {
-        if (auto moduleID = getBoxModuleID(*box))
-            return {{*moduleID, box->getPortIndex(port)}};
+        if (auto moduleID = getModuleID(*box))
+            return {{*moduleID, box->getPortID(port)}};
     }
     
     return {};
@@ -94,7 +90,7 @@ void Patcher::mouseDown(const juce::MouseEvent& e)
     }
     else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
-        if (auto moduleID = getBoxModuleID(*box)) {
+        if (auto moduleID = getModuleID(*box)) {
             if (e.mods.isRightButtonDown()) openColourSelector();
             
             selectionResult = selectedModuleIDs.addToSelectionOnMouseDown(*moduleID, e.mods);
@@ -133,7 +129,6 @@ void Patcher::mouseDrag(const juce::MouseEvent& e)
     {
         forEachSelected([&] (auto moduleID, auto& moduleBox) {
             dragComponent(&moduleBox, e, &moduleBox);
-            state.setModuleBounds(moduleID, moduleBox.getBounds());
         });
     }
 }

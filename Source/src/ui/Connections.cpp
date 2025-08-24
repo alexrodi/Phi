@@ -104,7 +104,7 @@ void Connections::mouseDown(const juce::MouseEvent& e)
     }
     else if (auto port = dynamic_cast<PortUI*>(e.eventComponent))
     {
-        if (auto portID = patcher.getPortID(*port)) {
+        if (auto portID = patcher.getModulePortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>( HeldConnection {
                 {.colour = findColour(PhiColourIds::Connection::DefaultFill)},
                 .anchor = getLocalPoint(port, port->getLocalBounds().toFloat().getCentre())
@@ -126,8 +126,8 @@ void Connections::mouseUp(const juce::MouseEvent& e) {
     if (originPort && destinationPort &&
         originPort->getType() != destinationPort->getType()) // Must be opposing types
     {
-        auto originPortID = patcher.getPortID(*originPort);
-        auto destinationPortID = patcher.getPortID(*destinationPort);
+        auto originPortID = patcher.getModulePortID(*originPort);
+        auto destinationPortID = patcher.getModulePortID(*destinationPort);
         
         if (originPortID && destinationPortID &&
             originPortID->moduleID != destinationPortID->moduleID) // Must be different modules

@@ -28,8 +28,8 @@ struct Patcher : juce::Component,
     
     const PortUI* getPortUI (ModulePortID, PortType) const;
     
-    std::optional<ModuleID> getBoxModuleID(const ModuleBox&) const;
-    std::optional<ModulePortID> getPortID(const PortUI&) const;
+    std::optional<ModuleID> getModuleID(const ModuleBox&) const;
+    std::optional<ModulePortID> getModulePortID(const PortUI&) const;
 
     void paint (juce::Graphics&) override;
     void resized() override;
