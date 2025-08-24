@@ -24,7 +24,7 @@ AudioEngine::AudioEngine(State& state) : state(state)
     state.newProcessorCreated = [&] (auto processor, auto moduleID) {
         if (auto node = addNode(std::move(processor), std::make_optional<NodeID>(moduleID))) {
             // When we detect an output module, we hook it up to the main output node
-            if (static_cast<ModuleProcessor*>(node->getProcessor())->isOutput)
+            if (dynamic_cast<ModuleProcessor*>(node->getProcessor())->isOutput)
                 connectToOuput(node);
         } else {
             state.deleteModule(moduleID);
