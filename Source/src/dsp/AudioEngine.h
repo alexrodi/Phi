@@ -29,6 +29,11 @@ private:
     /// A constant output node to Port output modules to
     Node::Ptr outputNode;
     
+    /** Connects all the outlets of a node to the output node.
+        This function should only be called on modules that are meant as an audio output to the patcher.
+        Its use however, still allows for the outlets to be connected to other modules in the patcher, if they are made available */
+    void connectToOuput(Node::Ptr);
+    
     void moduleDeleted(ModuleID) override;
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;

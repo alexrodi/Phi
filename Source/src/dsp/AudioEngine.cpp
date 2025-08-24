@@ -22,8 +22,13 @@ AudioEngine::AudioEngine(State& state) : state(state)
     
     state.setFirstModuleID(outputNode->nodeID.uid + 1);
     state.newProcessorCreated = [&] (auto processor, auto moduleID) {
-        if (!addNode(std::move(processor), std::make_optional<NodeID>(moduleID)))
+        if (auto node = addNode(std::move(processor), std::make_optional<NodeID>(moduleID))) {
+            // When we detect an output module, we hook it up to the main output node
+            if (static_cast<ModuleProcessor*>(node->getProcessor())->isOutput)
+                connectToOuput(node);
+        } else {
             state.deleteModule(moduleID);
+        }
     };
     
     state.addListener(this);
@@ -53,3 +58,10 @@ void AudioEngine::moduleEnabledChanged(ModuleID moduleID, bool isEnabled) {
     getNodeForId((NodeID)moduleID)->getProcessor()->suspendProcessing(!isEnabled);
 }
 
+void AudioEngine::connectToOuput(Node::Ptr nodeToConnect)
+{
+    int connectionNumber = nodeToConnect->getProcessor()->getTotalNumOutputChannels();
+    
+    for (int i = 0; i < connectionNumber; i++)
+        addConnection ({ {nodeToConnect->nodeID, i}, {outputNode->nodeID, i} });
+}
