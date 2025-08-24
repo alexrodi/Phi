@@ -84,26 +84,34 @@ void Patcher::resized()
 
 void Patcher::mouseDown(const juce::MouseEvent& e)
 {
-    if (!e.mods.isShiftDown())
-        selectedModuleIDs.deselectAll();
-    
-    if (e.eventComponent == this)
-    {
-        if (e.mods.isRightButtonDown())
-            openMenu(e);
-    }
-    else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
+    if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
         if (auto moduleID = getModuleID(*box)) {
-            if (e.mods.isRightButtonDown()) openColourSelector();
+            if (e.mods.isRightButtonDown()) {
+                openColourSelector(
+                    (*box).getBounds(),
+                    (*box).findColour(PhiColourIds::Module::Highlight),
+                    this,
+                    this
+                );
+            }
             
             selectionResult = selectedModuleIDs.addToSelectionOnMouseDown(*moduleID, e.mods);
             
             forEachSelected([&] (auto moduleID, auto& moduleBox) {
                 startDraggingComponent(&moduleBox, e);
             });
+            
+            return;
         }
     }
+    
+    if (e.eventComponent == this) {
+        if (e.mods.isRightButtonDown())
+            openMenu(e);
+    }
+    
+    selectedModuleIDs.deselectAll();
 }
 
 void Patcher::mouseUp(const juce::MouseEvent& e)
@@ -182,7 +190,7 @@ void Patcher::moduleDeleted(ModuleID moduleID)
 template<class CallbackType>
 void Patcher::forEachSelected(CallbackType callback)
 {
-    for (auto& moduleID : selectedModuleIDs.getItemArray()) {
+    for (auto& moduleID : selectedModuleIDs) {
         if (modules.contains(moduleID))
             callback(moduleID, *modules[moduleID]);
     }
@@ -210,22 +218,6 @@ void Patcher::changeListenerCallback(juce::ChangeBroadcaster* source) {
             moduleBox.setHighlightColour(colourSelector->getCurrentColour());
         });
     }
-}
-
-void Patcher::openColourSelector()
-{
-    auto colourSelector = std::make_unique<juce::ColourSelector>(juce::ColourSelector::showColourspace);
-    colourSelector->setCurrentColour (findColour(PhiColourIds::Module::Highlight));
-    colourSelector->setSize (150, 130);
-    colourSelector->addChangeListener(this);
-
-    auto& callOutBox = juce::CallOutBox::launchAsynchronously(
-        std::move(colourSelector),
-        getTopLevelComponent()->getLocalArea(this, getLocalBounds()),
-        getTopLevelComponent()
-    );
-    
-    callOutBox.setLookAndFeel(&getLookAndFeel());
 }
 
 void Patcher::parentHierarchyChanged() {

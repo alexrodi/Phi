@@ -74,8 +74,6 @@ private:
     void updateConnectionPath(ConnectionID);
     void updateHeldConnectionPath(const juce::MouseEvent& e);
     
-    void openColourSelector(juce::Point<int> point, juce::Colour initialColour);
-    
     /// Runs a function on every currently selected Connection
     template<class CallbackType>
     void forEachSelected(CallbackType);

@@ -48,3 +48,15 @@ public:
         Text
     };};
 };
+
+inline void openColourSelector(juce::Rectangle<int> area, juce::Colour initialColour, juce::Component* comp, juce::ChangeListener* listener)
+{
+    auto colourSelector = std::make_unique<juce::ColourSelector>(juce::ColourSelector::showColourspace);
+    colourSelector->setSize(150, 130);
+    colourSelector->addChangeListener(listener);
+    colourSelector->setCurrentColour(initialColour);
+
+    auto& callOutBox = juce::CallOutBox::launchAsynchronously(std::move(colourSelector), area, comp);
+    
+    callOutBox.setLookAndFeel(&comp->getLookAndFeel());
+}

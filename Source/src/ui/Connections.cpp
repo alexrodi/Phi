@@ -65,22 +65,6 @@ void Connections::updateHeldConnectionPath(const juce::MouseEvent& e) {
     }
 }
 
-void Connections::openColourSelector(juce::Point<int> point, juce::Colour initialColour)
-{
-    auto colourSelector = std::make_unique<juce::ColourSelector>(juce::ColourSelector::showColourspace);
-    colourSelector->setSize (150, 130);
-    colourSelector->addChangeListener(this);
-    colourSelector->setCurrentColour(initialColour);
-
-    auto& callOutBox = juce::CallOutBox::launchAsynchronously(
-        std::move(colourSelector),
-        getTopLevelComponent()->getLocalArea(this, juce::Rectangle<int>(point.x, point.y, 1, 1)),
-        getTopLevelComponent()
-    );
-    
-    callOutBox.setLookAndFeel(&getLookAndFeel());
-}
-
 template<class CallbackType>
 void Connections::forEachSelected(CallbackType callback)
 {
@@ -92,17 +76,23 @@ void Connections::forEachSelected(CallbackType callback)
 
 void Connections::mouseDown(const juce::MouseEvent& e)
 {
-    if (!e.mods.isShiftDown())
-        selectedConnections.deselectAll();
-    
     if (e.eventComponent == this)
     {
         selectedConnections.addToSelectionOnMouseDown(hitConnectionID, e.mods);
         
-        if (e.mods.isRightButtonDown())
-            openColourSelector(e.position.toInt(), connections[hitConnectionID].colour);
+        if (e.mods.isRightButtonDown()) {
+            openColourSelector(
+                {e.position.toInt(), {1, 1}},
+                connections[hitConnectionID].colour,
+                this,
+                this
+            );
+        }
+        
+        return;
     }
-    else if (auto port = dynamic_cast<PortUI*>(e.eventComponent))
+    
+    if (auto port = dynamic_cast<PortUI*>(e.eventComponent))
     {
         if (auto portID = patcher.getModulePortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>( HeldConnection {
@@ -114,6 +104,7 @@ void Connections::mouseDown(const juce::MouseEvent& e)
         }
     }
     
+    selectedConnections.deselectAll();
     lasso.endLasso();
 }
 

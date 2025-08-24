@@ -66,9 +66,6 @@ private:
     
     void deleteModule(ModuleID nodeID);
     
-    /// Opens a ColourSelector for the selected modules' highlight colour
-    void openColourSelector();
-    
     /// Runs a funtion on every currently selected ModuleBox
     template<class CallbackType>
     void forEachSelected(CallbackType);
