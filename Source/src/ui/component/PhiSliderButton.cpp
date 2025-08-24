@@ -65,7 +65,10 @@ juce::Rectangle<int> PhiSliderButton::getKnobBounds() {
 
 void PhiSliderButton::buttonStateChanged()
 {
-    juce::Desktop::getInstance().getAnimator().animateComponent(&knob, getKnobBounds(), 1.0f, 100, false, 0.5f, 0.5f);
+    if (getToggleState() != lastToggle) {
+        juce::Desktop::getInstance().getAnimator().animateComponent(&knob, getKnobBounds(), 1.0f, 100, false, 0.5f, 0.5f);
+        lastToggle = getToggleState();
+    }
 }
 
 void PhiSliderButton::lookAndFeelChanged()

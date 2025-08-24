@@ -28,10 +28,12 @@ struct PhiSliderButton : juce::Button
 private:
     const int knobSize = 12;
     const float sliderWidth = (float)knobSize * 2.5f;
+    bool lastToggle = false;
     
     struct Knob : juce::Component {
         Knob() {
             setPaintingIsUnclipped(true);
+            setInterceptsMouseClicks(false, false);
         }
         
         void paint(juce::Graphics& g) override {
