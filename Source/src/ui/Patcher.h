@@ -19,7 +19,6 @@
 /// The main view of Phi, this class handles all the module UIs and holds the connection manager
 struct Patcher : juce::Component,
                  State::Listener,
-                 juce::ComponentDragger,
                  juce::LassoSource<ModuleID>,
                  juce::ChangeListener
 {
@@ -59,6 +58,29 @@ private:
     juce::TooltipWindow tooltip;
     
     bool selectionResult = false;
+    
+    struct ModuleDragger {
+        void addOnMouseDown(const std::vector<ModuleBox*>& modules) {
+            modulePositions.clear();
+            
+            for (auto* box : modules)
+                modulePositions[box] = box->getPosition();
+        }
+        
+        void moveOnMouseDrag(const juce::MouseEvent& e) {
+            for (auto& [box, position] : modulePositions)
+                box->setTopLeftPosition(position + e.getOffsetFromDragStart());
+        }
+        
+    private:
+        std::map<ModuleBox*, juce::Point<int>> modulePositions;
+    } moduleDragger;
+    
+    std::vector<ModuleBox*> getSelectedModules() {
+        std::vector<ModuleBox*> modules;
+        forEachSelected([&] (auto moduleID, auto& moduleBox) { modules.push_back(&moduleBox); });
+        return modules;
+    }
     
     //==============================================================================
     

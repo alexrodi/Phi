@@ -98,9 +98,7 @@ void Patcher::mouseDown(const juce::MouseEvent& e)
             
             selectionResult = selectedModuleIDs.addToSelectionOnMouseDown(*moduleID, e.mods);
             
-            forEachSelected([&] (auto moduleID, auto& moduleBox) {
-                startDraggingComponent(&moduleBox, e);
-            });
+            moduleDragger.addOnMouseDown(getSelectedModules());
             
             return;
         }
@@ -131,12 +129,8 @@ void Patcher::mouseDrag(const juce::MouseEvent& e)
 {
     if (e.eventComponent == this) {
         lasso.dragLasso(e);
-    }
-    else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
-    {
-        forEachSelected([&] (auto moduleID, auto& moduleBox) {
-            dragComponent(&moduleBox, e, &moduleBox);
-        });
+    } else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent)) {
+        moduleDragger.moveOnMouseDrag(e);
     }
 }
 
