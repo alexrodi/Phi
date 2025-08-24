@@ -24,9 +24,8 @@ public:
         .name =  "Output",
         .inlets = {"L", "R"},
         .outlets = {}, // outlets are hidden because this is an output module
-        .width = 150,
-        .height = 150,
-        .minimumHeight = 100,
+        .defaultSize = {150, 150},
+        .minimumSize = {100, 100},
         .processor = processor
     }},
     speakerImage(juce::Drawable::createFromSVG(*juce::XmlDocument::parse(BinaryData::Speaker_Icon_svg))),

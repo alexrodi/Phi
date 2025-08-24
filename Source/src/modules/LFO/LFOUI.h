@@ -22,9 +22,8 @@ struct LFOUI : ModuleUI
         .name =  "LFO",
         .inlets = {"Rate", "Shape"},
         .outlets = {"Out"},
-        .width = 270,
-        .height = 180,
-        .minimumHeight = 100,
+        .defaultSize = {270, 180},
+        .minimumSize = {245, 145},
         .processor = processor
     }),
     rateDial(*processor.params.getParameter("rate")),

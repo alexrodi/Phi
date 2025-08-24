@@ -29,12 +29,13 @@ public:
         const juce::StringArray inlets;
         /** A vector of outlet names to display in the UI (will correspond to the processor's outlets). */
         const juce::StringArray outlets;
-        /** The default width to use when creating this module. */
-        const int width;
-        /** The default height to use when creating this module. */
-        const int height;
-        /** The minimum height that the module should have to present its UI, any less, and the ModuleBox will collapse to only display the header. */
-        const int minimumHeight;
+        /** The default size to use when creating this module. */
+        const struct {int width, height;} defaultSize;
+        /** The minimum size that the module should have to present its UI.
+            Blow this width, the ModuleBox will collapse and only display the Ports.
+            Below this height, the ModuleBox will collapse and only display the header.
+         */
+        const struct {int width, height;} minimumSize;
         /** A reference to the ModuleProcessor that spawned this UI. */
         ModuleProcessor& processor;
     };

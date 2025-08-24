@@ -21,9 +21,8 @@ struct FilterUI : ModuleUI
         .name =  "Filter",
         .inlets = {"In", "Freq", "Res"},
         .outlets = {"Low", "Band", "High"},
-        .width = 230,
-        .height = 130,
-        .minimumHeight = 100,
+        .defaultSize = {230, 130},
+        .minimumSize = {100, 100},
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),

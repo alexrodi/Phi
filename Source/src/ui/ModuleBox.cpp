@@ -19,10 +19,6 @@ resizer(this, this)
     
     powerButton.addListener(this);
     
-    // Box size constraints
-    setSizeLimits(100, HEADER_HEIGHT + 5, 500, 300);
-    resizer.setSize(8,8);
-    
     addAndMakeVisible(*moduleUI);
     addAndMakeVisible(powerButton);
     
@@ -44,7 +40,7 @@ resizer(this, this)
     
     setLookAndFeel(&lookandfeel);
     
-    setSize(moduleUI->props.width, moduleUI->props.height);
+    setSize(moduleUI->props.defaultSize.width, moduleUI->props.defaultSize.height);
 }
 
 ModuleBox::~ModuleBox()
@@ -74,11 +70,27 @@ void ModuleBox::paint (juce::Graphics& g)
 
 void ModuleBox::resized()
 {
-    // Check height to constrain size
-    bool isCollapsed = getHeight() < moduleUI->props.minimumHeight;
-    if (isCollapsed)
-        setSize(getWidth(), HEADER_HEIGHT);
+    int collapsedHeight = headerHeight;
+    bool isPortsOnly = getWidth() < moduleUI->props.minimumSize.width;
+    int portsOnlyMinimumHeight = headerHeight + (int)std::max(inlets.size(), outlets.size()) * 30;
+    bool isCollapsed = getHeight() <= (isPortsOnly ? portsOnlyMinimumHeight : moduleUI->props.minimumSize.height);
     
+    int portsOnlyWidth = 0;
+    if (!inlets.empty()) portsOnlyWidth += portColumnWidth;
+    if (!outlets.empty()) portsOnlyWidth += portColumnWidth;
+    
+    setSizeLimits(
+        isCollapsed ? 100 : portsOnlyWidth,
+        collapsedHeight,
+        500,
+        300
+    );
+    
+    if (isCollapsed)
+        setSize(getWidth(), collapsedHeight);
+    else if (isPortsOnly)
+        setSize(portsOnlyWidth, getHeight());
+        
     // Module Box area (padded)
     moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5f, 1.5f);
     
@@ -91,31 +103,32 @@ void ModuleBox::resized()
     setMinimumOnscreenAmounts(getHeight(), getWidth(), getHeight(), getWidth());
     
     // Place resizer in bottom right corner
-    resizer.setBoundsToFit(getLocalBounds().reduced(3), juce::Justification::bottomRight, true);
+    resizer.setBounds(getLocalBounds().reduced(3).removeFromBottom(8).removeFromRight(8));
     
     // Place header line
-    headerLine = {CONTENT_PADDING, HEADER_HEIGHT - 2.0f, getWidth()-CONTENT_PADDING * 2.0f, isCollapsed ? 0.0f : 1.0f};
+    if (isCollapsed) headerLine = {};
+    else headerLine = {padding, headerHeight - 2.0f, getWidth()-padding * 2.0f, 1.0f};
     
     // Module area
     auto moduleRect = getLocalBounds();
     // Header area
-    auto boxHeader = moduleRect.removeFromTop(HEADER_HEIGHT);
+    auto boxHeader = moduleRect.removeFromTop(headerHeight);
     
     // Place Power button
-    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(CONTENT_PADDING, 6));
+    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(padding, 6));
     
     // Place Text
     nameRectangle = boxHeader.toFloat();
     
     if (isCollapsed)
-        moduleRect = getLocalBounds().withSizeKeepingCentre(getWidth() + PLUG_COLUMN_WIDTH + 2, 0);
+        moduleRect = getLocalBounds().withSizeKeepingCentre(getWidth() + portColumnWidth + 2, 0);
     
     // Place Ports
     moduleRect = placeInletsAndOutlets(moduleRect);
     
     // Place Module
     moduleUI->setVisible(!isCollapsed);
-    moduleUI->setBounds(moduleRect.reduced(0, CONTENT_PADDING));
+    moduleUI->setBounds(moduleRect.reduced(0, padding));
     
     onMoveOrResize();
 }
@@ -179,8 +192,8 @@ void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, ju
 
 juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bounds)
 {
-    placePorts(inlets, bounds.removeFromLeft(PLUG_COLUMN_WIDTH));
-    placePorts(outlets, bounds.removeFromRight(PLUG_COLUMN_WIDTH));
+    placePorts(inlets, bounds.removeFromLeft(portColumnWidth));
+    placePorts(outlets, bounds.removeFromRight(portColumnWidth));
     
     return bounds;
 }

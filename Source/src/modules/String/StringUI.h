@@ -23,9 +23,8 @@ public:
         .name =  "String",
         .inlets = {"In", "Freq", "Pos", "Damp", "Decay"},
         .outlets = {"Out"},
-        .width = 210,
-        .height = 260,
-        .minimumHeight = 100,
+        .defaultSize = {210, 260},
+        .minimumSize = {100, 100},
         .processor = processor
     }),
     frequencyDial(*processor.params.getParameter("freq")),

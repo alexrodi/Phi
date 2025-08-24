@@ -22,9 +22,8 @@ public:
         .name =  "Grit",
         .inlets = {"In", "Amount", "Density"},
         .outlets = {"Out"},
-        .width = 230,
-        .height = 130,
-        .minimumHeight = 100,
+        .defaultSize = {230, 130},
+        .minimumSize = {100, 100},
         .processor = processor
     }),
     noiseDial(*processor.params.getParameter("amount")),

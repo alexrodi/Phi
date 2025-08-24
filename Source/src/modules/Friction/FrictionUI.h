@@ -21,9 +21,8 @@ struct FrictionUI : ModuleUI
         .name =  "Friction",
         .inlets = {"Freq", "Jitter", "Drift"},
         .outlets = {"Out"},
-        .width = 270,
-        .height = 130,
-        .minimumHeight = 100,
+        .defaultSize = {270, 130},
+        .minimumSize = {100, 100},
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),

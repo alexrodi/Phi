@@ -45,9 +45,9 @@ struct ModuleBox : juce::Component,
     std::function<void()> onMoveOrResize = []{};
     
 private:
-    const float HEADER_HEIGHT = 27.0f;
-    const float CONTENT_PADDING = 10.0f;
-    const int PLUG_COLUMN_WIDTH = 60;
+    const float headerHeight = 27.0f;
+    const float padding = 10.0f;
+    const int portColumnWidth = 50;
 
     /// Our LookAndFeel instance for this module box
     struct ModuleLookAndFeel : juce::LookAndFeel_V4
