@@ -73,6 +73,17 @@ public:
         
         int getPopupMenuBorderSize() override { return 1; }
         
+        void drawLasso(juce::Graphics& g, juce::Component& lasso) override {
+            juce::Path path;
+            path.addRectangle(lasso.getLocalBounds());
+            
+            const float dashes[2] = {5.0f, 5.0f};
+            juce::PathStrokeType(2.0f).createDashedStroke(path, path, dashes, 2);
+            
+            g.setColour(juce::Colours::grey);
+            g.fillPath(path);
+        }
+        
     } phiLookAndFeel;
 
 
