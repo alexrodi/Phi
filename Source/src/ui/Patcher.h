@@ -33,10 +33,6 @@ struct Patcher : juce::Component,
     void paint (juce::Graphics&) override;
     void resized() override;
     
-    void mouseDown(const juce::MouseEvent& e) override;
-    void mouseUp(const juce::MouseEvent& e) override;
-    void mouseDrag(const juce::MouseEvent& e) override;
-    
     bool keyPressed (const juce::KeyPress& key) override;
     
 private:
@@ -57,7 +53,16 @@ private:
     
     juce::TooltipWindow tooltip;
     
-    bool selectionResult = false;
+    struct MouseListener : juce::MouseListener {
+        MouseListener(Patcher* owner) : owner(owner) {}
+        
+        void mouseDown(const juce::MouseEvent& e) override { owner->onMouseDown(e); };
+        void mouseUp(const juce::MouseEvent& e) override { owner->onMouseUp(e); };
+        void mouseDrag(const juce::MouseEvent& e) override { owner->onMouseDrag(e); };
+        
+    private:
+        Patcher* owner;
+    } mouseListener;
     
     struct ModuleDragger {
         void addOnMouseDown(const std::vector<ModuleBox*>& modules) {
@@ -91,6 +96,10 @@ private:
     /// Runs a funtion on every currently selected ModuleBox
     template<class CallbackType>
     void forEachSelected(CallbackType);
+    
+    void onMouseDown(const juce::MouseEvent& e);
+    void onMouseUp(const juce::MouseEvent& e);
+    void onMouseDrag(const juce::MouseEvent& e);
     
     // State listener overrides
     void moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) override;

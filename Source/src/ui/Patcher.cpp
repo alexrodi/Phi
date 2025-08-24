@@ -14,7 +14,8 @@
 //==============================================================================
 Patcher::Patcher(State& state) :
 state(state),
-connections(state, *this)
+connections(state, *this),
+mouseListener(this)
 {
     state.newModuleUICreated = [&] (auto ui, auto moduleID) {
         auto [it, inserted] = modules.insert({ moduleID, std::make_unique<ModuleBox>(std::move(ui)) });
@@ -82,7 +83,7 @@ void Patcher::resized()
     connections.setBounds(getLocalBounds());
 }
 
-void Patcher::mouseDown(const juce::MouseEvent& e)
+void Patcher::onMouseDown(const juce::MouseEvent& e)
 {
     if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
@@ -96,7 +97,7 @@ void Patcher::mouseDown(const juce::MouseEvent& e)
                 );
             }
             
-            selectionResult = selectedModuleIDs.addToSelectionOnMouseDown(*moduleID, e.mods);
+            selectedModuleIDs.addToSelectionOnMouseDown(*moduleID, e.mods);
             
             moduleDragger.addOnMouseDown(getSelectedModules());
             
@@ -105,27 +106,22 @@ void Patcher::mouseDown(const juce::MouseEvent& e)
     }
     
     if (e.eventComponent == this) {
+        
         if (e.mods.isRightButtonDown())
             openMenu(e);
+        else
+            lasso.beginLasso(e, this);
     }
     
     selectedModuleIDs.deselectAll();
 }
 
-void Patcher::mouseUp(const juce::MouseEvent& e)
+void Patcher::onMouseUp(const juce::MouseEvent& e)
 {
-    if (e.eventComponent == this) {
-        if (e.mouseWasDraggedSinceMouseDown())
-            lasso.endLasso();
-    }
-    else if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
-    {
-        if (auto moduleID = getModuleID(*box))
-            selectedModuleIDs.addToSelectionOnMouseUp(*moduleID, e.mods, e.mouseWasDraggedSinceMouseDown(), selectionResult);
-    }
+    lasso.endLasso();
 }
 
-void Patcher::mouseDrag(const juce::MouseEvent& e)
+void Patcher::onMouseDrag(const juce::MouseEvent& e)
 {
     if (e.eventComponent == this) {
         lasso.dragLasso(e);
@@ -141,6 +137,7 @@ bool Patcher::keyPressed (const juce::KeyPress& key)
         for (auto moduleID : selectedModuleIDs)
             state.deleteModule(moduleID);
         
+        selectedModuleIDs.deselectAll();
         connections.deleteAllSelected();
         
         return true;
@@ -211,5 +208,5 @@ void Patcher::changeListenerCallback(juce::ChangeBroadcaster* source) {
 
 void Patcher::parentHierarchyChanged() {
     if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
-        mainComponent->addMouseListener(this, true);
+        mainComponent->addMouseListener(&mouseListener, true);
 }

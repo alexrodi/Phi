@@ -16,7 +16,8 @@
 
 Connections::Connections(State& state, const Patcher& patcher) :
 state(state),
-patcher(patcher)
+patcher(patcher),
+mouseListener(this)
 {
     addChildComponent(lasso);
     
@@ -57,6 +58,24 @@ void Connections::resized()
 {
 }
 
+
+template<class CallbackType>
+void Connections::forEachSelected(CallbackType callback)
+{
+    for (auto& connectionID : selectedConnections) {
+        if (connections.contains(connectionID))
+            callback(connectionID, connections[connectionID]);
+    }
+}
+
+void Connections::deleteAllSelected() {
+    forEachSelected([&] (auto id, auto _) { 
+        state.deleteConnection(id);
+    });
+    
+    selectedConnections.deselectAll();
+}
+
 void Connections::updateHeldConnectionPath(const juce::MouseEvent& e) {
     if (heldConnection) {
         auto getPath = patchCordType == PatchCordType::S ? getSPatchCordPath : getArcPatchCordPath;
@@ -65,16 +84,31 @@ void Connections::updateHeldConnectionPath(const juce::MouseEvent& e) {
     }
 }
 
-template<class CallbackType>
-void Connections::forEachSelected(CallbackType callback)
-{
-    for (auto& connectionID : selectedConnections.getItemArray()) {
-        if (connections.contains(connectionID))
-            callback(connectionID, connections[connectionID]);
+void Connections::tryCreateHeldConnection(const juce::MouseEvent& e) {
+    auto parent = getParentComponent();
+    auto* originPort = dynamic_cast<PortUI*>(e.eventComponent);
+    auto* destinationPort = dynamic_cast<PortUI*>(parent->getComponentAt(e.getEventRelativeTo(parent).position));
+    
+    if (originPort && destinationPort &&
+        originPort->getType() != destinationPort->getType()) // Must be opposing types
+    {
+        auto originPortID = patcher.getModulePortID(*originPort);
+        auto destinationPortID = patcher.getModulePortID(*destinationPort);
+        
+        if (originPortID && destinationPortID &&
+            originPortID->moduleID != destinationPortID->moduleID) // Must be different modules
+        {
+            bool originIsOutlet = originPort->getType() == PortType::Outlet;
+            
+            state.createConnection({
+                originIsOutlet ? *originPortID : *destinationPortID,
+                originIsOutlet ? *destinationPortID: *originPortID
+            });
+        }
     }
 }
 
-void Connections::mouseDown(const juce::MouseEvent& e)
+void Connections::onMouseDown(const juce::MouseEvent& e)
 {
     if (e.eventComponent == this)
     {
@@ -104,43 +138,35 @@ void Connections::mouseDown(const juce::MouseEvent& e)
         }
     }
     
+    if (auto patcher = dynamic_cast<Patcher*>(e.eventComponent)) {
+        if (!e.mods.isRightButtonDown())
+            lasso.beginLasso(e, this);
+    }
+    
     selectedConnections.deselectAll();
+}
+
+void Connections::onMouseUp(const juce::MouseEvent& e) {
+    if (heldConnection) {
+        tryCreateHeldConnection(e);
+        
+        // TODO: implement permanently held connection when shift is pressed
+        heldConnection.reset();
+        
+        repaint();
+    }
+    
     lasso.endLasso();
 }
 
-void Connections::mouseUp(const juce::MouseEvent& e) {
-    auto parent = getParentComponent();
-    
-    auto* originPort = dynamic_cast<PortUI*>(e.eventComponent);
-    auto* destinationPort = dynamic_cast<PortUI*>(parent->getComponentAt(e.getEventRelativeTo(parent).position));
-    
-    if (originPort && destinationPort &&
-        originPort->getType() != destinationPort->getType()) // Must be opposing types
-    {
-        auto originPortID = patcher.getModulePortID(*originPort);
-        auto destinationPortID = patcher.getModulePortID(*destinationPort);
-        
-        if (originPortID && destinationPortID &&
-            originPortID->moduleID != destinationPortID->moduleID) // Must be different modules
-        {
-            bool originIsOutlet = originPort->getType() == PortType::Outlet;
-            
-            state.createConnection({
-                originIsOutlet ? *originPortID : *destinationPortID,
-                originIsOutlet ? *destinationPortID: *originPortID
-            });
-        }
+void Connections::onMouseDrag(const juce::MouseEvent& e)
+{
+    if (dynamic_cast<PortUI*>(e.eventComponent)) {
+        updateHeldConnectionPath(e.getEventRelativeTo(this));
     }
     
-    // TODO: implement permanent held connection when shift is pressed
-    heldConnection.reset();
-    
-    repaint();
-}
-
-void Connections::mouseDrag(const juce::MouseEvent& e)
-{
-    updateHeldConnectionPath(e.getEventRelativeTo(this));
+    if (auto patcher = dynamic_cast<Patcher*>(e.eventComponent))
+        lasso.dragLasso(e);
 }
 
 void Connections::connectionCreated(ConnectionID connectionID) {
@@ -260,7 +286,7 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
 
 void Connections::parentHierarchyChanged() {
     if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
-        mainComponent->addMouseListener(this, true);
+        mainComponent->addMouseListener(&mouseListener, true);
     
     // addGlobalMouseListener ???maybe???
 }

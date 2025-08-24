@@ -30,10 +30,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized () override;
     
-    void deleteAllSelected() {
-        for (auto connectionID : selectedConnections)
-            state.deleteConnection(connectionID);
-    }
+    void deleteAllSelected();
     
 private:
     struct Connection {
@@ -60,6 +57,17 @@ private:
     juce::PathStrokeType selectedStroke {2.0f};
     juce::PathStrokeType patchCordStroke = {5.0f, juce::PathStrokeType::JointStyle::mitered, juce::PathStrokeType::EndCapStyle::rounded};
     
+    struct MouseListener : juce::MouseListener {
+        MouseListener(Connections* owner) : owner(owner) {}
+        
+        void mouseDown(const juce::MouseEvent& e) override { owner->onMouseDown(e); };
+        void mouseUp(const juce::MouseEvent& e) override { owner->onMouseUp(e); };
+        void mouseDrag(const juce::MouseEvent& e) override { owner->onMouseDrag(e); };
+        
+    private:
+        Connections* owner;
+    } mouseListener;
+    
     ConnectionID hitConnectionID;
     
     PatchCordType patchCordType = PatchCordType::S;
@@ -73,10 +81,15 @@ private:
     
     void updateConnectionPath(ConnectionID);
     void updateHeldConnectionPath(const juce::MouseEvent& e);
+    void tryCreateHeldConnection(const juce::MouseEvent &e);
     
     /// Runs a function on every currently selected Connection
     template<class CallbackType>
     void forEachSelected(CallbackType);
+    
+    void onMouseDown(const juce::MouseEvent& e);
+    void onMouseUp(const juce::MouseEvent& e);
+    void onMouseDrag(const juce::MouseEvent& e);
     
     // State listener overrides
     void connectionCreated(ConnectionID) override;
@@ -88,10 +101,6 @@ private:
     juce::SelectedItemSet<ConnectionID>& getLassoSelection() override;
     
     bool hitTest(int x, int y) override;
-    
-    void mouseDown(const juce::MouseEvent& e) override;
-    void mouseUp(const juce::MouseEvent& e) override;
-    void mouseDrag(const juce::MouseEvent& e) override;
     
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     
