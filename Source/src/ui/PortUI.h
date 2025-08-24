@@ -55,9 +55,6 @@ private:
     
     bool canFitText = false, drawName = false;
     
-    void mouseDown(const juce::MouseEvent&) override;
-    void mouseUp(const juce::MouseEvent&) override;
-    void mouseDrag(const juce::MouseEvent&) override;
     juce::Point<float> hoverPopupPosition() override;
     juce::String getPopupText() override;
     

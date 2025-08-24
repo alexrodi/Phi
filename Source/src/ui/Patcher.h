@@ -51,7 +51,7 @@ private:
     
     juce::LassoComponent<ModuleID> lasso;
     
-    juce::TooltipWindow tooltip;
+    HoverPopupWindow hoverPopup;
     
     struct MouseListener : juce::MouseListener {
         MouseListener(Patcher* owner) : owner(owner) {}

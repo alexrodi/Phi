@@ -35,7 +35,7 @@ mouseListener(this)
     
     addAndMakeVisible(connections);
     addAndMakeVisible(lasso);
-    addChildComponent(tooltip);
+    addChildComponent(hoverPopup);
     
     selectedModuleIDs.addChangeListener(this);
     state.addListener(this);

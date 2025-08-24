@@ -50,29 +50,6 @@ void PortUI::resized()
     bounds = getLocalBounds().toFloat().withSizeKeepingCentre(SIZE, SIZE);
 }
 
-void PortUI::mouseDown(const juce::MouseEvent& e)
-{
-    // emitEvent(PortEvent(PortEvent::StartConnection, e, type, plugID));
-}
-
-void PortUI::mouseUp(const juce::MouseEvent& e)
-{
-//    auto topLevelComponent = getTopLevelComponent();
-//    auto mousePosition = topLevelComponent->getLocalPoint(this, e.position.toInt());
-//    auto componentUnderMouse = topLevelComponent->getComponentAt(mousePosition);
-//    
-//    if (auto plug = dynamic_cast<PortUI*>(componentUnderMouse)) {
-//        emitEvent(PortEvent(PortEvent::EndConnection, e, plug->type, plug->plugID));
-//    } else {
-//        emitEvent(PortEvent(PortEvent::CancelConnection, e));
-//    }
-}
-
-void PortUI::mouseDrag(const juce::MouseEvent& e)
-{
-//    emitEvent(PortEvent(PortEvent::Drag, e, type, plugID));
-}
-
 juce::Point<float> PortUI::hoverPopupPosition() {
     return getLocalBounds().toFloat().getCentre().translated(0, -SIZE - 10);
 }
