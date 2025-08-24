@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    MainPatcher.h
+    Patcher.h
     Created: 29 Mar 2020 12:51:46am
     Author:  Alexandre Rodrigues
 
@@ -12,8 +12,8 @@
 
 #include "../State.h"
 #include "ModuleBox.h"
-#include "../Modules.h"
 #include "Connections.h"
+#include "../modules/Modules.h"
 
 //==============================================================================
 /// The main view of Phi, this class handles all the module UIs and holds the connection manager

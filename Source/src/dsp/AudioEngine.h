@@ -11,7 +11,6 @@
 #pragma once
 
 #include "../State.h"
-#include "../Modules.h"
 
 /// The class where each module's DSP routine gets implemented as nodes and patched together
 struct AudioEngine : juce::AudioProcessorGraph,

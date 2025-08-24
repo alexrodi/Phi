@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    MainPatcher.cpp
+    Patcher.cpp
     Created: 29 Mar 2020 12:51:46am
     Author:  Alexandre Rodrigues
 

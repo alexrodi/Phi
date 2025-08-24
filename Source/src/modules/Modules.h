@@ -10,14 +10,14 @@
 
 #pragma once
 
-#include "modules/Gain/GainProcessor.h"
-#include "modules/Impulse/ImpulseProcessor.h"
-#include "modules/Output/OutputProcessor.h"
-#include "modules/String/StringProcessor.h"
-#include "modules/Grit/GritProcessor.h"
-#include "modules/Friction/FrictionProcessor.h"
-#include "modules/LFO/LFOProcessor.h"
-#include "modules/Filter/FilterProcessor.h"
+#include "Gain/GainProcessor.h"
+#include "Impulse/ImpulseProcessor.h"
+#include "Output/OutputProcessor.h"
+#include "String/StringProcessor.h"
+#include "Grit/GritProcessor.h"
+#include "Friction/FrictionProcessor.h"
+#include "LFO/LFOProcessor.h"
+#include "Filter/FilterProcessor.h"
 // Add Module processor headers here
 
 using ModuleTypeList = std::tuple<LFOProcessor,
