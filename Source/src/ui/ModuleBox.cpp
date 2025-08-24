@@ -113,6 +113,12 @@ void ModuleBox::resized()
     // Place Module
     moduleUI->setVisible(!isCollapsed);
     moduleUI->setBounds(moduleRect.reduced(0, CONTENT_PADDING));
+    
+    onMoveOrResize();
+}
+
+void ModuleBox::moved() {
+    onMoveOrResize();
 }
 
 void ModuleBox::setHighlightColour(const juce::Colour& colour)

@@ -24,6 +24,10 @@ connections(state, *this)
         ModuleBox& moduleBox = *it->second;
         
         addAndMakeVisible(moduleBox);
+        
+        moduleBox.onMoveOrResize = [&, moduleID] () {
+            state.setModuleBounds(moduleID, moduleBox.getBounds());
+        };
     };
     
     setWantsKeyboardFocus(true);

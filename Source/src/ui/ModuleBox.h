@@ -27,6 +27,7 @@ struct ModuleBox : juce::Component,
 
     void paint(juce::Graphics&) override;
     void resized() override;
+    void moved() override;
     
     /// Sets the highlight colour of the module
     void setHighlightColour(const juce::Colour&);
@@ -40,6 +41,8 @@ struct ModuleBox : juce::Component,
     PortID getPortID(const PortUI&) const;
     
     const PortUI& getPort(PortType, PortID) const;
+    
+    std::function<void()> onMoveOrResize = []{};
     
 private:
     const float HEADER_HEIGHT = 27.0f;
