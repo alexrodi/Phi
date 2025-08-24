@@ -16,14 +16,9 @@ juce::Button(""),
 leftText(leftText),
 rightText(rightText)
 {
-    juce::Path knobPath;
-    knobPath.addEllipse(0, 0, knobSize, knobSize);
-    
-    knob.setPath(knobPath);
     addAndMakeVisible(knob);
-    knob.setPaintingIsUnclipped(true);
     
-    setClickingTogglesState (true);
+    setClickingTogglesState(true);
     setPaintingIsUnclipped(true);
 }
 
@@ -59,20 +54,21 @@ void PhiSliderButton::resized()
     
     sliderBounds = bounds.withSizeKeepingCentre(sliderWidth, knobSize).reduced(1);
     
-    buttonStateChanged();
+    knob.setBounds(getKnobBounds());
+}
+
+juce::Rectangle<int> PhiSliderButton::getKnobBounds() {
+    return sliderBounds.withSize(knobSize, knobSize)
+            .translated(getToggleState() ? sliderBounds.getWidth()-knobSize : 0, -1)
+            .toNearestInt();
 }
 
 void PhiSliderButton::buttonStateChanged()
 {
-    auto knobBounds = sliderBounds.withSize(knobSize, knobSize)
-        .translated(getToggleState() ? sliderBounds.getWidth()-knobSize : 0, -1)
-        .toNearestInt();
-    
-    juce::Desktop::getInstance().getAnimator().animateComponent(&knob, knobBounds, 1.0f, 100, false, 0.5f, 0.5f);
+    juce::Desktop::getInstance().getAnimator().animateComponent(&knob, getKnobBounds(), 1.0f, 100, false, 0.5f, 0.5f);
 }
 
 void PhiSliderButton::lookAndFeelChanged()
 {
-    knob.setFill(findColour(juce::Slider::thumbColourId));
     textColour = findColour(juce::TextButton::textColourOnId);
 }

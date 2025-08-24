@@ -29,13 +29,23 @@ private:
     const int knobSize = 12;
     const float sliderWidth = (float)knobSize * 2.5f;
     
+    struct Knob : juce::Component {
+        Knob() {
+            setPaintingIsUnclipped(true);
+        }
+        
+        void paint(juce::Graphics& g) override {
+            g.setColour(findColour(juce::Slider::thumbColourId));
+            g.fillEllipse(getLocalBounds().toFloat());
+        }
+    } knob;
+    
     juce::String leftText, rightText;
-    
-    juce::DrawablePath knob;
-    
     juce::Rectangle<float> sliderBounds, leftTextBounds, rightTextBounds;
     
     juce::Colour textColour;
+    
+    juce::Rectangle<int> getKnobBounds();
     
     void buttonStateChanged() override;
     
