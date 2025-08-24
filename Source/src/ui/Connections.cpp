@@ -131,7 +131,7 @@ void Connections::onMouseDown(const juce::MouseEvent& e)
         if (auto portID = patcher.getModulePortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>( HeldConnection {
                 {.colour = findColour(PhiColourIds::Connection::DefaultFill)},
-                .anchor = getLocalPoint(port, port->getLocalBounds().toFloat().getCentre())
+                .anchor = getLocalPoint(port, port->getCenter())
             });
             
             updateHeldConnectionPath(e.getEventRelativeTo(this));
