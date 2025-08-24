@@ -78,7 +78,7 @@ void ModuleBox::resized()
     int collapsedHeight = headerHeight;
     bool isPortsOnly = getWidth() < moduleUI->props.minimumSize.width;
     int portsOnlyMinimumHeight = headerHeight + (int)std::max(inlets.size(), outlets.size()) * 30;
-    bool isCollapsed = getHeight() <= (isPortsOnly ? portsOnlyMinimumHeight : moduleUI->props.minimumSize.height);
+    bool isCollapsed = getHeight() < (isPortsOnly ? portsOnlyMinimumHeight : moduleUI->props.minimumSize.height);
     
     int portsOnlyWidth = 0;
     if (!inlets.empty()) portsOnlyWidth += portColumnWidth;
@@ -182,8 +182,6 @@ const PortUI& ModuleBox::getPort(PortType type, PortID portID) const {
 
 void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, juce::Rectangle<int> bounds)
 {
-    if (ports.empty()) return;
-    
     const int portHeight = bounds.getHeight() / (int)ports.size();
     
     // Divide the space for each Port
@@ -193,8 +191,11 @@ void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, ju
 
 juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bounds)
 {
-    placePorts(inlets, bounds.removeFromLeft(portColumnWidth));
-    placePorts(outlets, bounds.removeFromRight(portColumnWidth));
+    if (!inlets.empty())
+        placePorts(inlets, bounds.removeFromLeft(portColumnWidth));
+    
+    if (!outlets.empty())
+        placePorts(outlets, bounds.removeFromRight(portColumnWidth));
     
     return bounds;
 }
