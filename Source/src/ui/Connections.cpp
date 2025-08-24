@@ -195,7 +195,12 @@ void Connections::changeListenerCallback (juce::ChangeBroadcaster* source)
 
 bool Connections::hitTest(int x, int y) {
     for (auto& [id, connection] : connections) {
-        if (connection.path.contains(x, y)) {
+        auto bounds = connection.path.getBounds();
+        
+        // avoid obscuring ports
+        if (bounds.getWidth() > 30.0f) bounds.reduce(10.0f, 0.0f);
+        
+        if (bounds.contains(x, y) && connection.path.contains(x, y)) {
             hitConnectionID = id;
             return true;
         }
