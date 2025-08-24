@@ -33,6 +33,7 @@ AudioEngine::~AudioEngine()
 {
     deviceManager.removeAudioCallback(&player);
     player.setProcessor(nullptr);
+    state.removeListener(this);
 }
 
 void AudioEngine::moduleDeleted(ModuleID moduleID) {
@@ -47,3 +48,8 @@ void AudioEngine::connectionCreated(ConnectionID connectionID) {
 void AudioEngine::connectionDeleted(ConnectionID connectionID) {
     removeConnection(connectionID);
 }
+
+void AudioEngine::moduleEnabledChanged(ModuleID moduleID, bool isEnabled) {
+    getNodeForId((NodeID)moduleID)->getProcessor()->suspendProcessing(!isEnabled);
+}
+

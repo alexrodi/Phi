@@ -18,18 +18,13 @@ connections(state, *this),
 mouseListener(this)
 {
     state.newModuleUICreated = [&] (auto ui, auto moduleID) {
-        auto [it, inserted] = modules.insert({ moduleID, std::make_unique<ModuleBox>(std::move(ui)) });
+        auto [it, inserted] = modules.insert({ moduleID,
+            std::make_unique<ModuleBox>(state, moduleID, std::move(ui))
+        });
         
         if (!inserted) return;
         
-        ModuleBox& moduleBox = *it->second;
-        
-        addAndMakeVisible(moduleBox);
-        moduleBox.setShowPortLabels(showPortLabels);
-        
-        moduleBox.onMoveOrResize = [&, moduleID] () {
-            state.setModuleBounds(moduleID, moduleBox.getBounds());
-        };
+        addAndMakeVisible(*it->second);
     };
     
     setWantsKeyboardFocus(true);
@@ -172,13 +167,6 @@ void Patcher::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds
 void Patcher::moduleDeleted(ModuleID moduleID)
 {
     modules.erase(moduleID);
-}
-
-void Patcher::showPortLabelsChanged(ShowPortLabels show) {
-    showPortLabels = show;
-    
-    for (auto& [id, box] : modules)
-        box->setShowPortLabels(showPortLabels);
 }
 
 template<class CallbackType>

@@ -53,8 +53,6 @@ private:
     
     HoverPopupWindow hoverPopup;
     
-    ShowPortLabels showPortLabels;
-    
     struct MouseListener : juce::MouseListener {
         MouseListener(Patcher* owner) : owner(owner) {}
         
@@ -108,7 +106,6 @@ private:
     // State listener overrides
     void moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) override;
     void moduleDeleted(ModuleID moduleID) override;
-    void showPortLabelsChanged(ShowPortLabels show) override;
     
     void findLassoItemsInArea (juce::Array<ModuleID>& itemsFound, const juce::Rectangle<int>& area) override;
     juce::SelectedItemSet<ModuleID>& getLassoSelection() override;

@@ -8,8 +8,7 @@
 
 //==============================================================================
 /// The top-most component that includes all the content
-class MainComponent   : public juce::Component,
-                        public juce::Button::Listener
+class MainComponent   : public juce::Component
 
 {
 //==============================================================================
@@ -107,9 +106,6 @@ private:
     juce::Rectangle<int> topBarBounds;
     
     //==============================================================================
-    
-    /// The callback for any button on this component
-    void buttonClicked (juce::Button*) override;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

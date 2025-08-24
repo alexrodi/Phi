@@ -19,10 +19,10 @@
 /*
 */
 struct ModuleBox : juce::Component,
-                   juce::Button::Listener,
+                   State::Listener,
                    juce::ComponentBoundsConstrainer
 {
-    explicit ModuleBox(std::unique_ptr<ModuleUI>);
+    ModuleBox(State& state, ModuleID moduleID, std::unique_ptr<ModuleUI>);
     ~ModuleBox();
 
     void paint(juce::Graphics&) override;
@@ -32,8 +32,6 @@ struct ModuleBox : juce::Component,
     /// Sets the highlight colour of the module
     void setHighlightColour(const juce::Colour&);
     
-    void setShowPortLabels(ShowPortLabels);
-    
     /// Shows the selected state in the UI
     void setSelected(bool selected) { isSelected = selected; repaint(); }
     
@@ -41,8 +39,6 @@ struct ModuleBox : juce::Component,
     PortID getPortID(const PortUI&) const;
     
     const PortUI& getPort(PortType, PortID) const;
-    
-    std::function<void()> onMoveOrResize = []{};
     
 private:
     const float headerHeight = 27.0f;
@@ -102,6 +98,8 @@ private:
         
     } lookandfeel;
     
+    State& state;
+    
     /// The hosted moduleUI
     std::unique_ptr<ModuleUI> moduleUI;
     
@@ -127,6 +125,7 @@ private:
     
     //==================================================================================
     
+    ModuleID moduleID;
     bool isSelected = false;
     
     //==================================================================================
@@ -148,12 +147,9 @@ private:
     
     //==================================================================================
     
-    /// Callback for Buttons (e.g. power button)
-    void buttonClicked (juce::Button*) override;
+    void moduleEnabledChanged(ModuleID, bool) override;
+    void showPortLabelsChanged(ShowPortLabels show) override;
     
-    ///@cond
-    void buttonStateChanged (juce::Button*) override {};
-    ///@endcond
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModuleBox)
 };

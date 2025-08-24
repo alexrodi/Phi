@@ -11,13 +11,17 @@
 #include "ModuleBox.h"
 
 //==============================================================================
-ModuleBox::ModuleBox(std::unique_ptr<ModuleUI> moduleUi) :
+ModuleBox::ModuleBox(State& state, ModuleID moduleID, std::unique_ptr<ModuleUI> moduleUi) :
+state(state),
 moduleUI{std::move(moduleUi)},
-resizer(this, this)
+resizer(this, this),
+moduleID(moduleID)
 {
-    powerButton.setToggleState(true, juce::sendNotification);
+    state.addListener(this);
     
-    powerButton.addListener(this);
+    powerButton.onClick = [&, moduleID] () {
+        state.setModuleEnabled(moduleID, powerButton.getToggleState());
+    };
     
     addAndMakeVisible(*moduleUI);
     addAndMakeVisible(powerButton);
@@ -46,6 +50,7 @@ resizer(this, this)
 ModuleBox::~ModuleBox()
 {
     setLookAndFeel (nullptr);
+    state.removeListener(this);
 }
 
 //==============================================================================
@@ -130,11 +135,11 @@ void ModuleBox::resized()
     moduleUI->setVisible(!isCollapsed);
     moduleUI->setBounds(moduleRect.reduced(0, padding));
     
-    onMoveOrResize();
+    state.setModuleBounds(moduleID, getBounds());
 }
 
 void ModuleBox::moved() {
-    onMoveOrResize();
+    state.setModuleBounds(moduleID, getBounds());
 }
 
 void ModuleBox::setHighlightColour(const juce::Colour& colour)
@@ -144,7 +149,7 @@ void ModuleBox::setHighlightColour(const juce::Colour& colour)
     sendLookAndFeelChange();
 }
 
-void ModuleBox::setShowPortLabels(ShowPortLabels show) {
+void ModuleBox::showPortLabelsChanged(ShowPortLabels show) {
     for (auto& port : inlets)
         port->showLabel(show);
     
@@ -152,14 +157,10 @@ void ModuleBox::setShowPortLabels(ShowPortLabels show) {
         port->showLabel(show);
 }
 
-void ModuleBox::buttonClicked (juce::Button* button)
-{
-    if (button == &powerButton){
-        auto state = button->getToggleState();
-        
-        // TODO: this should be handled in State!
-        moduleUI->props.processor.suspendProcessing(!state);
-        lookandfeel.setModuleOn(state);
+void ModuleBox::moduleEnabledChanged(ModuleID id, bool isEnabled) {
+    if (id == moduleID) {
+        powerButton.setToggleState(isEnabled, juce::dontSendNotification);
+        lookandfeel.setModuleOn(isEnabled);
         sendLookAndFeelChange();
     }
 }

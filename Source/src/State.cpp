@@ -55,6 +55,17 @@ void State::deleteModule(ModuleID moduleID) {
     listeners.call([&] (auto& listener) { listener.moduleDeleted(moduleID); });
 }
 
+void State::setModuleEnabled(ModuleID moduleID, bool isEnabled) {
+    auto modulesTree = state.getOrCreateChildWithName("modules", nullptr);
+    auto moduleNode = modulesTree.getChildWithProperty("id", (int)moduleID);
+    
+    if (!moduleNode.isValid()) return;
+    
+    moduleNode.setProperty("enabled", isEnabled, nullptr);
+    
+    listeners.call([&] (auto& listener) { listener.moduleEnabledChanged(moduleID, isEnabled); });
+}
+
 void State::deleteAllConnectionsToFromModule(ModuleID moduleID) {
     auto connectionsTree = state.getChildWithName("connections");
     if (!connectionsTree.isValid()) return;

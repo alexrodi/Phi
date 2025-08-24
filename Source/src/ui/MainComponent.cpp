@@ -19,8 +19,13 @@ showPortLabelsButton("Hint", "Label")
     addAndMakeVisible(patchCordTypeButton);
     addAndMakeVisible(showPortLabelsButton);
     
-    patchCordTypeButton.addListener(this);
-    showPortLabelsButton.addListener(this);
+    patchCordTypeButton.onClick = [&] () {
+        state.setPatchCordType((PatchCordType)patchCordTypeButton.getToggleState());
+    };
+    
+    showPortLabelsButton.onClick = [&] () {
+        state.setShowPortLabels((ShowPortLabels)showPortLabelsButton.getToggleState());
+    };
     
     sendLookAndFeelChange();
     
@@ -52,12 +57,4 @@ void MainComponent::resized()
     
     viewport.setBounds(windowBounds);
     mainPatcher.setSize(windowBounds.getWidth()*3, windowBounds.getHeight()*3);
-}
-
-void MainComponent::buttonClicked (juce::Button* button)
-{
-    if (button == &patchCordTypeButton)
-        state.setPatchCordType((PatchCordType)button->getToggleState());
-    else if (button == &showPortLabelsButton)
-        state.setShowPortLabels((ShowPortLabels)button->getToggleState());
 }
