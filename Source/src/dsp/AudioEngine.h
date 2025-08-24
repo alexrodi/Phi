@@ -30,6 +30,8 @@ private:
     Node::Ptr outputNode;
     
     void moduleDeleted(ModuleID moduleID) override;
+    void connectionCreated(ConnectionID connectionID) override;
+    void connectionDeleted(ConnectionID connectionID) override;
     
     // Assure flush-to-zero
     void processBlock (juce::AudioBuffer<float>&  audio, juce::MidiBuffer& midi) override {
