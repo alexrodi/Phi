@@ -27,28 +27,35 @@ type(type)
 
 void PortUI::paint (juce::Graphics& g)
 {
-    if (shouldDrawText && canFitText) {
+    if (drawText) {
         g.setColour(juce::Colours::grey);
-        g.drawText(getName(), nameBounds, juce::Justification::centredBottom);
+        g.drawText(getName(), nameBounds, juce::Justification::centredTop);
     }
     
     g.setColour(colors.inner);
-    g.fillEllipse(bounds);
+    g.fillEllipse(portBounds);
     g.setColour(colors.outer);
-    g.drawEllipse(bounds, STROKE_WIDTH);
+    g.drawEllipse(portBounds, portStroke);
 }
 
 void PortUI::resized()
 {
-    nameBounds = getLocalBounds().withTrimmedBottom(getHeight() * 0.5 + 12);
-    bounds = getLocalBounds().toFloat().withSizeKeepingCentre(SIZE, SIZE);
+    const int textHeight = 15;
     
-    canFitText = nameBounds.getHeight() > 11;
-    setHoverPopupEnabled(!(shouldDrawText && canFitText));
+    bool canFitText = getHeight() > portSize + portStroke + textHeight + 15;
+    drawText = shouldShowLabel == ShowPortLabels::On && canFitText;
+    setHoverPopupEnabled(!drawText);
+    
+    auto bounds = getLocalBounds().withSizeKeepingCentre(getWidth(), portSize + portStroke + (drawText ? textHeight : 0));
+    
+    portBounds = bounds.removeFromBottom(portSize).withSizeKeepingCentre(portSize, portSize).toFloat();
+    nameBounds = bounds;
+    
+    
 }
 
 juce::Point<float> PortUI::hoverPopupPosition() {
-    return getLocalBounds().toFloat().getCentre().translated(0, -SIZE - 10);
+    return getLocalBounds().toFloat().getCentre().translated(0, -portSize - 10);
 }
 
 juce::String PortUI::getPopupText() { return getName(); }

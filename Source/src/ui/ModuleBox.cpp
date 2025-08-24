@@ -166,15 +166,15 @@ const PortUI& ModuleBox::getPort(PortType type, PortID portID) const {
     else return *outlets[portID];
 }
 
-void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, juce::Rectangle<int> portBounds)
+void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, juce::Rectangle<int> bounds)
 {
     if (ports.empty()) return;
     
-    const int portHeight = portBounds.getHeight() / (int)ports.size();
+    const int portHeight = bounds.getHeight() / (int)ports.size();
     
     // Divide the space for each Port
     for (auto& port : ports)
-        port->setBounds( portBounds.removeFromTop(portHeight) );
+        port->setBounds( bounds.removeFromTop(portHeight) );
 }
 
 juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bounds)

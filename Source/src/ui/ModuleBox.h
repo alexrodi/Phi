@@ -47,7 +47,7 @@ struct ModuleBox : juce::Component,
 private:
     const float HEADER_HEIGHT = 27.0f;
     const float CONTENT_PADDING = 10.0f;
-    const int PLUG_COLUMN_WIDTH = 40;
+    const int PLUG_COLUMN_WIDTH = 60;
 
     /// Our LookAndFeel instance for this module box
     struct ModuleLookAndFeel : juce::LookAndFeel_V4

@@ -30,16 +30,16 @@ struct PortUI : juce::Component,
     PortType getType() const { return type; }
     
     void showLabel(ShowPortLabels show) {
-        shouldDrawText = show == ShowPortLabels::On;
-        setHoverPopupEnabled(!(shouldDrawText && canFitText));
+        shouldShowLabel = show;
+        resized();
         repaint();
     }
 
 private:
     struct PortColors { juce::Colour inner, outer; };
     
-    const int SIZE = 12;
-    const int STROKE_WIDTH = 3;
+    const int portSize = 12;
+    const int portStroke = 3;
     
     /// The plug's type - `Inlet` or `Outlet`
     PortType type;
@@ -48,13 +48,14 @@ private:
     PortColors colors;
     
     /// This Port's bounds
-    juce::Rectangle<float> bounds;
+    juce::Rectangle<float> portBounds;
     /** The bounds for the Port Name (if one is displayed)
      @see PortOptions::drawName
      */
     juce::Rectangle<int> nameBounds;
     
-    bool canFitText = false, shouldDrawText = false;
+    ShowPortLabels shouldShowLabel;
+    bool drawText = false;
     
     juce::Point<float> hoverPopupPosition() override;
     juce::String getPopupText() override;
