@@ -69,7 +69,7 @@ void Connections::forEachSelected(CallbackType callback)
 }
 
 void Connections::deleteAllSelected() {
-    forEachSelected([&] (auto id, auto _) { 
+    forEachSelected([&] (auto id, auto& _) {
         state.deleteConnection(id);
     });
     
@@ -116,9 +116,9 @@ void Connections::onMouseDown(const juce::MouseEvent& e)
         
         if (e.mods.isRightButtonDown()) {
             openColourSelector(
-                {e.position.toInt(), {1, 1}},
+                {e.x, e.y, 1, 1},
                 connections[hitConnectionID].colour,
-                this,
+                getParentComponent(),
                 this
             );
         }
@@ -143,7 +143,8 @@ void Connections::onMouseDown(const juce::MouseEvent& e)
             lasso.beginLasso(e, this);
     }
     
-    selectedConnections.deselectAll();
+    if (!e.eventComponent->findParentComponentOfClass<juce::CallOutBox>())
+        selectedConnections.deselectAll();
 }
 
 void Connections::onMouseUp(const juce::MouseEvent& e) {
@@ -211,7 +212,7 @@ void Connections::changeListenerCallback (juce::ChangeBroadcaster* source)
 {
     if (auto colourSelector = dynamic_cast<juce::ColourSelector*>(source))
     {
-        forEachSelected([&] (auto id, auto connection) {
+        forEachSelected([&] (auto id, auto& connection) {
             connection.colour = colourSelector->getCurrentColour();
         });
     }

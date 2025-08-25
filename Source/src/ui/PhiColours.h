@@ -12,7 +12,7 @@
 
 class PhiColourIds {
     // 256 colours for each class
-    enum ColourClass {
+    enum class ColourClass {
         General = 0x000,
         Module = 0x100,
         Connection = 0x200,
@@ -20,12 +20,12 @@ class PhiColourIds {
     };
 public:
     struct General {enum Val{
-       Background = ColourClass::General,
+       Background = (int)ColourClass::General,
        TopBar
     };};
 
     struct Module {enum Val{
-        Background = ColourClass::Module,
+        Background = (int)ColourClass::Module,
         Outline,
         Text,
         SelectedOutline,
@@ -35,13 +35,13 @@ public:
     };};
 
     struct Connection {enum Val{
-        DefaultFill = ColourClass::Connection,
+        DefaultFill = (int)ColourClass::Connection,
         SelectedOutline
     };};
     
     // #TODO define Port colour ids
     struct Port {enum Val{
-        IntletOutline = ColourClass::Port,
+        IntletOutline = (int)ColourClass::Port,
         IntletCenter,
         OutletOutline,
         OutletCenter,
@@ -59,4 +59,5 @@ inline void openColourSelector(juce::Rectangle<int> area, juce::Colour initialCo
     auto& callOutBox = juce::CallOutBox::launchAsynchronously(std::move(colourSelector), area, comp);
     
     callOutBox.setLookAndFeel(&comp->getLookAndFeel());
+    callOutBox.setAlwaysOnTop(true);
 }

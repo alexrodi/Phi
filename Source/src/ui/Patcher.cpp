@@ -109,7 +109,8 @@ void Patcher::onMouseDown(const juce::MouseEvent& e)
             lasso.beginLasso(e, this);
     }
     
-    selectedModuleIDs.deselectAll();
+    if (!e.eventComponent->findParentComponentOfClass<juce::CallOutBox>())
+        selectedModuleIDs.deselectAll();
 }
 
 void Patcher::onMouseUp(const juce::MouseEvent& e)
