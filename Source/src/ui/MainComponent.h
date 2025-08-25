@@ -45,7 +45,12 @@ public:
             // Colour Selector
             setColour(juce::ColourSelector::backgroundColourId, juce::Colours::transparentBlack);
             
-            // Modules
+            // General
+            setColour(PhiColourIds::General::Background, juce::Colours::darkgrey);
+            setColour(PhiColourIds::General::TopBar, juce::Colours::darkgrey.darker());
+            
+            // Modules (default)
+            setColour(PhiColourIds::Module::Highlight, juce::Colours::cyan.withSaturation(0.5f));
             setColour(PhiColourIds::Module::Background, juce::Colours::darkgrey.darker());
             setColour(PhiColourIds::Module::Outline, juce::Colours::grey);
             setColour(PhiColourIds::Module::Text, juce::Colours::grey);
@@ -57,7 +62,7 @@ public:
             setColour(PhiColourIds::Connection::DefaultFill, juce::Colours::grey);
             setColour(PhiColourIds::Connection::SelectedOutline, juce::Colours::grey.brighter());
             
-            LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Helvetica Neue");
+            setDefaultSansSerifTypefaceName ("Helvetica Neue");
         }
         
         void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {

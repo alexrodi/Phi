@@ -72,6 +72,7 @@
                 file="Source/src/ui/component/PhiSliderButton.h"/>
           <FILE id="TNSU5d" name="PhiToggleButton.h" compile="0" resource="0"
                 file="Source/src/ui/component/PhiToggleButton.h"/>
+          <FILE id="pCChBb" name="PhiWaveform.h" compile="0" resource="0" file="Source/src/ui/component/PhiWaveform.h"/>
         </GROUP>
         <FILE id="WNVk8G" name="Connections.cpp" compile="1" resource="0" file="Source/src/ui/Connections.cpp"/>
         <FILE id="w2cUdH" name="Connections.h" compile="0" resource="0" file="Source/src/ui/Connections.h"/>

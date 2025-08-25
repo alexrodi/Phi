@@ -8,7 +8,7 @@ mainPatcher(state),
 patchCordTypeButton("Gravity"),
 showPortLabelsButton("Hint", "Label")
 {
-    setLookAndFeel (&phiLookAndFeel);
+    juce::LookAndFeel::setDefaultLookAndFeel(&phiLookAndFeel);
     
     setSize (1000, 600);
     
@@ -34,27 +34,28 @@ showPortLabelsButton("Hint", "Label")
 
 MainComponent::~MainComponent()
 {
-    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void MainComponent::paint (juce::Graphics& g)
 {
-    g.fillAll (juce::Colours::darkgrey);
-    g.setColour(juce::Colours::darkgrey.darker());
+    g.fillAll(findColour(PhiColourIds::General::Background));
+    
+    g.setColour(findColour(PhiColourIds::General::TopBar));
     g.fillRect(topBarBounds);
 }
 
 void MainComponent::resized()
 {
-    juce::Rectangle<int> windowBounds(getLocalBounds());
-    topBarBounds = windowBounds.removeFromTop(50);
+    auto bounds = getLocalBounds();
     
-    juce::Rectangle<int> buttonBounds(topBarBounds);
+    topBarBounds = bounds.removeFromTop(50);
+    
+    auto buttonBounds = topBarBounds;
     
     patchCordTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
     showPortLabelsButton.setBounds(buttonBounds.removeFromRight(150).reduced(10));
     
-    viewport.setBounds(windowBounds);
-    mainPatcher.setSize(windowBounds.getWidth()*3, windowBounds.getHeight()*3);
+    viewport.setBounds(bounds);
+    mainPatcher.setSize(bounds.getWidth()*3, bounds.getHeight()*3);
 }

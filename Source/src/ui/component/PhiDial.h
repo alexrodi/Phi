@@ -26,7 +26,7 @@ public:
     void paint (juce::Graphics& g) override;
     void resized () override;
     
-    void lookAndFeelChanged() override;
+    void colourChanged() override;
     
 private:
     juce::Path groove, dial, pointerPath;

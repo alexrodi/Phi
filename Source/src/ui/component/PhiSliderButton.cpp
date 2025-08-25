@@ -71,7 +71,7 @@ void PhiSliderButton::buttonStateChanged()
     }
 }
 
-void PhiSliderButton::lookAndFeelChanged()
+void PhiSliderButton::colourChanged()
 {
     textColour = findColour(juce::TextButton::textColourOnId);
 }

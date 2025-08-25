@@ -49,7 +49,7 @@ public:
         speakerImage->setVisible(std::min(bounds.getHeight(), bounds.getWidth()) > 30);
     }
 
-    void lookAndFeelChanged() override
+    void colourChanged() override
     {
         auto newColour = findColour(juce::Slider::thumbColourId);
         speakerImage->replaceColour(previousColour, newColour);

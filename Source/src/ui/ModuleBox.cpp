@@ -51,7 +51,7 @@ moduleID(moduleID)
 
 ModuleBox::~ModuleBox()
 {
-    setLookAndFeel (nullptr);
+    setLookAndFeel(nullptr);
     state.removeListener(this);
 }
 

@@ -23,7 +23,7 @@ struct PhiSliderButton : juce::Button
     void paintButton (juce::Graphics&, bool, bool) override;
     void resized() override;
     
-    void lookAndFeelChanged() override;
+    void colourChanged() override;
 
 private:
     const int knobSize = 12;

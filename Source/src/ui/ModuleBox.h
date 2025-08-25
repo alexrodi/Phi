@@ -50,7 +50,7 @@ private:
     {
         ModuleLookAndFeel()
         {
-            setHighlightColour(juce::Colours::cyan.withSaturation(0.5f));
+            setHighlightColour(getDefaultLookAndFeel().findColour(PhiColourIds::Module::Highlight));
             setColour(PhiColourIds::Module::Background, juce::Colours::darkgrey.darker());
             setColour(PhiColourIds::Module::Outline, juce::Colours::grey);
             setColour(PhiColourIds::Module::Text, juce::Colours::grey);

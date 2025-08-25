@@ -80,9 +80,9 @@ void PhiDial::resized ()
     updateDial();
 }
 
-void PhiDial::lookAndFeelChanged ()
+void PhiDial::colourChanged ()
 {
-    Slider::lookAndFeelChanged();
+    Slider::colourChanged();
     colour = findColour(thumbColourId);
     grooveColour = findColour(rotarySliderOutlineColourId);
     nameColour = findColour(textBoxTextColourId);
