@@ -94,7 +94,8 @@ private:
          */
         void postProcessPath() override
         {
-            path = path.createPathWithRoundedCorners((float)pixelsPerPoint);
+            PhiWaveform::postProcessPath();
+            
             auto bottomPath = path;
             bottomPath.applyTransform(juce::AffineTransform::verticalFlip((float)getHeight()));
             path.addPath(bottomPath);
