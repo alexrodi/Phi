@@ -145,6 +145,8 @@ private:
      */
     juce::Rectangle<int> placeInletsAndOutlets (juce::Rectangle<int>);
     
+    bool handleCollapse();
+    
     //==================================================================================
     
     void moduleEnabledChanged(ModuleID, bool) override;

@@ -46,6 +46,7 @@ moduleID(moduleID)
     
     setLookAndFeel(&lookandfeel);
     
+    setSizeLimits(100, headerHeight, 500, 300);
     setSize(moduleUI->props.defaultSize.width, moduleUI->props.defaultSize.height);
 }
 
@@ -75,28 +76,37 @@ void ModuleBox::paint (juce::Graphics& g)
     g.fillRect(headerLine);
 }
 
-void ModuleBox::resized()
-{
-    int collapsedHeight = headerHeight;
-    bool isPortsOnly = getWidth() < moduleUI->props.minimumSize.width;
-    int portsOnlyMinimumHeight = headerHeight + (int)std::max(inlets.size(), outlets.size()) * 30;
-    bool isCollapsed = getHeight() < (isPortsOnly ? portsOnlyMinimumHeight : moduleUI->props.minimumSize.height);
+bool ModuleBox::handleCollapse() {
+    auto minimum = moduleUI->props.minimumSize;
     
     int portsOnlyWidth = 0;
     if (!inlets.empty()) portsOnlyWidth += portColumnWidth;
     if (!outlets.empty()) portsOnlyWidth += portColumnWidth;
     
-    setSizeLimits(
-        isCollapsed ? 100 : portsOnlyWidth,
-        collapsedHeight,
-        500,
-        300
-    );
+    if (getHeight() < minimum.height)
+    {
+        if (getHeight() < minimum.height / 2)
+            setSize(getWidth(), headerHeight);
+        else
+            setSize(getWidth(), minimum.height);
+    }
     
-    if (isCollapsed)
-        setSize(getWidth(), collapsedHeight);
-    else if (isPortsOnly)
-        setSize(portsOnlyWidth, getHeight());
+    bool isCollapsed = getHeight() == headerHeight;
+    
+    if (!isCollapsed && getWidth() < minimum.width)
+    {
+        if (getWidth() < minimum.width / 2)
+            setSize(portsOnlyWidth, getHeight());
+        else
+            setSize(minimum.width, getHeight());
+    }
+    
+    return isCollapsed;
+}
+
+void ModuleBox::resized()
+{
+    bool isCollapsed = handleCollapse();
         
     // Module Box area (padded)
     moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5f, 1.5f);
@@ -113,8 +123,9 @@ void ModuleBox::resized()
     resizer.setBounds(getLocalBounds().reduced(3).removeFromBottom(8).removeFromRight(8));
     
     // Place header line
-    if (isCollapsed) headerLine = {};
-    else headerLine = {padding, headerHeight - 2.0f, getWidth()-padding * 2.0f, 1.0f};
+    if (!isCollapsed)
+        headerLine = {padding, headerHeight - 2.0f, getWidth()-padding * 2.0f, 1.0f};
+    else headerLine = {};
     
     // Module area
     auto moduleRect = getLocalBounds();
@@ -127,15 +138,18 @@ void ModuleBox::resized()
     // Place Text
     nameRectangle = boxHeader.toFloat();
     
-    if (isCollapsed)
-        moduleRect = getLocalBounds().withSizeKeepingCentre(getWidth() + portColumnWidth + 2, 0);
-    
-    // Place Ports
-    moduleRect = placeInletsAndOutlets(moduleRect);
+    // Place Ports & ModuleUI
+    if (!isCollapsed) {
+        moduleRect = placeInletsAndOutlets(moduleRect);
+        moduleUI->setBounds(moduleRect.reduced(0, padding));
+    } else {
+        // TODO: maybe add a little hemi-circle outline close to the edge (kinda like max objects)
+        int inset = 6;
+        placeInletsAndOutlets({-(portColumnWidth - inset) / 2, (int)headerHeight/2, getWidth() + portColumnWidth - inset, 0});
+    }
     
     // Place Module
     moduleUI->setVisible(!isCollapsed);
-    moduleUI->setBounds(moduleRect.reduced(0, padding));
     
     state.setModuleBounds(moduleID, getBounds());
 }
