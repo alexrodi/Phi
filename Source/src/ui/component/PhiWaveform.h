@@ -40,12 +40,21 @@ struct PhiWaveform : juce::Component
     
     void resized() override {
         waveformBounds = getLocalBounds().toFloat().reduced(strokeWidth + 1.5f);
+        setAA(aaValue);
     }
     
     void colourChanged() override
     {
         strokeColour = findColour(PhiColourIds::Module::Highlight);
         fillColour = findColour(juce::Slider::rotarySliderOutlineColourId);
+    }
+    
+    void setAA(int aa) {
+        jassert(aa > 0);
+        
+        aaValue = aa;
+        aaFactor = 1.0f / (float)aaValue;
+        aaIncrement = (pixelsPerPoint / waveformBounds.getWidth()) * aaFactor;
     }
 
 protected:
@@ -69,21 +78,28 @@ protected:
         path.clear();
         
         float centreY = waveformBounds.getCentreY();
-        float yRange = waveformBounds.getHeight() * 0.5f;
+        float yRange = waveformBounds.getHeight() * -0.5f;
+        
+        // Get first value without AA
+        path.startNewSubPath(waveformBounds.getX(), getSample(0.0f) * yRange + centreY);
         
         for (float x = waveformBounds.getX(); x < waveformBounds.getRight(); x += pixelsPerPoint)
         {
             // Calculate a normalized phase (0.0 to 1.0) based on the x position.
-            const float normalizedPhase = (x - waveformBounds.getX()) / waveformBounds.getWidth();
+            float phase = (x - waveformBounds.getX()) / waveformBounds.getWidth();
             
-            // Get the sample value from the derived class's implementation.
-            const float sample = getSample(normalizedPhase);
+            // Get the sample value(s) from the derived class's implementation.
+            float sample = 0.0f;
+            for(int i = 0; i < aaValue; ++i) {
+                sample += getSample(phase);
+                phase += aaIncrement;
+            }
+            
+            // Apply AA average denominator
+            sample *= aaFactor;
             
             // Map the sample from [-1, 1] to the component's vertical coordinates.
             const float y = sample * yRange + centreY;
-
-            if (path.isEmpty())
-                path.startNewSubPath(x, y);
             
             path.lineTo(x, y);
         }
@@ -110,4 +126,7 @@ protected:
     
     const float strokeWidth = 1.0f;
     const float pixelsPerPoint = 2.0f;
+    int aaValue = 1; // default - No Anti-aliasing
+    float aaFactor = 1.0f / (float)aaValue;
+    float aaIncrement = 1.0f;
 };

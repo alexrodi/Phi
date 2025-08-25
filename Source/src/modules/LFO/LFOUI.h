@@ -64,7 +64,10 @@ struct LFOUI : ModuleUI
 private:
     struct LFOWaveform : public PhiWaveform
     {
-    public:
+        LFOWaveform() {
+            setAA(8);
+        }
+        
         void set(float newRate, LFO::Wave newWave, float newShape)
         {
             rate = newRate;

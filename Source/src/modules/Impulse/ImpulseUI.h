@@ -69,12 +69,15 @@ struct ImpulseUI : ModuleUI
 private:
     struct ImpulseWaveform : public PhiWaveform
     {
-    public:
-        void set(const float newShape)
+        ImpulseWaveform() {
+            setAA(8);
+        }
+        
+        void set(float newShape)
         {
-            shape = newShape;
-            phaseScale = pow(shape, 50.0f) * 200.0f + 30.0f;
-            aaIncrement = (pixelsPerPoint / waveformBounds.getWidth()) * aaFactor * phaseScale;
+            newShape *= 0.95f;
+            shape = pow(newShape, 0.2f);
+            scaleFactor = pow(newShape, 10.0f) * 200.0f + 30.0f;
             updateWavefom();
         }
 
@@ -83,16 +86,7 @@ private:
         {
             if (phase == 0.0f) return 0.0f;
             
-            float impulsePhase = phase * phaseScale;
-            
-            float sample = 0.0f;
-            for(int i = 0; i < aaValue; ++i)
-            {
-                sample += std::abs(processImpulse(impulsePhase, shape));
-                impulsePhase += aaIncrement;
-            }
-            
-            return sample * aaFactor * yScale;
+            return std::abs(processImpulse(phase * scaleFactor, shape)) * yScale;
         }
         
         /**
@@ -108,9 +102,7 @@ private:
         
     private:
         const float yScale = 1.2f;
-        const int aaValue = 8; // x8 anti-aliasing
-        float aaFactor = 1.0f / (float)aaValue;
-        float shape = 0.5f, aaIncrement = 1.0f, phaseScale = 1.0f;
+        float shape = 0.5f, scaleFactor = 1.0f;
     };
 
     ImpulseWaveform waveform;
@@ -118,6 +110,6 @@ private:
     PhiDial frequencyDial, shapeDial;
     
     void updateWaveform() {
-        waveform.set(pow(shapeDial.getValue() * 0.0095f, 0.2f));
+        waveform.set(shapeDial.getValue() * 0.01f);
     }
 };
