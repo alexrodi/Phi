@@ -35,7 +35,6 @@ Connections::~Connections()
 
 void Connections::paint (juce::Graphics& g)
 {
-    // Paint the temporary drag path if a connection is being made
     if (heldConnection)
     {
         g.setColour ( heldConnection->colour );
@@ -110,8 +109,9 @@ void Connections::tryCreateHeldConnection(const juce::MouseEvent& e) {
 
 void Connections::onMouseDown(const juce::MouseEvent& e)
 {
-    if (e.eventComponent == this)
-    {
+    // ============ Connections =======================
+    
+    if (e.eventComponent == this) {
         selectedConnections.addToSelectionOnMouseDown(hitConnectionID, e.mods);
         
         if (e.mods.isRightButtonDown()) {
@@ -126,8 +126,9 @@ void Connections::onMouseDown(const juce::MouseEvent& e)
         return;
     }
     
-    if (auto port = dynamic_cast<PortUI*>(e.eventComponent))
-    {
+    // ============ Port =======================
+    
+    if (auto port = dynamic_cast<PortUI*>(e.eventComponent)) {
         if (auto portID = patcher.getModulePortID(*port)) {
             heldConnection = std::make_unique<HeldConnection>( HeldConnection {
                 {.colour = findColour(PhiColourIds::Connection::DefaultFill)},
@@ -138,11 +139,14 @@ void Connections::onMouseDown(const juce::MouseEvent& e)
         }
     }
     
+    // ============ Patcher =======================
+    
     if (auto patcher = dynamic_cast<Patcher*>(e.eventComponent)) {
         if (!e.mods.isRightButtonDown())
             lasso.beginLasso(e, this);
     }
     
+    // Only selection options (CallOutBox) maintain the selection
     if (!e.eventComponent->findParentComponentOfClass<juce::CallOutBox>())
         selectedConnections.deselectAll();
 }

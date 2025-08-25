@@ -81,6 +81,8 @@ void Patcher::resized()
 
 void Patcher::onMouseDown(const juce::MouseEvent& e)
 {
+    // ============ Modules =======================
+    
     if (auto box = dynamic_cast<ModuleBox*>(e.eventComponent))
     {
         if (auto moduleID = getModuleID(*box)) {
@@ -101,6 +103,8 @@ void Patcher::onMouseDown(const juce::MouseEvent& e)
         }
     }
     
+    // ============ Patcher =======================
+    
     if (e.eventComponent == this) {
         
         if (e.mods.isRightButtonDown())
@@ -109,6 +113,7 @@ void Patcher::onMouseDown(const juce::MouseEvent& e)
             lasso.beginLasso(e, this);
     }
     
+    // Only selection options (CallOutBox) maintain the selection
     if (!e.eventComponent->findParentComponentOfClass<juce::CallOutBox>())
         selectedModuleIDs.deselectAll();
 }
