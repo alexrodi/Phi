@@ -41,9 +41,12 @@ struct ModuleBox : juce::Component,
     const PortUI& getPort(PortType, PortID) const;
     
 private:
-    const float headerHeight = 27.0f;
     const float padding = 10.0f;
     const int portColumnWidth = 50;
+    const float headerHeight = 29.0f;
+    const float outlineThickness = 0.5f;
+    const float selectedOutlineThickness = 2.0f;
+    const float roundness = 2.0f;
 
     /// Our LookAndFeel class and instance for this module box
     struct ModuleLookAndFeel : PhiLookAndFeel
@@ -81,7 +84,7 @@ private:
     std::vector<std::unique_ptr<PortUI>> outlets;
     
     /// This box's rectangle
-    juce::Rectangle<float> moduleBoxRectangle;
+    juce::Rectangle<float> boxBounds;
     /// The line dividing the header from the module
     juce::Rectangle<float> headerLine;
     /// The module name's rectangle
@@ -98,7 +101,9 @@ private:
     //==================================================================================
     
     ModuleID moduleID;
-    bool isSelected = false;
+    int numInletsConnected = 0;
+    int numOutletsConnected = 0;
+    bool isSelected = false, isCollapsed = false;
     
     //==================================================================================
 
@@ -117,13 +122,16 @@ private:
      */
     juce::Rectangle<int> placeInletsAndOutlets (juce::Rectangle<int>);
     
-    bool handleCollapse();
+    void handleCollapse();
+    void drawBox(juce::Graphics&);
+    juce::Path getCollapsedBox();
     
     //==================================================================================
-    
+
     void moduleEnabledChanged(ModuleID, bool) override;
     void showPortLabelsChanged(ShowPortLabels show) override;
-    
+    void connectionCreated(ConnectionID connID) override;
+    void connectionDeleted(ConnectionID connID) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModuleBox)
 };

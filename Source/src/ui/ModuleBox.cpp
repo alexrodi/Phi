@@ -59,13 +59,7 @@ ModuleBox::~ModuleBox()
 //==============================================================================
 void ModuleBox::paint (juce::Graphics& g)
 {
-    // Box
-    g.setColour (findColour(PhiColourIds::Module::Background));
-    g.fillRoundedRectangle(moduleBoxRectangle, 2.0f);
-    
-    // Outline
-    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedOutline : PhiColourIds::Module::Outline));
-    g.drawRoundedRectangle(moduleBoxRectangle, 2.0f, isSelected ? 2.0f : 0.5f);
+    drawBox(g);
     
     // Module Name
     g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedText : PhiColourIds::Module::Text));
@@ -76,7 +70,60 @@ void ModuleBox::paint (juce::Graphics& g)
     g.fillRect(headerLine);
 }
 
-bool ModuleBox::handleCollapse() {
+juce::Path ModuleBox::getCollapsedBox() {
+    juce::Path path;
+    
+    auto r45 = roundness * 0.45f;
+    auto x = boxBounds.getX();
+    auto y = boxBounds.getY();
+    auto x2 = boxBounds.getRight();
+    auto y2 = boxBounds.getBottom();
+    auto yc = boxBounds.getCentreY();
+    auto radius = 4.0f;
+    
+    // Top Left
+    path.startNewSubPath (x, y + roundness);
+    path.cubicTo (x, y + r45, x + r45, y, x + roundness, y);
+    
+    // Top Right
+    path.lineTo (x2 - roundness, y);
+    path.cubicTo (x2 - r45, y, x2, y + r45, x2, y + roundness);
+    
+    // Outlet Arc
+    if (numOutletsConnected > 0)
+        path.addCentredArc(x2, yc, radius, radius, 0.0f, juce::MathConstants<float>::twoPi, juce::MathConstants<float>::pi);
+    
+    // Bottom Right
+    path.lineTo (x2, y2 - roundness);
+    path.cubicTo (x2, y2 - r45, x2 - r45, y2, x2 - roundness, y2);
+    
+    // Bottom Left
+    path.lineTo (x + roundness, y2);
+    path.cubicTo (x + r45, y2, x, y2 - r45, x, y2 - roundness);
+    
+    // Inlet Arc
+    if (numInletsConnected > 0)
+        path.addCentredArc(x, yc, radius, radius, 0.0f, juce::MathConstants<float>::pi, 0.0f);
+    
+    path.closeSubPath();
+    return path;
+}
+
+void ModuleBox::drawBox(juce::Graphics& g) {
+    juce::Path path;
+    
+    if (isCollapsed) path = getCollapsedBox();
+    else path.addRoundedRectangle(boxBounds, roundness);
+    
+    float stroke = isSelected ? selectedOutlineThickness : outlineThickness;
+    g.setColour(findColour(isSelected ? PhiColourIds::Module::SelectedOutline : PhiColourIds::Module::Outline));
+    g.strokePath(path, juce::PathStrokeType{stroke});
+    
+    g.setColour(findColour(PhiColourIds::Module::Background));
+    g.fillPath(path);
+}
+
+void ModuleBox::handleCollapse() {
     auto minimum = moduleUI->props.minimumSize;
     
     int portsOnlyWidth = 0;
@@ -91,7 +138,7 @@ bool ModuleBox::handleCollapse() {
             setSize(getWidth(), minimum.height);
     }
     
-    bool isCollapsed = getHeight() == headerHeight;
+    isCollapsed = getHeight() == headerHeight;
     
     if (!isCollapsed && getWidth() < minimum.width)
     {
@@ -100,16 +147,14 @@ bool ModuleBox::handleCollapse() {
         else
             setSize(minimum.width, getHeight());
     }
-    
-    return isCollapsed;
 }
 
 void ModuleBox::resized()
 {
-    bool isCollapsed = handleCollapse();
+    handleCollapse();
         
     // Module Box area (padded)
-    moduleBoxRectangle = getLocalBounds().toFloat().reduced(1.5f, 1.5f);
+    boxBounds = getLocalBounds().toFloat().reduced(1.5f, 1.5f);
     
     // Set box position constraints
     /**
@@ -130,21 +175,20 @@ void ModuleBox::resized()
     // Module area
     auto moduleRect = getLocalBounds();
     // Header area
-    auto boxHeader = moduleRect.removeFromTop(headerHeight);
+    auto header = moduleRect.removeFromTop(headerHeight);
     
     // Place Power button
-    powerButton.setBounds(boxHeader.removeFromLeft(35).reduced(padding, 6));
+    powerButton.setBounds(header.removeFromLeft(padding * 2 + 15).withSizeKeepingCentre(15, 15));
     
     // Place Text
-    nameRectangle = boxHeader.toFloat();
+    nameRectangle = header.toFloat();
     
     // Place Ports & ModuleUI
     if (!isCollapsed) {
         moduleRect = placeInletsAndOutlets(moduleRect);
         moduleUI->setBounds(moduleRect.reduced(0, padding));
     } else {
-        // TODO: maybe add a little hemi-circle outline close to the edge (kinda like max objects)
-        int inset = 6;
+        int inset = 2;
         placeInletsAndOutlets({-(portColumnWidth - inset) / 2, (int)headerHeight/2, getWidth() + portColumnWidth - inset, 0});
     }
     
@@ -161,7 +205,6 @@ void ModuleBox::moved() {
 void ModuleBox::setHighlightColour(const juce::Colour& colour)
 {
     lookandfeel.setHighlightColour(colour);
-    lookandfeel.setModuleOn(powerButton.getToggleState());
     sendLookAndFeelChange();
 }
 
@@ -214,4 +257,24 @@ juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bound
         placePorts(outlets, bounds.removeFromRight(portColumnWidth));
     
     return bounds;
+}
+
+void ModuleBox::connectionCreated(ConnectionID connID) {
+    if (connID.source.moduleID == moduleID) {
+        numOutletsConnected++;
+        repaint();
+    } else if (connID.destination.moduleID == moduleID) {
+        numInletsConnected++;
+        repaint();
+    }
+}
+
+void ModuleBox::connectionDeleted(ConnectionID connID) {
+    if (connID.source.moduleID == moduleID) {
+        numOutletsConnected--;
+        repaint();
+    } else if (connID.destination.moduleID == moduleID) {
+        numInletsConnected--;
+        repaint();
+    }
 }

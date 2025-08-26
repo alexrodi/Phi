@@ -9,6 +9,7 @@
 */
 
 #include "PortUI.h"
+#include "PhiColours.h"
 
 //==============================================================================
 
@@ -17,18 +18,13 @@ HoverPopupClient(this),
 type(type)
 {
     setName(name);
-    
-    colors = type == PortType::Inlet
-    ? PortColors{juce::Colours::grey, juce::Colours::darkgrey}
-    : PortColors{juce::Colours::darkgrey, juce::Colours::grey};
-    
     setPaintingIsUnclipped(true);
 }
 
 void PortUI::paint (juce::Graphics& g)
 {
     if (drawText) {
-        g.setColour(juce::Colours::grey);
+        g.setColour(findColour(PhiColourIds::Port::Text));
         g.drawText(getName(), nameBounds, juce::Justification::centredTop);
     }
     
@@ -62,3 +58,17 @@ juce::Point<float> PortUI::hoverPopupPosition() {
 }
 
 juce::String PortUI::getPopupText() { return getName(); }
+
+void PortUI::colourChanged() {
+    if (type == PortType::Inlet) {
+        colors = {
+            .inner = findColour(PhiColourIds::Port::IntletFill),
+            .outer = findColour(PhiColourIds::Port::IntletOutline)
+        };
+    } else if (type == PortType::Outlet) {
+        colors = {
+            .inner = findColour(PhiColourIds::Port::OutletFill, true),
+            .outer = findColour(PhiColourIds::Port::OutletOutline)
+        };
+    }
+}

@@ -63,6 +63,8 @@ private:
     ShowPortLabels shouldShowLabel;
     bool drawText = false, canFitText = false;
     
+    void colourChanged() override;
+    
     juce::Rectangle<float> getPortBounds(ShowPortLabels) const;
     
     juce::Point<float> hoverPopupPosition() override;
