@@ -15,10 +15,9 @@
 //==============================================================================
 /*
 */
-class PhiDial    : public juce::Slider,
-public juce::Slider::Listener
+struct PhiDial : juce::Slider,
+                juce::Slider::Listener
 {
-public:
     PhiDial();
     explicit PhiDial(juce::RangedAudioParameter& parameter);
     ~PhiDial();
@@ -29,15 +28,6 @@ public:
     void colourChanged() override;
     
 private:
-    juce::Path groove, dial, pointerPath;
-    juce::AffineTransform pointerRotation;
-    
-    juce::Rectangle<float> dialBounds;
-    juce::Rectangle<int> nameBounds;
-    juce::Colour colour, grooveColour, nameColour;
-    
-    std::unique_ptr<juce::SliderParameterAttachment> attachment;
-    
     const int padding = 10;
     const float thickness = 3.0f;
     const float startAngle = getRotaryParameters().startAngleRadians;
@@ -45,9 +35,19 @@ private:
     const float angleRange = endAngle - startAngle;
     const juce::PathStrokeType stroke {thickness, juce::PathStrokeType::JointStyle::mitered, juce::PathStrokeType::EndCapStyle::rounded};
     
+    juce::Path groove, dial, pointerPath
+    ;
+    juce::AffineTransform pointerRotation;
+    
+    juce::Rectangle<float> dialBounds;
+    juce::Rectangle<int> nameBounds;
+    
+    juce::Colour colour, grooveColour, nameColour;
+    
+    std::unique_ptr<juce::SliderParameterAttachment> attachment;
+    
     float radius = 0.0f;
     float angle = startAngle;
-    
     bool shouldDrawText = false;
     
     void updateDial();

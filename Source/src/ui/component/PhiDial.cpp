@@ -12,15 +12,17 @@
 
 PhiDial::PhiDial()
 {
-    setSliderStyle               (RotaryVerticalDrag);
-    setTextBoxStyle              (TextBoxBelow, true, 80, 20);
-    setTextBoxIsEditable         (true);
+    setSliderStyle(RotaryVerticalDrag);
+    setTextBoxStyle(TextBoxBelow, true, 80, 20);
+    setScrollWheelEnabled(false);
+    setTextBoxIsEditable(true);
     
     addListener(this);
     
     setPaintingIsUnclipped(true);
     
     updateDial();
+    
 }
 
 PhiDial::PhiDial(juce::RangedAudioParameter& parameter) :
