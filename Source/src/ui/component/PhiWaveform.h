@@ -45,7 +45,7 @@ struct PhiWaveform : juce::Component
     
     void colourChanged() override
     {
-        strokeColour = findColour(PhiColourIds::Module::Highlight);
+        strokeColour = findColour(juce::Slider::thumbColourId);
         fillColour = findColour(juce::Slider::rotarySliderOutlineColourId);
     }
     
