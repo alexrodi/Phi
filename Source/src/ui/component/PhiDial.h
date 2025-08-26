@@ -48,7 +48,6 @@ private:
     
     float radius = 0.0f;
     float angle = startAngle;
-    bool shouldDrawText = false;
     
     void updateDial();
     

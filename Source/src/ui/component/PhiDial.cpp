@@ -38,11 +38,8 @@ PhiDial()
 
 void PhiDial::paint (juce::Graphics& g)
 {
-    if (shouldDrawText)
-    {
-        g.setColour(nameColour);
-        g.drawFittedText(getName(), nameBounds, juce::Justification::centredBottom, 1);
-    }
+    g.setColour(nameColour);
+    g.drawFittedText(getName(), nameBounds, juce::Justification::centredBottom, 1);
 
     g.setColour(grooveColour);
     g.strokePath(groove, stroke);
@@ -63,15 +60,19 @@ void PhiDial::resized ()
 {
     Slider::resized();
     
-    shouldDrawText = getName().isNotEmpty() && getHeight() > 40;
+    if (getHeight() < 70)
+        setTextBoxStyle(NoTextBox, true, 0, 0);
+    else
+        setTextBoxStyle(TextBoxBelow, false, 80, 20);
     
-    auto bounds = getLocalBounds();
+    auto bounds = getLocalBounds().withTrimmedBottom(getTextBoxHeight() - 7);
     
     nameBounds = bounds.removeFromTop(15);
     
-    float size = std::min(bounds.getWidth(), bounds.getHeight()-10);
+    float size = std::min(bounds.getWidth(), bounds.getHeight());
+    size = std::min(100.0f, size);
     
-    dialBounds = bounds.toFloat().withSizeKeepingCentre(size, size).reduced(padding).translated(0.0f, -7.0f);
+    dialBounds = bounds.toFloat().withSizeKeepingCentre(size, size).reduced(padding);
     
     radius = dialBounds.getWidth() * 0.55f;
     
