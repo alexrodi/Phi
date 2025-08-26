@@ -13,9 +13,8 @@
 PhiDial::PhiDial()
 {
     setSliderStyle(RotaryVerticalDrag);
-    setTextBoxStyle(TextBoxBelow, true, 80, 20);
+    setTextBoxStyle(TextBoxBelow, false, 80, 20);
     setScrollWheelEnabled(false);
-    setTextBoxIsEditable(true);
     
     addListener(this);
     
