@@ -45,57 +45,29 @@ private:
     const float padding = 10.0f;
     const int portColumnWidth = 50;
 
-    /// Our LookAndFeel instance for this module box
-    struct ModuleLookAndFeel : juce::LookAndFeel_V4
+    /// Our LookAndFeel class and instance for this module box
+    struct ModuleLookAndFeel : PhiLookAndFeel
     {
-        ModuleLookAndFeel()
-        {
-            setHighlightColour(getDefaultLookAndFeel().findColour(PhiColourIds::Module::Highlight));
-            setColour(PhiColourIds::Module::Background, juce::Colours::darkgrey.darker());
-            setColour(PhiColourIds::Module::Outline, juce::Colours::grey);
-            setColour(PhiColourIds::Module::Text, juce::Colours::grey);
-            setColour(PhiColourIds::Module::SelectedOutline, juce::Colours::grey.brighter());
-            setColour(PhiColourIds::Module::SelectedText, juce::Colours::grey.brighter());
-            setColour(PhiColourIds::Module::HeaderLine, juce::Colours::grey);
-            
-            setColour(juce::Slider::thumbColourId, findColour(PhiColourIds::Module::Highlight));
-            setColour(juce::Slider::rotarySliderOutlineColourId, juce::Colour::greyLevel(0.21f));
-            setColour(juce::Slider::rotarySliderFillColourId, juce::Colour::greyLevel(0.17f));
-            setColour(juce::Slider::textBoxHighlightColourId, juce::Colour::greyLevel(0.2f));
-            setColour(juce::Slider::textBoxTextColourId, juce::Colours::grey.brighter());
-            setColour(juce::Slider::textBoxOutlineColourId, juce::Colour()); // no color
-            setColour(juce::Label::backgroundWhenEditingColourId, juce::Colour::greyLevel(0.3f));
-            setColour(juce::CaretComponent::caretColourId, juce::Colour::greyLevel(0.8f));
-            setColour(juce::TextEditor::focusedOutlineColourId, juce::Colour());
-            setColour(juce::TextEditor::highlightedTextColourId,juce:: Colour::greyLevel(0.7f));
-            setColour(juce::TextButton::textColourOnId, juce::Colours::grey.brighter());
-            
-            setColour(juce::ColourSelector::backgroundColourId, juce::Colours::transparentBlack);
+        ModuleLookAndFeel() {
+            setModuleOn(true);
         }
         
-        void setModuleOn(bool isOn)
-        {
-            if (isOn)
-            {
-                setColour(juce::Slider::thumbColourId, findColour(PhiColourIds::Module::Highlight));
+        void setModuleOn(bool isOn) {
+            if (isOn) {
+                setColour(juce::Slider::thumbColourId,       findColour(PhiColourIds::Module::Highlight));
                 setColour(juce::Slider::textBoxTextColourId, juce::Colours::grey.brighter());
-                setColour(juce::TextButton::textColourOnId, juce::Colours::grey.brighter());
-            }
-            else
-            {
-                setColour(juce::Slider::thumbColourId, juce::Colours::grey);
+                setColour(juce::TextButton::textColourOnId,  juce::Colours::grey.brighter());
+            } else {
+                setColour(juce::Slider::thumbColourId,       juce::Colours::grey);
                 setColour(juce::Slider::textBoxTextColourId, juce::Colours::grey);
-                setColour(juce::TextButton::textColourOnId, juce::Colours::grey);
+                setColour(juce::TextButton::textColourOnId,  juce::Colours::grey);
             }
         }
         
         /// Sets the highlight colour of the module
-        void setHighlightColour(juce::Colour colour)
-        {
+        void setHighlightColour(juce::Colour colour) {
             setColour(PhiColourIds::Module::Highlight, colour);
         }
-        
-        
     } lookandfeel;
     
     State& state;
