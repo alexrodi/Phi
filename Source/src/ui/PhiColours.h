@@ -95,10 +95,10 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         setColour(PhiColourIds::Module::HeaderLine,      juce::Colours::grey);
         
         // Ports
-        setColour(PhiColourIds::Port::IntletOutline, juce::Colours::darkgrey);
-        setColour(PhiColourIds::Port::IntletFill,    juce::Colours::grey);
-        setColour(PhiColourIds::Port::OutletOutline, juce::Colours::grey);
-        setColour(PhiColourIds::Port::OutletFill,    juce::Colours::darkgrey);
+        setColour(PhiColourIds::Port::IntletOutline, juce::Colours::grey);
+        setColour(PhiColourIds::Port::IntletFill,    juce::Colours::darkgrey);
+        setColour(PhiColourIds::Port::OutletOutline, juce::Colours::darkgrey);
+        setColour(PhiColourIds::Port::OutletFill,    juce::Colours::grey);
         setColour(PhiColourIds::Port::Text,          juce::Colours::grey);
         
         // Connections

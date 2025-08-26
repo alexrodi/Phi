@@ -19,8 +19,7 @@
 /*
 */
 struct ModuleBox : juce::Component,
-                   State::Listener,
-                   juce::ComponentBoundsConstrainer
+                   State::Listener
 {
     ModuleBox(State& state, ModuleID moduleID, std::unique_ptr<ModuleUI>);
     ~ModuleBox();
@@ -47,6 +46,7 @@ private:
     const float outlineThickness = 0.5f;
     const float selectedOutlineThickness = 2.0f;
     const float roundness = 2.0f;
+    const int powerButtonSize = 15;
 
     /// Our LookAndFeel class and instance for this module box
     struct ModuleLookAndFeel : PhiLookAndFeel

@@ -28,6 +28,7 @@ mouseListener(this)
     };
     
     setWantsKeyboardFocus(true);
+    setPaintingIsUnclipped(true);
     
     addAndMakeVisible(connections);
     addAndMakeVisible(lasso);
@@ -35,9 +36,6 @@ mouseListener(this)
     
     selectedModuleIDs.addChangeListener(this);
     state.addListener(this);
-    
-    setSize(1000, 1000);
-    setPaintingIsUnclipped(true);
 }
 
 Patcher::~Patcher()
@@ -164,10 +162,18 @@ void Patcher::openMenu(const juce::MouseEvent& e)
 void Patcher::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) {
     if (!modules.contains(moduleID)) return;
     
+    // Don't allow modules to have negative positions
+    bounds.setX(std::max(0, bounds.getX()));
+    bounds.setY(std::max(0, bounds.getY()));
+    
     if (bounds.isEmpty())
+        // Set position only
         modules[moduleID]->setTopLeftPosition(bounds.getTopLeft());
     else
         modules[moduleID]->setBounds(bounds);
+    
+    // Fit content (only if bigger than window)
+    setBounds(getParentComponent()->getLocalArea(this, getLocalBounds().getUnion(getContentBounds())));
 }
 
 void Patcher::moduleDeleted(ModuleID moduleID)
@@ -211,4 +217,13 @@ void Patcher::changeListenerCallback(juce::ChangeBroadcaster* source) {
 void Patcher::parentHierarchyChanged() {
     if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
         mainComponent->addMouseListener(&mouseListener, true);
+}
+
+juce::Rectangle<int> Patcher::getContentBounds() {
+    juce::Rectangle<int> bounds;
+
+    for (int i = 0; i < getNumChildComponents(); ++i)
+        bounds = bounds.getUnion(getChildComponent(i)->getBounds());
+
+    return bounds;
 }

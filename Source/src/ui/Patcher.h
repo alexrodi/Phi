@@ -73,10 +73,8 @@ private:
         }
         
         void moveOnMouseDrag(const juce::MouseEvent& e) {
-            for (auto& [box, position] : modulePositions) {
-                juce::Rectangle<int> bounds = box->getBounds().withPosition(position + e.getOffsetFromDragStart());
-                box->setBoundsForComponent(box, bounds, false, false, false, false);
-            }
+            for (auto& [box, position] : modulePositions)
+                box->setBounds(box->getBounds().withPosition(position + e.getOffsetFromDragStart()));
         }
         
     private:
@@ -102,6 +100,8 @@ private:
     void onMouseDown(const juce::MouseEvent& e);
     void onMouseUp(const juce::MouseEvent& e);
     void onMouseDrag(const juce::MouseEvent& e);
+    
+    juce::Rectangle<int> getContentBounds();
     
     // State listener overrides
     void moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) override;

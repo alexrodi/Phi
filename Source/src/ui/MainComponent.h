@@ -26,7 +26,7 @@ private:
     State& state;
     
     /// The main editor, it has the means to create modules, connections and produce the resulting audio
-    Patcher mainPatcher;
+    Patcher patcher;
     
     /// The Viewport component that presents the view of mainPatcher to allow scrolling
     juce::Viewport viewport;

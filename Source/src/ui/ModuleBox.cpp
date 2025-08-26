@@ -14,7 +14,7 @@
 ModuleBox::ModuleBox(State& state, ModuleID moduleID, std::unique_ptr<ModuleUI> moduleUi) :
 state(state),
 moduleUI{std::move(moduleUi)},
-resizer(this, this),
+resizer(this, nullptr),
 moduleID(moduleID)
 {
     state.addListener(this);
@@ -45,8 +45,6 @@ moduleID(moduleID)
     setBroughtToFrontOnMouseClick(true);
     
     setLookAndFeel(&lookandfeel);
-    
-    setSizeLimits(100, headerHeight, 500, 300);
     setSize(moduleUI->props.defaultSize.width, moduleUI->props.defaultSize.height);
 }
 
@@ -124,26 +122,32 @@ void ModuleBox::drawBox(juce::Graphics& g) {
 }
 
 void ModuleBox::handleCollapse() {
-    auto minimum = moduleUI->props.minimumSize;
+    // First make sure there's width for the power button and module name
+    int minWidth = padding * 3 + powerButtonSize;
+    minWidth += juce::GlyphArrangement::getStringWidth(lookandfeel.withDefaultMetrics({}), moduleUI->props.name);
+    minWidth += padding; // Plus some right padding
+    int width = std::max(minWidth, getWidth());
     
     int portsOnlyWidth = 0;
     if (!inlets.empty()) portsOnlyWidth += portColumnWidth;
     if (!outlets.empty()) portsOnlyWidth += portColumnWidth;
     
+    auto minimum = moduleUI->props.minimumSize;
+    
     if (getHeight() < minimum.height)
     {
         if (getHeight() < minimum.height / 2)
-            setSize(getWidth(), headerHeight);
+            setSize(width, headerHeight); // Collapse height to show header only
         else
-            setSize(getWidth(), minimum.height);
+            setSize(width, minimum.height);
     }
     
     isCollapsed = getHeight() == headerHeight;
     
-    if (!isCollapsed && getWidth() < minimum.width)
+    if (!isCollapsed && width < minimum.width)
     {
-        if (getWidth() < minimum.width / 2)
-            setSize(portsOnlyWidth, getHeight());
+        if (width < minimum.width / 2)
+            setSize(portsOnlyWidth, getHeight()); // Collapse width to show ports only
         else
             setSize(minimum.width, getHeight());
     }
@@ -155,14 +159,6 @@ void ModuleBox::resized()
         
     // Module Box area (padded)
     boxBounds = getLocalBounds().toFloat().reduced(1.5f, 1.5f);
-    
-    // Set box position constraints
-    /**
-     setMinimumOnscreenAmounts assures the full module should be on screen,
-        although it still makes it possible for modules to be off screen when the window size changes,
-           should learn more about this behaviour, we don't want to open a patch and have everything jumbled in a small window
-     */
-    setMinimumOnscreenAmounts(getHeight(), getWidth(), getHeight(), getWidth());
     
     // Place resizer in bottom right corner
     resizer.setBounds(getLocalBounds().reduced(3).removeFromBottom(8).removeFromRight(8));
@@ -178,7 +174,7 @@ void ModuleBox::resized()
     auto header = moduleRect.removeFromTop(headerHeight);
     
     // Place Power button
-    powerButton.setBounds(header.removeFromLeft(padding * 2 + 15).withSizeKeepingCentre(15, 15));
+    powerButton.setBounds(header.removeFromLeft(padding * 2 + powerButtonSize).withSizeKeepingCentre(powerButtonSize, powerButtonSize));
     
     // Place Text
     nameRectangle = header.toFloat();
@@ -243,7 +239,6 @@ void ModuleBox::placePorts(const std::vector<std::unique_ptr<PortUI>>& ports, ju
 {
     const int portHeight = bounds.getHeight() / (int)ports.size();
     
-    // Divide the space for each Port
     for (auto& port : ports)
         port->setBounds( bounds.removeFromTop(portHeight) );
 }

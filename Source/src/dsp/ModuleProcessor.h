@@ -28,14 +28,10 @@ struct FloatParameter : juce::AudioParameterFloat {
             auto label = attributes.getAudioProcessorParameterWithIDAttributes().getLabel();
             
             return attributes.withStringFromValueFunction([label] (float value, int) {
-                auto upTo2Decimals = [] (float value) {
-                    return juce::String(value, (abs(value) < 10.0f) ? 2 : 1);
-                };
-                
-                if (abs(value) < 100.0f)
-                    return upTo2Decimals(value) + " " + label;
+                if (abs(value) < 10.0f)
+                    return juce::String(value, 1) + " " + label;
                 else if (value > 1000.0f)
-                    return upTo2Decimals(value * 0.001f) + " k" + label;
+                    return juce::String(value * 0.001f, 1) + " k" + label;
                 else
                     return juce::String((int)value) + " " + label;
             });

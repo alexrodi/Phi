@@ -4,7 +4,7 @@
 //==============================================================================
 MainComponent::MainComponent(State& state) :
 state(state),
-mainPatcher(state),
+patcher(state),
 patchCordTypeButton("Gravity"),
 showPortLabelsButton("Hint", "Label")
 {
@@ -12,9 +12,9 @@ showPortLabelsButton("Hint", "Label")
     
     setSize (1000, 600);
     
-    addChildComponent(mainPatcher);
+    addChildComponent(patcher);
     addAndMakeVisible(viewport);
-    viewport.setViewedComponent(&mainPatcher, false);
+    viewport.setViewedComponent(&patcher, false);
     
     addAndMakeVisible(patchCordTypeButton);
     addAndMakeVisible(showPortLabelsButton);
@@ -57,5 +57,5 @@ void MainComponent::resized()
     showPortLabelsButton.setBounds(buttonBounds.removeFromRight(150).reduced(10));
     
     viewport.setBounds(bounds);
-    mainPatcher.setSize(bounds.getWidth()*3, bounds.getHeight()*3);
+    patcher.setSize(bounds.getWidth(), bounds.getHeight());
 }
