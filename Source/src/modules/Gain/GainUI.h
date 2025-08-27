@@ -22,8 +22,8 @@ public:
         .name =  "Gain",
         .inlets = {"In", "Gain"},
         .outlets = {"Out"},
-        .defaultSize = {160, 160},
-        .minimumSize = {100, 100},
+        .defaultSize = {153, 130},
+        .minimumSize = {143, 100},
         .processor = processor
     }),
     gainDial(*processor.params.getParameter("gain"))

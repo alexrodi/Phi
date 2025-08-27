@@ -212,6 +212,7 @@ void ModuleBox::resized()
     // Place Module
     moduleUI->setVisible(!isCollapsed);
     
+    // Inform state of any updates to the module bounds
     state.setModuleBounds(moduleID, getBounds());
 }
 

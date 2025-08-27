@@ -23,7 +23,7 @@ struct LFOUI : ModuleUI
         .inlets = {"Rate", "Shape"},
         .outlets = {"Out"},
         .defaultSize = {270, 180},
-        .minimumSize = {230, 150},
+        .minimumSize = {230, 134},
         .processor = processor
     }),
     rateDial(*processor.params.getParameter("rate")),

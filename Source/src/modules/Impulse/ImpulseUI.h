@@ -25,7 +25,7 @@ struct ImpulseUI : ModuleUI
         .inlets = {"Trigger", "Freq", "Shape"},
         .outlets = {"Out", "Ramp"},
         .defaultSize = {220, 220},
-        .minimumSize = {100, 100},
+        .minimumSize = {200, 167},
         .processor = processor
     }},
     frequencyDial(*processor.params.getParameter("freq")),

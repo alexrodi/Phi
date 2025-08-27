@@ -22,7 +22,7 @@ struct FrictionUI : ModuleUI
         .inlets = {"Freq", "Jitter", "Drift"},
         .outlets = {"Out"},
         .defaultSize = {270, 130},
-        .minimumSize = {100, 100},
+        .minimumSize = {233, 108},
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),

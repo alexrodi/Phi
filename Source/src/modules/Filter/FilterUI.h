@@ -22,7 +22,7 @@ struct FilterUI : ModuleUI
         .inlets = {"In", "Freq", "Res"},
         .outlets = {"Low", "Band", "High"},
         .defaultSize = {230, 130},
-        .minimumSize = {100, 100},
+        .minimumSize = {186, 100},
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),

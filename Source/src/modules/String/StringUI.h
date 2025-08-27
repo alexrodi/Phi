@@ -24,7 +24,7 @@ public:
         .inlets = {"In", "Freq", "Pos", "Damp", "Decay"},
         .outlets = {"Out"},
         .defaultSize = {210, 260},
-        .minimumSize = {100, 100},
+        .minimumSize = {200, 196},
         .processor = processor
     }),
     frequencyDial(*processor.params.getParameter("freq")),

@@ -23,7 +23,7 @@ public:
         .inlets = {"In", "Amount", "Density"},
         .outlets = {"Out"},
         .defaultSize = {230, 130},
-        .minimumSize = {100, 100},
+        .minimumSize = {194, 100},
         .processor = processor
     }),
     noiseDial(*processor.params.getParameter("amount")),
