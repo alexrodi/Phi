@@ -51,7 +51,7 @@ public:
 
     void colourChanged() override
     {
-        auto newColour = findColour(juce::Slider::thumbColourId);
+        auto newColour = findColour(PhiColourIds::Module::Highlight);
         speakerImage->replaceColour(previousColour, newColour);
         previousColour = newColour;
     }

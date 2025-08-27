@@ -104,7 +104,7 @@ private:
     juce::Rectangle<int> getContentBounds();
     
     // State listener overrides
-    void moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) override;
+    void moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>& bounds) override;
     void moduleDeleted(ModuleID moduleID) override;
     
     void findLassoItemsInArea (juce::Array<ModuleID>& itemsFound, const juce::Rectangle<int>& area) override;

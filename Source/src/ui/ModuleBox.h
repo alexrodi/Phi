@@ -28,9 +28,6 @@ struct ModuleBox : juce::Component,
     void resized() override;
     void moved() override;
     
-    /// Sets the highlight colour of the module
-    void setHighlightColour(const juce::Colour&);
-    
     /// Shows the selected state in the UI
     void setSelected(bool selected) { isSelected = selected; repaint(); }
     
@@ -51,26 +48,26 @@ private:
     /// Our LookAndFeel class and instance for this module box
     struct ModuleLookAndFeel : PhiLookAndFeel
     {
-        ModuleLookAndFeel() {
-            setModuleOn(true);
-        }
+        ModuleLookAndFeel() :
+        highlight(findColour(PhiColourIds::Module::Highlight)),
+        text(findColour(PhiColourIds::Module::Text))
+        {}
         
         void setModuleOn(bool isOn) {
-            if (isOn) {
-                setColour(juce::Slider::thumbColourId,       findColour(PhiColourIds::Module::Highlight));
-                setColour(juce::Slider::textBoxTextColourId, juce::Colours::grey.brighter());
-                setColour(juce::TextButton::textColourOnId,  juce::Colours::grey.brighter());
-            } else {
-                setColour(juce::Slider::thumbColourId,       juce::Colours::grey);
-                setColour(juce::Slider::textBoxTextColourId, juce::Colours::grey);
-                setColour(juce::TextButton::textColourOnId,  juce::Colours::grey);
-            }
+            setColour(PhiColourIds::Module::Highlight, isOn ? highlight : findColour(PhiColourIds::Module::DisabledHighlight));
+            setColour(PhiColourIds::Module::Text, isOn ? text : findColour(PhiColourIds::Module::DisabledText));
+            wasOn = isOn;
         }
         
         /// Sets the highlight colour of the module
         void setHighlightColour(juce::Colour colour) {
-            setColour(PhiColourIds::Module::Highlight, colour);
+            highlight = colour;
+            setModuleOn(wasOn);
         }
+        
+    private:
+        juce::Colour highlight, text;
+        bool wasOn = true;
     } lookandfeel;
     
     State& state;
@@ -131,9 +128,10 @@ private:
     //==================================================================================
 
     void moduleEnabledChanged(ModuleID, bool) override;
-    void showPortLabelsChanged(ShowPortLabels show) override;
-    void connectionCreated(ConnectionID connID) override;
-    void connectionDeleted(ConnectionID connID) override;
+    void showPortLabelsChanged(ShowPortLabels) override;
+    void moduleColourChanged(ModuleID, const juce::Colour&) override;
+    void connectionCreated(ConnectionID) override;
+    void connectionDeleted(ConnectionID) override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModuleBox)
 };

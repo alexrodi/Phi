@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "../PhiColours.h"
 
 //==============================================================================
 /*
@@ -22,8 +23,6 @@ struct PhiSliderButton : juce::Button
 
     void paintButton (juce::Graphics&, bool, bool) override;
     void resized() override;
-    
-    void colourChanged() override;
 
 private:
     const int knobSize = 12;
@@ -37,7 +36,7 @@ private:
         }
         
         void paint(juce::Graphics& g) override {
-            g.setColour(findColour(juce::Slider::thumbColourId));
+            g.setColour(findColour(PhiColourIds::Module::Highlight));
             g.fillEllipse(getLocalBounds().toFloat());
         }
     } knob;

@@ -9,6 +9,7 @@
 */
 
 #include "PhiDial.h"
+#include "../PhiColours.h"
 
 PhiDial::PhiDial()
 {
@@ -85,9 +86,10 @@ void PhiDial::resized ()
 void PhiDial::colourChanged ()
 {
     Slider::colourChanged();
-    colour = findColour(thumbColourId);
-    grooveColour = findColour(rotarySliderOutlineColourId);
-    nameColour = findColour(textBoxTextColourId);
+    colour = findColour(PhiColourIds::Module::Highlight);
+    grooveColour = findColour(PhiColourIds::Module::Lowlight);
+    nameColour = findColour(PhiColourIds::Module::Text);
+    setColour(juce::Slider::textBoxTextColourId, nameColour);
 }
 
 void PhiDial::updateDial ()

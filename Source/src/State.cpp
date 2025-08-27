@@ -32,17 +32,6 @@ void State::addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y) {
     setModuleBounds(moduleID, {(int)x, (int)y, 0, 0});
 }
 
-void State::setModuleBounds(ModuleID moduleID, const juce::Rectangle<int>& bounds) {
-    auto modulesTree = state.getOrCreateChildWithName("modules", nullptr);
-    auto moduleNode = modulesTree.getChildWithProperty("id", (int)moduleID);
-    
-    if (!moduleNode.isValid()) return;
-    
-    moduleNode.setProperty("bounds", bounds.toString(), nullptr);
-    
-    listeners.call([&] (auto& listener) { listener.moduleBoundsChanged(moduleID, bounds); });
-}
-
 void State::deleteModule(ModuleID moduleID) {
     auto modulesTree = state.getOrCreateChildWithName("modules", nullptr);
     auto moduleNode = modulesTree.getChildWithProperty("id", (int)moduleID);
@@ -55,6 +44,17 @@ void State::deleteModule(ModuleID moduleID) {
     listeners.call([&] (auto& listener) { listener.moduleDeleted(moduleID); });
 }
 
+void State::setModuleBounds(ModuleID moduleID, const juce::Rectangle<int>& bounds) {
+    auto modulesTree = state.getOrCreateChildWithName("modules", nullptr);
+    auto moduleNode = modulesTree.getChildWithProperty("id", (int)moduleID);
+    
+    if (!moduleNode.isValid()) return;
+    
+    moduleNode.setProperty("bounds", bounds.toString(), nullptr);
+    
+    listeners.call([&] (auto& listener) { listener.moduleBoundsChanged(moduleID, bounds); });
+}
+
 void State::setModuleEnabled(ModuleID moduleID, bool isEnabled) {
     auto modulesTree = state.getOrCreateChildWithName("modules", nullptr);
     auto moduleNode = modulesTree.getChildWithProperty("id", (int)moduleID);
@@ -64,6 +64,17 @@ void State::setModuleEnabled(ModuleID moduleID, bool isEnabled) {
     moduleNode.setProperty("enabled", isEnabled, nullptr);
     
     listeners.call([&] (auto& listener) { listener.moduleEnabledChanged(moduleID, isEnabled); });
+}
+
+void State::setModuleColour(ModuleID moduleID, const juce::Colour& colour) {
+    auto modulesTree = state.getOrCreateChildWithName("modules", nullptr);
+    auto moduleNode = modulesTree.getChildWithProperty("id", (int)moduleID);
+    
+    if (!moduleNode.isValid()) return;
+    
+    moduleNode.setProperty("colour", colour.toString(), nullptr);
+    
+    listeners.call([&] (auto& listener) { listener.moduleColourChanged(moduleID, colour); });
 }
 
 void State::deleteAllConnectionsToFromModule(ModuleID moduleID) {

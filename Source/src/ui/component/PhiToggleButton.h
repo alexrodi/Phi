@@ -30,9 +30,9 @@ private:
                       bool shouldDrawButtonAsHighlighted,
                       bool shouldDrawButtonAsDown) override
     {
-        g.setColour(juce::Colours::grey);
+        g.setColour(findColour(PhiColourIds::Module::Outline));
         g.drawRect(buttonRect, 1);
-        g.setColour(findColour(juce::Slider::thumbColourId));
+        g.setColour(findColour(PhiColourIds::Module::Highlight));
         g.fillRect(buttonRect.reduced(1));
     }
     

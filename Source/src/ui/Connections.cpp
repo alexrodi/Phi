@@ -185,7 +185,7 @@ void Connections::connectionDeleted(ConnectionID connectionID) {
     repaint();
 }
 
-void Connections::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) {
+void Connections::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>& _) {
     for (auto& [id, _] : connections) {
         if (id.source.moduleID == moduleID || id.destination.moduleID == moduleID)
             updateConnectionPath(id);

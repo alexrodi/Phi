@@ -95,7 +95,7 @@ private:
     // State listener overrides
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;
-    void moduleBoundsChanged(ModuleID, juce::Rectangle<int>) override;
+    void moduleBoundsChanged(ModuleID, const juce::Rectangle<int>&) override;
     void patchCordTypeChanged(PatchCordType) override;
     void showPortLabelsChanged(ShowPortLabels show) override;
     

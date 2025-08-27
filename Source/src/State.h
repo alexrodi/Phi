@@ -101,6 +101,7 @@ struct State {
     
     void setModuleEnabled(ModuleID moduleID, bool isEnabled);
     void setModuleBounds(ModuleID moduleID, const juce::Rectangle<int>& bounds);
+    void setModuleColour(ModuleID moduleID, const juce::Colour& colour);
     
     void createConnection(ConnectionID connectionID);
     void deleteConnection(ConnectionID connectionID);
@@ -117,7 +118,8 @@ struct State {
         virtual void moduleDeleted(ModuleID) {};
         
         virtual void moduleEnabledChanged(ModuleID, bool isEnabled) {};
-        virtual void moduleBoundsChanged(ModuleID, juce::Rectangle<int> bounds) {};
+        virtual void moduleBoundsChanged(ModuleID, const juce::Rectangle<int>& bounds) {};
+        virtual void moduleColourChanged(ModuleID, const juce::Colour& colour) {};
         
         virtual void connectionCreated(ConnectionID) {};
         virtual void connectionDeleted(ConnectionID) {};

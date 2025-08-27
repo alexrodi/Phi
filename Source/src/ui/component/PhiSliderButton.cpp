@@ -30,11 +30,11 @@ void PhiSliderButton::paintButton (juce::Graphics& g, bool shouldDrawButtonAsHig
 {
     if (getWidth() > sliderWidth && getWidth() > knobSize)
     {
-        g.setColour(textColour);
+        g.setColour(findColour(PhiColourIds::Module::Text));
         g.drawText(leftText, leftTextBounds, juce::Justification::centred, 1);
         g.drawText(rightText, rightTextBounds, juce::Justification::centred, 1);
         
-        g.setColour(juce::Colour::greyLevel(0.18));
+        g.setColour(findColour(PhiColourIds::Module::Lowlight));
         g.fillRoundedRectangle(sliderBounds, sliderBounds.getHeight() * 0.5f);
     }
 }
@@ -69,9 +69,4 @@ void PhiSliderButton::buttonStateChanged()
         juce::Desktop::getInstance().getAnimator().animateComponent(&knob, getKnobBounds(), 1.0f, 100, false, 0.5f, 0.5f);
         lastToggle = getToggleState();
     }
-}
-
-void PhiSliderButton::colourChanged()
-{
-    textColour = findColour(juce::TextButton::textColourOnId);
 }

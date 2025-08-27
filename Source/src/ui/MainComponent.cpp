@@ -8,9 +8,7 @@ patcher(state),
 patchCordTypeButton("Gravity"),
 showPortLabelsButton("Hint", "Label")
 {
-    juce::LookAndFeel::setDefaultLookAndFeel(&phiLookAndFeel);
-    
-    setSize (1000, 600);
+    setPaintingIsUnclipped(true);
     
     addChildComponent(patcher);
     addAndMakeVisible(viewport);
@@ -27,9 +25,13 @@ showPortLabelsButton("Hint", "Label")
         state.setShowPortLabels((ShowPortLabels)showPortLabelsButton.getToggleState());
     };
     
-    sendLookAndFeelChange();
+    juce::LookAndFeel::setDefaultLookAndFeel(&phiLookAndFeel);
     
-    setPaintingIsUnclipped(true);
+    // TODO: Components shouldn't reach out for module colours by default!
+    // Components out here have a neutral highlight colour
+    phiLookAndFeel.setColour(PhiColourIds::Module::Highlight, juce::Colour::greyLevel(0.8f));
+    
+    setSize (1000, 600);
 }
 
 MainComponent::~MainComponent()

@@ -155,16 +155,16 @@ void Patcher::openMenu(const juce::MouseEvent& e)
         if (result > 0)
             state.addModule(Modules::getInfoFromMenuIndex(result-1), pos.x, pos.y);
     });
-    
-    // TODO: How to make sure we exit of the popup menu?? it stays open sometimes
 }
 
-void Patcher::moduleBoundsChanged(ModuleID moduleID, juce::Rectangle<int> bounds) {
+void Patcher::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>& moduleBounds) {
     if (!modules.contains(moduleID)) return;
     
     // Don't allow modules to have negative positions
-    bounds.setX(std::max(0, bounds.getX()));
-    bounds.setY(std::max(0, bounds.getY()));
+    auto bounds = moduleBounds.withPosition(
+        std::max(0, moduleBounds.getX()),
+        std::max(0, moduleBounds.getY())
+    );
     
     if (bounds.isEmpty())
         // Set position only
@@ -208,8 +208,8 @@ void Patcher::changeListenerCallback(juce::ChangeBroadcaster* source) {
     }
     else if (auto colourSelector = dynamic_cast<juce::ColourSelector*>(source))
     {
-        forEachSelected( [&] (auto moduleID, auto& moduleBox) {
-            moduleBox.setHighlightColour(colourSelector->getCurrentColour());
+        forEachSelected( [&] (auto moduleID, auto& _) {
+            state.setModuleColour(moduleID, colourSelector->getCurrentColour());
         });
     }
 }

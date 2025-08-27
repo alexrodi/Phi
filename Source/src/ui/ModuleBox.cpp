@@ -60,11 +60,11 @@ void ModuleBox::paint (juce::Graphics& g)
     drawBox(g);
     
     // Module Name
-    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedText : PhiColourIds::Module::Text));
+    g.setColour (findColour(isSelected ? PhiColourIds::Module::SelectedName : PhiColourIds::Module::Name));
     g.drawText(moduleUI->props.name, nameRectangle, juce::Justification::centredLeft, false); // (uses color from outline)
     
     // Header Line
-    g.setColour (findColour(PhiColourIds::Module::HeaderLine));
+    g.setColour (findColour(PhiColourIds::Module::Name));
     g.fillRect(headerLine);
 }
 
@@ -220,28 +220,6 @@ void ModuleBox::moved() {
     state.setModuleBounds(moduleID, getBounds());
 }
 
-void ModuleBox::setHighlightColour(const juce::Colour& colour)
-{
-    lookandfeel.setHighlightColour(colour);
-    sendLookAndFeelChange();
-}
-
-void ModuleBox::showPortLabelsChanged(ShowPortLabels show) {
-    for (auto& port : inlets)
-        port->showLabel(show);
-    
-    for (auto& port : outlets)
-        port->showLabel(show);
-}
-
-void ModuleBox::moduleEnabledChanged(ModuleID id, bool isEnabled) {
-    if (id == moduleID) {
-        powerButton.setToggleState(isEnabled, juce::dontSendNotification);
-        lookandfeel.setModuleOn(isEnabled);
-        sendLookAndFeelChange();
-    }
-}
-
 PortID ModuleBox::getPortID(const PortUI& port) const {
     auto& v = port.getType() == PortType::Inlet ? inlets : outlets;
     
@@ -276,21 +254,44 @@ juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bound
     return bounds;
 }
 
-void ModuleBox::connectionCreated(ConnectionID connID) {
-    if (connID.source.moduleID == moduleID) {
+void ModuleBox::showPortLabelsChanged(ShowPortLabels show) {
+    for (auto& port : inlets)
+        port->showLabel(show);
+    
+    for (auto& port : outlets)
+        port->showLabel(show);
+}
+
+void ModuleBox::moduleEnabledChanged(ModuleID id, bool isEnabled) {
+    if (id == moduleID) {
+        powerButton.setToggleState(isEnabled, juce::dontSendNotification);
+        lookandfeel.setModuleOn(isEnabled);
+        sendLookAndFeelChange();
+    }
+}
+
+void ModuleBox::moduleColourChanged(ModuleID id, const juce::Colour& colour) {
+    if (id == moduleID) {
+        lookandfeel.setHighlightColour(colour);
+        sendLookAndFeelChange();
+    }
+}
+
+void ModuleBox::connectionCreated(ConnectionID id) {
+    if (id.source.moduleID == moduleID) {
         numOutletsConnected++;
         repaint();
-    } else if (connID.destination.moduleID == moduleID) {
+    } else if (id.destination.moduleID == moduleID) {
         numInletsConnected++;
         repaint();
     }
 }
 
-void ModuleBox::connectionDeleted(ConnectionID connID) {
-    if (connID.source.moduleID == moduleID) {
+void ModuleBox::connectionDeleted(ConnectionID id) {
+    if (id.source.moduleID == moduleID) {
         numOutletsConnected--;
         repaint();
-    } else if (connID.destination.moduleID == moduleID) {
+    } else if (id.destination.moduleID == moduleID) {
         numInletsConnected--;
         repaint();
     }
