@@ -99,15 +99,15 @@ struct State {
     void addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y);
     void deleteModule(ModuleID moduleID);
     
-    void setModuleEnabled(ModuleID moduleID, bool isEnabled);
-    void setModuleBounds(ModuleID moduleID, const juce::Rectangle<int>& bounds);
-    void setModuleColour(ModuleID moduleID, const juce::Colour& colour);
+    void setModuleEnabled(ModuleID, bool isEnabled);
+    void setModuleBounds(ModuleID, const juce::Rectangle<int>& bounds);
+    void setModuleColour(ModuleID, const juce::Colour& colour);
     
-    void createConnection(ConnectionID connectionID);
-    void deleteConnection(ConnectionID connectionID);
+    void createConnection(ConnectionID);
+    void deleteConnection(ConnectionID);
     
-    void setShowPortLabels(ShowPortLabels show);
-    void setPatchCordType(PatchCordType type);
+    void setShowPortLabels(ShowPortLabels);
+    void setPatchCordType(PatchCordType);
     
     // ========================================================================
     
