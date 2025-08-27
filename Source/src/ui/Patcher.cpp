@@ -105,7 +105,6 @@ void Patcher::onMouseDown(const juce::MouseEvent& e)
     // ============ Patcher =======================
     
     if (e.eventComponent == this) {
-        
         if (e.mods.isRightButtonDown())
             openMenu(e);
         else

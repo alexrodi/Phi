@@ -95,6 +95,9 @@ struct State {
     /// Sets the first ID to use for modules
     void setFirstModuleID(ModuleID moduleID) { lastID = moduleID; }
     
+    void save(juce::File);
+    void load(juce::File);
+    
     // State Setters
     void addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y);
     void deleteModule(ModuleID moduleID);

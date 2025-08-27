@@ -16,6 +16,14 @@ State::State() : state("PhiState") {
 }
 State::~State() {}
 
+void State::save(juce::File file) {
+    state.writeToStream(*file.createOutputStream());
+}
+
+void State::load(juce::File file) {
+    state.readFromStream(*file.createInputStream());
+}
+
 void State::addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y) {
     auto modulesTree = state.getChildWithName("modules");
     auto moduleID = lastID++;
