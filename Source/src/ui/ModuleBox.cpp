@@ -253,6 +253,13 @@ juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bound
 }
 
 void ModuleBox::showPortLabelsChanged(ShowPortLabels show) {
+    int newPortColumnWidth = show == ShowPortLabels::On ? 50 : 36;
+    
+    if (portColumnWidth != newPortColumnWidth) {
+        portColumnWidth = newPortColumnWidth;
+        resized();
+    }
+    
     for (auto& port : inlets)
         port->showLabel(show);
     

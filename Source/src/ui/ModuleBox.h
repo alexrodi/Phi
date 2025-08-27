@@ -38,7 +38,6 @@ struct ModuleBox : juce::Component,
     
 private:
     const float padding = 10.0f;
-    const int portColumnWidth = 50;
     const float headerHeight = 29.0f;
     const float outlineThickness = 0.5f;
     const float selectedOutlineThickness = 2.0f;
@@ -98,6 +97,7 @@ private:
     //==================================================================================
     
     ModuleID moduleID;
+    int portColumnWidth = 50;
     int numInletsConnected = 0;
     int numOutletsConnected = 0;
     bool isSelected = false, isCollapsed = false;
