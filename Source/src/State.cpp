@@ -39,7 +39,7 @@ void State::deleteModule(ModuleID moduleID) {
     if (!moduleNode.isValid()) return;
     
     modulesTree.removeChild(moduleNode, nullptr);
-    deleteAllConnectionsToFromModule(moduleID);
+    deleteAllModuleConnections(moduleID);
     
     listeners.call([&] (auto& listener) { listener.moduleDeleted(moduleID); });
 }
@@ -77,7 +77,7 @@ void State::setModuleColour(ModuleID moduleID, const juce::Colour& colour) {
     listeners.call([&] (auto& listener) { listener.moduleColourChanged(moduleID, colour); });
 }
 
-void State::deleteAllConnectionsToFromModule(ModuleID moduleID) {
+void State::deleteAllModuleConnections(ModuleID moduleID) {
     auto connectionsTree = state.getChildWithName("connections");
     if (!connectionsTree.isValid()) return;
     
