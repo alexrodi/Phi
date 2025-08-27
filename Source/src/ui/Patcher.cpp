@@ -112,8 +112,14 @@ void Patcher::onMouseDown(const juce::MouseEvent& e)
             lasso.beginLasso(e, this);
     }
     
-    // Only selection options (CallOutBox) maintain the selection
-    if (!e.eventComponent->findParentComponentOfClass<juce::CallOutBox>())
+    
+    // TODO: this isn't a reliable way to know if selection should be maintained
+    // Probably set a flag when the colour selector is opened and have it callback when it's deleted to reset it
+    bool clickIsFromCalloutBox = dynamic_cast<juce::CallOutBox*>(e.eventComponent)
+        || e.eventComponent->findParentComponentOfClass<juce::CallOutBox>();
+    
+    // Only selection options popups (CallOutBox) maintain the selection
+    if (!clickIsFromCalloutBox)
         selectedModuleIDs.deselectAll();
 }
 

@@ -125,7 +125,7 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
     }
 };
 
-inline void openColourSelector(juce::Rectangle<int> area, juce::Colour initialColour, juce::Component* comp, juce::ChangeListener* listener)
+inline juce::CallOutBox& openColourSelector(juce::Rectangle<int> area, juce::Colour initialColour, juce::Component* comp, juce::ChangeListener* listener)
 {
     auto colourSelector = std::make_unique<juce::ColourSelector>(juce::ColourSelector::showColourspace);
     colourSelector->setSize(150, 130);
@@ -136,4 +136,6 @@ inline void openColourSelector(juce::Rectangle<int> area, juce::Colour initialCo
     
     callOutBox.setLookAndFeel(&comp->getLookAndFeel());
     callOutBox.setAlwaysOnTop(true);
+    
+    return callOutBox;
 }
