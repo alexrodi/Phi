@@ -185,6 +185,11 @@ void Connections::connectionDeleted(ConnectionID connectionID) {
     repaint();
 }
 
+void Connections::connectionColourChanged(ConnectionID connectionID, const juce::Colour& colour) {
+    connections[connectionID].colour = colour;
+    repaint();
+}
+
 void Connections::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>& _) {
     for (auto& [id, _] : connections) {
         if (id.source.moduleID == moduleID || id.destination.moduleID == moduleID)
@@ -216,8 +221,8 @@ void Connections::changeListenerCallback (juce::ChangeBroadcaster* source)
 {
     if (auto colourSelector = dynamic_cast<juce::ColourSelector*>(source))
     {
-        forEachSelected([&] (auto id, auto& connection) {
-            connection.colour = colourSelector->getCurrentColour();
+        forEachSelected([&] (auto id, auto& _) {
+            state.setConnectionColour(id, colourSelector->getCurrentColour());
         });
     }
     

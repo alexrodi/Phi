@@ -105,6 +105,7 @@ struct State {
     
     void createConnection(ConnectionID);
     void deleteConnection(ConnectionID);
+    void setConnectionColour(ConnectionID, const juce::Colour& colour);
     
     void setShowPortLabels(ShowPortLabels);
     void setPatchCordType(PatchCordType);
@@ -123,6 +124,7 @@ struct State {
         
         virtual void connectionCreated(ConnectionID) {};
         virtual void connectionDeleted(ConnectionID) {};
+        virtual void connectionColourChanged(ConnectionID, const juce::Colour& colour) {};
         
         virtual void showPortLabelsChanged(ShowPortLabels) {};
         virtual void patchCordTypeChanged(PatchCordType) {};
@@ -141,4 +143,7 @@ private:
     void deleteAllModuleConnections(ModuleID);
     ConnectionID getConnectionID (juce::ValueTree);
     juce::ValueTree newConnectionNode (ConnectionID);
+    
+    juce::ValueTree getModuleWithID (ModuleID);
+    juce::ValueTree getConnectionWithID (ConnectionID);
 };
