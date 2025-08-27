@@ -55,28 +55,6 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
 {
     PhiLookAndFeel()
     {
-        setColour(juce::PopupMenu::textColourId,                  juce::Colours::lightgrey);
-        setColour(juce::PopupMenu::backgroundColourId,            juce::Colours::darkgrey.darker());
-        setColour(juce::PopupMenu::highlightedBackgroundColourId, juce::Colour::greyLevel(0.2));
-        
-        setColour(juce::TextEditor::focusedOutlineColourId,       juce::Colours::transparentBlack);
-        setColour(juce::TextEditor::highlightedTextColourId,      juce:: Colour::greyLevel(0.7f));
-        
-        setColour(juce::ScrollBar::thumbColourId,                 juce:: Colour::greyLevel(0.6f));
-        
-        setColour(juce::Slider::textBoxHighlightColourId,         juce::Colour::greyLevel(0.2f));
-        setColour(juce::Slider::textBoxOutlineColourId,           juce::Colours::transparentBlack);
-        
-        setColour(juce::TooltipWindow::backgroundColourId,        juce::Colours::grey);
-        setColour(juce::TooltipWindow::textColourId,              juce::Colours::darkgrey.darker());
-        
-        setColour(juce::ColourSelector::backgroundColourId,       juce::Colours::transparentBlack);
-        
-        setColour(juce::CaretComponent::caretColourId,            juce::Colour::greyLevel(0.8f));
-        
-        setColour(juce::Label::backgroundWhenEditingColourId,     juce::Colour::greyLevel(0.3f));
-        
-        
         // General
         setColour(PhiColourIds::General::Background, juce::Colours::darkgrey);
         setColour(PhiColourIds::General::TopBar,     juce::Colours::darkgrey.darker());
@@ -103,6 +81,22 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         // Connections
         setColour(PhiColourIds::Connection::DefaultFill,     juce::Colours::grey);
         setColour(PhiColourIds::Connection::SelectedOutline, juce::Colours::grey.brighter());
+        
+        // Other
+        setColour(juce::PopupMenu::highlightedTextColourId,       findColour(PhiColourIds::Module::Text).withMultipliedBrightness(1.3f));
+        setColour(juce::PopupMenu::textColourId,                  findColour(PhiColourIds::Module::Text));
+        setColour(juce::PopupMenu::backgroundColourId,            findColour(PhiColourIds::Module::Background));
+        setColour(juce::PopupMenu::highlightedBackgroundColourId, findColour(PhiColourIds::Module::Lowlight));
+        setColour(juce::TextEditor::focusedOutlineColourId,       juce::Colours::transparentBlack);
+        setColour(juce::TextEditor::highlightedTextColourId,      juce:: Colour::greyLevel(0.7f));
+        setColour(juce::ScrollBar::thumbColourId,                 juce:: Colour::greyLevel(0.6f));
+        setColour(juce::Slider::textBoxHighlightColourId,         juce::Colour::greyLevel(0.2f));
+        setColour(juce::Slider::textBoxOutlineColourId,           juce::Colours::transparentBlack);
+        setColour(juce::TooltipWindow::backgroundColourId,        juce::Colours::grey);
+        setColour(juce::TooltipWindow::textColourId,              juce::Colours::darkgrey.darker());
+        setColour(juce::ColourSelector::backgroundColourId,       juce::Colours::transparentBlack);
+        setColour(juce::CaretComponent::caretColourId,            juce::Colour::greyLevel(0.8f));
+        setColour(juce::Label::backgroundWhenEditingColourId,     juce::Colour::greyLevel(0.3f));
         
         setDefaultSansSerifTypefaceName ("Helvetica Neue");
     }
