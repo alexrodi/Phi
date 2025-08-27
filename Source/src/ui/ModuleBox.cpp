@@ -122,17 +122,12 @@ void ModuleBox::drawBox(juce::Graphics& g) {
 }
 
 void ModuleBox::handleCollapse() {
-    // First make sure there's width for the power button and module name
-    int minWidth = padding * 3 + powerButtonSize;
-    minWidth += juce::GlyphArrangement::getStringWidth(lookandfeel.withDefaultMetrics({}), moduleUI->props.name);
-    minWidth += padding; // Plus some right padding
-    int width = std::max(minWidth, getWidth());
-    
     int portsOnlyWidth = 0;
     if (!inlets.empty()) portsOnlyWidth += portColumnWidth;
     if (!outlets.empty()) portsOnlyWidth += portColumnWidth;
     
     auto minimum = moduleUI->props.minimumSize;
+    int width = getWidth();
     
     if (getHeight() < minimum.height)
     {
@@ -153,9 +148,35 @@ void ModuleBox::handleCollapse() {
     }
 }
 
+void ModuleBox::enforceSizeLimits() {
+    int minHeight = headerHeight;
+    
+    // Make sure there's width for the power button and module name
+    int minWidth = padding * 3 + powerButtonSize;
+    minWidth += juce::GlyphArrangement::getStringWidth(lookandfeel.withDefaultMetrics({}), moduleUI->props.name);
+    minWidth += padding; // Plus some right padding
+    
+    auto maxSize = moduleUI->props.minimumSize;
+    maxSize.width *= 2;
+    maxSize.height *= 2;
+    
+    setSize(
+        clip(getWidth(), minWidth, maxSize.width),
+        clip(getHeight(), minHeight, maxSize.height)
+    );
+}
+
 void ModuleBox::resized()
 {
-    handleCollapse();
+    if (resizeIsReentrant) return;
+    
+    {
+        // We do a lot of setSize() here so this avoids needless recursive calls
+        const juce::ScopedValueSetter<bool> svs (resizeIsReentrant, true);
+        
+        enforceSizeLimits();
+        handleCollapse();
+    }
         
     // Module Box area (padded)
     boxBounds = getLocalBounds().toFloat().reduced(1.5f, 1.5f);

@@ -104,6 +104,7 @@ private:
     int numInletsConnected = 0;
     int numOutletsConnected = 0;
     bool isSelected = false, isCollapsed = false;
+    bool resizeIsReentrant = false;
     
     //==================================================================================
 
@@ -125,6 +126,7 @@ private:
     void handleCollapse();
     void drawBox(juce::Graphics&);
     juce::Path getCollapsedBox();
+    void enforceSizeLimits();
     
     //==================================================================================
 
