@@ -25,6 +25,7 @@ mouseListener(this)
         if (!inserted) return;
         
         addAndMakeVisible(*it->second);
+        it->second->setShowPortLabels(showPortLabels);
     };
     
     setWantsKeyboardFocus(true);
@@ -179,6 +180,13 @@ void Patcher::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>&
 void Patcher::moduleDeleted(ModuleID moduleID)
 {
     modules.erase(moduleID);
+}
+
+void Patcher::showPortLabelsChanged(ShowPortLabels show) {
+    showPortLabels = show;
+    
+    for (auto& [moduleID, box] : modules)
+        box->setShowPortLabels(showPortLabels);
 }
 
 template<class CallbackType>

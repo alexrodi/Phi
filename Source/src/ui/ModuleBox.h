@@ -28,8 +28,9 @@ struct ModuleBox : juce::Component,
     void resized() override;
     void moved() override;
     
-    /// Shows the selected state in the UI
     void setSelected(bool selected) { isSelected = selected; repaint(); }
+    
+    void setShowPortLabels(ShowPortLabels);
     
     /// Returns -1 if not found
     PortID getPortID(const PortUI&) const;
@@ -128,7 +129,6 @@ private:
     //==================================================================================
 
     void moduleEnabledChanged(ModuleID, bool) override;
-    void showPortLabelsChanged(ShowPortLabels) override;
     void moduleColourChanged(ModuleID, const juce::Colour&) override;
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;

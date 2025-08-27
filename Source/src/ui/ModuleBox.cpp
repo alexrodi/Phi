@@ -252,7 +252,7 @@ juce::Rectangle<int> ModuleBox::placeInletsAndOutlets(juce::Rectangle<int> bound
     return bounds;
 }
 
-void ModuleBox::showPortLabelsChanged(ShowPortLabels show) {
+void ModuleBox::setShowPortLabels(ShowPortLabels show) {
     int newPortColumnWidth = show == ShowPortLabels::On ? 50 : 36;
     
     if (portColumnWidth != newPortColumnWidth) {
