@@ -2,18 +2,19 @@
 #pragma once
 
 #include "../State.h"
-#include "PhiColours.h"
+#include "../FileManager.h"
 #include "Patcher.h"
+#include "PhiColours.h"
 #include "component/PhiSliderButton.h"
 
 //==============================================================================
 /// The top-most component that includes all the content
-class MainComponent   : public juce::Component
+struct MainComponent : juce::Component,
+                       State::Listener
 
 {
 //==============================================================================
-public:
-    explicit MainComponent(State&);
+    explicit MainComponent(State&, FileManager&);
     ~MainComponent();
 
     void paint (juce::Graphics& g) override;
@@ -31,6 +32,33 @@ private:
     /// The Viewport component that presents the view of mainPatcher to allow scrolling
     juce::Viewport viewport;
     
+    struct FileMenuModel : juce::MenuBarModel {
+        FileMenuModel(FileManager& manager) : manager(manager) {}
+        
+        juce::StringArray getMenuBarNames() override { return {"File"}; }
+        
+        void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
+
+        juce::PopupMenu getMenuForIndex (int topLevelMenuIndex, const juce::String& menuName) override {
+            if (menuName == "File") {
+                juce::PopupMenu menu;
+                
+                menu.addItem("Open...", [&] () { manager.open(); });
+                menu.addItem("Save", [&] () { manager.save(); });
+                menu.addItem("Save As...", [&] () { manager.saveAs(); });
+                
+                return menu;
+            }
+            return {};
+        }
+        
+    private:
+        FileManager& manager;
+    };
+    
+    FileMenuModel fileMenuModel;
+    juce::MenuBarComponent fileMenu;
+    
     /// A simple button to change the patch-cord drawing method (just because)
     PhiSliderButton patchCordTypeButton;
     
@@ -41,6 +69,10 @@ private:
     juce::Rectangle<int> topBarBounds;
     
     //==============================================================================
+    
+    void fileLoaded(juce::File) override;
+    void fileSaved(juce::File) override;
+    
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

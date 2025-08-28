@@ -3,12 +3,12 @@
 <JUCERPROJECT id="J6LvcO" name="Phi" projectType="guiapp" cppLanguageStandard="latest"
               displaySplashScreen="1" jucerFormatVersion="1" addUsingNamespaceToJuceHeader="0">
   <MAINGROUP id="J6rtXw" name="Phi">
-    <GROUP id="{F2E00F69-915E-CA9E-9822-68192A58DC0A}" name="resources">
-      <GROUP id="{D10A4911-F6BB-D6F3-E0F6-51D177CDEF95}" name="png">
-        <FILE id="NQZ8C5" name="logo.png" compile="0" resource="1" file="Source/resources/png/logo.png"/>
+    <GROUP id="{D2AAF4FC-035E-DB9D-7352-50B1623BE509}" name="resources">
+      <GROUP id="{0E0E29B8-F226-4145-E359-6452E8AE4A78}" name="png">
+        <FILE id="WMtNCH" name="logo.png" compile="0" resource="1" file="Source/resources/png/logo.png"/>
       </GROUP>
-      <GROUP id="{477421B2-F67E-74AC-3CD6-19436415430B}" name="svg">
-        <FILE id="lk2m2t" name="Speaker_Icon.svg" compile="0" resource="1"
+      <GROUP id="{5624B0BD-17B3-C53D-C3AB-542AB66C85AA}" name="svg">
+        <FILE id="Ij4fuh" name="Speaker_Icon.svg" compile="0" resource="1"
               file="Source/resources/svg/Speaker_Icon.svg"/>
       </GROUP>
     </GROUP>
@@ -88,13 +88,14 @@
         <FILE id="fjIuFa" name="PortUI.cpp" compile="1" resource="0" file="Source/src/ui/PortUI.cpp"/>
         <FILE id="nKfXNY" name="PortUI.h" compile="0" resource="0" file="Source/src/ui/PortUI.h"/>
       </GROUP>
+      <FILE id="r9G5GH" name="FileManager.h" compile="0" resource="0" file="Source/src/FileManager.h"/>
       <FILE id="SwNQ4A" name="Main.cpp" compile="1" resource="0" file="Source/src/Main.cpp"/>
       <FILE id="kYbBFT" name="State.cpp" compile="1" resource="0" file="Source/src/State.cpp"/>
       <FILE id="UIi3JQ" name="State.h" compile="0" resource="0" file="Source/src/State.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="WMtNCH">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug"/>
         <CONFIGURATION isDebug="0" name="Release"/>

@@ -40,11 +40,11 @@ private:
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;
     void moduleEnabledChanged(ModuleID, bool) override;
+    void allModulesDeleted() override;
     
     // Assure flush-to-zero
     void processBlock (juce::AudioBuffer<float>&  audio, juce::MidiBuffer& midi) override {
         juce::ScopedNoDenormals nodenormals;
         juce::AudioProcessorGraph::processBlock (audio, midi);
     }
-    
 };

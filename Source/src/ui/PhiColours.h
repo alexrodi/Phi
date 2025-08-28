@@ -97,8 +97,6 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         setColour(juce::ColourSelector::backgroundColourId,       juce::Colours::transparentBlack);
         setColour(juce::CaretComponent::caretColourId,            juce::Colour::greyLevel(0.8f));
         setColour(juce::Label::backgroundWhenEditingColourId,     juce::Colour::greyLevel(0.3f));
-        
-        setDefaultSansSerifTypefaceName ("Helvetica Neue");
     }
     
     void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {
@@ -122,6 +120,23 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         
         g.setColour(juce::Colours::grey);
         g.fillPath(path);
+    }
+    
+    void drawMenuBarBackground(juce::Graphics& g, int width, int height, bool isMouseOverBar, juce::MenuBarComponent& menu) override {
+        
+    }
+    
+    void drawMenuBarItem(juce::Graphics& g,
+                         int width, int height,
+                         int itemIndex, const juce::String &itemText,
+                         bool isMouseOverItem,
+                         bool isMenuOpen,
+                         bool isMouseOverBar,
+                         juce::MenuBarComponent& menu) override
+    {
+        // This function uses PopupMenu's colour IDs to maintain a consistent look
+        g.setColour(menu.findColour(isMouseOverItem ? juce::PopupMenu::highlightedTextColourId : juce::PopupMenu::textColourId));
+        g.drawText(itemText, juce::Rectangle<int>{0, 0, width, height}, juce::Justification::centred, 1);
     }
 };
 

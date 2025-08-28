@@ -35,13 +35,15 @@ mouseListener(this)
     addAndMakeVisible(lasso);
     addChildComponent(hoverPopup);
     
-    selectedModuleIDs.addChangeListener(this);
     state.addListener(this);
+    selectedModuleIDs.addChangeListener(this);
+    juce::Desktop::getInstance().addGlobalMouseListener(&mouseListener);
 }
 
 Patcher::~Patcher()
 {
     state.removeListener(this);
+    juce::Desktop::getInstance().removeGlobalMouseListener(&mouseListener);
 }
 
 const PortUI* Patcher::getPortUI (ModulePortID portID, PortType type) const {
@@ -105,7 +107,6 @@ void Patcher::onMouseDown(const juce::MouseEvent& e)
     // ============ Patcher =======================
     
     if (e.eventComponent == this) {
-        
         if (e.mods.isRightButtonDown())
             openMenu(e);
         else
@@ -160,7 +161,7 @@ void Patcher::openMenu(const juce::MouseEvent& e)
     // Returns the ID of the selected item (0 if clicked outside)
     menu.showMenuAsync(juce::PopupMenu::Options().withParentComponent(this), [&, pos = e.position] (int result) {
         if (result > 0)
-            state.addModule(Modules::getInfoFromMenuIndex(result-1), pos.x, pos.y);
+            state.addModule(moduleNames[result-1], pos.x, pos.y);
     });
 }
 
@@ -185,7 +186,13 @@ void Patcher::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>&
 
 void Patcher::moduleDeleted(ModuleID moduleID)
 {
+    // Does this leave the pointer in the parent component??? - maybe components remove themselves when being destroyed...
     modules.erase(moduleID);
+}
+
+void Patcher::allModulesDeleted()
+{
+    modules.clear();
 }
 
 void Patcher::showPortLabelsChanged(ShowPortLabels show) {
@@ -226,11 +233,6 @@ void Patcher::changeListenerCallback(juce::ChangeBroadcaster* source) {
             state.setModuleColour(moduleID, colourSelector->getCurrentColour());
         });
     }
-}
-
-void Patcher::parentHierarchyChanged() {
-    if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
-        mainComponent->addMouseListener(&mouseListener, true);
 }
 
 juce::Rectangle<int> Patcher::getContentBounds() {

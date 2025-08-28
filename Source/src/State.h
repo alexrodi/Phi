@@ -14,21 +14,76 @@
 #include "ui/ModuleUI.h"
 #include "dsp/ModuleProcessor.h"
 
-using ModuleID = juce::uint32;
-using PortID = int;
+struct ModuleID {
+    juce::uint32 value;
+    
+    ModuleID() : value(0) {}
+    ModuleID(int init) : value(init) {};
+    ModuleID(juce::uint32 init) : value(init) {};
+    
+    ModuleID& operator++() { value++; return *this; }
+    ModuleID operator++(int) {
+        ModuleID temp = *this;
+        value++;
+        return temp;
+    }
+    
+    operator juce::uint32() const { return value; }
+    
+    operator juce::AudioProcessorGraph::NodeID() const {
+        return  juce::AudioProcessorGraph::NodeID(value);
+    }
+    
+    static ModuleID fromString(const juce::String& s) {
+        return s.getIntValue();
+    }
+    
+    static ModuleID fromString(const juce::Identifier& identifier) {
+        return fromString(identifier.toString());
+    }
+    
+    juce::String toString() const {
+        return juce::String(value);
+    }
+};
+
+namespace std {
+    template <>
+    struct hash<ModuleID> {
+        std::size_t operator()(const ModuleID& m) const {
+            return m.value;
+        }
+    };
+}
+
+struct PortID {
+    int value;
+    
+    PortID() : value(0) {};
+    PortID(int init) : value(init) {};
+    operator int() const { return value; }
+    
+    static PortID fromString(const juce::String& s) {
+        return s.getIntValue();
+    }
+    
+    juce::String toString() const {
+        return juce::String(value);
+    }
+};
 
 struct ModulePortID
 {
     ModuleID moduleID;
     PortID portID;
     
-    ModulePortID() : moduleID(0), portID(0) {}
+    ModulePortID() = default;
     ModulePortID(ModuleID moduleID, PortID portID) : moduleID(moduleID), portID(portID) {}
     ModulePortID(const ModulePortID& other) : moduleID(other.moduleID), portID(other.portID) {}
     ModulePortID(ModulePortID&& other) noexcept : moduleID(other.moduleID), portID(other.portID) {}
     
     operator juce::AudioProcessorGraph::NodeAndChannel() const {
-        return { juce::AudioProcessorGraph::NodeID{moduleID}, portID };
+        return { moduleID, portID };
     }
     
     void operator=(const ModulePortID& other) {moduleID = other.moduleID; portID = other.portID;}
@@ -38,6 +93,17 @@ struct ModulePortID
     }
     
     size_t hash() const { return (size_t)moduleID ^ ((size_t)portID << 1); }
+    
+    static ModulePortID fromString(const juce::String& string) {
+        return {
+            ModuleID::fromString(string.upToFirstOccurrenceOf(":", false, false)),
+            PortID::fromString(string.fromLastOccurrenceOf(":", false, false))
+        };
+    }
+    
+    juce::String toString() const {
+        return juce::String(moduleID) + ":" + juce::String(portID);
+    }
 };
 
 struct ConnectionID
@@ -45,18 +111,33 @@ struct ConnectionID
     ModulePortID source;
     ModulePortID destination;
     
-    ConnectionID() {}
+    ConnectionID() = default;
     ConnectionID(const ConnectionID& other) : source(other.source), destination(other.destination) {}
     ConnectionID(ModulePortID source, ModulePortID destination) : source(source), destination(destination) {}
-    
-    operator juce::AudioProcessorGraph::Connection() const {
-        return {source, destination};
-    }
     
     void operator=(const ConnectionID& other) {source = other.source; destination = other.destination;}
     
     bool operator==(const ConnectionID& other) const {
         return source == other.source && destination == other.destination;
+    }
+    
+    operator juce::AudioProcessorGraph::Connection() const {
+        return {source, destination};
+    }
+    
+    static ConnectionID fromString(const juce::String& string) {
+        return {
+            ModulePortID::fromString(string.upToFirstOccurrenceOf("-", false, false)),
+            ModulePortID::fromString(string.fromLastOccurrenceOf("-", false, false))
+        };
+    }
+    
+    static ConnectionID fromString(const juce::Identifier& identifier) {
+        return fromString(identifier.toString());
+    }
+    
+    juce::String toString() const {
+        return source.toString() + "-" + destination.toString();
     }
 };
 
@@ -69,20 +150,13 @@ namespace std {
     };
 }
 
-struct ModuleInfo {
-    ModuleInfo(juce::String name) : name(name) {}
-    juce::String name;
-    virtual std::unique_ptr<ModuleProcessor> create() = 0;
-    virtual ~ModuleInfo() = default;
-};
-
 enum class PortType { Inlet, Outlet };
 
 enum class ShowPortLabels { Off, On };
 
 enum class PatchCordType { S, Arc };
 
-struct State {
+struct State : juce::ValueTree::Listener {
     State();
     ~State();
     // ========================================================================
@@ -92,11 +166,16 @@ struct State {
     /// Callback to receive the created module Processor
     std::function<void(std::unique_ptr<ModuleProcessor>, ModuleID)> newProcessorCreated;
 
+    bool isDirty() { return dirty; }
+    
     /// Sets the first ID to use for modules
-    void setFirstModuleID(ModuleID moduleID) { lastID = moduleID; }
+    void setFirstModuleID(ModuleID moduleID) { lastModuleID = moduleID; }
+    
+    void save(juce::File);
+    void load(juce::File);
     
     // State Setters
-    void addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y);
+    void addModule(const std::string& type, int x, int y);
     void deleteModule(ModuleID moduleID);
     
     void setModuleEnabled(ModuleID, bool isEnabled);
@@ -117,6 +196,7 @@ struct State {
         
         virtual void moduleAdded(ModuleID) {};
         virtual void moduleDeleted(ModuleID) {};
+        virtual void allModulesDeleted() {};
         
         virtual void moduleEnabledChanged(ModuleID, bool isEnabled) {};
         virtual void moduleBoundsChanged(ModuleID, const juce::Rectangle<int>& bounds) {};
@@ -128,6 +208,9 @@ struct State {
         
         virtual void showPortLabelsChanged(ShowPortLabels) {};
         virtual void patchCordTypeChanged(PatchCordType) {};
+        
+        virtual void fileLoaded(juce::File) {}
+        virtual void fileSaved(juce::File) {}
     };
     
     void addListener (Listener* listener) { listeners.add(listener); }
@@ -138,12 +221,15 @@ private:
     juce::ValueTree state;
     juce::ListenerList<Listener> listeners;
     
-    ModuleID lastID;
+    ModuleID lastModuleID {0};
+    bool dirty = false;
     
     void deleteAllModuleConnections(ModuleID);
-    ConnectionID getConnectionID (juce::ValueTree);
-    juce::ValueTree newConnectionNode (ConnectionID);
     
     juce::ValueTree getModuleWithID (ModuleID);
     juce::ValueTree getConnectionWithID (ConnectionID);
+    
+    void valueTreePropertyChanged (juce::ValueTree&, const juce::Identifier&) override;
+    void valueTreeChildAdded (juce::ValueTree&, juce::ValueTree&) override;
+    void valueTreeChildRemoved (juce::ValueTree&, juce::ValueTree&, int) override;
 };

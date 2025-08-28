@@ -19,18 +19,20 @@ state(state),
 patcher(patcher),
 mouseListener(this)
 {
+    setAlwaysOnTop(true);
+    setPaintingIsUnclipped(true);
+    
     addChildComponent(lasso);
     
     state.addListener(this);
     selectedConnections.addChangeListener(this);
-    
-    setAlwaysOnTop(true);
-    setPaintingIsUnclipped(true);
+    juce::Desktop::getInstance().addGlobalMouseListener(&mouseListener);
 }
 
 Connections::~Connections()
 {
     state.removeListener(this);
+    juce::Desktop::getInstance().removeGlobalMouseListener(&mouseListener);
 }
 
 void Connections::paint (juce::Graphics& g)
@@ -199,6 +201,11 @@ void Connections::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<i
     repaint();
 }
 
+void Connections::allModulesDeleted() {
+    connections.clear();
+    repaint();
+}
+
 void Connections::patchCordTypeChanged(PatchCordType type) {
     patchCordType = type;
     
@@ -301,11 +308,6 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
             }
         }
     }
-}
-
-void Connections::parentHierarchyChanged() {
-    if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
-        mainComponent->addMouseListener(&mouseListener, true);
 }
 
 juce::SelectedItemSet<ConnectionID>& Connections::getLassoSelection() {return selectedConnections;}

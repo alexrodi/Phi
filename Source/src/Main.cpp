@@ -2,6 +2,7 @@
 #include <JuceHeader.h>
 
 #include "State.h"
+#include "FileManager.h"
 #include "dsp/AudioEngine.h"
 #include "ui/MainComponent.h"
 
@@ -11,8 +12,9 @@ class PhiApplication  : public juce::JUCEApplication
 public:
     //==============================================================================
     PhiApplication() :
+    fileManager(state),
     audioEngine(state),
-    mainWindow(getApplicationName(), state)
+    mainWindow(state, fileManager)
     {}
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
@@ -32,9 +34,7 @@ public:
     //==============================================================================
     void systemRequestedQuit() override
     {
-        // This is called when the app is being asked to quit: you can ignore this
-        // request and let the app carry on running, or call quit() to allow the app to close.
-        quit();
+        fileManager.askToSaveThen([] () { quit(); });
     }
 
     void anotherInstanceStarted (const juce::String& commandLine) override
@@ -52,13 +52,13 @@ public:
     class MainWindow    : public juce::DocumentWindow
     {
     public:
-        MainWindow (const juce::String& name, State& state)  :
-        DocumentWindow (name,
+        MainWindow (State& state, FileManager& fileManager)  :
+        DocumentWindow (ProjectInfo::projectName,
                         juce::Desktop::getInstance().getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId),
                         DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainComponent(state), true);
+            setContentOwned (new MainComponent(state, fileManager), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
@@ -91,6 +91,7 @@ public:
 
 private:
     State state;
+    FileManager fileManager;
     AudioEngine audioEngine;
     MainWindow mainWindow;
 };

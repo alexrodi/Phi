@@ -40,6 +40,13 @@ const std::vector<std::string> moduleNames = {
     "Output"
 };
 
+struct ModuleInfo {
+    ModuleInfo(juce::String name) : type(name) {}
+    juce::String type;
+    virtual std::unique_ptr<ModuleProcessor> create() = 0;
+    virtual ~ModuleInfo() = default;
+};
+
 struct Modules {
     static juce::PopupMenu getMenu() {
         juce::PopupMenu modulesMenu;
@@ -50,10 +57,11 @@ struct Modules {
         
         return modulesMenu;
     }
-
-    static std::unique_ptr<ModuleInfo> getInfoFromMenuIndex(int index) {
-        if (index >= 0 && index < moduleNames.size())
-            return std::move(moduleList()[index]);
+    
+    static std::unique_ptr<ModuleInfo> getInfoFromFromName(const juce::String& name) {
+        if (auto it = std::find(moduleNames.begin(), moduleNames.end(), name); it != moduleNames.end())
+            return std::move(moduleList()[std::distance(moduleNames.begin(), it)]);
+            
         
         // Module not found!
         jassertfalse;
@@ -63,7 +71,7 @@ struct Modules {
 private:
     template<class ProcessorType>
     struct ModuleEntry : public ModuleInfo {
-        ModuleEntry(juce::String name) : ModuleInfo(name) {}
+        ModuleEntry(const std::string& name) : ModuleInfo(name) {}
         std::unique_ptr<ModuleProcessor> create() override {
             return std::make_unique<ProcessorType>();
         }
