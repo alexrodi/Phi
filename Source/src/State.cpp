@@ -63,7 +63,7 @@ void State::load(juce::File file) {
 
 void State::addModule(const std::string& type, int x, int y) {
     auto modulesTree = state.getChildWithName("modules");
-    auto moduleID = lastID++;
+    ModuleID moduleID (lastID + 1);
     
     juce::ValueTree newModuleNode (moduleID.toString());
     newModuleNode.setProperty("type", juce::String(type), nullptr);
@@ -203,6 +203,9 @@ void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
     if (parent.getType().toString() == "modules" && tree.hasProperty("type"))
     {
         auto moduleID = ModuleID::fromString(tree.getType());
+        
+        if (moduleID > lastID)
+            lastID = moduleID;
         
         auto processor = Modules::getInfoFromFromName(tree.getProperty("type"))->create();
         newModuleUICreated(processor->createUI(), moduleID);
