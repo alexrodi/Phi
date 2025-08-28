@@ -42,26 +42,9 @@ private:
             if (menuName == "File") {
                 juce::PopupMenu menu;
                 
-                menu.addItem("Save", [&] () {
-                    if (currentlyOpenFile.existsAsFile())
-                        state.save(currentlyOpenFile);
-                    else
-                        saveAs();
-                });
-                
+                menu.addItem("Save", [&] () {save();});
                 menu.addItem("Save As...", [&] () {saveAs();});
-                
-                menu.addItem("Open...", [&] () {
-                    chooser = std::make_unique<juce::FileChooser>("Open...", currentlyOpenFile, "*.phi");
-                    int flags = juce::FileBrowserComponent::openMode + juce::FileBrowserComponent::canSelectFiles;
-                    
-                    chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
-                        if (auto file = chooser.getResult(); file.existsAsFile()) {
-                            state.load(file);
-                            currentlyOpenFile = file;
-                        }
-                    });
-                });
+                menu.addItem("Open...", [&] () {open();});
                 
                 return menu;
             }
@@ -73,7 +56,14 @@ private:
     private:
         State& state;
         std::unique_ptr<juce::FileChooser> chooser;
-        juce::File currentlyOpenFile;
+        juce::File currentlyOpenFile {"Untitled"};
+        
+        void save() {
+            if (currentlyOpenFile.existsAsFile())
+                state.save(currentlyOpenFile);
+            else
+                saveAs();
+        }
         
         void saveAs() {
             using Flags = juce::FileBrowserComponent::FileChooserFlags;
@@ -87,6 +77,18 @@ private:
                         file.withFileExtension(".phi");
                     
                     state.save(file);
+                    currentlyOpenFile = file;
+                }
+            });
+        }
+        
+        void open() {
+            chooser = std::make_unique<juce::FileChooser>("Open...", currentlyOpenFile, "*.phi");
+            int flags = juce::FileBrowserComponent::openMode + juce::FileBrowserComponent::canSelectFiles;
+            
+            chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
+                if (auto file = chooser.getResult(); file.existsAsFile()) {
+                    state.load(file);
                     currentlyOpenFile = file;
                 }
             });
