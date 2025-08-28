@@ -71,7 +71,6 @@ struct FileManager {
                 .withButton ("Save")
                 .withButton ("Don't Save")
                 .withButton ("Cancel"),
-                // .withAssociatedComponent... for lookandfeel
             [&, callbackIfNotCanceled] (int result) {
                 if (result == 0) return; // User cancelled
             
