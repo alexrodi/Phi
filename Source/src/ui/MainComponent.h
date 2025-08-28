@@ -56,10 +56,10 @@ private:
                     int flags = juce::FileBrowserComponent::openMode + juce::FileBrowserComponent::canSelectFiles;
                     
                     chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
-                        auto file = chooser.getResult();
-                        
-                        state.load(file);
-                        currentlyOpenFile = file;
+                        if (auto file = chooser.getResult(); file.existsAsFile()) {
+                            state.load(file);
+                            currentlyOpenFile = file;
+                        }
                     });
                 });
                 
