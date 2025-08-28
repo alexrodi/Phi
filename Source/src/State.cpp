@@ -13,15 +13,19 @@
 State::State() : state("PhiState") {
     state.addChild(juce::ValueTree{"modules"}, -1, nullptr);
     state.addChild(juce::ValueTree{"connections"}, -1, nullptr);
+    state.addListener(this);
 }
 State::~State() {}
 
 void State::save(juce::File file) {
     state.writeToStream(*file.createOutputStream());
+    listeners.call([&] (auto& listener) { listener.fileSaved(file); });
 }
 
 void State::load(juce::File file) {
+    state = {};
     state.readFromStream(*file.createInputStream());
+    listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
 }
 
 void State::addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y) {
@@ -38,8 +42,6 @@ void State::addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y) {
     newModuleUICreated(processor->createUI(), moduleID);
     newProcessorCreated(std::move(processor), moduleID);
     
-    listeners.call([&] (auto& listener) { listener.moduleAdded(moduleID); });
-    
     setModuleBounds(moduleID, {(int)x, (int)y, 0, 0});
 }
 
@@ -49,36 +51,25 @@ void State::deleteModule(ModuleID moduleID)
     {
         state.getChildWithName("modules").removeChild(moduleNode, nullptr);
         deleteAllModuleConnections(moduleID);
-        
-        listeners.call([&] (auto& listener) { listener.moduleDeleted(moduleID); });
     }
 }
 
 void State::setModuleBounds(ModuleID moduleID, const juce::Rectangle<int>& bounds)
 {
     if (auto moduleNode = getModuleWithID(moduleID); moduleNode.isValid())
-    {
         moduleNode.setProperty("bounds", bounds.toString(), nullptr);
-        listeners.call([&] (auto& listener) { listener.moduleBoundsChanged(moduleID, bounds); });
-    }
 }
 
 void State::setModuleEnabled(ModuleID moduleID, bool isEnabled)
 {
     if (auto moduleNode = getModuleWithID(moduleID); moduleNode.isValid())
-    {
         moduleNode.setProperty("enabled", isEnabled, nullptr);
-        listeners.call([&] (auto& listener) { listener.moduleEnabledChanged(moduleID, isEnabled); });
-    }
 }
 
 void State::setModuleColour(ModuleID moduleID, const juce::Colour& colour)
 {
     if (auto moduleNode = getModuleWithID(moduleID); moduleNode.isValid())
-    {
         moduleNode.setProperty("colour", colour.toString(), nullptr);
-        listeners.call([&] (auto& listener) { listener.moduleColourChanged(moduleID, colour); });
-    }
 }
 
 void State::deleteAllModuleConnections(ModuleID moduleID)
@@ -91,47 +82,35 @@ void State::deleteAllModuleConnections(ModuleID moduleID)
         auto connectionID = getConnectionID(connectionsTree.getChild(j));
         
         if (connectionID.source.moduleID == moduleID || connectionID.destination.moduleID == moduleID)
-        {
             connectionsTree.removeChild(j, nullptr);
-            listeners.call([&] (auto& listener) { listener.connectionDeleted(connectionID); });
-        }
     }
 }
 
 void State::createConnection(ConnectionID connectionID)
 {
     state.getChildWithName("connections").addChild(newConnectionNode(connectionID), -1, nullptr);
-    listeners.call([&] (auto& listener) { listener.connectionCreated(connectionID); });
 }
 
 void State::deleteConnection(ConnectionID connectionID)
 {
     if (auto connectionNode = getConnectionWithID(connectionID); connectionNode.isValid())
-    {
         state.getChildWithName("connections").removeChild(connectionNode, nullptr);
-        listeners.call([&] (auto& listener) { listener.connectionDeleted(connectionID); });
-    }
 }
 
 void State::setConnectionColour(ConnectionID connectionID, const juce::Colour& colour)
 {
     if (auto connectionNode = getConnectionWithID(connectionID); connectionNode.isValid())
-    {
         connectionNode.setProperty("colour", colour.toString(), nullptr);
-        listeners.call([&] (auto& listener) { listener.connectionColourChanged(connectionID, colour); });
-    }
 }
 
 void State::setShowPortLabels(ShowPortLabels show)
 {
     state.setProperty("showPortLabels", (int)show, nullptr);
-    listeners.call([&] (auto& listener) { listener.showPortLabelsChanged(show); });
 }
 
 void State::setPatchCordType(PatchCordType type)
 {
     state.setProperty("patchCordType", (int)type, nullptr);
-    listeners.call([&] (auto& listener) { listener.patchCordTypeChanged(type); });
 }
 
 
@@ -175,4 +154,82 @@ juce::ValueTree State::getConnectionWithID (ConnectionID connectionID) {
     }
     
     return {};
+}
+
+void State::valueTreePropertyChanged (juce::ValueTree& tree, const juce::Identifier& property)
+{
+    auto key = property.toString();
+    auto val = tree.getProperty(property);
+    
+    if (tree == state)
+    {
+        if (key == "showPortLabels")
+        {
+            auto show = (ShowPortLabels)(int)val;
+            listeners.call([&] (auto& listener) { listener.showPortLabelsChanged(show); });
+        }
+        else if (key == "patchCordType")
+        {
+            auto type = (PatchCordType)(int)val;
+            listeners.call([&] (auto& listener) { listener.patchCordTypeChanged(type); });
+        }
+    }
+    else if (tree.getType().toString() == "module")
+    {
+        int moduleID = tree.getProperty("id");
+       
+        if (key == "bounds")
+        {
+            auto bounds = juce::Rectangle<int>::fromString(val.toString());
+            listeners.call([&] (auto& listener) { listener.moduleBoundsChanged(moduleID, bounds); });
+        }
+        else if (key == "enabled")
+        {
+            bool isEnabled = val;
+            listeners.call([&] (auto& listener) { listener.moduleEnabledChanged(moduleID, isEnabled); });
+        }
+        else if (key == "colour")
+        {
+            auto colour = juce::Colour::fromString(val.toString());
+            listeners.call([&] (auto& listener) { listener.moduleColourChanged(moduleID, colour); });
+        }
+    }
+    else if (tree.getType().toString() == "connection")
+    {
+        auto connectionID = getConnectionID(tree);
+        
+        if (key == "colour")
+        {
+            auto colour = juce::Colour::fromString(val.toString());
+            listeners.call([&] (auto& listener) { listener.connectionColourChanged(connectionID, colour); });
+        }
+    }
+}
+
+void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
+{
+    if (parent.getType().toString() == "modules" && tree.getType().toString() == "module")
+    {
+        int moduleID = tree.getProperty("id");
+        listeners.call([&] (auto& listener) { listener.moduleAdded(moduleID); });
+    }
+    else if (parent.getType().toString() == "connections" && tree.getType().toString() == "connection")
+    {
+        auto connectionID = getConnectionID(tree);
+        listeners.call([&] (auto& listener) { listener.connectionCreated(connectionID); });
+    }
+}
+
+void State::valueTreeChildRemoved (juce::ValueTree& parent, juce::ValueTree& tree, int index)
+{
+    if (parent.getType().toString() == "modules" && tree.getType().toString() == "module")
+    {
+        int moduleID = tree.getProperty("id");
+        listeners.call([&] (auto& listener) { listener.moduleDeleted(moduleID); });
+    }
+    else if (parent.getType().toString() == "connections" && tree.getType().toString() == "connection")
+    {
+        auto connectionID = getConnectionID(tree);
+        listeners.call([&] (auto& listener) { listener.connectionDeleted(connectionID); });
+    }
 }

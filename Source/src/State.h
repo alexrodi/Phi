@@ -82,7 +82,7 @@ enum class ShowPortLabels { Off, On };
 
 enum class PatchCordType { S, Arc };
 
-struct State {
+struct State : juce::ValueTree::Listener {
     State();
     ~State();
     // ========================================================================
@@ -149,4 +149,8 @@ private:
     
     juce::ValueTree getModuleWithID (ModuleID);
     juce::ValueTree getConnectionWithID (ConnectionID);
+    
+    void valueTreePropertyChanged (juce::ValueTree&, const juce::Identifier&) override;
+    void valueTreeChildAdded (juce::ValueTree&, juce::ValueTree&) override;
+    void valueTreeChildRemoved (juce::ValueTree&, juce::ValueTree&, int) override;
 };
