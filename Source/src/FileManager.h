@@ -65,18 +65,16 @@ struct FileManager {
             return;
         }
         
-        juce::AlertWindow::showAsync(juce::MessageBoxOptions()
+        juce::NativeMessageBox::showAsync(juce::MessageBoxOptions()
                 .withIconType(juce::MessageBoxIconType::QuestionIcon)
                 .withMessage("Save changes to " + currentlyOpenFile.getFileNameWithoutExtension() + "?")
                 .withButton ("Save")
                 .withButton ("Don't Save")
                 .withButton ("Cancel"),
             [&, callbackIfNotCanceled] (int result) {
-                if (result == 0) return; // User cancelled
-            
-                if (result == 1) // User wants to save
+                if (result == 0) // User wants to save
                     save(callbackIfNotCanceled);
-                else if (result == 2) // User doesn't want to save
+                else if (result == 1) // User doesn't want to save
                     callbackIfNotCanceled();
             }
         );
