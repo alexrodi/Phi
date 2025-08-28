@@ -237,26 +237,30 @@ private:
 struct FileManager {
     FileManager(State& state) : state(state) {}
     
-    void save() {
-        if (currentlyOpenFile.existsAsFile())
+    void save(std::function<void()> callback = {}) {
+        if (currentlyOpenFile.existsAsFile()) {
             state.save(currentlyOpenFile);
-        else
-            saveAs();
+            if (callback) callback();
+        } else {
+            saveAs(callback);
+        }
     }
     
-    void saveAs() {
+    void saveAs(std::function<void()> callback = {}) {
         using Flags = juce::FileBrowserComponent::FileChooserFlags;
         
         chooser = std::make_unique<juce::FileChooser>("Save As...", currentlyOpenFile, "*.phi");
         int flags = juce::FileBrowserComponent::saveMode + juce::FileBrowserComponent::warnAboutOverwriting;
         
-        chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
+        chooser->launchAsync(flags, [&, callback] (const juce::FileChooser& chooser) {
             if (auto file = chooser.getResult(); file.create().wasOk()) {
                 if (file.getFileExtension() != ".phi")
                     file.withFileExtension(".phi");
                 
                 state.save(file);
                 currentlyOpenFile = file;
+                
+                if (callback) callback();
             }
         });
     }
@@ -275,7 +279,6 @@ struct FileManager {
         });
     }
     
-    /// Returns `false` if the user canceled
     template<class Callback>
     void askToSaveThen(Callback callbackIfNotCanceled) {
         if (!state.isDirty()) {
@@ -292,11 +295,12 @@ struct FileManager {
                 .withButton ("Cancel"),
                 // .withAssociatedComponent... for lookandfeel
             [&, callbackIfNotCanceled] (int result) {
-                if (result > 0) {
-                    if (result == 1) save();
-
+                if (result == 0) return; // User cancelled
+            
+                if (result == 1) // User wants to save
+                    save(callbackIfNotCanceled);
+                else if (result == 2) // User doesn't want to save
                     callbackIfNotCanceled();
-                }
             }
         );
     }
