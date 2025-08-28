@@ -53,6 +53,7 @@ private:
     
     HoverPopupWindow hoverPopup;
     
+    // This must be a separate class so we don't receive two calls per mouse event (internal & global listener)
     struct MouseListener : juce::MouseListener {
         MouseListener(Patcher* owner) : owner(owner) {}
         
@@ -113,8 +114,6 @@ private:
     juce::SelectedItemSet<ModuleID>& getLassoSelection() override;
     
     void changeListenerCallback(juce::ChangeBroadcaster*) override;
-    
-    void parentHierarchyChanged() override;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Patcher)

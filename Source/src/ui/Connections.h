@@ -57,6 +57,7 @@ private:
     juce::PathStrokeType selectedStroke {2.0f};
     juce::PathStrokeType patchCordStroke = {5.0f, juce::PathStrokeType::JointStyle::mitered, juce::PathStrokeType::EndCapStyle::rounded};
     
+    // This must be a separate class so we don't receive two calls per mouse event (internal & global listener)
     struct MouseListener : juce::MouseListener {
         MouseListener(Connections* owner) : owner(owner) {}
         
@@ -106,8 +107,6 @@ private:
     bool hitTest(int x, int y) override;
     
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
-    
-    void parentHierarchyChanged() override;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)

@@ -35,13 +35,15 @@ mouseListener(this)
     addAndMakeVisible(lasso);
     addChildComponent(hoverPopup);
     
-    selectedModuleIDs.addChangeListener(this);
     state.addListener(this);
+    selectedModuleIDs.addChangeListener(this);
+    juce::Desktop::getInstance().addGlobalMouseListener(&mouseListener);
 }
 
 Patcher::~Patcher()
 {
     state.removeListener(this);
+    juce::Desktop::getInstance().removeGlobalMouseListener(&mouseListener);
 }
 
 const PortUI* Patcher::getPortUI (ModulePortID portID, PortType type) const {
@@ -225,11 +227,6 @@ void Patcher::changeListenerCallback(juce::ChangeBroadcaster* source) {
             state.setModuleColour(moduleID, colourSelector->getCurrentColour());
         });
     }
-}
-
-void Patcher::parentHierarchyChanged() {
-    if (auto* mainComponent = findParentComponentOfClass<MainComponent>())
-        mainComponent->addMouseListener(&mouseListener, true);
 }
 
 juce::Rectangle<int> Patcher::getContentBounds() {
