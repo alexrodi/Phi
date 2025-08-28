@@ -43,9 +43,9 @@ private:
             if (menuName == "File") {
                 juce::PopupMenu menu;
                 
+                menu.addItem("Open...", [&] () { manager.open(); });
                 menu.addItem("Save", [&] () { manager.save(); });
                 menu.addItem("Save As...", [&] () { manager.saveAs(); });
-                menu.addItem("Open...", [&] () { manager.open(); });
                 
                 return menu;
             }
