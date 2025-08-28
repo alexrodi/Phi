@@ -66,3 +66,7 @@ void AudioEngine::connectToOuput(Node::Ptr nodeToConnect)
     for (int i = 0; i < connectionNumber; i++)
         addConnection ({ {nodeToConnect->nodeID, i}, {mainOutput->nodeID, i} });
 }
+
+void AudioEngine::allModulesDeleted() {
+    clear();
+}

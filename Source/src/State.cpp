@@ -200,7 +200,6 @@ void State::valueTreePropertyChanged (juce::ValueTree& tree, const juce::Identif
 
 void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
 {
-    // TODO: Type is still required -> make sure all module entries come with "type" property
     if (parent.getType().toString() == "modules" && tree.hasProperty("type"))
     {
         auto moduleID = ModuleID::fromString(tree.getType());
