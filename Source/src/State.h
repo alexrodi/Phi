@@ -135,6 +135,7 @@ struct State : juce::ValueTree::Listener {
         
         virtual void moduleAdded(ModuleID) {};
         virtual void moduleDeleted(ModuleID) {};
+        virtual void allModulesDeleted() {};
         
         virtual void moduleEnabledChanged(ModuleID, bool isEnabled) {};
         virtual void moduleBoundsChanged(ModuleID, const juce::Rectangle<int>& bounds) {};

@@ -108,6 +108,7 @@ private:
     //==============================================================================
     
     void fileLoaded(juce::File) override;
+    void fileSaved(juce::File) override;
     
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

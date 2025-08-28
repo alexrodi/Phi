@@ -30,9 +30,15 @@ showPortLabelsButton("Hint", "Label")
     
     juce::LookAndFeel::setDefaultLookAndFeel(&phiLookAndFeel);
     
-    // TODO: Components shouldn't reach out for module colours by default!
+    // TODO: Components shouldn't reach for module colours!
     // Components out here have a neutral highlight colour
     phiLookAndFeel.setColour(PhiColourIds::Module::Highlight, juce::Colour::greyLevel(0.8f));
+    
+    // This must be called *after* the lookandfeel has been set
+    //phiLookAndFeel.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::BasierSquareMono_Regular_otf, BinaryData::BasierSquareMono_Regular_otfSize));
+    phiLookAndFeel.setDefaultSansSerifTypefaceName ("Helvetica Neue");
+    
+    state.addListener(this);
     
     setSize (1000, 600);
 }
@@ -67,5 +73,9 @@ void MainComponent::resized()
 }
 
 void MainComponent::fileLoaded(juce::File file) {
+    getTopLevelComponent()->setName("Phi [" + file.getFileNameWithoutExtension() + "]");
+}
+
+void MainComponent::fileSaved(juce::File file) {
     getTopLevelComponent()->setName("Phi [" + file.getFileNameWithoutExtension() + "]");
 }

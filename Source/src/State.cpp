@@ -22,13 +22,39 @@ State::State() : state("PhiState") {
 State::~State() {}
 
 void State::save(juce::File file) {
-    state.writeToStream(*file.createOutputStream());
-    listeners.call([&] (auto& listener) { listener.fileSaved(file); });
+    juce::FileOutputStream output (file);
+
+    if (output.openedOk()) {
+        output.setPosition (0);
+        output.truncate();
+        
+        state.writeToStream(output);
+        listeners.call([&] (auto& listener) { listener.fileSaved(file); });
+    }
+}
+
+void copyValueTreeRecursively (juce::ValueTree& targetTree, const juce::ValueTree& sourceTree)
+{
+    targetTree.copyPropertiesFrom(sourceTree, nullptr);
+    targetTree.removeAllChildren(nullptr);
+    
+    for (int i = 0; i < sourceTree.getNumChildren(); ++i) {
+        auto sourceChild = sourceTree.getChild(i);
+        juce::ValueTree targetChild {sourceChild.getType()};
+        
+        copyValueTreeRecursively(targetChild, sourceChild);
+        
+        targetTree.addChild(targetChild, -1, nullptr);
+    }
 }
 
 void State::load(juce::File file) {
-    state.copyPropertiesAndChildrenFrom(juce::ValueTree::readFromStream(*file.createInputStream()), nullptr);
-    listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
+    juce::FileInputStream input (file);
+
+    if (input.openedOk()) {
+        copyValueTreeRecursively(state, juce::ValueTree::readFromStream(input));
+        listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
+    }
 }
 
 void State::addModule(const std::string& type, int x, int y) {
