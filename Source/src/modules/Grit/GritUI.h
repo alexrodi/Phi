@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/ModuleUI.h"
+#include "../../ui/component/PhiDial.h"
 
 class GritUI    : public ModuleUI
 {
@@ -25,9 +22,8 @@ public:
         .name =  "Grit",
         .inlets = {"In", "Amount", "Density"},
         .outlets = {"Out"},
-        .width = 230,
-        .height = 130,
-        .minimumHeight = 100,
+        .defaultSize = {230, 130},
+        .minimumSize = {194, 100},
         .processor = processor
     }),
     noiseDial(*processor.params.getParameter("amount")),
@@ -39,14 +35,16 @@ public:
     
     ~GritUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 2;
+        auto bounds = getLocalBounds();
         
-        noiseDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        densityDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 2;
+        
+        noiseDial.setBounds(bounds.removeFromLeft(dialWidth));
+        densityDial.setBounds(bounds);
     }
 
 private:

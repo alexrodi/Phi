@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/ModuleUI.h"
+#include "../../ui/component/PhiDial.h"
 
 struct FilterUI : ModuleUI
 {
@@ -24,9 +21,8 @@ struct FilterUI : ModuleUI
         .name =  "Filter",
         .inlets = {"In", "Freq", "Res"},
         .outlets = {"Low", "Band", "High"},
-        .width = 230,
-        .height = 130,
-        .minimumHeight = 100,
+        .defaultSize = {230, 130},
+        .minimumSize = {186, 100},
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),
@@ -38,14 +34,16 @@ struct FilterUI : ModuleUI
     
     ~FilterUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 2;
+        auto bounds = getLocalBounds();
         
-        freqDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        resDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 2;
+        
+        freqDial.setBounds( bounds.removeFromLeft(dialWidth) );
+        resDial.setBounds( bounds );
     }
 
 private:

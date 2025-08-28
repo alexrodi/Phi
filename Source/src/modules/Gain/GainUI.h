@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/ModuleUI.h"
+#include "../../ui/component/PhiDial.h"
 
 class GainUI    : public ModuleUI
 {
@@ -25,9 +22,8 @@ public:
         .name =  "Gain",
         .inlets = {"In", "Gain"},
         .outlets = {"Out"},
-        .width = 160,
-        .height = 160,
-        .minimumHeight = 100,
+        .defaultSize = {153, 130},
+        .minimumSize = {143, 100},
         .processor = processor
     }),
     gainDial(*processor.params.getParameter("gain"))
@@ -37,11 +33,11 @@ public:
     
     ~GainUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        gainDial.setBounds( moduleBounds );
+        gainDial.setBounds(getLocalBounds());
     }
 
 private:

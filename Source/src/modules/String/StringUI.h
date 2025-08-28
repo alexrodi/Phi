@@ -10,12 +10,9 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
-#include "../../ui/PhiSliderButton.h"
+#include "../../ui/ModuleUI.h"
+#include "../../ui/component/PhiDial.h"
+#include "../../ui/component/PhiSliderButton.h"
 
 class StringUI    : public ModuleUI
 {
@@ -26,16 +23,15 @@ public:
         .name =  "String",
         .inlets = {"In", "Freq", "Pos", "Damp", "Decay"},
         .outlets = {"Out"},
-        .width = 330,
-        .height = 160,
-        .minimumHeight = 100,
+        .defaultSize = {210, 260},
+        .minimumSize = {200, 196},
         .processor = processor
     }),
     frequencyDial(*processor.params.getParameter("freq")),
     positionDial(*processor.params.getParameter("pos")),
     dampDial(*processor.params.getParameter("damp")),
     decayDial(*processor.params.getParameter("decay")),
-    modeButton("Mode", PhiSliderButton::LabelPosition::Left),
+    modeButton("A", "B"),
     modeAttachment(*processor.params.getParameter("mode"), modeButton)
     {
         addAndMakeVisible(frequencyDial);
@@ -47,24 +43,28 @@ public:
     
     ~StringUI() {}
 
-    void paint (Graphics&) override {}
+    void paint (juce::Graphics&) override {}
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 4;
+        auto bounds = getLocalBounds();
         
-        auto buttonRow = moduleBounds.removeFromTop(30);
+        modeButton.setBounds(bounds.removeFromBottom(30).withSizeKeepingCentre(70, 30));
         
-        modeButton.setBounds(buttonRow.removeFromLeft(70));
+        int rowPadding = 10;
+        int rowHeight = (bounds.getHeight() - rowPadding) / 2;
         
-        frequencyDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        positionDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        dampDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        decayDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
+        auto topRow = bounds.removeFromTop(rowHeight);
+        frequencyDial.setBounds( topRow.removeFromLeft(topRow.getWidth() / 2) );
+        decayDial.setBounds( topRow );
+        
+        auto bottomRow = bounds.removeFromBottom(rowHeight);
+        positionDial.setBounds( bottomRow.removeFromLeft(bottomRow.getWidth() / 2) );
+        dampDial.setBounds( bottomRow );
     }
 
 private:
     PhiDial frequencyDial, positionDial, dampDial, decayDial;
     PhiSliderButton modeButton;
-    ButtonParameterAttachment modeAttachment;
+    juce::ButtonParameterAttachment modeAttachment;
 };

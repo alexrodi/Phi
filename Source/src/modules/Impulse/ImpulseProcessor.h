@@ -10,9 +10,6 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 
 // Definition is global for the UI to build a faithful representation
 static constexpr float processImpulse(float phase, float shape)
@@ -20,12 +17,13 @@ static constexpr float processImpulse(float phase, float shape)
     const float shapeFactor = -std::max(shape, 0.88f) + 1.01f;
     const float fundamentalAttenuator = -0.5 * tanh( phase * shapeFactor - 1.0f ) + 0.5;
 
-    return (phase == MathConstants<float>::pi)
+    return (phase == juce::MathConstants<float>::pi)
            ? 0.0f
-           : sin((sin(phase))/((-shape + 1.006f)*(phase-MathConstants<float>::pi)))*fundamentalAttenuator;
+    : sin((sin(phase))/((-shape + 1.006f)*(phase-juce::MathConstants<float>::pi)))*fundamentalAttenuator;
 }
 
 #include "ImpulseUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 struct ImpulseProcessor : ModuleProcessor
 {
@@ -37,18 +35,18 @@ struct ImpulseProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
            "freq",
            "Frequency",
-           NormalisableRange<float> (20.0f, 20000.0f, 0.0, 0.2f),
+           juce::NormalisableRange<float> (20.0f, 20000.0f, 0.0, 0.2f),
            1000.0f,
            FloatParameter::Attributes{}.withLabel("Hz")
         ),
         std::make_unique<FloatParameter> (
            "shape",
            "Shape",
-           NormalisableRange<float> (0.0f, 100.0f),
+           juce::NormalisableRange<float> (0.0f, 100.0f),
            0.0f,
            FloatParameter::Attributes{}.withLabel("%")
         ),
-        std::make_unique<AudioParameterBool> (
+        std::make_unique<juce::AudioParameterBool> (
            "trigger",
            "Trigger",
            false
@@ -60,10 +58,10 @@ struct ImpulseProcessor : ModuleProcessor
     
     void prepare (double newSampleRate, int maxBlockSize) override
     {
-        incrFactor = MathConstants<double>::twoPi / newSampleRate;
+        incrFactor = juce::MathConstants<double>::twoPi / newSampleRate;
     }
     
-    void process (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override
     {
         double increment = (double)freq * incrFactor;
         const float* triggerSamples = buffer.getReadPointer(0);
@@ -91,15 +89,15 @@ struct ImpulseProcessor : ModuleProcessor
         }
     }
     
-    void parameterChanged (const String& parameterID, float value) override {
+    void parameterChanged (const juce::String& parameterID, float value) override {
         if (parameterID == "freq") freq = value;
-        else if (parameterID == "shape") shape = pow(value * 0.01f, 0.1f);
+        else if (parameterID == "shape") shape = pow(value * 0.01f, 0.2f);
     }
 
-    AudioProcessorEditor* createEditor() override { return new ImpulseUI(*this); }
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<ImpulseUI>(*this); }
     
 private:
-    static constexpr float invTwoPi = 1.0f/MathConstants<float>::twoPi;
+    static constexpr float invTwoPi = 1.0f/juce::MathConstants<float>::twoPi;
     
     double incrFactor = 1.0, phase = 0.0;
     float previousTrigger = 0.0f;

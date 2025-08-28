@@ -10,10 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "FrictionUI.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*
@@ -28,21 +26,21 @@ struct FrictionProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "freq",
             "Freq",
-            NormalisableRange<float> (0.1f, 10000.0f, 0.0, 0.2f),
+            juce::NormalisableRange<float> (0.1f, 10000.0f, 0.0, 0.2f),
             30.0f,
             FloatParameter::Attributes{}.withLabel("Hz")
         ),
         std::make_unique<FloatParameter> (
             "jitter",
             "Jitter",
-            NormalisableRange<float> (0.0f, 100.0f, 0.0f, 0.3f),
+            juce::NormalisableRange<float> (0.0f, 100.0f, 0.0f, 0.3f),
             0.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
             "drift",
             "Drift",
-            NormalisableRange<float> (0.0f, 95.0f, 0.0, 0.5f),
+            juce::NormalisableRange<float> (0.0f, 95.0f, 0.0, 0.5f),
             0.0f,
             FloatParameter::Attributes{}.withLabel("%")
         )
@@ -56,7 +54,7 @@ struct FrictionProcessor : ModuleProcessor
         sawtooth.prepare(newSampleRate);
     }
     
-    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&) override
     {
         float* samples = buffer.getWritePointer(0);
         const float* freqCVSamples = buffer.getReadPointer(0);
@@ -72,13 +70,13 @@ struct FrictionProcessor : ModuleProcessor
         }
     }
     
-    void parameterChanged (const String& parameterID, float value) override {
+    void parameterChanged (const juce::String& parameterID, float value) override {
         if (parameterID == "freq") freq = value;
         else if (parameterID == "jitter") jitter = value * 0.01f;
         else if (parameterID == "drift") drift = value * 0.01f;
     }
     
-    AudioProcessorEditor* createEditor() override {return new FrictionUI(*this);}
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<FrictionUI>(*this); }
     
 private:
     struct SawtoothGenerator {
@@ -122,7 +120,7 @@ private:
         }
         
     private:
-        Random rng;
+        juce::Random rng;
         double phase = 0.0, incrFactor = 0.01, jitterFactor = 1.0, driftValue = 1.0;
         
         // A simple 3rd-order polynomial approximation for a BLEP.

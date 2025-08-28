@@ -10,11 +10,8 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
+#include "../../ui/ModuleUI.h"
+#include "../../ui/component/PhiDial.h"
 
 struct FrictionUI : ModuleUI
 {
@@ -24,9 +21,8 @@ struct FrictionUI : ModuleUI
         .name =  "Friction",
         .inlets = {"Freq", "Jitter", "Drift"},
         .outlets = {"Out"},
-        .width = 270,
-        .height = 130,
-        .minimumHeight = 100,
+        .defaultSize = {270, 130},
+        .minimumSize = {233, 108},
         .processor = processor
     }),
     freqDial(*processor.params.getParameter("freq")),
@@ -40,15 +36,17 @@ struct FrictionUI : ModuleUI
     
     ~FrictionUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        int dialWidth = moduleBounds.getWidth() / 3;
+        auto bounds = getLocalBounds();
         
-        freqDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        jitterDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        driftDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 3;
+        
+        freqDial.setBounds( bounds.removeFromLeft(dialWidth) );
+        jitterDial.setBounds( bounds.removeFromLeft(dialWidth) );
+        driftDial.setBounds( bounds );
     }
 
 private:

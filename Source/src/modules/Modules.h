@@ -20,61 +20,74 @@
 #include "Filter/FilterProcessor.h"
 // Add Module processor headers here
 
-class Modules {
-    struct ModuleInfo{
-        ModuleInfo(String name): name(name) {}
-        String name;
-        virtual std::unique_ptr<ModuleProcessor> create() = 0;
-        virtual ~ModuleInfo() {};
-    };
+using ModuleTypeList = std::tuple<LFOProcessor,
+                                 ImpulseProcessor,
+                                 FrictionProcessor,
+                                 GritProcessor,
+                                 StringProcessor,
+                                 FilterProcessor,
+                                 GainProcessor,
+                                 OutputProcessor>;
 
+const std::vector<std::string> moduleNames = {
+    "LFO",
+    "Impulse",
+    "Friction",
+    "Grit",
+    "String",
+    "Filter",
+    "Gain",
+    "Output"
+};
+
+struct ModuleInfo {
+    ModuleInfo(juce::String name) : type(name) {}
+    juce::String type;
+    virtual std::unique_ptr<ModuleProcessor> create() = 0;
+    virtual ~ModuleInfo() = default;
+};
+
+struct Modules {
+    static juce::PopupMenu getMenu() {
+        juce::PopupMenu modulesMenu;
+        
+        int index = 1;
+        for (const auto& name : moduleNames)
+            modulesMenu.addItem(index++, name);
+        
+        return modulesMenu;
+    }
+    
+    static std::unique_ptr<ModuleInfo> getInfoFromFromName(const juce::String& name) {
+        if (auto it = std::find(moduleNames.begin(), moduleNames.end(), name); it != moduleNames.end())
+            return std::move(moduleList()[std::distance(moduleNames.begin(), it)]);
+            
+        
+        // Module not found!
+        jassertfalse;
+        return {};
+    }
+    
+private:
     template<class ProcessorType>
-    struct ModuleEntry: public ModuleInfo{
-        ModuleEntry(String name): ModuleInfo(name) {}
+    struct ModuleEntry : public ModuleInfo {
+        ModuleEntry(const std::string& name) : ModuleInfo(name) {}
         std::unique_ptr<ModuleProcessor> create() override {
             return std::make_unique<ProcessorType>();
         }
         ~ModuleEntry() override = default;
     };
 
-    template<class ProcessorType>
-    static std::unique_ptr<ModuleInfo> moduleInfo(String name) {
-        return std::make_unique<ModuleEntry<ProcessorType>>(name);
-    }
-
-    template<typename T, typename... Args>
-    static std::vector<std::unique_ptr<ModuleInfo>> initFromMoveable(Args&&... args)
-    {
-        std::vector<std::unique_ptr<T>> vec;
-        vec.reserve(sizeof...(Args));
-        (vec.emplace_back(std::forward<Args>(args)), ...);
-        return vec;
-    }
-    
-public:
     static std::vector<std::unique_ptr<ModuleInfo>> moduleList() {
-        return initFromMoveable<ModuleInfo>(
-            moduleInfo<LFOProcessor>("LFO"),
-            moduleInfo<ImpulseProcessor>("Impulse"),
-            moduleInfo<FrictionProcessor>("Friction"),
-            moduleInfo<GritProcessor>("Grit"),
-            moduleInfo<StringProcessor>("String"),
-            moduleInfo<FilterProcessor>("Filter"),
-            moduleInfo<GainProcessor>("Gain"),
-            moduleInfo<OutputProcessor>("Output")
-            // Add Modules to list here
-        );
-    }
-    
-    static PopupMenu getMenu()
-    {
-        PopupMenu modulesMenu;
+        std::vector<std::string> names (moduleNames.begin(), moduleNames.end());
         
-        for (int index = 1; auto& info : moduleList())
-            modulesMenu.addItem(index++, info->name);
-        
-        return modulesMenu;
-    }
+        std::vector<std::unique_ptr<ModuleInfo>> list;
+        list.reserve(std::tuple_size_v<ModuleTypeList>);
 
-    static std::unique_ptr<ModuleProcessor> createProcessorFromMenuIndex(int index) { return moduleList()[index-1]->create(); }
+        [&]<size_t... I>(std::index_sequence<I...>) {
+            (list.emplace_back(std::make_unique<ModuleEntry<std::tuple_element_t<I, ModuleTypeList>>>(names[I])), ...);
+        }(std::make_index_sequence<std::tuple_size_v<ModuleTypeList>>{});
+
+        return list;
+    }
 };

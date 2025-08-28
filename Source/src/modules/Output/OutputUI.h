@@ -10,10 +10,7 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
+#include "../../ui/ModuleUI.h"
 
 //==============================================================================
 /*
@@ -27,39 +24,39 @@ public:
         .name =  "Output",
         .inlets = {"L", "R"},
         .outlets = {}, // outlets are hidden because this is an output module
-        .width = 150,
-        .height = 150,
-        .minimumHeight = 100,
+        .defaultSize = {130, 100},
+        .minimumSize = {100, 100},
         .processor = processor
     }},
-    speakerImage(Drawable::createFromSVG(*XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
-    colour(findColour(Slider::thumbColourId))
+    speakerImage(juce::Drawable::createFromSVG(*juce::XmlDocument::parse(BinaryData::Speaker_Icon_svg))),
+    previousColour(findColour(juce::Slider::thumbColourId))
     {
-        speakerImage->replaceColour(Colours::black, colour);
+        speakerImage->replaceColour(juce::Colours::black, previousColour);
         addAndMakeVisible (*speakerImage);
     }
     
     ~OutputUI() {}
 
-    void paint (Graphics&) override {}
-    void onResize(Rectangle<int> moduleBounds) override
+    void paint (juce::Graphics&) override {}
+    
+    void resized() override
     {
-        auto bounds = moduleBounds.withSizeKeepingCentre(100, 100).constrainedWithin(moduleBounds.reduced(10));
+        auto bounds = getLocalBounds();
+        auto speakerBounds = bounds.withSizeKeepingCentre(100, 100).constrainedWithin(bounds.reduced(10));
         
-        speakerImage->setTransformToFit(bounds.toFloat(), 0);
+        speakerImage->setTransformToFit(speakerBounds.toFloat(), 0);
         
-        speakerImage->setVisible(std::min(moduleBounds.getHeight(), moduleBounds.getWidth()) > 30);
+        speakerImage->setVisible(std::min(bounds.getHeight(), bounds.getWidth()) > 30);
     }
 
-    void lookAndFeelChanged() override
+    void colourChanged() override
     {
-        Colour newColour = findColour(Slider::thumbColourId);
-        speakerImage->replaceColour(colour, newColour);
-        colour = newColour;
+        auto newColour = findColour(PhiColourIds::Module::Highlight);
+        speakerImage->replaceColour(previousColour, newColour);
+        previousColour = newColour;
     }
 
 private:
-    std::unique_ptr<Drawable> speakerImage;
-
-    Colour colour;
+    std::unique_ptr<juce::Drawable> speakerImage;
+    juce::Colour previousColour;
 };

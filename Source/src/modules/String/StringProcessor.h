@@ -10,11 +10,9 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
 #include "StringUI.h"
-#include "../../DSPUtils.h"
+#include "../../dsp/Utils.h"
+#include "../../dsp/ModuleProcessor.h"
 
 //==============================================================================
 /*
@@ -26,32 +24,32 @@ struct StringProcessor : ModuleProcessor
         std::make_unique<FloatParameter> (
             "freq",
             "Frequency",
-            NormalisableRange<float>(20.0f, 10000.0f, 0.0, 0.3f),
+            juce::NormalisableRange<float>(20.0f, 10000.0f, 0.0, 0.3f),
             220.0f,
             FloatParameter::Attributes{}.withLabel("Hz")
         ),
         std::make_unique<FloatParameter> (
             "damp",
             "Damping",
-            NormalisableRange<float>(0.0f, 100.0f),
+            juce::NormalisableRange<float>(0.0f, 100.0f),
             0.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
             "pos",
             "Position",
-            NormalisableRange<float>(0.0f, 100.0f),
+            juce::NormalisableRange<float>(0.0f, 100.0f),
             25.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
         std::make_unique<FloatParameter> (
             "decay",
             "Decay",
-            NormalisableRange<float>(0.0f, 100.0f),
+            juce::NormalisableRange<float>(0.0f, 100.0f),
             90.0f,
             FloatParameter::Attributes{}.withLabel("%")
         ),
-        std::make_unique<AudioParameterBool>  (
+        std::make_unique<juce::AudioParameterBool>  (
             "mode" ,
             "Mode"     ,
             false
@@ -78,7 +76,7 @@ struct StringProcessor : ModuleProcessor
        
     }
     
-    void process (AudioBuffer<float>& buffer, MidiBuffer&) override
+    void process (juce::AudioBuffer<float>& buffer, juce::MidiBuffer&) override
     {
         const float* inputSamples = buffer.getReadPointer(0);
         const float* freqCVSamples = buffer.getReadPointer(1);
@@ -115,7 +113,7 @@ struct StringProcessor : ModuleProcessor
         }
     }
     
-    void parameterChanged (const String& parameterID, float value) override {
+    void parameterChanged (const juce::String& parameterID, float value) override {
         if (parameterID == "mode") mode = (Mode)value;
         else if (parameterID == "damp") damp = value * 0.01f;
         else if (parameterID == "freq") frequency = value;
@@ -123,7 +121,7 @@ struct StringProcessor : ModuleProcessor
         else if (parameterID == "pos") pos = value * 0.01f;
     }
     
-    AudioProcessorEditor* createEditor() override {return new StringUI(*this);}
+    std::unique_ptr<ModuleUI> createUI() override { return std::make_unique<StringUI>(*this); }
 
 private:
     float sampleRate = 44100.0f;
@@ -141,7 +139,7 @@ private:
         onePole1.setCutoff(dampHz);
         
         // Line 1 gets a "special" function to liven the sound up a bit...
-        float line1Node = sinf( onePole1.process( input + line1.getInterpolated( interval ) ) * MathConstants<float>::twoPi * 1.5f );
+        float line1Node = sinf( onePole1.process( input + line1.getInterpolated( interval ) ) * juce::MathConstants<float>::twoPi * 1.5f );
         
         // Apply decay
         line1Node *= feedback * 0.1063f;

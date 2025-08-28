@@ -1,34 +1,29 @@
-/*
-  ==============================================================================
 
-    This file was auto-generated!
-
-    It contains the basic startup code for a JUCE application.
-
-  ==============================================================================
-*/
-///@cond
 #include <JuceHeader.h>
-/// @endcond
-#include "MainComponent.h"
+
+#include "State.h"
+#include "FileManager.h"
+#include "dsp/AudioEngine.h"
+#include "ui/MainComponent.h"
 
 //==============================================================================
-class PhiApplication  : public JUCEApplication
+class PhiApplication  : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    PhiApplication() {}
+    PhiApplication() :
+    fileManager(state),
+    audioEngine(state),
+    mainWindow(state, fileManager)
+    {}
 
-    const String getApplicationName() override       { return ProjectInfo::projectName; }
-    const String getApplicationVersion() override    { return ProjectInfo::versionString; }
+    const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
+    const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
     bool moreThanOneInstanceAllowed() override       { return true; }
 
     //==============================================================================
-    void initialise (const String& commandLine) override
+    void initialise (const juce::String& commandLine) override
     {
-        // This method is where you should put your application's initialisation code..
-        audioEngine = std::make_unique<AudioEngine>();
-        mainWindow = std::make_unique<MainWindow> (getApplicationName(), *audioEngine);
     }
 
     void shutdown() override
@@ -39,12 +34,10 @@ public:
     //==============================================================================
     void systemRequestedQuit() override
     {
-        // This is called when the app is being asked to quit: you can ignore this
-        // request and let the app carry on running, or call quit() to allow the app to close.
-        quit();
+        fileManager.askToSaveThen([] () { quit(); });
     }
 
-    void anotherInstanceStarted (const String& commandLine) override
+    void anotherInstanceStarted (const juce::String& commandLine) override
     {
         // When another instance of the app is launched while this one is running,
         // this method is invoked, and the commandLine parameter tells you what
@@ -56,16 +49,16 @@ public:
         This class implements the desktop window that contains an instance of
         our MainComponent class.
     */
-    class MainWindow    : public DocumentWindow
+    class MainWindow    : public juce::DocumentWindow
     {
     public:
-        MainWindow (String name, AudioEngine& audioEngine)  :
-        DocumentWindow (name,
-                        Desktop::getInstance().getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId),
+        MainWindow (State& state, FileManager& fileManager)  :
+        DocumentWindow (ProjectInfo::projectName,
+                        juce::Desktop::getInstance().getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId),
                         DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainComponent(audioEngine), true);
+            setContentOwned (new MainComponent(state, fileManager), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
@@ -97,8 +90,10 @@ public:
     };
 
 private:
-    std::unique_ptr<AudioEngine> audioEngine;
-    std::unique_ptr<MainWindow> mainWindow;
+    State state;
+    FileManager fileManager;
+    AudioEngine audioEngine;
+    MainWindow mainWindow;
 };
  
 //==============================================================================

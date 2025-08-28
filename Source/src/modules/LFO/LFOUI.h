@@ -10,12 +10,9 @@
 
 #pragma once
 
-///@cond
-#include <JuceHeader.h>
-///@endcond
-#include "../../ModuleProcessor.h"
-#include "../../ui/PhiDial.h"
-
+#include "../../ui/ModuleUI.h"
+#include "../../ui/component/PhiDial.h"
+#include "../../ui/component/PhiWaveform.h"
 
 struct LFOUI : ModuleUI
 {
@@ -25,9 +22,8 @@ struct LFOUI : ModuleUI
         .name =  "LFO",
         .inlets = {"Rate", "Shape"},
         .outlets = {"Out"},
-        .width = 260,
-        .height = 180,
-        .minimumHeight = 100,
+        .defaultSize = {270, 180},
+        .minimumSize = {230, 134},
         .processor = processor
     }),
     rateDial(*processor.params.getParameter("rate")),
@@ -46,118 +42,75 @@ struct LFOUI : ModuleUI
     
     ~LFOUI() {};
 
-    void paint (Graphics& g) override {};
+    void paint (juce::Graphics& g) override {};
     
-    void onResize(Rectangle<int> moduleBounds) override
+    void resized() override
     {
-        waveform.setBounds( moduleBounds.removeFromBottom(moduleBounds.getHeight() / 3) );
+        auto bounds = getLocalBounds();
         
-        moduleBounds.removeFromBottom(separatorHeight);
+        waveform.setBounds(bounds.removeFromBottom(bounds.getHeight() / 3));
         
-        int dialWidth = moduleBounds.getWidth() / 3;
+        bounds.removeFromBottom(5);
         
-        waveDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        rateDial.setBounds( moduleBounds.removeFromLeft(dialWidth) );
-        shapeDial.setBounds( moduleBounds );
+        int dialWidth = bounds.getWidth() / 3;
+        
+        waveDial.setBounds(bounds.removeFromLeft(dialWidth));
+        rateDial.setBounds(bounds.removeFromLeft(dialWidth));
+        shapeDial.setBounds(bounds);
         
         updateWaveform();
     }
-    
-    void lookAndFeelChanged() override
-    {
-        waveform.setColour(findColour(Slider::thumbColourId), findColour(Slider::rotarySliderOutlineColourId));
-    }
 
 private:
-    struct Waveform : Component
+    struct LFOWaveform : public PhiWaveform
     {
-        Waveform()
-        {
-            setBufferedToImage(true);
-            setPaintingIsUnclipped(true);
+        LFOWaveform() {
+            setAA(8);
         }
         
-        const void setColour(const Colour& newStrokeColour, const Colour& newFillColour)
+        void set(float newRate, LFO::Wave newWave, float newShape)
         {
-            strokeColour = newStrokeColour;
-            fillColour = newFillColour;
+            rate = newRate;
+            wave = newWave;
+            shape = newShape;
+            
+            updateWavefom();
         }
-        
-        const void updateForm(float rate, LFO::Wave wave, float shape)
+
+    protected:
+        float getSample(float phase) const override
         {
-            auto bounds = getLocalBounds().reduced(2).toFloat();
-            float centerY = bounds.getCentreY();
-            float yRange = (float)bounds.getHeight() * 0.48f;
-            
-            int startX = bounds.getX() + strokeWidth;
-            int endX = bounds.getRight() - strokeWidth;
-            
-            float rateFactor = rate * (float)RATE_MULT + 1.0f;
-            
-            auto pos = [&] (float x) {
-                return ((float)x * rateFactor) / (float)getWidth();
-            };
-            
-            path.clear();
-            
-            // Add lines to path
-            for ( int x = startX; x < endX; x += pixelsPerPoint )
-            {
-                float y = centerY;
-                
-                if (wave == LFO::Wave::Sine)
-                    y -= LFO::get_sine(pos(x), shape) * yRange;
-                else if (wave == LFO::Wave::Triangle)
-                    y -= LFO::get_triangle(pos(x), shape) * yRange;
-                else if (wave == LFO::Wave::Square)
-                    y -= LFO::get_square(pos(x), shape) * yRange;
-                else if (wave == LFO::Wave::Random) {
-                    float val = pos(x);
-                    y -= LFO::get_random(randomValues[(int)val], randomValues[(int)val+1], val, shape) * yRange;
-                }
-                
-                
-                
-                if (path.isEmpty())
-                    path.startNewSubPath (x, y);
-                
-                path.lineTo (x, y);
+            const float rateFactor = rate * (float)RATE_MULT + 1.0f;
+            const float lfoPhase = phase * rateFactor;
+
+            if (wave == LFO::Wave::Sine)
+                return LFO::get_sine(lfoPhase, shape);
+            if (wave == LFO::Wave::Triangle)
+                return LFO::get_triangle(lfoPhase, shape);
+            if (wave == LFO::Wave::Square)
+                return LFO::get_square(lfoPhase, shape);
+            if (wave == LFO::Wave::Random) {
+                int index = std::min((int)lfoPhase, RATE_MULT);
+                return LFO::get_random(randomValues[index], randomValues[index + 1], lfoPhase, shape);
             }
             
-            path = path.createPathWithRoundedCorners(pixelsPerPoint);
-            
-            repaint();
+            return 0.0f;
         }
-        
-        void resized() override {}
-        
-        void paint(Graphics& g) override
-        {
-            g.setColour(fillColour);
-            g.fillRect(getLocalBounds());
-            
-            g.setColour(strokeColour);
-            g.strokePath (path, PathStrokeType (strokeWidth));
-        }
+
     private:
+        float rate = 0.0f, shape = 0.0f;
+        LFO::Wave wave = LFO::Wave::Sine;
+
         static constexpr int RATE_MULT = 4;
-        const int pixelsPerPoint = 2;
-        const float strokeWidth = 1;
-        Colour strokeColour;
-        Colour fillColour;
-        Path path;
-        
-        const float randomValues[RATE_MULT+2] = {0.0f, 0.5f, -0.75f, -0.25f, 0.0f, 0.25f};
+        const float randomValues[RATE_MULT + 2] = {0.0f, 0.5f, -0.75f, -0.25f, 0.0f, 0.25f};
     };
     
-    Waveform waveform;
+    LFOWaveform waveform;
     
     PhiDial rateDial, waveDial, shapeDial;
     
-    const int separatorHeight = 5;
-    
     void updateWaveform() {
-        waveform.updateForm(
+        waveform.set(
             rateDial.getValue(),
             (LFO::Wave)floor(waveDial.getValue()),
             shapeDial.getValue() * 0.01f
