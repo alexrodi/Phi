@@ -14,7 +14,7 @@ public:
     PhiApplication() :
     fileManager(state),
     audioEngine(state),
-    mainWindow(getApplicationName(), state, fileManager)
+    mainWindow(state, fileManager)
     {}
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
@@ -52,8 +52,8 @@ public:
     class MainWindow    : public juce::DocumentWindow
     {
     public:
-        MainWindow (const juce::String& name, State& state, FileManager& fileManager)  :
-        DocumentWindow (name,
+        MainWindow (State& state, FileManager& fileManager)  :
+        DocumentWindow (ProjectInfo::projectName,
                         juce::Desktop::getInstance().getDefaultLookAndFeel().findColour(ResizableWindow::backgroundColourId),
                         DocumentWindow::allButtons)
         {
