@@ -147,6 +147,9 @@ struct State : juce::ValueTree::Listener {
         
         virtual void showPortLabelsChanged(ShowPortLabels) {};
         virtual void patchCordTypeChanged(PatchCordType) {};
+        
+        virtual void fileLoaded(juce::File) {}
+        virtual void fileSaved(juce::File) {}
     };
     
     void addListener (Listener* listener) { listeners.add(listener); }
