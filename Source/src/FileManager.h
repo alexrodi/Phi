@@ -65,9 +65,10 @@ struct FileManager {
             return;
         }
         
+        auto filename = currentlyOpenFile.existsAsFile() ? currentlyOpenFile.getFileNameWithoutExtension() : "Untitled";
         juce::NativeMessageBox::showAsync(juce::MessageBoxOptions()
                 .withIconType(juce::MessageBoxIconType::QuestionIcon)
-                .withMessage("Save changes to " + currentlyOpenFile.getFileNameWithoutExtension() + "?")
+                .withMessage("Save changes to " + filename + "?")
                 .withButton ("Save")
                 .withButton ("Don't Save")
                 .withButton ("Cancel"),
@@ -83,6 +84,6 @@ struct FileManager {
 private:
     State& state;
     std::unique_ptr<juce::FileChooser> chooser;
-    juce::File currentlyOpenFile {"./Untitled.phi"};
+    juce::File currentlyOpenFile;
 };
 
