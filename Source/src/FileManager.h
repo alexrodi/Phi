@@ -59,8 +59,7 @@ struct FileManager {
     
     template<class Callback>
     void askToSaveThen(Callback callbackIfNotCanceled) {
-        if (!state.isDirty()) {
-            // No need to save
+        if (!state.isDirty()) { // No need to save
             callbackIfNotCanceled();
             return;
         }
