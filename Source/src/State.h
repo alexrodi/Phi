@@ -38,6 +38,17 @@ struct ModulePortID
     }
     
     size_t hash() const { return (size_t)moduleID ^ ((size_t)portID << 1); }
+    
+    static ModulePortID fromString(const juce::String& string) {
+        return {
+            (ModuleID)string.upToFirstOccurrenceOf(":", false, false).getIntValue(),
+            (PortID)string.fromLastOccurrenceOf(":", false, false).getIntValue()
+        };
+    }
+    
+    juce::String toString() {
+        return juce::String(moduleID) + ":" + juce::String(portID);
+    }
 };
 
 struct ConnectionID
@@ -49,14 +60,25 @@ struct ConnectionID
     ConnectionID(const ConnectionID& other) : source(other.source), destination(other.destination) {}
     ConnectionID(ModulePortID source, ModulePortID destination) : source(source), destination(destination) {}
     
-    operator juce::AudioProcessorGraph::Connection() const {
-        return {source, destination};
-    }
-    
     void operator=(const ConnectionID& other) {source = other.source; destination = other.destination;}
     
     bool operator==(const ConnectionID& other) const {
         return source == other.source && destination == other.destination;
+    }
+    
+    operator juce::AudioProcessorGraph::Connection() const {
+        return {source, destination};
+    }
+    
+    static ConnectionID fromString(const juce::String& string) {
+        return {
+            ModulePortID::fromString(string.upToFirstOccurrenceOf("-", false, false)),
+            ModulePortID::fromString(string.upToLastOccurrenceOf("-", false, false))
+        };
+    }
+    
+    juce::String toString() {
+        return source.toString() + "-" + destination.toString();
     }
 };
 
@@ -68,13 +90,6 @@ namespace std {
         }
     };
 }
-
-struct ModuleInfo {
-    ModuleInfo(juce::String name) : name(name) {}
-    juce::String name;
-    virtual std::unique_ptr<ModuleProcessor> create() = 0;
-    virtual ~ModuleInfo() = default;
-};
 
 enum class PortType { Inlet, Outlet };
 
