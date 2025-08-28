@@ -167,7 +167,7 @@ struct State : juce::ValueTree::Listener {
     std::function<void(std::unique_ptr<ModuleProcessor>, ModuleID)> newProcessorCreated;
 
     /// Sets the first ID to use for modules
-    void setFirstModuleID(ModuleID moduleID) { lastID = moduleID; }
+    void setFirstModuleID(ModuleID moduleID) { lastModuleID = moduleID; }
     
     void save(juce::File);
     void load(juce::File);
@@ -219,7 +219,7 @@ private:
     juce::ValueTree state;
     juce::ListenerList<Listener> listeners;
     
-    ModuleID lastID {0};
+    ModuleID lastModuleID {0};
     
     void deleteAllModuleConnections(ModuleID);
     
