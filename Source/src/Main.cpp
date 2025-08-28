@@ -2,6 +2,7 @@
 #include <JuceHeader.h>
 
 #include "State.h"
+#include "FileManager.h"
 #include "dsp/AudioEngine.h"
 #include "ui/MainComponent.h"
 
