@@ -13,7 +13,7 @@ struct MainComponent : juce::Component,
 
 {
 //==============================================================================
-    explicit MainComponent(State&);
+    explicit MainComponent(State&, FileManager&);
     ~MainComponent();
 
     void paint (juce::Graphics& g) override;
@@ -31,68 +31,28 @@ private:
     /// The Viewport component that presents the view of mainPatcher to allow scrolling
     juce::Viewport viewport;
     
-    // TODO: make a top bar in the window with all the options (also mac menu?)
     struct FileMenuModel : juce::MenuBarModel {
-        FileMenuModel(State& state) : state(state) {}
+        FileMenuModel(FileManager& manager) : manager(manager) {}
         
         juce::StringArray getMenuBarNames() override { return {"File"}; }
-
         
+        void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
+
         juce::PopupMenu getMenuForIndex (int topLevelMenuIndex, const juce::String& menuName) override {
             if (menuName == "File") {
                 juce::PopupMenu menu;
                 
-                menu.addItem("Save", [&] () {save();});
-                menu.addItem("Save As...", [&] () {saveAs();});
-                menu.addItem("Open...", [&] () {open();});
+                menu.addItem("Save", [&] () { manager.save(); });
+                menu.addItem("Save As...", [&] () { manager.saveAs(); });
+                menu.addItem("Open...", [&] () { manager.open(); });
                 
                 return menu;
             }
             return {};
         }
         
-        void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
-        
     private:
-        State& state;
-        std::unique_ptr<juce::FileChooser> chooser;
-        juce::File currentlyOpenFile {"Untitled"};
-        
-        void save() {
-            if (currentlyOpenFile.existsAsFile())
-                state.save(currentlyOpenFile);
-            else
-                saveAs();
-        }
-        
-        void saveAs() {
-            using Flags = juce::FileBrowserComponent::FileChooserFlags;
-            
-            chooser = std::make_unique<juce::FileChooser>("Save As...", currentlyOpenFile, "*.phi");
-            int flags = juce::FileBrowserComponent::saveMode + juce::FileBrowserComponent::warnAboutOverwriting;
-            
-            chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
-                if (auto file = chooser.getResult(); file.create().wasOk()) {
-                    if (file.getFileExtension() != ".phi")
-                        file.withFileExtension(".phi");
-                    
-                    state.save(file);
-                    currentlyOpenFile = file;
-                }
-            });
-        }
-        
-        void open() {
-            chooser = std::make_unique<juce::FileChooser>("Open...", currentlyOpenFile, "*.phi");
-            int flags = juce::FileBrowserComponent::openMode + juce::FileBrowserComponent::canSelectFiles;
-            
-            chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
-                if (auto file = chooser.getResult(); file.existsAsFile()) {
-                    state.load(file);
-                    currentlyOpenFile = file;
-                }
-            });
-        }
+        FileManager& manager;
     };
     
     FileMenuModel fileMenuModel;

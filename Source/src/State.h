@@ -166,6 +166,8 @@ struct State : juce::ValueTree::Listener {
     /// Callback to receive the created module Processor
     std::function<void(std::unique_ptr<ModuleProcessor>, ModuleID)> newProcessorCreated;
 
+    bool isDirty() { return dirty; }
+    
     /// Sets the first ID to use for modules
     void setFirstModuleID(ModuleID moduleID) { lastModuleID = moduleID; }
     
@@ -220,6 +222,7 @@ private:
     juce::ListenerList<Listener> listeners;
     
     ModuleID lastModuleID {0};
+    bool dirty = false;
     
     void deleteAllModuleConnections(ModuleID);
     
@@ -229,4 +232,77 @@ private:
     void valueTreePropertyChanged (juce::ValueTree&, const juce::Identifier&) override;
     void valueTreeChildAdded (juce::ValueTree&, juce::ValueTree&) override;
     void valueTreeChildRemoved (juce::ValueTree&, juce::ValueTree&, int) override;
+};
+
+struct FileManager {
+    FileManager(State& state) : state(state) {}
+    
+    void save() {
+        if (currentlyOpenFile.existsAsFile())
+            state.save(currentlyOpenFile);
+        else
+            saveAs();
+    }
+    
+    void saveAs() {
+        using Flags = juce::FileBrowserComponent::FileChooserFlags;
+        
+        chooser = std::make_unique<juce::FileChooser>("Save As...", currentlyOpenFile, "*.phi");
+        int flags = juce::FileBrowserComponent::saveMode + juce::FileBrowserComponent::warnAboutOverwriting;
+        
+        chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
+            if (auto file = chooser.getResult(); file.create().wasOk()) {
+                if (file.getFileExtension() != ".phi")
+                    file.withFileExtension(".phi");
+                
+                state.save(file);
+                currentlyOpenFile = file;
+            }
+        });
+    }
+    
+    void open() {
+        askToSaveThen([&] () {
+            chooser = std::make_unique<juce::FileChooser>("Open...", currentlyOpenFile, "*.phi");
+            int flags = juce::FileBrowserComponent::openMode + juce::FileBrowserComponent::canSelectFiles;
+            
+            chooser->launchAsync(flags, [&] (const juce::FileChooser& chooser) {
+                if (auto file = chooser.getResult(); file.existsAsFile()) {
+                    state.load(file);
+                    currentlyOpenFile = file;
+                }
+            });
+        });
+    }
+    
+    /// Returns `false` if the user canceled
+    template<class Callback>
+    void askToSaveThen(Callback callbackIfNotCanceled) {
+        if (!state.isDirty()) {
+            // No need to save
+            callbackIfNotCanceled();
+            return;
+        }
+        
+        juce::AlertWindow::showAsync(juce::MessageBoxOptions()
+                .withIconType(juce::MessageBoxIconType::QuestionIcon)
+                .withMessage("Save changes to " + currentlyOpenFile.getFileNameWithoutExtension() + "?")
+                .withButton ("Save")
+                .withButton ("Don't Save")
+                .withButton ("Cancel"),
+                // .withAssociatedComponent... for lookandfeel
+            [&, callbackIfNotCanceled] (int result) {
+                if (result > 0) {
+                    if (result == 1) save();
+
+                    callbackIfNotCanceled();
+                }
+            }
+        );
+    }
+    
+private:
+    State& state;
+    std::unique_ptr<juce::FileChooser> chooser;
+    juce::File currentlyOpenFile {"./Untitled.phi"};
 };

@@ -29,6 +29,7 @@ void State::save(juce::File file) {
         output.truncate();
         
         state.writeToStream(output);
+        dirty = false;
         listeners.call([&] (auto& listener) { listener.fileSaved(file); });
     }
 }
@@ -57,6 +58,7 @@ void State::load(juce::File file) {
 
     if (input.openedOk()) {
         copyValueTreeRecursively(state, juce::ValueTree::readFromStream(input));
+        dirty = false;
         listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
     }
 }
@@ -150,6 +152,8 @@ juce::ValueTree State::getConnectionWithID (ConnectionID connectionID) {
 
 void State::valueTreePropertyChanged (juce::ValueTree& tree, const juce::Identifier& property)
 {
+    dirty = true;
+    
     auto key = property.toString();
     auto val = tree.getProperty(property);
     
@@ -200,6 +204,8 @@ void State::valueTreePropertyChanged (juce::ValueTree& tree, const juce::Identif
 
 void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
 {
+    dirty = true;
+    
     if (parent.getType().toString() == "modules" && tree.hasProperty("type"))
     {
         auto moduleID = ModuleID::fromString(tree.getType());
@@ -222,6 +228,8 @@ void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
 
 void State::valueTreeChildRemoved (juce::ValueTree& parent, juce::ValueTree& tree, int index)
 {
+    dirty = true;
+    
     if (parent == state && tree.getType().toString() == "modules")
     {
         listeners.call([&] (auto& listener) { listener.allModulesDeleted(); });

@@ -2,10 +2,10 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent(State& state) :
+MainComponent::MainComponent(State& state, FileManager& fileManager) :
 state(state),
 patcher(state),
-fileMenuModel(state),
+fileMenuModel(fileManager),
 fileMenu(&fileMenuModel),
 patchCordTypeButton("Gravity"),
 showPortLabelsButton("Hint", "Label")
