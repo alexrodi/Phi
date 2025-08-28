@@ -5,6 +5,8 @@
 MainComponent::MainComponent(State& state) :
 state(state),
 patcher(state),
+fileMenuModel(state),
+fileMenu(&fileMenuModel),
 patchCordTypeButton("Gravity"),
 showPortLabelsButton("Hint", "Label")
 {
@@ -14,6 +16,7 @@ showPortLabelsButton("Hint", "Label")
     addAndMakeVisible(viewport);
     viewport.setViewedComponent(&patcher, false);
     
+    addAndMakeVisible(fileMenu);
     addAndMakeVisible(patchCordTypeButton);
     addAndMakeVisible(showPortLabelsButton);
     
@@ -55,9 +58,14 @@ void MainComponent::resized()
     
     auto buttonBounds = topBarBounds;
     
+    fileMenu.setBounds(buttonBounds.removeFromLeft(100).reduced(10));
     patchCordTypeButton.setBounds(buttonBounds.removeFromRight(100).reduced(10));
     showPortLabelsButton.setBounds(buttonBounds.removeFromRight(150).reduced(10));
     
     viewport.setBounds(bounds);
     patcher.setSize(bounds.getWidth(), bounds.getHeight());
+}
+
+void MainComponent::fileLoaded(juce::File file) {
+    getTopLevelComponent()->setName("Phi [" + file.getFileNameWithoutExtension() + "]");
 }
