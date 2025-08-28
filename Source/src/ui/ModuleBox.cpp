@@ -221,7 +221,7 @@ PortID ModuleBox::getPortID(const PortUI& port) const {
 
     if (it == v.end()) return -1;
     
-    return (PortID)std::distance(v.begin(), it);
+    return (int)std::distance(v.begin(), it);
 }
 
 const PortUI& ModuleBox::getPort(PortType type, PortID portID) const {
