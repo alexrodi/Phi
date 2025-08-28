@@ -155,6 +155,8 @@ bool Patcher::keyPressed (const juce::KeyPress& key)
 
 void Patcher::openMenu(const juce::MouseEvent& e)
 {
+    // TODO: Categorize modules into exciter, waveguide, modulator, output, etc...
+    
     juce::PopupMenu menu;
     menu.addSubMenu ("Add Module...", Modules::getMenu());
 
