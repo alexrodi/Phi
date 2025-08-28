@@ -114,7 +114,7 @@ struct State : juce::ValueTree::Listener {
     void load(juce::File);
     
     // State Setters
-    void addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y);
+    void addModule(const std::string& type, int x, int y);
     void deleteModule(ModuleID moduleID);
     
     void setModuleEnabled(ModuleID, bool isEnabled);
