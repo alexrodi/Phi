@@ -161,7 +161,7 @@ void Patcher::openMenu(const juce::MouseEvent& e)
     // Returns the ID of the selected item (0 if clicked outside)
     menu.showMenuAsync(juce::PopupMenu::Options().withParentComponent(this), [&, pos = e.position] (int result) {
         if (result > 0)
-            state.addModule(Modules::getInfoFromMenuIndex(result-1), pos.x, pos.y);
+            state.addModule(moduleNames[result-1], pos.x, pos.y);
     });
 }
 

@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "PhiColours.h"
 #include "../dsp/ModuleProcessor.h"
 
 //==============================================================================

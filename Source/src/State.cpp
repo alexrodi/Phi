@@ -9,13 +9,19 @@
 */
 
 #include "State.h"
+#include "modules/Modules.h"
 
-State::State() : state("PhiState") {
+State::State() {
+    reset();
+}
+State::~State() {}
+
+void State::reset() {
+    state = juce::ValueTree{"PhiState"};
     state.addChild(juce::ValueTree{"modules"}, -1, nullptr);
     state.addChild(juce::ValueTree{"connections"}, -1, nullptr);
     state.addListener(this);
 }
-State::~State() {}
 
 void State::save(juce::File file) {
     state.writeToStream(*file.createOutputStream());
@@ -23,24 +29,20 @@ void State::save(juce::File file) {
 }
 
 void State::load(juce::File file) {
-    state = {};
+    reset();
     state.readFromStream(*file.createInputStream());
     listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
 }
 
-void State::addModule(std::unique_ptr<ModuleInfo> moduleInfo, int x, int y) {
+void State::addModule(const std::string& type, int x, int y) {
     auto modulesTree = state.getChildWithName("modules");
     auto moduleID = lastID++;
     
     juce::ValueTree newModuleNode("module");
-    newModuleNode.setProperty("type", moduleInfo->name, nullptr);
+    newModuleNode.setProperty("type", juce::String(type), nullptr);
     newModuleNode.setProperty("id", (int)moduleID, nullptr);
 
     modulesTree.addChild(newModuleNode, -1, nullptr);
-    
-    auto processor = moduleInfo->create();
-    newModuleUICreated(processor->createUI(), moduleID);
-    newProcessorCreated(std::move(processor), moduleID);
     
     setModuleBounds(moduleID, {(int)x, (int)y, 0, 0});
 }
@@ -211,6 +213,11 @@ void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
     if (parent.getType().toString() == "modules" && tree.getType().toString() == "module")
     {
         int moduleID = tree.getProperty("id");
+        
+        auto processor = Modules::getInfoFromFromName(tree.getProperty("type"))->create();
+        newModuleUICreated(processor->createUI(), moduleID);
+        newProcessorCreated(std::move(processor), moduleID);
+        
         listeners.call([&] (auto& listener) { listener.moduleAdded(moduleID); });
     }
     else if (parent.getType().toString() == "connections" && tree.getType().toString() == "connection")
