@@ -11,17 +11,15 @@
 #include "State.h"
 #include "modules/Modules.h"
 
-State::State() {
-    reset();
-}
-State::~State() {}
-
-void State::reset() {
-    state = juce::ValueTree{"PhiState"};
+State::State() : state("PhiState") {
     state.addChild(juce::ValueTree{"modules"}, -1, nullptr);
     state.addChild(juce::ValueTree{"connections"}, -1, nullptr);
+    state.setProperty("showPortLabels", 0, nullptr);
+    state.setProperty("patchCordType", 0, nullptr);
+    
     state.addListener(this);
 }
+State::~State() {}
 
 void State::save(juce::File file) {
     state.writeToStream(*file.createOutputStream());
@@ -29,8 +27,7 @@ void State::save(juce::File file) {
 }
 
 void State::load(juce::File file) {
-    reset();
-    state.readFromStream(*file.createInputStream());
+    state.copyPropertiesAndChildrenFrom(juce::ValueTree::readFromStream(*file.createInputStream()), nullptr);
     listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
 }
 
@@ -229,7 +226,11 @@ void State::valueTreeChildAdded (juce::ValueTree& parent, juce::ValueTree& tree)
 
 void State::valueTreeChildRemoved (juce::ValueTree& parent, juce::ValueTree& tree, int index)
 {
-    if (parent.getType().toString() == "modules" && tree.getType().toString() == "module")
+    if (parent == state && tree.getType().toString() == "modules")
+    {
+        listeners.call([&] (auto& listener) { listener.allModulesDeleted(); });
+    }
+    else if (parent.getType().toString() == "modules" && tree.getType().toString() == "module")
     {
         int moduleID = tree.getProperty("id");
         listeners.call([&] (auto& listener) { listener.moduleDeleted(moduleID); });

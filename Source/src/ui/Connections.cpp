@@ -201,6 +201,11 @@ void Connections::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<i
     repaint();
 }
 
+void Connections::allModulesDeleted() {
+    connections.clear();
+    repaint();
+}
+
 void Connections::patchCordTypeChanged(PatchCordType type) {
     patchCordType = type;
     

@@ -100,6 +100,7 @@ private:
     void moduleBoundsChanged(ModuleID, const juce::Rectangle<int>&) override;
     void patchCordTypeChanged(PatchCordType) override;
     void showPortLabelsChanged(ShowPortLabels show) override;
+    void allModulesDeleted() override;
     
     void findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, const juce::Rectangle<int>& area) override;
     juce::SelectedItemSet<ConnectionID>& getLassoSelection() override;

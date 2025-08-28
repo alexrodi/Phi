@@ -109,6 +109,7 @@ private:
     void moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>& bounds) override;
     void showPortLabelsChanged(ShowPortLabels) override;
     void moduleDeleted(ModuleID moduleID) override;
+    void allModulesDeleted() override;
     
     void findLassoItemsInArea (juce::Array<ModuleID>& itemsFound, const juce::Rectangle<int>& area) override;
     juce::SelectedItemSet<ModuleID>& getLassoSelection() override;

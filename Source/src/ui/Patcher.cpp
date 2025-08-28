@@ -186,7 +186,13 @@ void Patcher::moduleBoundsChanged(ModuleID moduleID, const juce::Rectangle<int>&
 
 void Patcher::moduleDeleted(ModuleID moduleID)
 {
+    // Does this leave the pointer in the parent component??? - maybe components remove themselves when being destroyed...
     modules.erase(moduleID);
+}
+
+void Patcher::allModulesDeleted()
+{
+    modules.clear();
 }
 
 void Patcher::showPortLabelsChanged(ShowPortLabels show) {
