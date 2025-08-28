@@ -222,8 +222,6 @@ private:
     ModuleID lastID {0};
     
     void deleteAllModuleConnections(ModuleID);
-    ConnectionID getConnectionID (juce::ValueTree);
-    juce::ValueTree newConnectionNode (ConnectionID);
     
     juce::ValueTree getModuleWithID (ModuleID);
     juce::ValueTree getConnectionWithID (ConnectionID);
