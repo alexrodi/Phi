@@ -15,13 +15,10 @@
 
 struct PhiLookAndFeel  : public juce::LookAndFeel_V4
 {
-    PhiTheme theme;
-    
     PhiLookAndFeel()
     {
-        theme.apply(*this);
+        setTheme({});
         
-        // Other
         setColour(juce::PopupMenu::highlightedTextColourId,       findColour(PhiColourIds::Module::Text).withMultipliedBrightness(1.3f));
         setColour(juce::PopupMenu::textColourId,                  findColour(PhiColourIds::Module::Text));
         setColour(juce::PopupMenu::backgroundColourId,            findColour(PhiColourIds::Module::Background));
@@ -39,9 +36,8 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
     }
     
     // This *must* be called after the lookandfeel has been set
-    void hasBeenSet() {
-        //phiLookAndFeel.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::BasierSquareMono_Regular_otf, BinaryData::BasierSquareMono_Regular_otfSize));
-        setDefaultSansSerifTypefaceName ("Helvetica Neue");
+    void setTheme(const PhiTheme& theme) {
+        theme.apply(*this);
     }
     
     void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {

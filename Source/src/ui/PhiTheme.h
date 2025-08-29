@@ -21,9 +21,11 @@ struct PhiTheme {
     juce::Colour& operator[](int colourId) { return colours[colourId]; }
     const juce::Colour& operator[](int colourId) const { return colours.at(colourId); }
     
-    void apply(juce::LookAndFeel& lf) {
+    void apply(juce::LookAndFeel& lf) const {
         for (auto& [colourId, colour] : colours)
             lf.setColour(colourId, colour);
+        
+        lf.setDefaultSansSerifTypeface(font);
     }
 
 private:
@@ -56,8 +58,13 @@ private:
         // Connections
         colours[PhiColourIds::Connection::DefaultFill] =     juce::Colours::grey;
         colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::grey.brighter();
+        
+        // Font
+        font = juce::Typeface::createSystemTypefaceFor(juce::FontOptions().withName("Helvetica Neue"));
+        //(juce::Typeface::createSystemTypefaceFor(BinaryData::BasierSquareMono_Regular_otf, BinaryData::BasierSquareMono_Regular_otfSize));
     }
     
     std::unordered_map<int, juce::Colour> colours;
+    juce::Typeface::Ptr font;
 };
 

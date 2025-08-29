@@ -10,8 +10,7 @@ fileMenu(&fileMenuModel),
 patchCordTypeButton("Gravity"),
 showPortLabelsButton("Hint", "Label")
 {
-    setPaintingIsUnclipped(true);
-    
+    // ======================= Children =======================
     addChildComponent(patcher);
     addAndMakeVisible(viewport);
     viewport.setViewedComponent(&patcher, false);
@@ -28,15 +27,20 @@ showPortLabelsButton("Hint", "Label")
         state.setShowPortLabels((ShowPortLabels)showPortLabelsButton.getToggleState());
     };
     
+    // ======================= Look and Feel =======================
     juce::LookAndFeel::setDefaultLookAndFeel(&lookandfeel);
-    lookandfeel.hasBeenSet();
+    
+    lookandfeel.setTheme({}); // <- must be called after setting, otherwise font becomes corrupted
     
     // TODO: Components shouldn't reach for module colours!
     // Components out here have a neutral highlight colour
     lookandfeel.setColour(PhiColourIds::Module::Highlight, lookandfeel.findColour(PhiColourIds::General::Highlight));
     
+    // ======================= Listeners =======================
     state.addListener(this);
     
+    // ======================= Settings =======================
+    setPaintingIsUnclipped(true);
     setSize (1000, 600);
 }
 
