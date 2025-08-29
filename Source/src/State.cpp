@@ -11,7 +11,7 @@
 #include "State.h"
 #include "modules/Modules.h"
 
-State::State() : state("PhiState") {
+State::State() : state("ui") {
     state.appendChild(juce::ValueTree{"modules"}, nullptr);
     state.appendChild(juce::ValueTree{"connections"}, nullptr);
     state.setProperty("showPortLabels", 0, nullptr);
@@ -21,43 +21,60 @@ State::State() : state("PhiState") {
 }
 State::~State() {}
 
+void copyValueTreeRecursively (juce::ValueTree& target, const juce::ValueTree& source)
+{
+    target.copyPropertiesFrom(source, nullptr);
+    
+    target.removeAllChildren(nullptr);
+    
+    for (int i = 0; i < source.getNumChildren(); ++i) {
+        auto sourceChild = source.getChild(i);
+        juce::ValueTree targetChild {sourceChild.getType()};
+        
+        // The only exception is a module tree that must contain a module type
+        if (source.getType().toString() == "modules")
+            targetChild.setProperty("type", sourceChild.getProperty("type"), nullptr);
+        
+        target.appendChild(targetChild, nullptr);
+        
+        copyValueTreeRecursively(targetChild, sourceChild);
+    }
+}
+
 void State::save(juce::File file) {
+    jassert(saveEngineState); // <- Callback must be registered with the engine!
+    
     juce::FileOutputStream output (file);
 
     if (output.openedOk()) {
         output.setPosition (0);
         output.truncate();
         
-        state.writeToStream(output);
+        juce::ValueTree engineTree {"engine"};
+        saveEngineState(engineTree);
+        
+        juce::ValueTree fileTree {"phi-state"};
+        
+        fileTree.appendChild(state, nullptr);
+        fileTree.appendChild(engineTree, nullptr);
+        
+        fileTree.writeToStream(output);
         dirty = false;
         listeners.call([&] (auto& listener) { listener.fileSaved(file); });
     }
 }
 
-void copyValueTreeRecursively (juce::ValueTree& targetTree, const juce::ValueTree& sourceTree)
-{
-    targetTree.copyPropertiesFrom(sourceTree, nullptr);
-    targetTree.removeAllChildren(nullptr);
-    
-    for (int i = 0; i < sourceTree.getNumChildren(); ++i) {
-        auto sourceChild = sourceTree.getChild(i);
-        juce::ValueTree targetChild {sourceChild.getType()};
-        
-        // The only exception is a module tree that must contain a module type
-        if (sourceTree.getType().toString() == "modules")
-            targetChild.setProperty("type", sourceChild.getProperty("type"), nullptr);
-        
-        targetTree.appendChild(targetChild, nullptr);
-        
-        copyValueTreeRecursively(targetChild, sourceChild);
-    }
-}
-
 void State::load(juce::File file) {
+    jassert(loadEngineState); // <- Callback must be registered with the engine!
+    
     juce::FileInputStream input (file);
 
     if (input.openedOk()) {
-        copyValueTreeRecursively(state, juce::ValueTree::readFromStream(input));
+        auto newTree = juce::ValueTree::readFromStream(input);
+        
+        copyValueTreeRecursively(state, newTree.getChildWithName("ui"));
+        loadEngineState(newTree.getChildWithName("engine"));
+        
         dirty = false;
         listeners.call([&] (auto& listener) { listener.fileLoaded(file); });
     }

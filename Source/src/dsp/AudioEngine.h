@@ -36,6 +36,8 @@ private:
         Its use however, still allows for the outlets to be connected to other modules in the patcher, if they are made available */
     void connectToOuput(Node::Ptr);
     
+    void resetEngine();
+    
     void moduleDeleted(ModuleID) override;
     void connectionCreated(ConnectionID) override;
     void connectionDeleted(ConnectionID) override;

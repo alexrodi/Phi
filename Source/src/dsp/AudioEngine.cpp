@@ -15,13 +15,11 @@ AudioEngine::AudioEngine(State& state) : state(state)
     // Initialise the device manager and add the player
     deviceManager.initialise(2, 2, nullptr, true, juce::String(), nullptr);
     deviceManager.addAudioCallback(&player);
+    player.setProcessor(this);
     
-    // Add the main output node to the graph
-    player.setProcessor(&*this);
-    mainOutput = addNode(std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode));
+    resetEngine();
     
-    state.setFirstModuleID(mainOutput->nodeID.uid + 1);
-    state.newProcessorCreated = [&] (auto processor, auto moduleID) {
+    state.newProcessorCreated = [&] (std::unique_ptr<ModuleProcessor> processor, auto moduleID) {
         bool isOutput = processor->isOutput;
         if (auto node = addNode(std::move(processor), std::make_optional<NodeID>(moduleID))) {
             // When we detect an output module, we hook it up to the main output node
@@ -29,6 +27,30 @@ AudioEngine::AudioEngine(State& state) : state(state)
                 connectToOuput(node);
         } else {
             state.deleteModule(moduleID);
+        }
+    };
+    
+    state.saveEngineState = [&] (auto tree) {
+        for (auto& node : getNodes()) {
+            if (auto* processor = dynamic_cast<ModuleProcessor*>(node->getProcessor())) {
+                auto child = processor->params.copyState();
+                
+                child.setProperty("id", (int)node->nodeID.uid, nullptr);
+                
+                tree.appendChild(child, nullptr);
+            }
+        }
+    };
+    
+    state.loadEngineState = [&] (auto tree) {
+        for (int i = 0; i < tree.getNumChildren(); ++i) {
+            auto child = tree.getChild(i);
+            if (auto* node = getNodeForId((NodeID)(int)child.getProperty("id"))) {
+                if (auto* processor = dynamic_cast<ModuleProcessor*>(node->getProcessor())) {
+                    child.removeProperty("id", nullptr);
+                    processor->params.state.copyPropertiesAndChildrenFrom(child, nullptr);
+                }
+            }
         }
     };
     
@@ -68,5 +90,15 @@ void AudioEngine::connectToOuput(Node::Ptr nodeToConnect)
 }
 
 void AudioEngine::allModulesDeleted() {
+    resetEngine();
+}
+
+void AudioEngine::resetEngine() {
     clear();
+    
+    // Add the main output node to the graph
+    mainOutput = addNode(
+        std::make_unique<AudioGraphIOProcessor>(AudioGraphIOProcessor::audioOutputNode),
+        std::make_optional<NodeID>(1)
+    );
 }
