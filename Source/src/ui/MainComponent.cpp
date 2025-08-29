@@ -60,7 +60,7 @@ void MainComponent::resized()
 {
     auto bounds = getLocalBounds();
     
-    topBarBounds = bounds.removeFromTop(50);
+    topBarBounds = bounds.removeFromTop(38);
     
     auto buttonBounds = topBarBounds;
     
