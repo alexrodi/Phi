@@ -21,6 +21,8 @@ struct MainComponent : juce::Component,
     void resized() override;
 
 private:
+    const int topBarHeight = 38;
+    
     PhiLookAndFeel lookandfeel;
     
     //==============================================================================
@@ -32,10 +34,20 @@ private:
     /// The Viewport component that presents the view of mainPatcher to allow scrolling
     juce::Viewport viewport;
     
-    struct FileMenuModel : juce::MenuBarModel {
-        FileMenuModel(FileManager& manager) : manager(manager) {}
+    struct MenuBar : juce::MenuBarModel {
+        MenuBar(MainComponent& owner, FileManager& fileManager) :
+        owner(owner),
+        fileManager(fileManager),
+        component(this)
+        {
+            owner.addAndMakeVisible(component);
+        }
         
-        juce::StringArray getMenuBarNames() override { return {"File"}; }
+        void setBounds(juce::Rectangle<int> bounds) {
+            component.setBounds(bounds);
+        };
+        
+        juce::StringArray getMenuBarNames() override { return {"File", "Theme"}; }
         
         void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
 
@@ -43,9 +55,23 @@ private:
             if (menuName == "File") {
                 juce::PopupMenu menu;
                 
-                menu.addItem("Open...", [&] () { manager.open(); });
-                menu.addItem("Save", [&] () { manager.save(); });
-                menu.addItem("Save As...", [&] () { manager.saveAs(); });
+                menu.addItem("Open...", [&] () { fileManager.open(); });
+                menu.addItem("Save", [&] () { fileManager.save(); });
+                menu.addItem("Save As...", [&] () { fileManager.saveAs(); });
+                
+                return menu;
+            } else if (menuName == "Theme") {
+                juce::PopupMenu menu;
+                
+                // TODO: should be an iterative method
+                using Theme = PhiTheme::Palettes;
+                menu.addItem("Default Classic", [&] () { setTheme(Theme::DefaultClassic); });
+                menu.addItem("Default Dark",    [&] () { setTheme(Theme::DefaultDark); });
+                menu.addItem("Solaris Light",   [&] () { setTheme(Theme::SolarisLight); });
+                menu.addItem("Midnight Blue",   [&] () { setTheme(Theme::MidnightBlue); });
+                menu.addItem("Vintage Analog",  [&] () { setTheme(Theme::VintageAnalog); });
+                menu.addItem("Nordic Noir",     [&] () { setTheme(Theme::NordicNoir); });
+                menu.addItem("Cyberpunk Neon",  [&] () { setTheme(Theme::CyberpunkNeon); });
                 
                 return menu;
             }
@@ -53,20 +79,27 @@ private:
         }
         
     private:
-        FileManager& manager;
+        MainComponent& owner;
+        FileManager& fileManager;
+        juce::MenuBarComponent component;
+        
+        void setTheme(const PhiTheme& theme) {
+            owner.lookandfeel.setTheme(theme, true);
+            
+            owner.patcher.setModulesTheme(theme);
+            
+            owner.sendLookAndFeelChange();
+            owner.repaint();
+        }
     };
     
-    FileMenuModel fileMenuModel;
-    juce::MenuBarComponent fileMenu;
+    MenuBar menuBar;
     
     /// A simple button to change the patch-cord drawing method (just because)
     PhiSliderButton patchCordTypeButton;
     
     /// A simple button to toggle between inlet/outlet names being hinted or labeled
     PhiSliderButton showPortLabelsButton;
-    
-    /// The rectangle that constrains the top bar on the window
-    juce::Rectangle<int> topBarBounds;
     
     //==============================================================================
     
