@@ -85,6 +85,9 @@
         <FILE id="RAwy4e" name="Patcher.cpp" compile="1" resource="0" file="Source/src/ui/Patcher.cpp"/>
         <FILE id="fM8gkk" name="Patcher.h" compile="0" resource="0" file="Source/src/ui/Patcher.h"/>
         <FILE id="JVkjzw" name="PhiColours.h" compile="0" resource="0" file="Source/src/ui/PhiColours.h"/>
+        <FILE id="uZuvwa" name="PhiLookAndFeel.h" compile="0" resource="0"
+              file="Source/src/ui/PhiLookAndFeel.h"/>
+        <FILE id="FqV79b" name="PhiTheme.h" compile="0" resource="0" file="Source/src/ui/PhiTheme.h"/>
         <FILE id="fjIuFa" name="PortUI.cpp" compile="1" resource="0" file="Source/src/ui/PortUI.cpp"/>
         <FILE id="nKfXNY" name="PortUI.h" compile="0" resource="0" file="Source/src/ui/PortUI.h"/>
       </GROUP>

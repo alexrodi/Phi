@@ -12,7 +12,7 @@
 
 #include "PortUI.h"
 #include "ModuleUI.h"
-#include "PhiColours.h"
+#include "PhiLookAndFeel.h"
 #include "component/PhiToggleButton.h"
 
 //==============================================================================

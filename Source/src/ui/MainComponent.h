@@ -4,7 +4,7 @@
 #include "../State.h"
 #include "../FileManager.h"
 #include "Patcher.h"
-#include "PhiColours.h"
+#include "PhiLookAndFeel.h"
 #include "component/PhiSliderButton.h"
 
 //==============================================================================
