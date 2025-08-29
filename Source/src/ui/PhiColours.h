@@ -101,6 +101,12 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         setColour(juce::Label::backgroundWhenEditingColourId,     juce::Colour::greyLevel(0.3f));
     }
     
+    // This *must* be called after the lookandfeel has been set
+    void hasBeenSet() {
+        //phiLookAndFeel.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::BasierSquareMono_Regular_otf, BinaryData::BasierSquareMono_Regular_otfSize));
+        setDefaultSansSerifTypefaceName ("Helvetica Neue");
+    }
+    
     void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {
         auto bounds = box.getLocalBounds().reduced(15).toFloat();
         

@@ -29,14 +29,11 @@ showPortLabelsButton("Hint", "Label")
     };
     
     juce::LookAndFeel::setDefaultLookAndFeel(&lookandfeel);
+    lookandfeel.hasBeenSet();
     
     // TODO: Components shouldn't reach for module colours!
     // Components out here have a neutral highlight colour
     lookandfeel.setColour(PhiColourIds::Module::Highlight, lookandfeel.findColour(PhiColourIds::General::Highlight));
-    
-    // This must be called *after* the lookandfeel has been set
-    //phiLookAndFeel.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::BasierSquareMono_Regular_otf, BinaryData::BasierSquareMono_Regular_otfSize));
-    lookandfeel.setDefaultSansSerifTypefaceName ("Helvetica Neue");
     
     state.addListener(this);
     
