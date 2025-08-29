@@ -17,7 +17,7 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
 {
     PhiLookAndFeel()
     {
-        setTheme({});
+        setTheme({}, false);
         
         setColour(juce::PopupMenu::highlightedTextColourId,       findColour(PhiColourIds::Module::Text).withMultipliedBrightness(1.3f));
         setColour(juce::PopupMenu::textColourId,                  findColour(PhiColourIds::Module::Text));
@@ -36,8 +36,14 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
     }
     
     // This *must* be called after the lookandfeel has been set
-    void setTheme(const PhiTheme& theme) {
+    void setTheme(const PhiTheme& theme, bool isMainComponent) {
         theme.apply(*this);
+        
+        if (isMainComponent) {
+            // Components out here have a neutral highlight colour
+            setDefaultSansSerifTypeface(defaultFont);
+            setColour(PhiColourIds::Module::Highlight, findColour(PhiColourIds::General::Highlight));
+        }
     }
     
     void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {
@@ -79,4 +85,7 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         g.setColour(menu.findColour(isMouseOverItem ? juce::PopupMenu::highlightedTextColourId : juce::PopupMenu::textColourId));
         g.drawText(itemText, juce::Rectangle<int>{0, 0, width, height}, juce::Justification::centred, 1);
     }
+    
+private:
+    juce::Typeface::Ptr defaultFont = juce::Typeface::createSystemTypefaceFor(BinaryData::HelveticaNeue_ttc, BinaryData::HelveticaNeue_ttcSize);
 };

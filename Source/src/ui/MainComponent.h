@@ -65,13 +65,11 @@ private:
                     
                     // TODO: should be an iterative method
                     using Theme = PhiTheme::Palettes;
-                    menu.addItem("Default Classic", [&] () { owner.setTheme(Theme::DefaultClassic); });
-                    menu.addItem("Default Dark",    [&] () { owner.setTheme(Theme::DefaultDark); });
-                    menu.addItem("Solaris Light",   [&] () { owner.setTheme(Theme::SolarisLight); });
-                    menu.addItem("Midnight Blue",   [&] () { owner.setTheme(Theme::MidnightBlue); });
-                    menu.addItem("Vintage Analog",  [&] () { owner.setTheme(Theme::VintageAnalog); });
-                    menu.addItem("Nordic Noir",     [&] () { owner.setTheme(Theme::NordicNoir); });
-                    menu.addItem("Cyberpunk Neon",  [&] () { owner.setTheme(Theme::CyberpunkNeon); });
+                    menu.addItem("Default", [&] () { owner.setTheme(Theme::Default); });
+                    menu.addItem("Slate",   [&] () { owner.setTheme(Theme::Slate); });
+                    menu.addItem("Dusk",    [&] () { owner.setTheme(Theme::Dusk); });
+                    menu.addItem("Earth",   [&] () { owner.setTheme(Theme::Earth); });
+                    menu.addItem("Granite", [&] () { owner.setTheme(Theme::Granite); });
                     
                     return menu;
                 }
