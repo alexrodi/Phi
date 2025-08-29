@@ -4,6 +4,10 @@
               displaySplashScreen="1" jucerFormatVersion="1" addUsingNamespaceToJuceHeader="0">
   <MAINGROUP id="J6rtXw" name="Phi">
     <GROUP id="{D2AAF4FC-035E-DB9D-7352-50B1623BE509}" name="resources">
+      <GROUP id="{B565B629-8AE6-603B-4236-8A32CD41DB2A}" name="font">
+        <FILE id="TglCKW" name="HelveticaNeue.ttc" compile="0" resource="1"
+              file="Source/resources/font/HelveticaNeue.ttc"/>
+      </GROUP>
       <GROUP id="{0E0E29B8-F226-4145-E359-6452E8AE4A78}" name="png">
         <FILE id="WMtNCH" name="logo.png" compile="0" resource="1" file="Source/resources/png/logo.png"/>
       </GROUP>
