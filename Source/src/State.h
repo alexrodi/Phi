@@ -161,15 +161,17 @@ struct State : juce::ValueTree::Listener {
     ~State();
     // ========================================================================
     
-    /// Callback to receive the created module UI
+    /// Hook for the Patcher to receive the module UI
     std::function<void(std::unique_ptr<ModuleUI>, ModuleID)> newModuleUICreated;
-    /// Callback to receive the created module Processor
+    /// Hook for the Engine to receive the module processor
     std::function<void(std::unique_ptr<ModuleProcessor>, ModuleID)> newProcessorCreated;
+    
+    /// Hook for the Engine to provide its state
+    std::function<void(juce::ValueTree)> saveEngineState;
+    /// Hook for the Engine to get a new state
+    std::function<void(juce::ValueTree)> loadEngineState;
 
     bool isDirty() { return dirty; }
-    
-    /// Sets the first ID to use for modules
-    void setFirstModuleID(ModuleID moduleID) { lastModuleID = moduleID; }
     
     void save(juce::File);
     void load(juce::File);
@@ -221,7 +223,9 @@ private:
     juce::ValueTree state;
     juce::ListenerList<Listener> listeners;
     
-    ModuleID lastModuleID {0};
+    // Start IDs high enough to allow the engine to place hidden nodes (e.g. driver output)
+    ModuleID lastModuleID {32};
+    
     bool dirty = false;
     
     void deleteAllModuleConnections(ModuleID);
@@ -229,7 +233,7 @@ private:
     juce::ValueTree getModuleWithID (ModuleID);
     juce::ValueTree getConnectionWithID (ConnectionID);
     
-    void valueTreePropertyChanged (juce::ValueTree&, const juce::Identifier&) override;
-    void valueTreeChildAdded (juce::ValueTree&, juce::ValueTree&) override;
-    void valueTreeChildRemoved (juce::ValueTree&, juce::ValueTree&, int) override;
+    void valueTreePropertyChanged(juce::ValueTree&, const juce::Identifier&) override;
+    void valueTreeChildAdded(juce::ValueTree&, juce::ValueTree&) override;
+    void valueTreeChildRemoved(juce::ValueTree&, juce::ValueTree&, int) override;
 };

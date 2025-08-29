@@ -71,7 +71,7 @@ public:
      */
     template <typename... Items>
     ModuleProcessor(int inletNumber, int outletNumber, std::unique_ptr<Items>... paramsToUse) :
-    params( *this, nullptr, "PARAMETERS", juce::AudioProcessorValueTreeState::ParameterLayout(std::move(paramsToUse)...) )
+    params(*this, nullptr, "PARAMETERS", juce::AudioProcessorValueTreeState::ParameterLayout(std::move(paramsToUse)...))
     {
         setPlayConfigDetails (inletNumber, outletNumber, getSampleRate(), getBlockSize());
         
