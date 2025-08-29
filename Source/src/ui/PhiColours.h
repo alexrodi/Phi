@@ -10,47 +10,40 @@
 
 #pragma once
 
-class PhiColourIds {
-    // 256 colours for each class
-    enum class ColourClass {
-        General = 0x000,     // IDs 0 - 255
-        Module = 0x100,      // IDs 256 - 511
-        Connection = 0x200,  // IDs 512 - 767
-        Port = 0x300,        // IDs 768 - 1023
-    };
-public:
-    struct General {enum Val{
-        Background = (int)ColourClass::General,
-        Highlight,
-        TopBar
-    };};
+namespace PhiColourIds {
+    namespace General {
+        enum Val { Background = 0x000, Highlight, TopBar };
+    }
 
-    struct Module {enum Val{
-        Background = (int)ColourClass::Module,
-        Outline,
-        SelectedOutline,
-        Name,
-        SelectedName,
-        Text,
-        DisabledText,
-        Highlight,
-        DisabledHighlight,
-        Lowlight
-    };};
-    
-    struct Port {enum Val{
-        IntletOutline = (int)ColourClass::Port,
-        IntletFill,
-        OutletOutline,
-        OutletFill,
-        Text
-    };};
+    namespace Module {
+        enum Val {
+            Background = 0x100,
+            Outline,
+            SelectedOutline,
+            Name,
+            SelectedName,
+            Text,
+            DisabledText,
+            Highlight,
+            DisabledHighlight,
+            Lowlight
+        };
+    }
 
-    struct Connection {enum Val{
-        DefaultFill = (int)ColourClass::Connection,
-        SelectedOutline
-    };};
-};
+    namespace Port {
+        enum Val {
+            IntletOutline = 0x200,
+            IntletFill,
+            OutletOutline,
+            OutletFill,
+            Text
+        };
+    }
+
+    namespace Connection {
+        enum Val { DefaultFill = 0x300, SelectedOutline };
+    }
+} // namespace PhiColourIDs
 
 inline juce::CallOutBox& openColourSelector(juce::Rectangle<int> area, juce::Colour initialColour, juce::Component* comp, juce::ChangeListener* listener)
 {
