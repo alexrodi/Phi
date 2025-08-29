@@ -166,9 +166,9 @@ struct State : juce::ValueTree::Listener {
     /// Hook for the Engine to receive the module processor
     std::function<void(std::unique_ptr<ModuleProcessor>, ModuleID)> newProcessorCreated;
     
-    /// Hook for the Engine to provide its state
+    /// Hook for the Engine to save its state (contains only each module's internal state)
     std::function<void(juce::ValueTree)> saveEngineState;
-    /// Hook for the Engine to get a new state
+    /// Hook for the Engine to load a new state (contains only each module's internal state)
     std::function<void(juce::ValueTree)> loadEngineState;
 
     bool isDirty() { return dirty; }
