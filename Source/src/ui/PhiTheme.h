@@ -13,7 +13,7 @@
 #include "PhiColours.h"
 
 struct PhiTheme {
-    ///Construct a new PhiStyle object and initialize it with default colours.
+    /// Constructs a PhiTheme with default colours.
     PhiTheme() {
         setDefaultStyle();
     }
@@ -60,5 +60,4 @@ private:
     
     std::unordered_map<int, juce::Colour> colours;
 };
-
 

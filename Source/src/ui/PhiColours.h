@@ -37,11 +37,6 @@ public:
         DisabledHighlight,
         Lowlight
     };};
-
-    struct Connection {enum Val{
-        DefaultFill = (int)ColourClass::Connection,
-        SelectedOutline
-    };};
     
     struct Port {enum Val{
         IntletOutline = (int)ColourClass::Port,
@@ -49,6 +44,11 @@ public:
         OutletOutline,
         OutletFill,
         Text
+    };};
+
+    struct Connection {enum Val{
+        DefaultFill = (int)ColourClass::Connection,
+        SelectedOutline
     };};
 };
 
