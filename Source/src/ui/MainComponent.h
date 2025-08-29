@@ -21,7 +21,7 @@ struct MainComponent : juce::Component,
     void resized() override;
 
 private:
-    PhiLookAndFeel phiLookAndFeel;
+    PhiLookAndFeel lookandfeel;
     
     //==============================================================================
     State& state;

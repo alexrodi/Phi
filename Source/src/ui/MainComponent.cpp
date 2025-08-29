@@ -28,15 +28,15 @@ showPortLabelsButton("Hint", "Label")
         state.setShowPortLabels((ShowPortLabels)showPortLabelsButton.getToggleState());
     };
     
-    juce::LookAndFeel::setDefaultLookAndFeel(&phiLookAndFeel);
+    juce::LookAndFeel::setDefaultLookAndFeel(&lookandfeel);
     
     // TODO: Components shouldn't reach for module colours!
     // Components out here have a neutral highlight colour
-    phiLookAndFeel.setColour(PhiColourIds::Module::Highlight, juce::Colour::greyLevel(0.8f));
+    lookandfeel.setColour(PhiColourIds::Module::Highlight, lookandfeel.findColour(PhiColourIds::General::Highlight));
     
     // This must be called *after* the lookandfeel has been set
     //phiLookAndFeel.setDefaultSansSerifTypeface(juce::Typeface::createSystemTypefaceFor(BinaryData::BasierSquareMono_Regular_otf, BinaryData::BasierSquareMono_Regular_otfSize));
-    phiLookAndFeel.setDefaultSansSerifTypefaceName ("Helvetica Neue");
+    lookandfeel.setDefaultSansSerifTypefaceName ("Helvetica Neue");
     
     state.addListener(this);
     

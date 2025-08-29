@@ -20,8 +20,9 @@ class PhiColourIds {
     };
 public:
     struct General {enum Val{
-       Background = (int)ColourClass::General,
-       TopBar
+        Background = (int)ColourClass::General,
+        Highlight,
+        TopBar
     };};
 
     struct Module {enum Val{
@@ -58,6 +59,7 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         // General
         setColour(PhiColourIds::General::Background, juce::Colours::darkgrey);
         setColour(PhiColourIds::General::TopBar,     juce::Colours::darkgrey.darker());
+        setColour(PhiColourIds::General::Highlight,  juce::Colour::greyLevel(0.8f));
         
         // Modules (defaults)
         setColour(PhiColourIds::Module::Highlight,         juce::Colours::cyan.withSaturation(0.5f));
@@ -88,8 +90,8 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         setColour(juce::PopupMenu::backgroundColourId,            findColour(PhiColourIds::Module::Background));
         setColour(juce::PopupMenu::highlightedBackgroundColourId, findColour(PhiColourIds::Module::Lowlight));
         setColour(juce::TextEditor::focusedOutlineColourId,       juce::Colours::transparentBlack);
-        setColour(juce::TextEditor::highlightedTextColourId,      juce:: Colour::greyLevel(0.7f));
-        setColour(juce::ScrollBar::thumbColourId,                 juce:: Colour::greyLevel(0.6f));
+        setColour(juce::TextEditor::highlightedTextColourId,      juce::Colour::greyLevel(0.7f));
+        setColour(juce::ScrollBar::thumbColourId,                 juce::Colour::greyLevel(0.6f));
         setColour(juce::Slider::textBoxHighlightColourId,         juce::Colour::greyLevel(0.2f));
         setColour(juce::Slider::textBoxOutlineColourId,           juce::Colours::transparentBlack);
         setColour(juce::TooltipWindow::backgroundColourId,        juce::Colours::grey);
