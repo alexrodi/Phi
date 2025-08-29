@@ -15,6 +15,7 @@ showPortLabelsButton("Hint", "Label")
     lookandfeel.setTheme({}, true);
     
     // ======================= Children =======================
+    addAndMakeVisible(menuBar);
     addChildComponent(patcher);
     addAndMakeVisible(viewport);
     viewport.setViewedComponent(&patcher, false);

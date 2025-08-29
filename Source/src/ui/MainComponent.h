@@ -34,62 +34,61 @@ private:
     /// The Viewport component that presents the view of mainPatcher to allow scrolling
     juce::Viewport viewport;
     
-    struct MenuBar : juce::MenuBarModel {
+    struct MenuBar : juce::MenuBarComponent {
         MenuBar(MainComponent& owner, FileManager& fileManager) :
-        owner(owner),
         fileManager(fileManager),
-        component(this)
-        {
-            owner.addAndMakeVisible(component);
+        model(*this) {
+            setModel(&model);
         }
         
-        void setBounds(juce::Rectangle<int> bounds) {
-            component.setBounds(bounds);
-        };
-        
-        juce::StringArray getMenuBarNames() override { return {"File", "Theme"}; }
-        
-        void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
-
-        juce::PopupMenu getMenuForIndex (int topLevelMenuIndex, const juce::String& menuName) override {
-            if (menuName == "File") {
-                juce::PopupMenu menu;
-                
-                menu.addItem("Open...", [&] () { fileManager.open(); });
-                menu.addItem("Save", [&] () { fileManager.save(); });
-                menu.addItem("Save As...", [&] () { fileManager.saveAs(); });
-                
-                return menu;
-            } else if (menuName == "Theme") {
-                juce::PopupMenu menu;
-                
-                // TODO: should be an iterative method
-                using Theme = PhiTheme::Palettes;
-                menu.addItem("Default Classic", [&] () { setTheme(Theme::DefaultClassic); });
-                menu.addItem("Default Dark",    [&] () { setTheme(Theme::DefaultDark); });
-                menu.addItem("Solaris Light",   [&] () { setTheme(Theme::SolarisLight); });
-                menu.addItem("Midnight Blue",   [&] () { setTheme(Theme::MidnightBlue); });
-                menu.addItem("Vintage Analog",  [&] () { setTheme(Theme::VintageAnalog); });
-                menu.addItem("Nordic Noir",     [&] () { setTheme(Theme::NordicNoir); });
-                menu.addItem("Cyberpunk Neon",  [&] () { setTheme(Theme::CyberpunkNeon); });
-                
-                return menu;
-            }
-            return {};
+        ~MenuBar() {
+            setModel(nullptr);
         }
         
     private:
-        MainComponent& owner;
+        struct Model : juce::MenuBarModel {
+            Model(MenuBar& owner) : owner(owner) {}
+            
+            juce::StringArray getMenuBarNames() override { return {"File", "Theme"}; }
+
+            juce::PopupMenu getMenuForIndex (int topLevelMenuIndex, const juce::String& menuName) override {
+                if (menuName == "File") {
+                    juce::PopupMenu menu;
+                    
+                    menu.addItem("Open...",    [&] () { owner.fileManager.open(); });
+                    menu.addItem("Save",       [&] () { owner.fileManager.save(); });
+                    menu.addItem("Save As...", [&] () { owner.fileManager.saveAs(); });
+                    
+                    return menu;
+                } else if (menuName == "Theme") {
+                    juce::PopupMenu menu;
+                    
+                    // TODO: should be an iterative method
+                    using Theme = PhiTheme::Palettes;
+                    menu.addItem("Default Classic", [&] () { owner.setTheme(Theme::DefaultClassic); });
+                    menu.addItem("Default Dark",    [&] () { owner.setTheme(Theme::DefaultDark); });
+                    menu.addItem("Solaris Light",   [&] () { owner.setTheme(Theme::SolarisLight); });
+                    menu.addItem("Midnight Blue",   [&] () { owner.setTheme(Theme::MidnightBlue); });
+                    menu.addItem("Vintage Analog",  [&] () { owner.setTheme(Theme::VintageAnalog); });
+                    menu.addItem("Nordic Noir",     [&] () { owner.setTheme(Theme::NordicNoir); });
+                    menu.addItem("Cyberpunk Neon",  [&] () { owner.setTheme(Theme::CyberpunkNeon); });
+                    
+                    return menu;
+                }
+                return {};
+            }
+            
+            void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
+            
+        private:
+            MenuBar& owner;
+        };
+        
         FileManager& fileManager;
-        juce::MenuBarComponent component;
+        Model model;
         
         void setTheme(const PhiTheme& theme) {
-            owner.lookandfeel.setTheme(theme, true);
-            
-            owner.patcher.setModulesTheme(theme);
-            
-            owner.sendLookAndFeelChange();
-            owner.repaint();
+            static_cast<MainComponent*>(getParentComponent())->setTheme(theme);
         }
     };
     
@@ -100,6 +99,14 @@ private:
     
     /// A simple button to toggle between inlet/outlet names being hinted or labeled
     PhiSliderButton showPortLabelsButton;
+    
+    void setTheme(const PhiTheme& theme){
+        lookandfeel.setTheme(theme, true);
+        patcher.setModulesTheme(theme);
+        
+        sendLookAndFeelChange();
+        repaint();
+    }
     
     //==============================================================================
     
