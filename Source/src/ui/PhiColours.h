@@ -12,7 +12,7 @@
 
 namespace PhiColourIds {
     namespace General {
-        enum Val { Background = 0x000, Highlight, TopBar };
+        enum Val { Background = 0x000, TopBar };
     }
 
     namespace Module {

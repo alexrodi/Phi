@@ -43,7 +43,10 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
         if (isMainComponent) {
             // Components out here have a neutral highlight colour
             setDefaultSansSerifTypeface(defaultFont);
-            setColour(PhiColourIds::Module::Highlight, findColour(PhiColourIds::General::Highlight));
+            setColour(PhiColourIds::Module::Highlight,
+                      findColour(PhiColourIds::Module::Highlight)
+                      .withSaturation(0.0f)
+                      .withMultipliedBrightness(0.7f));
         }
     }
     
