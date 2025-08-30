@@ -229,6 +229,12 @@ void ModuleBox::setTheme() {
         {
             lookandfeel.setTheme(mainLookandFeel->getTheme());
             moduleUI->sendLookAndFeelChange();
+            
+            for (auto& port : inlets)
+                port->sendLookAndFeelChange();
+            
+            for (auto& port : outlets)
+                port->sendLookAndFeelChange();
         }
     }
 }
