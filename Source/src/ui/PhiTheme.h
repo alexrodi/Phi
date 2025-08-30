@@ -12,24 +12,19 @@
 
 #include "PhiColours.h"
 
-inline juce::Typeface::Ptr createFont(const juce::String& fontName) {
-    return juce::Typeface::createSystemTypefaceFor(juce::FontOptions().withName(fontName));
-}
-
-
 struct PhiTheme {
     enum class Palettes {
-        DefaultClassic,
-        DefaultDark,
-        SolarisLight,
-        MidnightBlue,
-        VintageAnalog,
-        NordicNoir,
-        CyberpunkNeon
+        Default,
+        Slate,
+        Dusk,
+        Earth,
+        Granite
     };
 
+    PhiTheme() { setTheme(Palettes::Default); }
+    
     /// Constructs a PhiTheme with a specified palette.
-    PhiTheme(Palettes palette = Palettes::DefaultClassic) {
+    PhiTheme(Palettes palette) {
         setTheme(palette);
     }
 
@@ -46,28 +41,22 @@ struct PhiTheme {
     /// Sets the current theme from the Palettes enum.
     void setTheme(Palettes palette) {
         switch (palette) {
-            case Palettes::SolarisLight:    setSolarisLightStyle(); break;
-            case Palettes::MidnightBlue:    setMidnightBlueStyle(); break;
-            case Palettes::VintageAnalog: setVintageAnalogStyle(); break;
-            case Palettes::NordicNoir:      setNordicNoirStyle(); break;
-            case Palettes::CyberpunkNeon: setCyberpunkNeonStyle(); break;
-            case Palettes::DefaultDark:     setDefaultDarkStyle(); break;
-            case Palettes::DefaultClassic:
+            case Palettes::Slate:    setSlate(); break;
+            case Palettes::Dusk:  setDusk(); break;
+            case Palettes::Earth:    setEarth(); break;
+            case Palettes::Granite: setGranite(); break;
+            case Palettes::Default:
             default:
-                setDefaultClassicStyle();
+                setDefault();
                 break;
         }
     }
 
 private:
     std::unordered_map<int, juce::Colour> colours;
-    juce::Typeface::Ptr font;
 
-    /// Populates the style with the default "classic theme".
-    void setDefaultClassicStyle() {
+    void setDefault() {
         colours.clear();
-        
-        font = createFont("Helvetica Neue");
         
         // General
         colours[PhiColourIds::General::Background] =         juce::Colours::darkgrey;
@@ -98,223 +87,168 @@ private:
         colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::grey.brighter();
     }
     
-    /// Populates the style with the default "dark theme".
-    void setDefaultDarkStyle() {
+    void setDusk() {
         colours.clear();
-        
-        font = createFont("Inter");
-        
-        // General
-        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.18f, 0.20f, 0.22f, 1.0f);
-        colours[PhiColourIds::General::TopBar] = juce::Colour::fromFloatRGBA(0.12f, 0.13f, 0.15f, 1.0f);
-        colours[PhiColourIds::General::Highlight] = juce::Colour::fromFloatRGBA(0.9f, 0.9f, 0.9f, 1.0f);
-
-        // Modules
-        colours[PhiColourIds::Module::Highlight] = juce::Colours::cyan.withSaturation(0.5f);
-        colours[PhiColourIds::Module::Lowlight] = juce::Colour::greyLevel(0.205f);
-        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colours::grey;
-        colours[PhiColourIds::Module::DisabledText] = juce::Colours::grey;
-        colours[PhiColourIds::Module::Background] = juce::Colour::fromFloatRGBA(0.12f, 0.13f, 0.15f, 1.0f);
-        colours[PhiColourIds::Module::Outline] = juce::Colours::grey.darker(0.5f);
-        colours[PhiColourIds::Module::SelectedOutline] = juce::Colours::grey.brighter(0.8f);
-        colours[PhiColourIds::Module::Name] = juce::Colours::grey;
-        colours[PhiColourIds::Module::SelectedName] = juce::Colours::grey.brighter();
-        colours[PhiColourIds::Module::Text] = juce::Colours::grey.brighter();
-
-        // Ports
-        colours[PhiColourIds::Port::IntletOutline] = juce::Colours::grey;
-        colours[PhiColourIds::Port::IntletFill] = juce::Colours::darkgrey;
-        colours[PhiColourIds::Port::OutletOutline] = juce::Colours::darkgrey;
-        colours[PhiColourIds::Port::OutletFill] = juce::Colours::grey;
-        colours[PhiColourIds::Port::Text] = juce::Colours::grey;
-
-        // Connections
-        colours[PhiColourIds::Connection::DefaultFill] = juce::Colours::grey;
-        colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::grey.brighter();
-    }
-
-    /// Theme 1: A bright, clean, and modern light theme.
-    void setSolarisLightStyle() {
-        colours.clear();
-        
-        font = createFont("Lato");
-        
-        juce::Colour accent = juce::Colour::fromFloatRGBA(0.0f, 0.46f, 0.8f, 1.0f); // A nice, modern blue
 
         // General
-        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.94f, 0.95f, 0.96f, 1.0f);
-        colours[PhiColourIds::General::TopBar] = juce::Colour::fromFloatRGBA(0.88f, 0.89f, 0.90f, 1.0f);
-        colours[PhiColourIds::General::Highlight] = juce::Colour::fromFloatRGBA(0.1f, 0.1f, 0.1f, 1.0f);
+        colours[PhiColourIds::General::Background] =         juce::Colour(0xff1a1a2e); // Deep, dark purple-blue
+        colours[PhiColourIds::General::TopBar] =             juce::Colour(0xff0f0f1c); // Even darker purple-blue
+        colours[PhiColourIds::General::Highlight] =          juce::Colour(0xff3f3f5a); // Muted purple-grey
 
         // Modules
-        colours[PhiColourIds::Module::Highlight] = accent;
-        colours[PhiColourIds::Module::Lowlight] = juce::Colour::greyLevel(0.9f);
-        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colour::fromFloatRGBA(0.75f, 0.75f, 0.75f, 1.0f);
-        colours[PhiColourIds::Module::DisabledText] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.6f, 1.0f);
-        colours[PhiColourIds::Module::Background] = juce::Colours::white;
-        colours[PhiColourIds::Module::Outline] = juce::Colour::fromFloatRGBA(0.8f, 0.8f, 0.8f, 1.0f);
-        colours[PhiColourIds::Module::SelectedOutline] = accent.brighter(0.2f);
-        colours[PhiColourIds::Module::Name] = juce::Colour::fromFloatRGBA(0.4f, 0.4f, 0.4f, 1.0f);
-        colours[PhiColourIds::Module::SelectedName] = juce::Colour::fromFloatRGBA(0.1f, 0.1f, 0.1f, 1.0f);
-        colours[PhiColourIds::Module::Text] = juce::Colour::fromFloatRGBA(0.2f, 0.2f, 0.2f, 1.0f);
+        colours[PhiColourIds::Module::Highlight] =           juce::Colours::deeppink.withSaturation(0.8f); // High-saturation highlight
+        colours[PhiColourIds::Module::Lowlight] =            juce::Colour(0xff2a2a44); // Dark purple-grey
+        colours[PhiColourIds::Module::DisabledHighlight] =   juce::Colour(0xff555570); // Muted grey
+        colours[PhiColourIds::Module::DisabledText] =        juce::Colour(0xff555570); // Muted grey
+        colours[PhiColourIds::Module::Background] =          juce::Colour(0xff1f1f33); // Dark purple-blue
+        colours[PhiColourIds::Module::Outline] =             juce::Colour(0xff3f3f5a); // Muted purple-grey
+        colours[PhiColourIds::Module::SelectedOutline] =     juce::Colour(0xff3f3f5a).brighter();
+        colours[PhiColourIds::Module::Name] =                juce::Colour(0xff9999bb); // Light grey-blue
+        colours[PhiColourIds::Module::SelectedName] =        juce::Colour(0xffffffff); // White for selected text
+        colours[PhiColourIds::Module::Text] =                juce::Colour(0xffbbbbcc); // Light grey-blue text
 
         // Ports
-        colours[PhiColourIds::Port::IntletOutline] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.6f, 1.0f);
-        colours[PhiColourIds::Port::IntletFill] = juce::Colour::fromFloatRGBA(0.9f, 0.9f, 0.9f, 1.0f);
-        colours[PhiColourIds::Port::OutletOutline] = juce::Colour::fromFloatRGBA(0.9f, 0.9f, 0.9f, 1.0f);
-        colours[PhiColourIds::Port::OutletFill] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.6f, 1.0f);
-        colours[PhiColourIds::Port::Text] = juce::Colour::fromFloatRGBA(0.4f, 0.4f, 0.4f, 1.0f);
+        colours[PhiColourIds::Port::IntletOutline] =         juce::Colour(0xff444466); // Dark blue-grey
+        colours[PhiColourIds::Port::IntletFill] =            juce::Colour(0xff1f1f33); // Dark purple-blue
+        colours[PhiColourIds::Port::OutletOutline] =         juce::Colour(0xff1f1f33); // Dark purple-blue
+        colours[PhiColourIds::Port::OutletFill] =            juce::Colour(0xff444466); // Dark blue-grey
+        colours[PhiColourIds::Port::Text] =                  juce::Colour(0xffbbbbcc); // Light grey-blue
 
         // Connections
-        colours[PhiColourIds::Connection::DefaultFill] = juce::Colour::fromFloatRGBA(0.5f, 0.5f, 0.5f, 1.0f);
-        colours[PhiColourIds::Connection::SelectedOutline] = accent;
+        colours[PhiColourIds::Connection::DefaultFill] =     juce::Colour(0xff666688); // Muted connection line
+        colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::gold.withSaturation(0.9f); // Bright gold highlight
     }
 
-    /// Theme 2: A deep, cinematic dark theme with blue accents.
-    void setMidnightBlueStyle() {
+    void setSlate() {
         colours.clear();
         
-        font = createFont("Montserrat");
-        
-        juce::Colour accent = juce::Colour::fromFloatRGBA(0.3f, 0.6f, 1.0f, 1.0f); // Electric Blue
-
         // General
-        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.08f, 0.09f, 0.12f, 1.0f);
-        colours[PhiColourIds::General::TopBar] = juce::Colours::black;
-        colours[PhiColourIds::General::Highlight] = juce::Colour::fromFloatRGBA(0.95f, 0.95f, 1.0f, 1.0f);
+        colours[PhiColourIds::General::Background] =         juce::Colours::darkgrey.darker();
+        colours[PhiColourIds::General::TopBar] =             juce::Colours::darkgrey.darker().darker();
+        colours[PhiColourIds::General::Highlight] =          juce::Colour::greyLevel(0.4f);
 
         // Modules
-        colours[PhiColourIds::Module::Highlight] = accent;
-        colours[PhiColourIds::Module::Lowlight] = juce::Colour::fromFloatRGBA(0.1f, 0.11f, 0.14f, 1.0f);
-        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colour::fromFloatRGBA(0.4f, 0.4f, 0.45f, 1.0f);
-        colours[PhiColourIds::Module::DisabledText] = juce::Colour::fromFloatRGBA(0.4f, 0.4f, 0.45f, 1.0f);
-        colours[PhiColourIds::Module::Background] = juce::Colour::fromFloatRGBA(0.12f, 0.14f, 0.18f, 1.0f);
-        colours[PhiColourIds::Module::Outline] = juce::Colour::fromFloatRGBA(0.2f, 0.22f, 0.28f, 1.0f);
-        colours[PhiColourIds::Module::SelectedOutline] = accent.brighter(0.4f);
-        colours[PhiColourIds::Module::Name] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.7f, 1.0f);
-        colours[PhiColourIds::Module::SelectedName] = juce::Colours::white;
-        colours[PhiColourIds::Module::Text] = juce::Colour::fromFloatRGBA(0.8f, 0.8f, 0.9f, 1.0f);
+        colours[PhiColourIds::Module::Highlight] =           juce::Colours::cyan.withSaturation(0.6f);
+        colours[PhiColourIds::Module::Lowlight] =            juce::Colour::greyLevel(0.2f);
+        colours[PhiColourIds::Module::DisabledHighlight] =   juce::Colours::grey;
+        colours[PhiColourIds::Module::DisabledText] =        juce::Colours::grey;
+        colours[PhiColourIds::Module::Background] =          juce::Colour::greyLevel(0.15f);
+        colours[PhiColourIds::Module::Outline] =             juce::Colour::greyLevel(0.4f);
+        colours[PhiColourIds::Module::SelectedOutline] =     juce::Colour::greyLevel(0.4f).brighter();
+        colours[PhiColourIds::Module::Name] =                juce::Colour::greyLevel(0.7f);
+        colours[PhiColourIds::Module::SelectedName] =        juce::Colours::white;
+        colours[PhiColourIds::Module::Text] =                juce::Colour::greyLevel(0.8f);
 
         // Ports
-        colours[PhiColourIds::Port::IntletOutline] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.7f, 1.0f);
-        colours[PhiColourIds::Port::IntletFill] = juce::Colour::fromFloatRGBA(0.08f, 0.09f, 0.12f, 1.0f);
-        colours[PhiColourIds::Port::OutletOutline] = juce::Colour::fromFloatRGBA(0.08f, 0.09f, 0.12f, 1.0f);
-        colours[PhiColourIds::Port::OutletFill] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.7f, 1.0f);
-        colours[PhiColourIds::Port::Text] = juce::Colour::fromFloatRGBA(0.6f, 0.6f, 0.7f, 1.0f);
+        colours[PhiColourIds::Port::IntletOutline] =         juce::Colour::greyLevel(0.5f);
+        colours[PhiColourIds::Port::IntletFill] =            juce::Colour::greyLevel(0.2f);
+        colours[PhiColourIds::Port::OutletOutline] =         juce::Colour::greyLevel(0.2f);
+        colours[PhiColourIds::Port::OutletFill] =            juce::Colour::greyLevel(0.5f);
+        colours[PhiColourIds::Port::Text] =                  juce::Colour::greyLevel(0.7f);
 
         // Connections
-        colours[PhiColourIds::Connection::DefaultFill] = juce::Colour::fromFloatRGBA(0.7f, 0.7f, 0.8f, 1.0f);
-        colours[PhiColourIds::Connection::SelectedOutline] = accent.brighter();
+        colours[PhiColourIds::Connection::DefaultFill] =     juce::Colour::greyLevel(0.6f);
+        colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::cyan.withSaturation(0.6f).brighter();
     }
 
-    /// Theme 3: Inspired by vintage analog hardware with warm, creamy tones.
-    void setVintageAnalogStyle() {
+    /// Populates the style with the "Muted Earth" theme.
+    void setEarth() {
         colours.clear();
-        
-        font = createFont("Roboto Slab");
-        
-        juce::Colour accent = juce::Colours::orange.darker(0.1f);
 
         // General
-        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.85f, 0.82f, 0.78f, 1.0f); // Cream
-        colours[PhiColourIds::General::TopBar] = juce::Colour::fromFloatRGBA(0.25f, 0.2f, 0.18f, 1.0f); // Dark Wood
-        colours[PhiColourIds::General::Highlight] = juce::Colour::fromFloatRGBA(0.1f, 0.1f, 0.1f, 1.0f);
+        colours[PhiColourIds::General::Background] =         juce::Colour(0xff2d2c2b); // Dark charcoal brown
+        colours[PhiColourIds::General::TopBar] =             juce::Colour(0xff1f1e1d); // Very dark brown
+        colours[PhiColourIds::General::Highlight] =          juce::Colour(0xff4a4847); // Medium brown-grey
 
         // Modules
-        colours[PhiColourIds::Module::Highlight] = accent;
-        colours[PhiColourIds::Module::Lowlight] = juce::Colour::fromFloatRGBA(0.7f, 0.68f, 0.65f, 1.0f);
-        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colour::fromFloatRGBA(0.6f, 0.58f, 0.55f, 1.0f);
-        colours[PhiColourIds::Module::DisabledText] = juce::Colour::fromFloatRGBA(0.5f, 0.48f, 0.45f, 1.0f);
-        colours[PhiColourIds::Module::Background] = juce::Colour::fromFloatRGBA(0.4f, 0.4f, 0.4f, 1.0f); // Grey metal
-        colours[PhiColourIds::Module::Outline] = juce::Colour::fromFloatRGBA(0.3f, 0.3f, 0.3f, 1.0f);
-        colours[PhiColourIds::Module::SelectedOutline] = juce::Colours::black;
-        colours[PhiColourIds::Module::Name] = juce::Colour::fromFloatRGBA(0.9f, 0.9f, 0.9f, 1.0f);
-        colours[PhiColourIds::Module::SelectedName] = juce::Colours::white;
-        colours[PhiColourIds::Module::Text] = juce::Colours::white;
+        colours[PhiColourIds::Module::Highlight] =           juce::Colours::orange.withSaturation(0.5f); // Burnt orange highlight
+        colours[PhiColourIds::Module::Lowlight] =            juce::Colour(0xff242322); // Very dark brown
+        colours[PhiColourIds::Module::DisabledHighlight] =   juce::Colour(0xff5c5a59); // Muted brown
+        colours[PhiColourIds::Module::DisabledText] =        juce::Colour(0xff5c5a59); // Muted brown
+        colours[PhiColourIds::Module::Background] =          juce::Colour(0xff2c2b2a); // Dark brown-grey
+        colours[PhiColourIds::Module::Outline] =             juce::Colour(0xff4a4847); // Medium brown-grey
+        colours[PhiColourIds::Module::SelectedOutline] =     juce::Colour(0xff4a4847).brighter();
+        colours[PhiColourIds::Module::Name] =                juce::Colour(0xff8c8a88); // Light brown-grey
+        colours[PhiColourIds::Module::SelectedName] =        juce::Colour(0xfff0efe9); // Off-white for selected text
+        colours[PhiColourIds::Module::Text] =                juce::Colour(0xffb7b4b1); // Light taupe text
 
         // Ports
-        colours[PhiColourIds::Port::IntletOutline] = juce::Colours::black;
-        colours[PhiColourIds::Port::IntletFill] = juce::Colour::fromFloatRGBA(0.3f, 0.3f, 0.3f, 1.0f);
-        colours[PhiColourIds::Port::OutletOutline] = juce::Colour::fromFloatRGBA(0.3f, 0.3f, 0.3f, 1.0f);
-        colours[PhiColourIds::Port::OutletFill] = juce::Colours::black;
-        colours[PhiColourIds::Port::Text] = juce::Colours::white;
+        colours[PhiColourIds::Port::IntletOutline] =         juce::Colour(0xff5c5a59); // Muted brown
+        colours[PhiColourIds::Port::IntletFill] =            juce::Colour(0xff2d2c2b); // Dark charcoal brown
+        colours[PhiColourIds::Port::OutletOutline] =         juce::Colour(0xff2d2c2b); // Dark charcoal brown
+        colours[PhiColourIds::Port::OutletFill] =            juce::Colour(0xff5c5a59); // Muted brown
+        colours[PhiColourIds::Port::Text] =                  juce::Colour(0xffb7b4b1); // Light taupe
 
         // Connections
-        colours[PhiColourIds::Connection::DefaultFill] = juce::Colour::fromFloatRGBA(0.2f, 0.2f, 0.2f, 1.0f);
-        colours[PhiColourIds::Connection::SelectedOutline] = accent;
+        colours[PhiColourIds::Connection::DefaultFill] =     juce::Colour(0xff7c7a78); // Medium grey-brown
+        colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::orange.withSaturation(0.5f).brighter(); // Brighter burnt orange
     }
 
-    /// Theme 4: A cool, minimalist, and professional palette.
-    void setNordicNoirStyle() {
+    /// Populates the style with the "Smokey Granite" theme.
+    void setGranite() {
         colours.clear();
-        
-        font = createFont("Lato");
-        
-        juce::Colour accent = juce::Colour::fromFloatRGBA(0.36f, 0.72f, 0.72f, 1.0f); // Muted Teal
 
         // General
-        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.23f, 0.25f, 0.28f, 1.0f);
-        colours[PhiColourIds::General::TopBar] = juce::Colour::fromFloatRGBA(0.18f, 0.20f, 0.22f, 1.0f);
-        colours[PhiColourIds::General::Highlight] = juce::Colour::fromFloatRGBA(0.9f, 0.92f, 0.95f, 1.0f);
+        colours[PhiColourIds::General::Background] =         juce::Colour(0xff55555c); // Medium-dark blue-grey
+        colours[PhiColourIds::General::TopBar] =             juce::Colour(0xff404047); // Darker blue-grey
+        colours[PhiColourIds::General::Highlight] =          juce::Colour(0xff85858c); // Medium blue-grey
 
         // Modules
-        colours[PhiColourIds::Module::Highlight] = accent;
-        colours[PhiColourIds::Module::Lowlight] = juce::Colour::fromFloatRGBA(0.26f, 0.28f, 0.31f, 1.0f);
-        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colour::fromFloatRGBA(0.4f, 0.42f, 0.45f, 1.0f);
-        colours[PhiColourIds::Module::DisabledText] = juce::Colour::fromFloatRGBA(0.5f, 0.52f, 0.55f, 1.0f);
-        colours[PhiColourIds::Module::Background] = juce::Colour::fromFloatRGBA(0.20f, 0.22f, 0.25f, 1.0f);
-        colours[PhiColourIds::Module::Outline] = juce::Colour::fromFloatRGBA(0.3f, 0.32f, 0.35f, 1.0f);
-        colours[PhiColourIds::Module::SelectedOutline] = accent.brighter(0.5f);
-        colours[PhiColourIds::Module::Name] = juce::Colour::fromFloatRGBA(0.6f, 0.62f, 0.65f, 1.0f);
-        colours[PhiColourIds::Module::SelectedName] = juce::Colour::fromFloatRGBA(0.9f, 0.92f, 0.95f, 1.0f);
-        colours[PhiColourIds::Module::Text] = juce::Colour::fromFloatRGBA(0.8f, 0.82f, 0.85f, 1.0f);
+        colours[PhiColourIds::Module::Highlight] =           juce::Colours::green.withSaturation(0.7f); // Forest green highlight
+        colours[PhiColourIds::Module::Lowlight] =            juce::Colour(0xff45454c); // Dark blue-grey
+        colours[PhiColourIds::Module::DisabledHighlight] =   juce::Colour(0xff77777e); // Lighter blue-grey
+        colours[PhiColourIds::Module::DisabledText] =        juce::Colour(0xff77777e); // Lighter blue-grey
+        colours[PhiColourIds::Module::Background] =          juce::Colour(0xff4e4e55); // Dark blue-grey
+        colours[PhiColourIds::Module::Outline] =             juce::Colour(0xff77777e); // Lighter blue-grey
+        colours[PhiColourIds::Module::SelectedOutline] =     juce::Colour(0xff77777e).brighter();
+        colours[PhiColourIds::Module::Name] =                juce::Colour(0xffa0a0a7); // Light blue-grey
+        colours[PhiColourIds::Module::SelectedName] =        juce::Colours::white;
+        colours[PhiColourIds::Module::Text] =                juce::Colour(0xffc5c5cc); // Light text
 
         // Ports
-        colours[PhiColourIds::Port::IntletOutline] = juce::Colour::fromFloatRGBA(0.6f, 0.62f, 0.65f, 1.0f);
-        colours[PhiColourIds::Port::IntletFill] = juce::Colour::fromFloatRGBA(0.23f, 0.25f, 0.28f, 1.0f);
-        colours[PhiColourIds::Port::OutletOutline] = juce::Colour::fromFloatRGBA(0.23f, 0.25f, 0.28f, 1.0f);
-        colours[PhiColourIds::Port::OutletFill] = juce::Colour::fromFloatRGBA(0.6f, 0.62f, 0.65f, 1.0f);
-        colours[PhiColourIds::Port::Text] = juce::Colour::fromFloatRGBA(0.6f, 0.62f, 0.65f, 1.0f);
+        colours[PhiColourIds::Port::IntletOutline] =         juce::Colour(0xff77777e); // Lighter blue-grey
+        colours[PhiColourIds::Port::IntletFill] =            juce::Colour(0xff4e4e55); // Dark blue-grey
+        colours[PhiColourIds::Port::OutletOutline] =         juce::Colour(0xff4e4e55); // Dark blue-grey
+        colours[PhiColourIds::Port::OutletFill] =            juce::Colour(0xff77777e); // Lighter blue-grey
+        colours[PhiColourIds::Port::Text] =                  juce::Colour(0xffc5c5cc); // Light text
 
         // Connections
-        colours[PhiColourIds::Connection::DefaultFill] = juce::Colour::fromFloatRGBA(0.7f, 0.72f, 0.75f, 1.0f);
-        colours[PhiColourIds::Connection::SelectedOutline] = accent.brighter(0.2f);
+        colours[PhiColourIds::Connection::DefaultFill] =     juce::Colour(0xff9999a0); // Medium connection line
+        colours[PhiColourIds::Connection::SelectedOutline] = juce::Colours::yellow.withSaturation(0.8f); // Bright yellow
     }
-    
-    /// Theme 5: A high-contrast, futuristic theme with neon highlights.
-    void setCyberpunkNeonStyle() {
-        colours.clear();
-        
-        font = createFont("Major Mono Display");
-        
-        juce::Colour accent = juce::Colours::magenta;
-
-        // General
-        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.05f, 0.0f, 0.1f, 1.0f); // Deep purple
-        colours[PhiColourIds::General::TopBar] = juce::Colours::black;
-        colours[PhiColourIds::General::Highlight] = juce::Colours::white;
-
-        // Modules
-        colours[PhiColourIds::Module::Highlight] = accent;
-        colours[PhiColourIds::Module::Lowlight] = juce::Colour::fromFloatRGBA(0.1f, 0.05f, 0.15f, 1.0f);
-        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colour::fromFloatRGBA(0.4f, 0.2f, 0.5f, 1.0f);
-        colours[PhiColourIds::Module::DisabledText] = juce::Colour::fromFloatRGBA(0.4f, 0.2f, 0.5f, 1.0f);
-        colours[PhiColourIds::Module::Background] = juce::Colour::fromFloatRGBA(0.1f, 0.0f, 0.15f, 1.0f);
-        colours[PhiColourIds::Module::Outline] = juce::Colour::fromFloatRGBA(0.5f, 0.0f, 0.7f, 1.0f);
-        colours[PhiColourIds::Module::SelectedOutline] = juce::Colours::cyan;
-        colours[PhiColourIds::Module::Name] = accent.darker(0.2f);
-        colours[PhiColourIds::Module::SelectedName] = juce::Colours::cyan;
-        colours[PhiColourIds::Module::Text] = accent.brighter(0.3f);
-
-        // Ports
-        colours[PhiColourIds::Port::IntletOutline] = juce::Colours::cyan;
-        colours[PhiColourIds::Port::IntletFill] = juce::Colours::black;
-        colours[PhiColourIds::Port::OutletOutline] = juce::Colours::black;
-        colours[PhiColourIds::Port::OutletFill] = juce::Colours::cyan;
-        colours[PhiColourIds::Port::Text] = juce::Colours::cyan.darker(0.3f);
-
-        // Connections
-        colours[PhiColourIds::Connection::DefaultFill] = juce::Colours::cyan;
-        colours[PhiColourIds::Connection::SelectedOutline] = accent;
-    }
+//    
+//    /// Theme 5: A high-contrast, futuristic theme with neon highlights.
+//    void setCyberpunkNeonStyle() {
+//        colours.clear();
+//        
+//        juce::Colour accent = juce::Colours::magenta;
+//
+//        // General
+//        colours[PhiColourIds::General::Background] = juce::Colour::fromFloatRGBA(0.05f, 0.0f, 0.1f, 1.0f); // Deep purple
+//        colours[PhiColourIds::General::TopBar] = juce::Colours::black;
+//        colours[PhiColourIds::General::Highlight] = juce::Colours::white;
+//
+//        // Modules
+//        colours[PhiColourIds::Module::Highlight] = accent;
+//        colours[PhiColourIds::Module::Lowlight] = juce::Colour::fromFloatRGBA(0.1f, 0.05f, 0.15f, 1.0f);
+//        colours[PhiColourIds::Module::DisabledHighlight] = juce::Colour::fromFloatRGBA(0.4f, 0.2f, 0.5f, 1.0f);
+//        colours[PhiColourIds::Module::DisabledText] = juce::Colour::fromFloatRGBA(0.4f, 0.2f, 0.5f, 1.0f);
+//        colours[PhiColourIds::Module::Background] = juce::Colour::fromFloatRGBA(0.1f, 0.0f, 0.15f, 1.0f);
+//        colours[PhiColourIds::Module::Outline] = juce::Colour::fromFloatRGBA(0.5f, 0.0f, 0.7f, 1.0f);
+//        colours[PhiColourIds::Module::SelectedOutline] = juce::Colours::cyan;
+//        colours[PhiColourIds::Module::Name] = accent.darker(0.2f);
+//        colours[PhiColourIds::Module::SelectedName] = juce::Colours::cyan;
+//        colours[PhiColourIds::Module::Text] = accent.brighter(0.3f);
+//
+//        // Ports
+//        colours[PhiColourIds::Port::IntletOutline] = juce::Colours::cyan;
+//        colours[PhiColourIds::Port::IntletFill] = juce::Colours::black;
+//        colours[PhiColourIds::Port::OutletOutline] = juce::Colours::black;
+//        colours[PhiColourIds::Port::OutletFill] = juce::Colours::cyan;
+//        colours[PhiColourIds::Port::Text] = juce::Colours::cyan.darker(0.3f);
+//
+//        // Connections
+//        colours[PhiColourIds::Connection::DefaultFill] = juce::Colours::cyan;
+//        colours[PhiColourIds::Connection::SelectedOutline] = accent;
+//    }
 };
