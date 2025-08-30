@@ -19,6 +19,7 @@ struct PhiTheme {
         Boulder,
         Neon
     };
+    
 
     PhiTheme() { setTheme(Palettes::Default); }
     
@@ -46,9 +47,30 @@ struct PhiTheme {
             case Palettes::Default:
             default:
                 setDefault();
-                break;
+        }
+        
+        name = paletteName(palette);
+    }
+    
+    static PhiTheme fromName(const juce::String& name) {
+        if (name == "Pop") return PhiTheme(Palettes::Pop);
+        if (name == "Neon") return PhiTheme(Palettes::Neon);
+        if (name == "Boulder") return PhiTheme(Palettes::Boulder);
+        return PhiTheme(Palettes::Default);
+    }
+    
+    static juce::String paletteName(Palettes palette) {
+        switch (palette) {
+            case Palettes::Pop: return "Pop"; break;
+            case Palettes::Neon: return "Neon"; break;
+            case Palettes::Boulder: return "Boulder"; break;
+            case Palettes::Default:
+            default:
+                return "Default";
         }
     }
+    
+    juce::String name;
 
 private:
     std::unordered_map<int, juce::Colour> colours;

@@ -36,8 +36,8 @@ private:
     
     struct MenuBar : juce::MenuBarComponent {
         MenuBar(MainComponent& owner, FileManager& fileManager) :
-        fileManager(fileManager),
-        model(*this) {
+        model(owner, fileManager)
+        {
             setModel(&model);
         }
         
@@ -47,7 +47,7 @@ private:
         
     private:
         struct Model : juce::MenuBarModel {
-            Model(MenuBar& owner) : owner(owner) {}
+            Model(MainComponent& owner, FileManager& fileManager) : fileManager(fileManager), owner(owner) {}
             
             juce::StringArray getMenuBarNames() override { return {"File", "Theme"}; }
 
@@ -55,9 +55,9 @@ private:
                 if (menuName == "File") {
                     juce::PopupMenu menu;
                     
-                    menu.addItem("Open...",    [&] () { owner.fileManager.open(); });
-                    menu.addItem("Save",       [&] () { owner.fileManager.save(); });
-                    menu.addItem("Save As...", [&] () { owner.fileManager.saveAs(); });
+                    menu.addItem("Open...",    [&] () { fileManager.open(); });
+                    menu.addItem("Save",       [&] () { fileManager.save(); });
+                    menu.addItem("Save As...", [&] () { fileManager.saveAs(); });
                     
                     return menu;
                 } else if (menuName == "Theme") {
@@ -78,15 +78,11 @@ private:
             void menuItemSelected (int menuItemID, int topLevelMenuIndex) override {}
             
         private:
-            MenuBar& owner;
+            FileManager& fileManager;
+            MainComponent& owner;
         };
         
-        FileManager& fileManager;
         Model model;
-        
-        void setTheme(const PhiTheme& theme) {
-            static_cast<MainComponent*>(getParentComponent())->setTheme(theme);
-        }
     };
     
     MenuBar menuBar;
@@ -98,17 +94,19 @@ private:
     PhiSliderButton showPortLabelsButton;
     
     void setTheme(const PhiTheme& theme){
-        lookandfeel.setTheme(theme, true);
-        
-        sendLookAndFeelChange();
-        repaint();
+        state.setTheme(theme);
     }
     
     //==============================================================================
     
     void fileLoaded(juce::File) override;
     void fileSaved(juce::File) override;
-    
+    void themeChanged(const PhiTheme& theme) override {
+        lookandfeel.setTheme(theme, true);
+        
+        sendLookAndFeelChange();
+        repaint();
+    }
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
