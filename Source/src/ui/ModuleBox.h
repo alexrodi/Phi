@@ -60,7 +60,7 @@ private:
         }
         
         /// Sets the highlight colour of the module
-        void setHighlightColour(juce::Colour colour) {
+        void setCustomHighlightColour(juce::Colour colour) {
             highlight = colour;
             setModuleOn(wasOn);
             hasCustomHighlight = true;
@@ -70,7 +70,7 @@ private:
             PhiLookAndFeel::setTheme(theme, false);
             
             if (hasCustomHighlight)
-                setHighlightColour(highlight);
+                setCustomHighlightColour(highlight);
         }
         
     private:

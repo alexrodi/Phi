@@ -231,7 +231,6 @@ void ModuleBox::setTheme() {
             moduleUI->sendLookAndFeelChange();
         }
     }
-    
 }
 
 PortID ModuleBox::getPortID(const PortUI& port) const {
@@ -297,7 +296,7 @@ void ModuleBox::moduleEnabledChanged(ModuleID id, bool isEnabled) {
 
 void ModuleBox::moduleColourChanged(ModuleID id, const juce::Colour& colour) {
     if (id == moduleID) {
-        lookandfeel.setHighlightColour(colour);
+        lookandfeel.setCustomHighlightColour(colour);
         sendLookAndFeelChange();
     }
 }
