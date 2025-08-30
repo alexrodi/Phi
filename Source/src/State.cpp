@@ -157,6 +157,11 @@ void State::setPatchCordType(PatchCordType type)
     state.setProperty("patchCordType", (int)type, nullptr);
 }
 
+void State::setTheme(const PhiTheme& theme)
+{
+    state.setProperty("theme", theme.name, nullptr);
+}
+
 juce::ValueTree State::getModuleWithID (ModuleID moduleID) {
     auto modulesTree = state.getChildWithName("modules");
     return modulesTree.getChildWithName(moduleID.toString());
@@ -185,6 +190,11 @@ void State::valueTreePropertyChanged (juce::ValueTree& tree, const juce::Identif
         {
             auto type = (PatchCordType)(int)val;
             listeners.call([&] (auto& listener) { listener.patchCordTypeChanged(type); });
+        }
+        else if (key == "theme")
+        {
+            auto theme = PhiTheme::fromName(val.toString());
+            listeners.call([&] (auto& listener) { listener.themeChanged(theme); });
         }
     }
     else if (tree.getParent().getType().toString() == "modules")

@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "ui/PhiTheme.h"
 #include "ui/ModuleUI.h"
 #include "dsp/ModuleProcessor.h"
 
@@ -190,6 +191,7 @@ struct State : juce::ValueTree::Listener {
     
     void setShowPortLabels(ShowPortLabels);
     void setPatchCordType(PatchCordType);
+    void setTheme(const PhiTheme&);
     
     // ========================================================================
     
@@ -210,6 +212,7 @@ struct State : juce::ValueTree::Listener {
         
         virtual void showPortLabelsChanged(ShowPortLabels) {};
         virtual void patchCordTypeChanged(PatchCordType) {};
+        virtual void themeChanged(const PhiTheme&) {};
         
         virtual void fileLoaded(juce::File) {}
         virtual void fileSaved(juce::File) {}

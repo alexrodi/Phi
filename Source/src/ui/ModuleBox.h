@@ -12,7 +12,7 @@
 
 #include "PortUI.h"
 #include "ModuleUI.h"
-#include "PhiColours.h"
+#include "PhiLookAndFeel.h"
 #include "component/PhiToggleButton.h"
 
 //==============================================================================
@@ -60,14 +60,22 @@ private:
         }
         
         /// Sets the highlight colour of the module
-        void setHighlightColour(juce::Colour colour) {
+        void setCustomHighlightColour(juce::Colour colour) {
             highlight = colour;
             setModuleOn(wasOn);
+            hasCustomHighlight = true;
+        }
+        
+        void setTheme(const PhiTheme& theme) {
+            PhiLookAndFeel::setTheme(theme, false);
+            
+            if (hasCustomHighlight)
+                setCustomHighlightColour(highlight);
         }
         
     private:
         juce::Colour highlight, text;
-        bool wasOn = true;
+        bool wasOn = true, hasCustomHighlight = false;
     } lookandfeel;
     
     State& state;
@@ -125,6 +133,10 @@ private:
     void drawBox(juce::Graphics&);
     juce::Path getCollapsedBox();
     void enforceSizeLimits();
+    void setTheme();
+    
+    void colourChanged() override;
+    void parentHierarchyChanged() override;
     
     //==================================================================================
 

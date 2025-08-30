@@ -188,7 +188,7 @@ void Connections::connectionDeleted(ConnectionID connectionID) {
 }
 
 void Connections::connectionColourChanged(ConnectionID connectionID, const juce::Colour& colour) {
-    connections[connectionID].colour = colour;
+    connections[connectionID].setCustomColour(colour);
     repaint();
 }
 
@@ -311,3 +311,12 @@ void Connections::findLassoItemsInArea (juce::Array<ConnectionID>& itemsFound, c
 }
 
 juce::SelectedItemSet<ConnectionID>& Connections::getLassoSelection() {return selectedConnections;}
+
+void Connections::colourChanged() {
+    auto colour = findColour(PhiColourIds::Connection::DefaultFill);
+    
+    for (auto& [id, connection] : connections)
+        if (!connection.hasCustomColour) connection.colour = colour;
+    
+    repaint();
+}

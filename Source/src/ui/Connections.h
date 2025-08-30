@@ -17,7 +17,7 @@ struct Patcher;
 
 //==============================================================================
 
-/// The connection manager and drawer
+/// The connections UI that is overlaid on top of the patcher
 class Connections : public juce::Component,
                     public State::Listener,
                     public juce::ChangeListener,
@@ -36,6 +36,12 @@ private:
     struct Connection {
         juce::Path path;
         juce::Colour colour;
+        bool hasCustomColour = false;
+        
+        void setCustomColour(juce::Colour colour) {
+            this->colour = colour;
+            hasCustomColour = true;
+        }
     };
     
     struct HeldConnection : Connection {
@@ -108,6 +114,7 @@ private:
     bool hitTest(int x, int y) override;
     
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+    void colourChanged() override;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Connections)

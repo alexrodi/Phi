@@ -4,6 +4,10 @@
               displaySplashScreen="1" jucerFormatVersion="1" addUsingNamespaceToJuceHeader="0">
   <MAINGROUP id="J6rtXw" name="Phi">
     <GROUP id="{D2AAF4FC-035E-DB9D-7352-50B1623BE509}" name="resources">
+      <GROUP id="{B565B629-8AE6-603B-4236-8A32CD41DB2A}" name="font">
+        <FILE id="TglCKW" name="HelveticaNeue.ttc" compile="0" resource="1"
+              file="Source/resources/font/HelveticaNeue.ttc"/>
+      </GROUP>
       <GROUP id="{0E0E29B8-F226-4145-E359-6452E8AE4A78}" name="png">
         <FILE id="WMtNCH" name="logo.png" compile="0" resource="1" file="Source/resources/png/logo.png"/>
       </GROUP>
@@ -85,6 +89,9 @@
         <FILE id="RAwy4e" name="Patcher.cpp" compile="1" resource="0" file="Source/src/ui/Patcher.cpp"/>
         <FILE id="fM8gkk" name="Patcher.h" compile="0" resource="0" file="Source/src/ui/Patcher.h"/>
         <FILE id="JVkjzw" name="PhiColours.h" compile="0" resource="0" file="Source/src/ui/PhiColours.h"/>
+        <FILE id="uZuvwa" name="PhiLookAndFeel.h" compile="0" resource="0"
+              file="Source/src/ui/PhiLookAndFeel.h"/>
+        <FILE id="FqV79b" name="PhiTheme.h" compile="0" resource="0" file="Source/src/ui/PhiTheme.h"/>
         <FILE id="fjIuFa" name="PortUI.cpp" compile="1" resource="0" file="Source/src/ui/PortUI.cpp"/>
         <FILE id="nKfXNY" name="PortUI.h" compile="0" resource="0" file="Source/src/ui/PortUI.h"/>
       </GROUP>

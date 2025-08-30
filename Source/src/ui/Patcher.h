@@ -29,7 +29,7 @@ struct Patcher : juce::Component,
     
     std::optional<ModuleID> getModuleID(const ModuleBox&) const;
     std::optional<ModulePortID> getModulePortID(const PortUI&) const;
-
+    
     void paint (juce::Graphics&) override;
     void resized() override;
     

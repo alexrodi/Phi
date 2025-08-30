@@ -214,6 +214,31 @@ void ModuleBox::moved() {
     state.setModuleBounds(moduleID, getBounds());
 }
 
+void ModuleBox::colourChanged() {
+    setTheme();
+}
+
+void ModuleBox::parentHierarchyChanged() {
+    setTheme();
+}
+
+void ModuleBox::setTheme() {
+    if (auto* parent = getParentComponent())
+    {
+        if (auto* mainLookandFeel = static_cast<PhiLookAndFeel*>(&parent->getLookAndFeel()))
+        {
+            lookandfeel.setTheme(mainLookandFeel->getTheme());
+            moduleUI->sendLookAndFeelChange();
+            
+            for (auto& port : inlets)
+                port->sendLookAndFeelChange();
+            
+            for (auto& port : outlets)
+                port->sendLookAndFeelChange();
+        }
+    }
+}
+
 PortID ModuleBox::getPortID(const PortUI& port) const {
     auto& v = port.getType() == PortType::Inlet ? inlets : outlets;
     
@@ -277,7 +302,7 @@ void ModuleBox::moduleEnabledChanged(ModuleID id, bool isEnabled) {
 
 void ModuleBox::moduleColourChanged(ModuleID id, const juce::Colour& colour) {
     if (id == moduleID) {
-        lookandfeel.setHighlightColour(colour);
+        lookandfeel.setCustomHighlightColour(colour);
         sendLookAndFeelChange();
     }
 }
