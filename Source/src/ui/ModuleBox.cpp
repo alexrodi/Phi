@@ -214,6 +214,26 @@ void ModuleBox::moved() {
     state.setModuleBounds(moduleID, getBounds());
 }
 
+void ModuleBox::colourChanged() {
+    setTheme();
+}
+
+void ModuleBox::parentHierarchyChanged() {
+    setTheme();
+}
+
+void ModuleBox::setTheme() {
+    if (auto* parent = getParentComponent())
+    {
+        if (auto* mainLookandFeel = static_cast<PhiLookAndFeel*>(&parent->getLookAndFeel()))
+        {
+            lookandfeel.setTheme(mainLookandFeel->getTheme());
+            moduleUI->sendLookAndFeelChange();
+        }
+    }
+    
+}
+
 PortID ModuleBox::getPortID(const PortUI& port) const {
     auto& v = port.getType() == PortType::Inlet ? inlets : outlets;
     

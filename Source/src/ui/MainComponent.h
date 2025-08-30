@@ -100,7 +100,6 @@ private:
     
     void setTheme(const PhiTheme& theme){
         lookandfeel.setTheme(theme, true);
-        patcher.setModulesTheme(theme);
         
         sendLookAndFeelChange();
         repaint();

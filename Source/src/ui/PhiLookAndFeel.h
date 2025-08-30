@@ -17,7 +17,7 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
 {
     PhiLookAndFeel()
     {
-        setTheme({}, false);
+        theme.apply(*this);
         
         setColour(juce::PopupMenu::highlightedTextColourId,       findColour(PhiColourIds::Module::Text).withMultipliedBrightness(1.3f));
         setColour(juce::PopupMenu::textColourId,                  findColour(PhiColourIds::Module::Text));
@@ -37,6 +37,7 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
     
     // This *must* be called after the lookandfeel has been set
     void setTheme(const PhiTheme& theme, bool isMainComponent) {
+        this->theme = theme;
         theme.apply(*this);
         
         if (isMainComponent) {
@@ -45,6 +46,8 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
             setColour(PhiColourIds::Module::Highlight, findColour(PhiColourIds::General::Highlight));
         }
     }
+    
+    const PhiTheme& getTheme() { return theme; }
     
     void drawCallOutBoxBackground (juce::CallOutBox& box, juce::Graphics& g, const juce::Path&, juce::Image&) override {
         auto bounds = box.getLocalBounds().reduced(15).toFloat();
@@ -88,4 +91,5 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
     
 private:
     juce::Typeface::Ptr defaultFont = juce::Typeface::createSystemTypefaceFor(BinaryData::HelveticaNeue_ttc, BinaryData::HelveticaNeue_ttcSize);
+    PhiTheme theme;
 };
