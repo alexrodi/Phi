@@ -1,0 +1,21 @@
+<map id="FrictionProcessor.h" name="FrictionProcessor.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="227,5,371,31"/>
+<area shape="rect" id="Node000002" href="$_modules_8h.html" title=" " alt="" coords="255,79,344,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="302,44,302,79,297,79,297,44"/>
+<area shape="rect" id="Node000003" href="$_patcher_8h.html" title=" " alt="" coords="205,152,287,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,117,257,153,253,150,280,113"/>
+<area shape="rect" id="Node000009" href="$_state_8cpp.html" title=" " alt="" coords="311,152,394,177"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="318,113,346,150,342,153,314,117"/>
+<area shape="rect" id="Node000004" href="$_connections_8cpp.html" title=" " alt="" coords="5,299,135,324"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="219,188,165,227,83,301,80,297,162,223,215,183"/>
+<area shape="rect" id="Node000005" href="$_main_component_8h.html" title=" " alt="" coords="175,225,317,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="249,191,249,225,243,225,243,191"/>
+<area shape="rect" id="Node000008" href="$_patcher_8cpp.html" title=" " alt="" coords="445,299,541,324"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="279,182,474,296,472,301,276,187"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="206,258,100,301,98,296,204,253"/>
+<area shape="rect" id="Node000006" href="$_main_8cpp.html" title=" " alt="" coords="159,299,240,324"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="233,264,209,300,205,297,229,261"/>
+<area shape="rect" id="Node000007" href="$_main_component_8cpp.html" title=" " alt="" coords="264,299,420,324"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="274,257,328,296,325,301,271,261"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="299,252,453,296,452,301,298,257"/>
+</map>

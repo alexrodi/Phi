@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['outlet',['Outlet',['../_plug_handler_8h.html#a59ea2e02dd0e071504a9b48fbf83e740acc8e963c0627a6a59ef6cd5ff69d524c',1,'PlugHandler.h']]],
-  ['outletcenter',['OutletCenter',['../struct_phi_colour_ids_1_1_plug.html#aed13ebd968600b8387eed41e656ace2bacef7f23df4c12785ad4b657545f0680e',1,'PhiColourIds::Plug']]],
-  ['outletoutline',['OutletOutline',['../struct_phi_colour_ids_1_1_plug.html#aed13ebd968600b8387eed41e656ace2bab867ba00efd706246ecb61a1f5e245d2',1,'PhiColourIds::Plug']]],
-  ['outlineandtext',['OutlineAndText',['../struct_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51a8628f0b1acf73d99f01e2029f8f7d5e0',1,'PhiColourIds::Module']]]
+  ['s_0',['S',['../_state_8h.html#a054e51b5a2b66bb6211c93029c1a64e7a5dbc98dcc983a70728bd082d1a47546e',1,'State.h']]],
+  ['selectedname_1',['SelectedName',['../namespace_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51a7b241f16121492120ab325907ab60216',1,'PhiColourIds::Module']]],
+  ['selectedoutline_2',['selectedoutline',['../namespace_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51a53bbccb2c350eac9acfb2e970c63c3aa',1,'PhiColourIds::Module::SelectedOutline'],['../namespace_phi_colour_ids_1_1_connection.html#a85c523819a8138914b5f7b9f395f8d49a904383e7500b70adf1ed3b1e98392fd0',1,'PhiColourIds::Connection::SelectedOutline']]],
+  ['sine_3',['Sine',['../struct_l_f_o.html#a4aa06578623595e218af7cdf56f054baa6ca9e2d793f678aba7c1b19526592a46',1,'LFO']]],
+  ['square_4',['Square',['../struct_l_f_o.html#a4aa06578623595e218af7cdf56f054baaceb46ca115d05c51aa5a16a8867c3304',1,'LFO']]]
 ];

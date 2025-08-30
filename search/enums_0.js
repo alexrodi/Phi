@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['colourclass',['ColourClass',['../class_phi_colour_ids.html#ad25fcdc2bc949413bdd1cfa1997cecc8',1,'PhiColourIds']]]
+  ['mode_0',['Mode',['../struct_string_processor.html#a5f1f81ec6066f949197686642696d684',1,'StringProcessor']]]
 ];

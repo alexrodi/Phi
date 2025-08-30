@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['waveform',['waveForm',['../class_impulse_u_i.html#ae41ca44055f9d32428b73dfa5ecc694e',1,'ImpulseUI']]],
-  ['width',['width',['../struct_module_u_i_1_1_props.html#a0543e35d040fd46468849b85191fb1ab',1,'ModuleUI::Props']]]
+  ['value_0',['value',['../struct_module_i_d.html#a4eaa8553e0fc1e24cf135ce2fb149e93',1,'ModuleID::value'],['../struct_port_i_d.html#a0794584c7dbc3ba2c7d96d8eecab6188',1,'PortID::value']]],
+  ['viewport_1',['viewport',['../struct_main_component.html#a54daf617256b87456ead66a2859d2969',1,'MainComponent']]]
 ];

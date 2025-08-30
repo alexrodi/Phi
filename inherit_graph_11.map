@@ -1,3 +1,46 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_modules.html" title="Modules" alt="" coords="5,5,80,32"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,5,201,31"/>
+<area shape="rect" id="Node000001" href="$struct_audio_engine.html" title="The class where each module&#39;s DSP routine gets implemented as nodes and patched together." alt="" coords="279,5,382,31"/>
+<area shape="poly" id="edge22_Node000000_Node000001" title=" " alt="" coords="216,15,279,15,279,21,216,21"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="24,104,183,129"/>
+<area shape="rect" id="Node000003" href="$class_connections.html" title="The connections UI that is overlaid on top of the patcher." alt="" coords="279,104,382,129"/>
+<area shape="poly" id="edge23_Node000004_Node000003" title=" " alt="" coords="197,114,279,114,279,119,197,119"/>
+<area shape="rect" id="Node000005" href="$struct_patcher.html" title="The main view of Phi, this class handles all the module UIs and holds the connection manager." alt="" coords="295,55,366,80"/>
+<area shape="poly" id="edge24_Node000004_Node000005" title=" " alt="" coords="175,98,294,72,295,78,176,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="37,228,169,253"/>
+<area shape="poly" id="edge25_Node000006_Node000003" title=" " alt="" coords="146,220,200,188,214,175,223,163,232,151,248,138,278,125,280,130,251,143,236,154,227,166,217,179,203,192,148,224"/>
+<area shape="poly" id="edge29_Node000006_Node000005" title=" " alt="" coords="152,220,177,206,199,188,215,163,222,139,229,114,248,89,270,76,294,69,296,74,272,81,251,93,233,116,227,140,220,165,203,192,180,211,155,225"/>
+<area shape="rect" id="Node000007" href="$class_hover_popup_window.html" title=" " alt="" coords="254,351,407,376"/>
+<area shape="poly" id="edge26_Node000006_Node000007" title=" " alt="" coords="132,260,185,299,250,337,279,348,278,353,248,342,182,303,129,264"/>
+<area shape="rect" id="Node000009" href="$struct_main_component.html" title="The top&#45;most component that includes all the content." alt="" coords="266,203,395,228"/>
+<area shape="poly" id="edge27_Node000006_Node000009" title=" " alt="" coords="183,229,265,220,266,225,183,234"/>
+<area shape="rect" id="Node000010" href="$struct_module_box.html" title=" " alt="" coords="283,153,378,179"/>
+<area shape="poly" id="edge28_Node000006_Node000010" title=" " alt="" coords="151,221,249,187,285,176,286,181,250,193,153,226"/>
+<area shape="rect" id="Node000011" href="$struct_phi_slider_button_1_1_knob.html" title=" " alt="" coords="249,301,412,327"/>
+<area shape="poly" id="edge30_Node000006_Node000011" title=" " alt="" coords="156,255,250,286,289,299,288,304,249,291,155,260"/>
+<area shape="rect" id="Node000012" href="$struct_phi_waveform.html" title=" " alt="" coords="276,252,385,277"/>
+<area shape="poly" id="edge31_Node000006_Node000012" title=" " alt="" coords="183,246,276,256,276,262,183,252"/>
+<area shape="rect" id="Node000015" href="$struct_port_u_i.html" title="A base class for inlets and outlets." alt="" coords="299,400,362,425"/>
+<area shape="poly" id="edge34_Node000006_Node000015" title=" " alt="" coords="129,262,203,338,225,364,251,386,275,398,300,405,298,410,273,403,248,391,222,368,199,341,125,265"/>
+<area shape="rect" id="Node000013" href="$struct_impulse_u_i_1_1_impulse_waveform.html" title=" " alt="" coords="460,252,675,277"/>
+<area shape="poly" id="edge32_Node000012_Node000013" title=" " alt="" coords="399,262,460,262,460,267,399,267"/>
+<area shape="rect" id="Node000014" href="$struct_l_f_o_u_i_1_1_l_f_o_waveform.html" title=" " alt="" coords="487,301,648,327"/>
+<area shape="poly" id="edge33_Node000012_Node000014" title=" " alt="" coords="400,276,506,299,505,304,399,281"/>
+<area shape="rect" id="Node000016" href="$struct_inlet_u_i.html" title="A Port in Inlet mode (other functionality might be added here)" alt="" coords="535,351,600,376"/>
+<area shape="poly" id="edge35_Node000015_Node000016" title=" " alt="" coords="375,401,534,367,535,373,376,406"/>
+<area shape="rect" id="Node000017" href="$struct_outlet_u_i.html" title="A Port in Outlet mode (other functionality might be added here)" alt="" coords="529,400,605,425"/>
+<area shape="poly" id="edge36_Node000015_Node000017" title=" " alt="" coords="376,410,529,410,529,415,376,415"/>
+<area shape="rect" id="Node000018" href="$class_hover_popup_client.html" title=" " alt="" coords="34,400,173,425"/>
+<area shape="poly" id="edge37_Node000018_Node000015" title=" " alt="" coords="186,410,299,410,299,415,186,415"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="34,55,173,80"/>
+<area shape="poly" id="edge38_Node000019_Node000003" title=" " alt="" coords="176,80,280,103,279,108,175,86"/>
+<area shape="poly" id="edge39_Node000019_Node000005" title=" " alt="" coords="186,65,295,65,295,70,186,70"/>
+<area shape="rect" id="Node000002" href="$struct_state_1_1_listener.html" title=" " alt="" coords="45,153,161,179"/>
+<area shape="poly" id="edge40_Node000002_Node000001" title=" " alt="" coords="174,153,200,139,211,127,217,116,223,91,229,65,236,52,248,40,278,24,280,29,251,44,240,56,234,67,228,92,222,118,215,130,203,143,176,158"/>
+<area shape="poly" id="edge41_Node000002_Node000003" title=" " alt="" coords="174,148,279,125,280,130,175,153"/>
+<area shape="poly" id="edge44_Node000002_Node000005" title=" " alt="" coords="173,150,200,138,214,127,223,115,233,102,248,89,271,78,294,71,296,76,273,83,251,94,236,105,228,118,218,131,203,143,175,155"/>
+<area shape="poly" id="edge42_Node000002_Node000009" title=" " alt="" coords="175,179,272,200,271,205,174,184"/>
+<area shape="poly" id="edge43_Node000002_Node000010" title=" " alt="" coords="175,163,283,163,283,169,175,169"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="56,351,151,376"/>
+<area shape="poly" id="edge45_Node000008_Node000007" title=" " alt="" coords="164,361,254,361,254,366,164,366"/>
 </map>

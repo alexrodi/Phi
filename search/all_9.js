@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['keypressed',['keyPressed',['../class_connections.html#afcad2c4e7ad15791c90098fb7b5e2d6d',1,'Connections::keyPressed()'],['../class_main_patcher.html#aa098821e09e87160a66b272176d2883a',1,'MainPatcher::keyPressed()']]],
-  ['knob',['knob',['../class_phi_slider_button.html#a19e18a3b2898f6e2b36f4cb48e3cace4',1,'PhiSliderButton']]]
+  ['jitter_0',['jitter',['../struct_friction_processor.html#a5e2ce08481284012304e634fee966660',1,'FrictionProcessor']]],
+  ['jitterdial_1',['jitterDial',['../struct_friction_u_i.html#a3111205e0a4e19348ebc762e23401caf',1,'FrictionUI']]],
+  ['jitterfactor_2',['jitterFactor',['../struct_friction_processor_1_1_sawtooth_generator.html#aa7d83def64925dcc8b8e496a429b713e',1,'FrictionProcessor::SawtoothGenerator']]],
+  ['juce_5fdeclare_5fnon_5fcopyable_5fwith_5fleak_5fdetector_3',['JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR',['../class_hover_popup_window.html#a28f32d52a7997a7905938283677123ba',1,'HoverPopupWindow']]]
 ];

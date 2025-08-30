@@ -1,0 +1,20 @@
+<map id="FileManager.h" name="FileManager.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="130,5,243,31"/>
+<area shape="rect" id="Node000002" href="$_state_8h.html" title=" " alt="" coords="153,79,221,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,31,189,65,184,65,184,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,372,112,397"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="153,99,126,106,98,116,72,132,52,154,39,178,32,205,30,262,39,316,52,358,47,360,34,317,25,263,27,205,34,177,47,150,69,128,96,111,125,101,152,94"/>
+<area shape="rect" id="Node000004" href="$_phi_theme_8h.html" title=" " alt="" coords="61,152,176,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="177,106,141,144,137,140,174,102"/>
+<area shape="rect" id="Node000006" href="$_module_u_i_8h.html" title=" " alt="" coords="200,152,312,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="200,102,237,140,233,144,196,106"/>
+<area shape="rect" id="Node000007" href="$_module_processor_8h.html" title=" " alt="" coords="194,225,377,251"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="222,94,249,101,277,111,305,128,326,151,332,168,329,185,309,217,305,214,324,184,326,168,322,153,301,132,275,116,247,106,220,99"/>
+<area shape="rect" id="Node000005" href="$_phi_colours_8h.html" title=" " alt="" coords="67,225,170,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="121,178,121,212,116,212,116,178"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="235,180,154,221,152,217,233,175"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="263,177,278,212,273,214,258,179"/>
+<area shape="rect" id="Node000008" href="$_utils_8h.html" title=" " alt="" coords="157,299,221,324"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="271,253,218,292,215,288,268,249"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="170,326,93,368,91,363,167,322"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="HoverPopupClient" name="HoverPopupClient">
+<area shape="rect" id="Node000001" title=" " alt="" coords="15,5,154,31"/>
+<area shape="rect" id="Node000002" href="$struct_port_u_i.html" title="A base class for inlets and outlets." alt="" coords="53,79,116,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,44,87,79,82,79,82,44"/>
+<area shape="rect" id="Node000003" href="$struct_inlet_u_i.html" title="A Port in Inlet mode (other functionality might be added here)" alt="" coords="5,152,71,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="72,117,48,153,43,150,67,114"/>
+<area shape="rect" id="Node000004" href="$struct_outlet_u_i.html" title="A Port in Outlet mode (other functionality might be added here)" alt="" coords="95,152,171,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="102,114,127,150,123,153,98,117"/>
+</map>

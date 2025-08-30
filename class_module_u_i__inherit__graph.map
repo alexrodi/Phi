@@ -1,6 +1,21 @@
 <map id="ModuleUI" name="ModuleUI">
-<area shape="rect" id="node3" href="$class_gain_u_i.html" title="GainUI" alt="" coords="5,155,69,181"/>
-<area shape="rect" id="node4" href="$class_impulse_u_i.html" title="ImpulseUI" alt="" coords="93,155,179,181"/>
-<area shape="rect" id="node5" href="$class_output_u_i.html" title="OutputUI" alt="" coords="203,155,282,181"/>
-<area shape="rect" id="node6" href="$class_string_u_i.html" title="StringUI" alt="" coords="306,155,379,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="337,79,421,104"/>
+<area shape="rect" id="Node000003" href="$struct_filter_u_i.html" title=" " alt="" coords="5,152,75,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="324,106,87,155,76,157,75,152,86,149,323,101"/>
+<area shape="rect" id="Node000004" href="$struct_friction_u_i.html" title=" " alt="" coords="99,152,183,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="328,110,181,154,179,149,327,105"/>
+<area shape="rect" id="Node000005" href="$class_gain_u_i.html" title=" " alt="" coords="208,152,275,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="346,113,265,154,263,149,343,108"/>
+<area shape="rect" id="Node000006" href="$class_grit_u_i.html" title=" " alt="" coords="299,152,359,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="365,117,340,153,335,150,361,114"/>
+<area shape="rect" id="Node000007" href="$struct_impulse_u_i.html" title=" " alt="" coords="384,152,472,177"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="397,114,422,150,418,153,392,117"/>
+<area shape="rect" id="Node000008" href="$struct_l_f_o_u_i.html" title=" " alt="" coords="496,152,557,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="416,107,504,149,501,154,413,112"/>
+<area shape="rect" id="Node000009" href="$class_output_u_i.html" title=" " alt="" coords="581,152,661,177"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="431,105,583,149,581,154,430,110"/>
+<area shape="rect" id="Node000010" href="$class_string_u_i.html" title=" " alt="" coords="685,152,760,177"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="434,101,674,149,686,152,684,157,673,155,433,106"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="281,5,476,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,44,381,79,376,79,376,44"/>
 </map>

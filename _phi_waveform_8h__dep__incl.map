@@ -1,0 +1,30 @@
+<map id="PhiWaveform.h" name="PhiWaveform.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="239,5,360,31"/>
+<area shape="rect" id="Node000002" href="$_impulse_u_i_8h.html" title=" " alt="" coords="195,79,295,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="284,43,256,80,251,77,280,40"/>
+<area shape="rect" id="Node000012" href="$_l_f_o_u_i_8h.html" title=" " alt="" coords="331,79,404,104"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="322,39,358,77,354,80,318,42"/>
+<area shape="rect" id="Node000003" href="$_impulse_processor_8h.html" title=" " alt="" coords="147,152,295,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="239,118,227,153,222,151,234,116"/>
+<area shape="rect" id="Node000004" href="$_modules_8h.html" title=" " alt="" coords="255,225,344,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="245,185,288,223,285,227,242,189"/>
+<area shape="rect" id="Node000005" href="$_patcher_8h.html" title=" " alt="" coords="205,299,287,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="285,263,257,300,253,297,280,260"/>
+<area shape="rect" id="Node000011" href="$_state_8cpp.html" title=" " alt="" coords="311,299,394,324"/>
+<area shape="poly" id="edge12_Node000004_Node000011" title=" " alt="" coords="318,260,346,297,342,300,314,263"/>
+<area shape="rect" id="Node000006" href="$_connections_8cpp.html" title=" " alt="" coords="5,445,135,471"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="219,334,165,374,83,447,80,443,162,370,215,330"/>
+<area shape="rect" id="Node000007" href="$_main_component_8h.html" title=" " alt="" coords="175,372,317,397"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="249,338,249,372,243,372,243,338"/>
+<area shape="rect" id="Node000010" href="$_patcher_8cpp.html" title=" " alt="" coords="445,445,541,471"/>
+<area shape="poly" id="edge11_Node000005_Node000010" title=" " alt="" coords="279,329,474,443,472,448,276,334"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="206,405,100,448,98,443,204,400"/>
+<area shape="rect" id="Node000008" href="$_main_8cpp.html" title=" " alt="" coords="159,445,240,471"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="233,410,209,447,205,444,229,407"/>
+<area shape="rect" id="Node000009" href="$_main_component_8cpp.html" title=" " alt="" coords="264,445,420,471"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="274,403,328,443,325,447,271,408"/>
+<area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="299,399,453,443,452,448,298,404"/>
+<area shape="rect" id="Node000013" href="$_l_f_o_processor_8h.html" title=" " alt="" coords="319,152,440,177"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="374,117,380,151,375,152,369,118"/>
+<area shape="poly" id="edge15_Node000013_Node000004" title=" " alt="" coords="358,188,314,227,311,223,355,184"/>
+</map>

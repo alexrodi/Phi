@@ -1,17 +1,12 @@
 var searchData=
 [
-  ['scaledecay',['scaleDecay',['../class_string_processor.html#a6925703b5ce7c61334a4aba65ff7334e',1,'StringProcessor']]],
-  ['set',['set',['../class_delay_line.html#ae143e97030d06640a6841e081a8534e3',1,'DelayLine']]],
-  ['setcolour',['setColour',['../class_waveform.html#a792acc436930e79d462e5f024d88f4ad',1,'Waveform']]],
-  ['sethighlightcolour',['setHighlightColour',['../class_module_box.html#af4dec4478a0ffed07e2ba8c6a701bd65',1,'ModuleBox::setHighlightColour()'],['../struct_module_box_1_1_module_look_and_feel.html#ae5290ee0b96aebd604f5a9607233d8a3',1,'ModuleBox::ModuleLookAndFeel::setHighlightColour()']]],
-  ['setid',['setId',['../class_plug.html#aff5b8a2a14d56a7aa6bb82f37695c985',1,'Plug']]],
-  ['setmoduleon',['setModuleOn',['../struct_module_box_1_1_module_look_and_feel.html#abf203c5b4632922acb6bfff9548a6267',1,'ModuleBox::ModuleLookAndFeel']]],
-  ['shutdown',['shutdown',['../class_phi_application.html#ad97709936444fd02a9d1d6cc32dbafe4',1,'PhiApplication']]],
-  ['size',['size',['../class_delay_line.html#afb98ee659c57968bdff898e5e1515100',1,'DelayLine']]],
-  ['slidervaluechanged',['sliderValueChanged',['../class_impulse_u_i.html#a6596f20a0bc60c14ba7acf7c781f75f8',1,'ImpulseUI::sliderValueChanged()'],['../class_phi_dial.html#a2af86d5c250ce8d46145064a91ca2496',1,'PhiDial::sliderValueChanged()']]],
-  ['startconnection',['startConnection',['../class_plug_handler.html#aff5856910260f9948166bc7223cc81b1',1,'PlugHandler']]],
-  ['storeplug',['storePlug',['../class_connections_1_1_id_store.html#ad118477aa5a873163e937ab949cecfb9',1,'Connections::IdStore']]],
-  ['stringprocessor',['StringProcessor',['../class_string_processor.html#a78566682b2055a7c263daadfebe7b2a9',1,'StringProcessor']]],
-  ['stringui',['StringUI',['../class_string_u_i.html#a9483aea9a09b401dd5a6149a78d99665',1,'StringUI']]],
-  ['systemrequestedquit',['systemRequestedQuit',['../class_phi_application.html#a43c6a143304d83d4b1e75066aef7ec69',1,'PhiApplication']]]
+  ['rate_5fto_5fhz_0',['rate_to_hz',['../struct_l_f_o.html#ab69205de904302a056add37dc5a314cf',1,'LFO']]],
+  ['rate_5fto_5fnote_5findex_1',['rate_to_note_index',['../struct_l_f_o.html#a289e0861703ef4aa5b53de55cb9586c5',1,'LFO']]],
+  ['rate_5fto_5fnote_5fstring_2',['rate_to_note_string',['../struct_l_f_o.html#af3e9657a84d6ebf875224c47dd6cd61b',1,'LFO']]],
+  ['readoutput_3',['readOutput',['../struct_string_processor.html#a487ac40d0e48b355f66d4d041e176324',1,'StringProcessor']]],
+  ['removelistener_4',['removeListener',['../struct_state.html#a0135fd290e717df68dd2eb269825e500',1,'State']]],
+  ['reset_5',['reset',['../class_accum.html#aac7bd69a8298eacb6d451e66ce4d24b0',1,'Accum::reset()'],['../class_state_variable_filter.html#a2b47c082e4fb79762020e5132a6d2930',1,'StateVariableFilter::reset()'],['../struct_state_variable_filter_1_1_stage.html#af7c4efb2d6a1fdf9987ce986feb11431',1,'StateVariableFilter::Stage::reset()']]],
+  ['resetengine_6',['resetEngine',['../struct_audio_engine.html#a90c9ea24dea41e287884db65bb9518cf',1,'AudioEngine']]],
+  ['resize_7',['resize',['../class_delay_line.html#ae3fc5df194b8fc75afa53116b9f59f63',1,'DelayLine']]],
+  ['resized_8',['resized',['../struct_port_u_i.html#a69a34c4a59367e1412889c603b6d8b69',1,'PortUI::resized()'],['../struct_patcher.html#a02e22cfaac97c488764eddadcf010d18',1,'Patcher::resized()'],['../struct_module_box.html#aedfad9ef6fca98483f6614958fb9dc76',1,'ModuleBox::resized()'],['../struct_main_component.html#a339148bc43089300e10d5883a0a80726',1,'MainComponent::resized()'],['../class_connections.html#ab9b5f6eff30f49eaf6bb2db5515e584e',1,'Connections::resized()'],['../struct_phi_waveform.html#a7f7ed9195dfc7526aeac3501886ceeac',1,'PhiWaveform::resized()'],['../class_phi_toggle_button.html#a679934a7d9f168f468802992d780dff1',1,'PhiToggleButton::resized()'],['../struct_phi_slider_button.html#afe72974e0236ea38e3ea0259638c7e04',1,'PhiSliderButton::resized()'],['../struct_phi_dial.html#a57ee321460e867512696f11eff18a1a8',1,'PhiDial::resized()'],['../class_string_u_i.html#a451d11c5cda0de8ec28fa8423d5b0157',1,'StringUI::resized()'],['../class_output_u_i.html#a9c16513f8c0e914578ec5bf878accea1',1,'OutputUI::resized()'],['../struct_l_f_o_u_i.html#ad9729b4c0bf3a5fbbc25c86406ce32b9',1,'LFOUI::resized()'],['../struct_impulse_u_i.html#ad15d895a126c28f74d0463666969eb6f',1,'ImpulseUI::resized()'],['../class_grit_u_i.html#a4ad77d04c0467e638fe3bafcadc43fb8',1,'GritUI::resized()'],['../class_gain_u_i.html#a3da34c77b64c42680a4b03ab38c6df31',1,'GainUI::resized()'],['../struct_friction_u_i.html#af9dfd4ea36002ea57f7db4e678642c9b',1,'FrictionUI::resized()'],['../struct_filter_u_i.html#a3bf18d525f044e7756e6af452c106fe8',1,'FilterUI::resized()']]]
 ];

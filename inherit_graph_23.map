@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$struct_phi_connection.html" title="A connection holds an inlet and an outlet (outlet, inlet) " alt="" coords="5,5,119,32"/>
+<area shape="rect" id="Node000000" href="$struct_module_info.html" title=" " alt="" coords="5,13,100,38"/>
+<area shape="rect" id="Node000001" href="$struct_modules_1_1_module_entry.html" title=" " alt="" coords="148,5,315,45"/>
+<area shape="poly" id="edge60_Node000000_Node000001" title=" " alt="" coords="114,23,148,23,148,28,114,28"/>
 </map>

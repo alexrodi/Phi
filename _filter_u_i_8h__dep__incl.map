@@ -1,0 +1,23 @@
+<map id="FilterUI.h" name="FilterUI.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="259,5,340,31"/>
+<area shape="rect" id="Node000002" href="$_filter_processor_8h.html" title=" " alt="" coords="235,79,364,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="302,44,302,79,297,79,297,44"/>
+<area shape="rect" id="Node000003" href="$_modules_8h.html" title=" " alt="" coords="255,152,344,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="302,118,302,152,297,152,297,118"/>
+<area shape="rect" id="Node000004" href="$_patcher_8h.html" title=" " alt="" coords="205,225,287,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="285,190,257,227,253,224,280,187"/>
+<area shape="rect" id="Node000010" href="$_state_8cpp.html" title=" " alt="" coords="311,225,394,251"/>
+<area shape="poly" id="edge11_Node000003_Node000010" title=" " alt="" coords="318,187,346,224,342,227,314,190"/>
+<area shape="rect" id="Node000005" href="$_connections_8cpp.html" title=" " alt="" coords="5,372,135,397"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="219,261,165,301,83,374,80,370,162,297,215,257"/>
+<area shape="rect" id="Node000006" href="$_main_component_8h.html" title=" " alt="" coords="175,299,317,324"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="249,264,249,299,243,299,243,264"/>
+<area shape="rect" id="Node000009" href="$_patcher_8cpp.html" title=" " alt="" coords="445,372,541,397"/>
+<area shape="poly" id="edge10_Node000004_Node000009" title=" " alt="" coords="279,256,474,370,472,374,276,260"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="206,332,100,374,98,369,204,327"/>
+<area shape="rect" id="Node000007" href="$_main_8cpp.html" title=" " alt="" coords="159,372,240,397"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="233,337,209,373,205,370,229,334"/>
+<area shape="rect" id="Node000008" href="$_main_component_8cpp.html" title=" " alt="" coords="264,372,420,397"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="274,330,328,370,325,374,271,334"/>
+<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="299,325,453,369,452,374,298,330"/>
+</map>

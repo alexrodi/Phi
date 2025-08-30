@@ -1,9 +1,19 @@
 var searchData=
 [
-  ['name',['name',['../struct_modules_1_1_module_info.html#a7f062cdc265ff20902efdf50fdee1d07',1,'Modules::ModuleInfo::name()'],['../struct_module_u_i_1_1_props.html#aa85b7446638a936e2cfd762f530cb305',1,'ModuleUI::Props::name()'],['../class_plug.html#a84dfee79c8f4edf0c1cc3aecfbc0a698',1,'Plug::name()']]],
-  ['namebounds',['nameBounds',['../class_plug.html#a5ffadae5fde47038a36b4fc885383ff7',1,'Plug::nameBounds()'],['../class_phi_dial.html#a9e39e0acfb32edb7b6f118b356a4183f',1,'PhiDial::nameBounds()']]],
-  ['namecolour',['nameColour',['../class_phi_dial.html#af0ec0f8c3471be62406d9021564b13a1',1,'PhiDial']]],
-  ['namejustification',['nameJustification',['../class_plug.html#a267dcc88c8468dddbf6e60395be233f4',1,'Plug']]],
-  ['namerectangle',['nameRectangle',['../class_module_box.html#a1b9c365a03a0dd3ee39fb8e1ac15c241',1,'ModuleBox']]],
-  ['nodeid',['nodeID',['../class_module_u_i.html#a4f2fac2df11865ec8b6d10bac18ccab1',1,'ModuleUI']]]
+  ['mainoutput_0',['mainOutput',['../struct_audio_engine.html#ac7ee5a6e751558a02dfe35c49052563b',1,'AudioEngine']]],
+  ['mainwindow_1',['mainWindow',['../class_phi_application.html#a96aed604711c9073c76f92d8136d4dfa',1,'PhiApplication']]],
+  ['menubar_2',['menuBar',['../struct_main_component.html#afff893aab81fd8428e9425119d72e0f6',1,'MainComponent']]],
+  ['minimumsize_3',['minimumSize',['../struct_module_u_i_1_1_props.html#a75a32cc37a5d360ae85ed8f84cc0295f',1,'ModuleUI::Props']]],
+  ['mixfactor_4',['mixFactor',['../struct_one_pole.html#a32073fdd15a641178358407631662bd8',1,'OnePole']]],
+  ['mode_5',['mode',['../struct_string_processor.html#a49f3f04b15a7fb5fb4a7e9ca72eb8d53',1,'StringProcessor']]],
+  ['modeattachment_6',['modeAttachment',['../class_string_u_i.html#a5d957f89ad985f4fb130a18889830253',1,'StringUI']]],
+  ['modebutton_7',['modeButton',['../class_string_u_i.html#aa170b5f7090ee432091a17c3a721d17c',1,'StringUI']]],
+  ['model_8',['model',['../struct_main_component_1_1_menu_bar.html#a0714132aeab7bdc788f83b7032542aab',1,'MainComponent::MenuBar']]],
+  ['moduledragger_9',['moduleDragger',['../struct_patcher.html#a514935cd30c7d8c5763ec485f43a5f41',1,'Patcher']]],
+  ['moduleid_10',['moduleid',['../struct_module_port_i_d.html#a45824add9a38f06701748e3b151843f2',1,'ModulePortID::moduleID'],['../struct_module_box.html#adb930c7aaa2a73f26cee575c2dfea61e',1,'ModuleBox::moduleID']]],
+  ['modulenames_11',['moduleNames',['../_modules_8h.html#a4495835ebf699d50629ab33e860d5431',1,'Modules.h']]],
+  ['modulepositions_12',['modulePositions',['../struct_patcher_1_1_module_dragger.html#a3792921f6d5515b9c5a0ce4df50732fd',1,'Patcher::ModuleDragger']]],
+  ['modules_13',['modules',['../struct_patcher.html#a8172063a9a8f46adaf7804e2a59292f5',1,'Patcher']]],
+  ['moduleui_14',['moduleUI',['../struct_module_box.html#aaa0c3a75682a34b68eff243f8833d366',1,'ModuleBox']]],
+  ['mouselistener_15',['mouselistener',['../class_connections.html#af247b0ee412bc385909500d27838a6fa',1,'Connections::mouseListener'],['../struct_patcher.html#a84bcfd43e7a4bdb32eba54e72db7fb10',1,'Patcher::mouseListener']]]
 ];

@@ -1,8 +1,14 @@
 var searchData=
 [
-  ['deleteallselectedconnections',['deleteAllSelectedConnections',['../class_connections.html#a911efa42ae4caf92a8de95579a3fdde1',1,'Connections']]],
-  ['deleteallselectedmodules',['deleteAllSelectedModules',['../class_main_patcher.html#a1367d7dfa5d0ca3a5fceda0fdf368914',1,'MainPatcher']]],
-  ['deletemodule',['deleteModule',['../class_main_patcher.html#a9542e485d160827b3398e4ceb69d7cea',1,'MainPatcher']]],
-  ['deselectall',['deselectAll',['../class_connections.html#a7558bb2ca126b6b09a69df6d631c8182',1,'Connections']]],
-  ['drawcalloutboxbackground',['drawCallOutBoxBackground',['../struct_main_component_1_1_phi_look_and_feel.html#a1a2ca548cf5b78ff6e3f501a9a9698ca',1,'MainComponent::PhiLookAndFeel::drawCallOutBoxBackground()'],['../struct_module_box_1_1_module_look_and_feel.html#a3378970fd4c6eb55e08f319058a88eda',1,'ModuleBox::ModuleLookAndFeel::drawCallOutBoxBackground()']]]
+  ['db_5fto_5fa_0',['db_to_a',['../_utils_8h.html#a5a70df44d236e9900616ee755a9018dd',1,'Utils.h']]],
+  ['dcblock_1',['DCBlock',['../struct_d_c_block.html#aacf55e4d2b04c2236094238696f9f291',1,'DCBlock']]],
+  ['deleteallmoduleconnections_2',['deleteAllModuleConnections',['../struct_state.html#add0816633a7f99da0d55310e01da9740',1,'State']]],
+  ['deleteallselected_3',['deleteAllSelected',['../class_connections.html#a6fc58740f59593ac3a5c3332af17643a',1,'Connections']]],
+  ['deleteconnection_4',['deleteConnection',['../struct_state.html#a8996edd2cae62d27fbed5958ce1ad155',1,'State']]],
+  ['deletemodule_5',['deletemodule',['../struct_state.html#ae69fda60e17aebe1b2d5d79cc4029401',1,'State::deleteModule()'],['../struct_patcher.html#a3ae252e85793e573d874441624190423',1,'Patcher::deleteModule()']]],
+  ['drawbox_6',['drawBox',['../struct_module_box.html#a179dfe0c2b3dc4993edc62d1e1703d6f',1,'ModuleBox']]],
+  ['drawcalloutboxbackground_7',['drawCallOutBoxBackground',['../struct_phi_look_and_feel.html#addd1f274b4a33ebda1fd65a3af3ffeb5',1,'PhiLookAndFeel']]],
+  ['drawlasso_8',['drawLasso',['../struct_phi_look_and_feel.html#ae476c50a8ad6073c4cd0878806a0008b',1,'PhiLookAndFeel']]],
+  ['drawmenubarbackground_9',['drawMenuBarBackground',['../struct_phi_look_and_feel.html#a966851c3c311bf6b9bde6a3883bac3d1',1,'PhiLookAndFeel']]],
+  ['drawmenubaritem_10',['drawMenuBarItem',['../struct_phi_look_and_feel.html#a2760644dd2ab2943c8eb3cbf293d91a9',1,'PhiLookAndFeel']]]
 ];

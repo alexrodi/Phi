@@ -1,4 +1,11 @@
 <map id="ModuleUI.h" name="ModuleUI.h">
-<area shape="rect" id="node2" href="$_plug_8h.html" title="Plug.h" alt="" coords="30,80,91,107"/>
-<area shape="rect" id="node3" href="$_plug_handler_8h.html" title="PlugHandler.h" alt="" coords="5,155,116,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="91,5,187,31"/>
+<area shape="rect" id="Node000002" href="$_phi_colours_8h.html" title=" " alt="" coords="5,79,108,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,33,82,72,79,67,124,29"/>
+<area shape="rect" id="Node000003" href="$_module_processor_8h.html" title=" " alt="" coords="132,79,315,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,29,201,67,197,72,151,33"/>
+<area shape="rect" id="Node000004" href="$_utils_8h.html" title=" " alt="" coords="191,152,255,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="226,104,226,138,221,138,221,104"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="170,225,277,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="226,178,226,212,221,212,221,178"/>
 </map>

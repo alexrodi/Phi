@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['colourpair',['ColourPair',['../class_plug.html#a0b461db51af7079f0730fa4da1881bcf',1,'Plug']]]
+  ['attributes_0',['Attributes',['../struct_float_parameter.html#aeea9f6b909e4420b10da455d6ca7be41',1,'FloatParameter']]]
 ];

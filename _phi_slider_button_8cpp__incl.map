@@ -1,3 +1,9 @@
 <map id="PhiSliderButton.cpp" name="PhiSliderButton.cpp">
-<area shape="rect" id="node2" href="$_phi_slider_button_8h.html" title="PhiSliderButton.h" alt="" coords="13,80,145,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="51,5,200,31"/>
+<area shape="rect" id="Node000002" href="$_phi_slider_button_8h.html" title=" " alt="" coords="58,79,193,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,31,128,65,123,65,123,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,112,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="116,106,81,144,77,140,112,103"/>
+<area shape="rect" id="Node000004" href="$_phi_colours_8h.html" title=" " alt="" coords="136,152,251,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="138,102,175,140,171,144,135,106"/>
 </map>

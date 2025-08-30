@@ -1,5 +1,0 @@
-<map id="Plug" name="Plug">
-<area shape="rect" id="node5" href="$class_inlet_plug.html" title="A Plug in Inlet mode (other functionality might be added here) " alt="" coords="112,155,188,181"/>
-<area shape="rect" id="node6" href="$class_outlet_plug.html" title="A Plug in Outlet mode (other functionality might be added here) " alt="" coords="213,155,301,181"/>
-<area shape="rect" id="node4" href="$class_plug_event_emitter.html" title="PlugEventEmitter" alt="" coords="304,5,436,32"/>
-</map>

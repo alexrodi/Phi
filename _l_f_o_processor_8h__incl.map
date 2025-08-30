@@ -1,0 +1,23 @@
+<map id="LFOProcessor.h" name="LFOProcessor.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="127,5,248,31"/>
+<area shape="rect" id="Node000002" href="$_l_f_o_8h.html" title=" " alt="" coords="67,79,126,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,33,124,72,121,68,171,29"/>
+<area shape="rect" id="Node000003" href="$_l_f_o_u_i_8h.html" title=" " alt="" coords="151,79,224,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,31,190,65,185,65,185,31"/>
+<area shape="rect" id="Node000006" href="$_module_processor_8h.html" title=" " alt="" coords="228,240,411,265"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="213,29,247,47,285,74,322,109,350,151,355,171,352,193,337,230,332,227,347,191,349,172,345,153,318,112,282,78,244,52,211,33"/>
+<area shape="rect" id="Node000004" href="$_module_u_i_8h.html" title=" " alt="" coords="199,159,335,185"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="201,102,247,147,244,151,197,106"/>
+<area shape="rect" id="Node000009" href="$_phi_dial_8h.html" title=" " alt="" coords="5,313,140,353"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="151,104,79,125,48,139,29,154,21,171,17,189,21,229,35,267,53,300,49,303,30,270,16,230,12,189,16,169,25,150,45,135,77,120,150,99"/>
+<area shape="rect" id="Node000010" href="$_phi_waveform_8h.html" title=" " alt="" coords="40,152,175,192"/>
+<area shape="poly" id="edge10_Node000003_Node000010" title=" " alt="" coords="177,106,138,144,135,140,174,102"/>
+<area shape="rect" id="Node000005" href="$_phi_colours_8h.html" title=" " alt="" coords="101,240,204,265"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="252,187,182,234,179,230,249,183"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="277,183,306,227,302,230,273,186"/>
+<area shape="rect" id="Node000007" href="$_utils_8h.html" title=" " alt="" coords="199,321,263,346"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="308,268,256,314,253,310,305,264"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="81,401,187,427"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="219,348,161,395,157,391,215,344"/>
+<area shape="poly" id="edge9_Node000009_Node000008" title=" " alt="" coords="90,352,119,389,114,392,85,355"/>
+</map>

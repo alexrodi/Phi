@@ -1,5 +1,7 @@
 <map id="ModuleProcessor.h" name="ModuleProcessor.h">
-<area shape="rect" id="node2" href="$_module_u_i_8h.html" title="ModuleUI.h" alt="" coords="30,80,123,107"/>
-<area shape="rect" id="node3" href="$_plug_8h.html" title="Plug.h" alt="" coords="46,155,107,181"/>
-<area shape="rect" id="node4" href="$_plug_handler_8h.html" title="PlugHandler.h" alt="" coords="21,229,132,256"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,149,31"/>
+<area shape="rect" id="Node000002" href="$_utils_8h.html" title=" " alt="" coords="45,79,109,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,31,80,65,75,65,75,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="24,152,131,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,104,80,138,75,138,75,104"/>
 </map>

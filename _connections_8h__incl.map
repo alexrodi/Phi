@@ -1,5 +1,21 @@
 <map id="Connections.h" name="Connections.h">
-<area shape="rect" id="node2" href="$_phi_colours_8h.html" title="PhiColours.h" alt="" coords="5,80,107,107"/>
-<area shape="rect" id="node3" href="$_plug_8h.html" title="Plug.h" alt="" coords="131,80,192,107"/>
-<area shape="rect" id="node4" href="$_plug_handler_8h.html" title="PlugHandler.h" alt="" coords="106,155,217,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="42,5,156,31"/>
+<area shape="rect" id="Node000002" href="$_state_8h.html" title=" " alt="" coords="175,79,255,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,28,186,69,183,74,116,33"/>
+<area shape="rect" id="Node000005" href="$_phi_colours_8h.html" title=" " alt="" coords="18,225,121,251"/>
+<area shape="poly" id="edge11_Node000001_Node000005" title=" " alt="" coords="90,33,48,82,27,116,11,153,8,165,11,176,24,197,42,215,39,219,20,201,6,178,3,165,6,151,22,113,44,79,85,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="248,372,355,397"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="240,102,273,122,305,150,330,184,343,225,346,262,340,300,329,334,317,361,312,359,324,332,335,298,341,262,338,226,325,187,301,154,269,126,237,106"/>
+<area shape="rect" id="Node000004" href="$_phi_theme_8h.html" title=" " alt="" coords="20,152,135,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="194,106,113,148,111,143,192,102"/>
+<area shape="rect" id="Node000006" href="$_module_u_i_8h.html" title=" " alt="" coords="159,152,271,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="218,104,218,138,212,138,212,104"/>
+<area shape="rect" id="Node000007" href="$_module_processor_8h.html" title=" " alt="" coords="145,225,328,251"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="238,102,264,122,285,151,289,169,284,187,263,217,258,214,279,185,283,169,281,153,260,126,234,106"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="79,178,75,212,70,212,74,177"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="193,180,107,222,104,217,191,175"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="221,177,232,211,226,213,216,178"/>
+<area shape="rect" id="Node000008" href="$_utils_8h.html" title=" " alt="" coords="235,299,299,324"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="244,250,259,285,254,287,239,252"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="275,323,292,358,288,361,270,326"/>
 </map>

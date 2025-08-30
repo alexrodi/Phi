@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['phicolours_2eh',['PhiColours.h',['../_phi_colours_8h.html',1,'']]],
-  ['phidial_2ecpp',['PhiDial.cpp',['../_phi_dial_8cpp.html',1,'']]],
-  ['phidial_2eh',['PhiDial.h',['../_phi_dial_8h.html',1,'']]],
-  ['phisliderbutton_2ecpp',['PhiSliderButton.cpp',['../_phi_slider_button_8cpp.html',1,'']]],
-  ['phisliderbutton_2eh',['PhiSliderButton.h',['../_phi_slider_button_8h.html',1,'']]],
-  ['phitogglebutton_2eh',['PhiToggleButton.h',['../_phi_toggle_button_8h.html',1,'']]],
-  ['plug_2ecpp',['Plug.cpp',['../_plug_8cpp.html',1,'']]],
-  ['plug_2eh',['Plug.h',['../_plug_8h.html',1,'']]],
-  ['plughandler_2eh',['PlugHandler.h',['../_plug_handler_8h.html',1,'']]]
+  ['main_2ecpp_0',['Main.cpp',['../_main_8cpp.html',1,'']]],
+  ['maincomponent_2ecpp_1',['MainComponent.cpp',['../_main_component_8cpp.html',1,'']]],
+  ['maincomponent_2eh_2',['MainComponent.h',['../_main_component_8h.html',1,'']]],
+  ['modulebox_2ecpp_3',['ModuleBox.cpp',['../_module_box_8cpp.html',1,'']]],
+  ['modulebox_2eh_4',['ModuleBox.h',['../_module_box_8h.html',1,'']]],
+  ['moduleprocessor_2eh_5',['ModuleProcessor.h',['../_module_processor_8h.html',1,'']]],
+  ['modules_2eh_6',['Modules.h',['../_modules_8h.html',1,'']]],
+  ['moduleui_2eh_7',['ModuleUI.h',['../_module_u_i_8h.html',1,'']]]
 ];

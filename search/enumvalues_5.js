@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['general',['General',['../class_phi_colour_ids.html#ad25fcdc2bc949413bdd1cfa1997cecc8a71a750fe91aff43343c9373f022b36b0',1,'PhiColourIds']]]
+  ['lowlight_0',['Lowlight',['../namespace_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51a73b0164904a47aefac0e2ce2d9fada77',1,'PhiColourIds::Module']]]
 ];

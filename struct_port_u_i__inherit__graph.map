@@ -1,0 +1,11 @@
+<map id="PortUI" name="PortUI">
+<area shape="rect" id="Node000001" title="A base class for inlets and outlets." alt="" coords="120,79,183,104"/>
+<area shape="rect" id="Node000004" href="$struct_inlet_u_i.html" title="A Port in Inlet mode (other functionality might be added here)" alt="" coords="72,152,137,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="138,117,114,153,110,150,134,114"/>
+<area shape="rect" id="Node000005" href="$struct_outlet_u_i.html" title="A Port in Outlet mode (other functionality might be added here)" alt="" coords="161,152,237,177"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="169,114,194,150,189,153,165,117"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,38,140,76,136,80,92,42"/>
+<area shape="rect" id="Node000003" href="$class_hover_popup_client.html" title=" " alt="" coords="162,5,301,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,42,166,80,163,76,207,38"/>
+</map>

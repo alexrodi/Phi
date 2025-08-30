@@ -1,3 +1,9 @@
 <map id="PhiDial.cpp" name="PhiDial.cpp">
-<area shape="rect" id="node2" href="$_phi_dial_8h.html" title="PhiDial.h" alt="" coords="13,80,90,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="71,5,166,31"/>
+<area shape="rect" id="Node000002" href="$_phi_dial_8h.html" title=" " alt="" coords="19,79,99,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,33,79,70,75,66,107,29"/>
+<area shape="rect" id="Node000004" href="$_phi_colours_8h.html" title=" " alt="" coords="123,79,237,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="131,29,163,66,159,70,127,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,112,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="61,104,61,138,56,138,56,104"/>
 </map>

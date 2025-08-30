@@ -1,22 +1,8 @@
 var searchData=
 [
-  ['maincomponent',['MainComponent',['../class_main_component.html#a3768151d51b1e451ddf3ea31922bca5c',1,'MainComponent']]],
-  ['mainpatcher',['MainPatcher',['../class_main_patcher.html#a49b2fc31460a4fdb16f0580319b6e713',1,'MainPatcher']]],
-  ['mainwindow',['MainWindow',['../class_phi_application_1_1_main_window.html#a48c6338849535ef618d7cb9d31899f43',1,'PhiApplication::MainWindow']]],
-  ['mapofmode',['mapOfMode',['../class_connections_1_1_id_store.html#a755ed7402d10f772ae6ec53ead1076d1',1,'Connections::IdStore']]],
-  ['mixf',['mixf',['../_d_s_p_utils_8h.html#a5278a139f336b3e00bcb37cbb67f54a1',1,'DSPUtils.h']]],
-  ['modulebox',['ModuleBox',['../class_module_box.html#aa326cc5c1490cdacc606f0135b1ad503',1,'ModuleBox']]],
-  ['moduleentry',['ModuleEntry',['../struct_modules_1_1_module_entry.html#a01f57a2e8ee5f87986c9de68afd65f85',1,'Modules::ModuleEntry']]],
-  ['moduleid',['moduleID',['../struct_plug_i_d.html#af2503ce116c1bd23859a49ef47e6aa31',1,'PlugID']]],
-  ['moduleinfo',['ModuleInfo',['../struct_modules_1_1_module_info.html#ae03c0a8e6ef00d2f30723082fe6aa3ee',1,'Modules::ModuleInfo::ModuleInfo()'],['../class_modules.html#af3734149430a24882f9d60d5d64675cc',1,'Modules::moduleInfo()']]],
-  ['modulelist',['moduleList',['../class_modules.html#a9d66bfdd4985e853026eccc2f31d65fc',1,'Modules']]],
-  ['modulelookandfeel',['ModuleLookAndFeel',['../struct_module_box_1_1_module_look_and_feel.html#a1fbb52bbd928de2fd0b4661ed995e402',1,'ModuleBox::ModuleLookAndFeel']]],
-  ['moduleprocessor',['ModuleProcessor',['../class_module_processor.html#aabe61bbbb53e6d0c62a0c887deeb99b6',1,'ModuleProcessor']]],
-  ['moduleui',['ModuleUI',['../class_module_u_i.html#afe471f2eb013a8d935b9f28eeba88e7c',1,'ModuleUI']]],
-  ['morethanoneinstanceallowed',['moreThanOneInstanceAllowed',['../class_phi_application.html#a2d27fa07a00c3317ef366299a0d55a16',1,'PhiApplication']]],
-  ['mousedown',['mouseDown',['../class_connections.html#a287485ef424ab11a7bca4d3336ed43c5',1,'Connections::mouseDown()'],['../class_main_patcher.html#a34b7784955a5497adb4f13c615d70a24',1,'MainPatcher::mouseDown()'],['../class_module_box.html#a8d5dc8bebe8b9c44f8a98e8ebbe82516',1,'ModuleBox::mouseDown()'],['../class_impulse_u_i.html#a555c46e8200b30f70414561a9e4d332e',1,'ImpulseUI::mouseDown()'],['../class_plug.html#a899549ade35cda4443158b9d392fb6d8',1,'Plug::mouseDown()']]],
-  ['mousedrag',['mouseDrag',['../class_main_patcher.html#a16fb8b86f4345302b428be49e86fffe9',1,'MainPatcher::mouseDrag()'],['../class_module_box.html#a94068500ff02f7db9e3eec23ce1d9411',1,'ModuleBox::mouseDrag()'],['../class_plug.html#a7fd70b1982f5f91653e698140613e64c',1,'Plug::mouseDrag()']]],
-  ['mousemove',['mouseMove',['../class_connections.html#a27c5a2daf1062c0021f8f3782fa861dd',1,'Connections']]],
-  ['mouseup',['mouseUp',['../class_main_patcher.html#a7f00d247b38e295f8c121e87d90d91c1',1,'MainPatcher::mouseUp()'],['../class_module_box.html#a8230bb09daacbd2fb276c5ea999ddbf8',1,'ModuleBox::mouseUp()'],['../class_plug.html#a26435fd062f55b908784aa0f0c689887',1,'Plug::mouseUp()']]],
-  ['moved',['moved',['../class_module_box.html#a4705c22ea8e38d7e1af1be8f3c9fd85b',1,'ModuleBox']]]
+  ['lfoprocessor_0',['LFOProcessor',['../struct_l_f_o_processor.html#a87d8713bd9c591c140a8d5d2a5c17d22',1,'LFOProcessor']]],
+  ['lfoui_1',['LFOUI',['../struct_l_f_o_u_i.html#affeeed7697be7f4d12b17a568957e121',1,'LFOUI']]],
+  ['lfowaveform_2',['LFOWaveform',['../struct_l_f_o_u_i_1_1_l_f_o_waveform.html#ae3885138b9bf2e798c1598aad70f2589',1,'LFOUI::LFOWaveform']]],
+  ['listener_3',['Listener',['../struct_hover_popup_client_1_1_listener.html#ab0312ec67f2fdf46a5ff5683f5e4930b',1,'HoverPopupClient::Listener']]],
+  ['load_4',['load',['../struct_state.html#aa956afa8b61612d10661cc504b2dc8bd',1,'State']]]
 ];

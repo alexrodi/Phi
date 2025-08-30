@@ -1,8 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$class_module_u_i.html" title="ModuleUI" alt="" coords="212,81,293,108"/>
-<area shape="rect" id="node3" href="$class_gain_u_i.html" title="GainUI" alt="" coords="352,5,416,32"/>
-<area shape="rect" id="node4" href="$class_impulse_u_i.html" title="ImpulseUI" alt="" coords="341,157,427,184"/>
-<area shape="rect" id="node5" href="$class_output_u_i.html" title="OutputUI" alt="" coords="345,56,423,83"/>
-<area shape="rect" id="node6" href="$class_string_u_i.html" title="StringUI" alt="" coords="347,107,421,133"/>
-<area shape="rect" id="node8" href="$class_phi_dial.html" title="PhiDial" alt="" coords="351,208,417,235"/>
+<area shape="rect" id="Node000000" href="$struct_module_port_i_d.html" title=" " alt="" coords="5,5,116,31"/>
 </map>

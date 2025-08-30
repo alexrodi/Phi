@@ -1,11 +1,14 @@
 var searchData=
 [
-  ['canfittext',['canFitText',['../class_plug.html#a7b196a80326a822e60ac90f724452a3e',1,'Plug']]],
-  ['centrey',['centreY',['../class_waveform.html#a66a96cec54f99429f04f17ced0eb7217',1,'Waveform']]],
-  ['colors',['colors',['../class_plug.html#a3c3e37609ff97053ec0906de19b3c11f',1,'Plug']]],
-  ['colour',['colour',['../struct_phi_connection.html#a9992573db7bf4bb5de78f263bed9915a',1,'PhiConnection::colour()'],['../class_output_u_i.html#a267a0e61331799f375b997b2f8b3cb99',1,'OutputUI::colour()'],['../class_phi_dial.html#a912c67278f2b26c427cf5a3a2ad758b6',1,'PhiDial::colour()']]],
-  ['connections',['connections',['../class_connections.html#a824635e554a8e396e434e5a330b908fe',1,'Connections::connections()'],['../class_main_patcher.html#a5f679f82dfd05eb857ea9c733cedd364',1,'MainPatcher::connections()']]],
-  ['content_5fpadding',['CONTENT_PADDING',['../class_module_box.html#a7ff72d65d2f862be73412a1d9a9f202a',1,'ModuleBox']]],
-  ['cord_5fweight',['CORD_WEIGHT',['../class_connections.html#aaf7acce38eabea9ae9ba74ad405937f0',1,'Connections']]],
-  ['currentphase',['currentPhase',['../class_impulse_processor.html#aa54e56da59233321cf36ceeb2b3a71c7',1,'ImpulseProcessor']]]
+  ['canfittext_0',['canFitText',['../struct_port_u_i.html#a1868bf077b412e7c4a8f1582b35c17f9',1,'PortUI']]],
+  ['chooser_1',['chooser',['../struct_file_manager.html#a1c9a1d6c794f76f4b3b9bdc0266d2cb6',1,'FileManager']]],
+  ['colors_2',['colors',['../struct_port_u_i.html#a953abc6b3a8e58704f333e7083b5931e',1,'PortUI']]],
+  ['colour_3',['colour',['../struct_phi_dial.html#a8d8fd43998b1eaf91c55e01947772127',1,'PhiDial::colour'],['../struct_connections_1_1_connection.html#a70099e680efeb79672d4493d74ca8988',1,'Connections::Connection::colour']]],
+  ['colours_4',['colours',['../struct_phi_theme.html#aa72dd95cd3444d0c6202e933465fb37a',1,'PhiTheme']]],
+  ['connections_5',['connections',['../class_connections.html#a3d84630d385ea8055abd6a84facd2c9b',1,'Connections::connections'],['../struct_patcher.html#a021267c070253b1b59d5936deaff4031',1,'Patcher::connections']]],
+  ['cord_5fweight_6',['CORD_WEIGHT',['../class_connections.html#aaf7acce38eabea9ae9ba74ad405937f0',1,'Connections']]],
+  ['cornerradius_7',['cornerRadius',['../class_hover_popup_window.html#a0039ed9e1ec1338284bd32247548c6c4',1,'HoverPopupWindow']]],
+  ['currentlyopenfile_8',['currentlyOpenFile',['../struct_file_manager.html#a694c36eff5d3ffc5c8c93efebc0012fb',1,'FileManager']]],
+  ['customhoverpopupposition_9',['customHoverPopupPosition',['../class_hover_popup_client.html#aa867661cde4fa005d2173233d002a683',1,'HoverPopupClient']]],
+  ['cutoff_10',['cutoff',['../struct_one_pole.html#ad6406a2de8958a254e0320c73707bc56',1,'OnePole']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['headerline',['HeaderLine',['../struct_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51a021939f13261bbcc229cf113265af054',1,'PhiColourIds::Module']]],
-  ['highlight',['Highlight',['../struct_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51a3fce1e6b6e645458fe1653df005977b4',1,'PhiColourIds::Module']]]
+  ['name_0',['Name',['../namespace_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51acc780d06afd249cddf63092937c6e6d3',1,'PhiColourIds::Module']]],
+  ['neon_1',['Neon',['../struct_phi_theme.html#ad3860dee100982db20122bb5758f4839a7a5ea03d401ee10e7b9dfe5648d07816',1,'PhiTheme']]]
 ];

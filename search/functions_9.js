@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keypressed',['keyPressed',['../class_connections.html#afcad2c4e7ad15791c90098fb7b5e2d6d',1,'Connections::keyPressed()'],['../class_main_patcher.html#aa098821e09e87160a66b272176d2883a',1,'MainPatcher::keyPressed()']]]
+  ['juce_5fdeclare_5fnon_5fcopyable_5fwith_5fleak_5fdetector_0',['JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR',['../class_hover_popup_window.html#a28f32d52a7997a7905938283677123ba',1,'HoverPopupWindow']]]
 ];

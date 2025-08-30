@@ -1,22 +1,9 @@
 var searchData=
 [
-  ['padding',['padding',['../class_phi_dial.html#a7d9121d1d385f3526b663407b51d977d',1,'PhiDial']]],
-  ['params',['params',['../class_module_processor.html#a7334cc7f7d856f040ac63dad96e7c4e8',1,'ModuleProcessor']]],
-  ['patchcordtypebutton',['patchCordTypeButton',['../class_main_component.html#a5d32338fc0e6e6d916b024c4e6d59bd7',1,'MainComponent']]],
-  ['path',['path',['../struct_phi_connection.html#a098dd9a8e637465bd24c2a41adb19057',1,'PhiConnection::path()'],['../class_waveform.html#a397b0cf144aec4a363c62bfcfdbc60f8',1,'Waveform::path()']]],
-  ['philookandfeel',['phiLookAndFeel',['../class_main_component.html#a52d01c2813f7961a29a835ddb40ffb65',1,'MainComponent']]],
-  ['player',['player',['../class_audio_engine.html#a730e2258c0018f9c699c70474561c0d0',1,'AudioEngine']]],
-  ['plugid',['plugID',['../class_plug.html#ad400b3c61d8ec02e67d8e9328dd0543d',1,'Plug::plugID()'],['../struct_plug_event.html#ab2b40f12421074ecf3711a0d02beebfd',1,'PlugEvent::plugID()']]],
-  ['plugmode',['plugMode',['../struct_plug_event.html#a20ed08391a14cd97909c6a0d373d0cd4',1,'PlugEvent']]],
-  ['pointerpath',['pointerPath',['../class_phi_dial.html#a04bfb3c14e47ddcfb41fd59470a730bc',1,'PhiDial']]],
-  ['pointerrotation',['pointerRotation',['../class_phi_dial.html#afc4043a7b26874d2e42c34090a0b36dd',1,'PhiDial']]],
-  ['positionattachment',['positionAttachment',['../class_string_u_i.html#a102d9945d3db0ae6b8cad1322a62f127',1,'StringUI']]],
-  ['positiondial',['positionDial',['../class_string_u_i.html#a52ab388bef531ac536255c66cf53a37a',1,'StringUI']]],
-  ['powerbutton',['powerButton',['../class_module_box.html#ac5ca0db11e0fe5bcb7756fedc5910de4',1,'ModuleBox']]],
-  ['previous',['previous',['../class_one_pole.html#a5bd2455e87f427e25cc13b3dc75d6ad6',1,'OnePole::previous()'],['../class_accum.html#aaae76a100a5be31070ec4a1015513a48',1,'Accum::previous()']]],
-  ['previousinput',['previousInput',['../class_d_c_block.html#a6a1bbfb7753a283ffc21f6ecb8bc18bb',1,'DCBlock']]],
-  ['previousoutput',['previousOutput',['../class_d_c_block.html#ad46c8d54d0812d90cb1e69490a832897',1,'DCBlock']]],
-  ['previoustrigger',['previousTrigger',['../class_impulse_processor.html#ac91cf92019ad151682781baa685da7be',1,'ImpulseProcessor']]],
-  ['processor',['processor',['../struct_module_u_i_1_1_props.html#a09979529c0b8ebabbbd6934d057b0f99',1,'ModuleUI::Props']]],
-  ['props',['props',['../class_module_u_i.html#a98ce7a6b4740ed2ccc4fdeae61b0b449',1,'ModuleUI']]]
+  ['onepole1_0',['onePole1',['../struct_string_processor.html#a04f9517f5eaba3d74c8dd2c87bc76dfb',1,'StringProcessor']]],
+  ['onepole2_1',['onePole2',['../struct_string_processor.html#aa2f4c571725126b0d8928334997253e7',1,'StringProcessor']]],
+  ['outer_2',['outer',['../struct_port_u_i_1_1_port_colors.html#aa60285506e6e693196becd776702d4f8',1,'PortUI::PortColors']]],
+  ['outlets_3',['outlets',['../struct_module_box.html#a6bf2921dfbb2dffd83c7578088d80af1',1,'ModuleBox::outlets'],['../struct_module_u_i_1_1_props.html#aac32dadbd0c71c3cd1c272f5d7ec8cd8',1,'ModuleUI::Props::outlets']]],
+  ['outlinethickness_4',['outlineThickness',['../struct_module_box.html#a603c33160fdeabb253a6f3ebbe73ef1a',1,'ModuleBox']]],
+  ['owner_5',['owner',['../class_hover_popup_client.html#aff97429277fd7d24a6ab3df80c426f29',1,'HoverPopupClient::owner'],['../struct_hover_popup_client_1_1_listener.html#a770c594883f259b436c4e6429ad1c780',1,'HoverPopupClient::Listener::owner'],['../struct_connections_1_1_mouse_listener.html#aa8985241c0ad89c0cd2efbc5c513f795',1,'Connections::MouseListener::owner'],['../struct_main_component_1_1_menu_bar_1_1_model.html#aa13809b6d1afe2926ea9fb388bd75f8e',1,'MainComponent::MenuBar::Model::owner'],['../struct_patcher_1_1_mouse_listener.html#a5312b890da16e839844aa9b9d6907c5d',1,'Patcher::MouseListener::owner']]]
 ];

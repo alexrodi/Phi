@@ -1,0 +1,11 @@
+<map id="Patcher" name="Patcher">
+<area shape="rect" id="Node000001" title="The main view of Phi, this class handles all the module UIs and holds the connection manager." alt="" coords="263,93,333,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,137,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,40,266,91,264,96,116,45"/>
+<area shape="rect" id="Node000003" href="$struct_state_1_1_listener.html" title=" " alt="" coords="161,13,277,38"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="243,46,288,91,284,95,239,50"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="302,5,451,45"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="350,57,312,95,308,91,346,53"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="476,13,635,38"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="506,44,334,96,333,91,504,39"/>
+</map>

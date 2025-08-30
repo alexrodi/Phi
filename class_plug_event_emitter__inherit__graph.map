@@ -1,5 +1,0 @@
-<map id="PlugEventEmitter" name="PlugEventEmitter">
-<area shape="rect" id="node2" href="$class_plug.html" title="A base class for Inlet and Outlet &#45; This is a UI class for handling connection and dragging behaviors..." alt="" coords="72,80,121,107"/>
-<area shape="rect" id="node3" href="$class_inlet_plug.html" title="A Plug in Inlet mode (other functionality might be added here) " alt="" coords="5,155,81,181"/>
-<area shape="rect" id="node4" href="$class_outlet_plug.html" title="A Plug in Outlet mode (other functionality might be added here) " alt="" coords="106,155,194,181"/>
-</map>

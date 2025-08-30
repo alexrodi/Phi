@@ -1,8 +1,21 @@
 var searchData=
 [
-  ['updateallconnectionpaths',['updateAllConnectionPaths',['../class_connections.html#a757454e3f798e434184ea4fb402a508c',1,'Connections']]],
-  ['updateconnectionpath',['updateConnectionPath',['../class_connections.html#abd96805a0e71512ed7b7350d9629ae1d',1,'Connections']]],
-  ['updatedial',['updateDial',['../class_phi_dial.html#ab329d3e7791acb9bca49ea7d23e7beb7',1,'PhiDial']]],
-  ['updatedragpath',['updateDragPath',['../class_connections.html#a44f74ebb81154b0acbb749ae4948cac4',1,'Connections']]],
-  ['updateform',['updateForm',['../class_waveform.html#a18197779b4cef2714e40600f1395c1c4',1,'Waveform']]]
+  ['text_0',['text',['../struct_module_box_1_1_module_look_and_feel.html#a03135350828bd89a3589fe59235d706d',1,'ModuleBox::ModuleLookAndFeel::text'],['../namespace_phi_colour_ids_1_1_port.html#a5a62e2bc82be5aa46ec438fc2f70a4c9acb139da482cf36d549ae971d17e6008f',1,'PhiColourIds::Port::Text'],['../namespace_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51af58cd63d232585e0669af383a50f735a',1,'PhiColourIds::Module::Text']]],
+  ['textcolour_1',['textColour',['../struct_phi_slider_button.html#ae347e22ca7ab543be8384d451a22fb30',1,'PhiSliderButton']]],
+  ['textheight_2',['textHeight',['../struct_port_u_i.html#a09ed3953ea6c72b3f2dcc890970199e3',1,'PortUI']]],
+  ['theme_3',['theme',['../struct_phi_look_and_feel.html#a5bbee8995e07dbc4f7b5ead9042e121a',1,'PhiLookAndFeel']]],
+  ['themechanged_4',['themechanged',['../struct_state_1_1_listener.html#a6a093a6a77ca69365832b73bf476d98a',1,'State::Listener::themeChanged()'],['../struct_main_component.html#ac39c7c135d02a0e167e57c2c19845f76',1,'MainComponent::themeChanged()']]],
+  ['thetafactor_5',['thetaFactor',['../class_state_variable_filter.html#a3bb9bceabc716125b8d553c98d7343f4',1,'StateVariableFilter']]],
+  ['thickness_6',['thickness',['../struct_phi_dial.html#a9faab01f1dfaa86f0f5c5ab149a26a3a',1,'PhiDial']]],
+  ['timercallback_7',['timerCallback',['../class_hover_popup_window.html#a08c08c5d111d440c17ef2492fda28096',1,'HoverPopupWindow']]],
+  ['tl_8',['tl',['../class_hover_popup_window.html#a80eb46c00e6dc6026983af4f51ba58ee',1,'HoverPopupWindow']]],
+  ['topbar_9',['TopBar',['../namespace_phi_colour_ids_1_1_general.html#ad5785280327f8a2eae89bac134d7af6ea8eb061ec0d9fd7fc1bf626606b70fa8a',1,'PhiColourIds::General']]],
+  ['topbarheight_10',['topBarHeight',['../struct_main_component.html#ac680a13749c9c9d3a317f1b077649d1b',1,'MainComponent']]],
+  ['tostring_11',['tostring',['../struct_module_port_i_d.html#aeb9070b1e244a89cbcb161d0e17b4470',1,'ModulePortID::toString()'],['../struct_connection_i_d.html#a48d916eef1a656421ef79c5d058102d9',1,'ConnectionID::toString()'],['../struct_port_i_d.html#ac3b2567faa5fc61a9b27a3390d3373bc',1,'PortID::toString()'],['../struct_module_i_d.html#a5562446f93be857f174da54bfbda0fdf',1,'ModuleID::toString()']]],
+  ['traverseandshowpopup_12',['traverseAndShowPopup',['../class_hover_popup_window.html#ae2ef8db3c83901b7ce8ff4155cccb57d',1,'HoverPopupWindow']]],
+  ['triangle_13',['Triangle',['../struct_l_f_o.html#a4aa06578623595e218af7cdf56f054baa5e5500cb2b82eb72d550de644bd1b64b',1,'LFO']]],
+  ['triggerparameterwason_14',['triggerParameterWasOn',['../struct_impulse_processor.html#a61e46d0b26b393c44274fbe626231e48',1,'ImpulseProcessor']]],
+  ['trycreateheldconnection_15',['tryCreateHeldConnection',['../class_connections.html#a29bcbb406a4505bff04789df8b9901b3',1,'Connections']]],
+  ['two_5fpi_16',['two_pi',['../struct_l_f_o.html#a3bba8c08934cbe13061d5d168d01b6a0',1,'LFO']]],
+  ['type_17',['type',['../struct_module_info.html#a4182e0d47e62500982350a2c11af811d',1,'ModuleInfo::type'],['../struct_port_u_i.html#a806a5027c6d1a0d0535f6a0039a26bfb',1,'PortUI::type']]]
 ];

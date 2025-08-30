@@ -1,0 +1,7 @@
+<map id="AudioEngine" name="AudioEngine">
+<area shape="rect" id="Node000001" title="The class where each module&#39;s DSP routine gets implemented as nodes and patched together." alt="" coords="141,79,244,104"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,201,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,37,180,76,176,81,127,41"/>
+<area shape="rect" id="Node000003" href="$struct_state_1_1_listener.html" title=" " alt="" coords="225,5,341,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="259,41,209,81,206,76,256,37"/>
+</map>

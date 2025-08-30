@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_one_pole.html" title="OnePole\&lt; Type \&gt;" alt="" coords="5,5,139,32"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,5,169,31"/>
+<area shape="rect" id="Node000001" href="$struct_phi_look_and_feel.html" title=" " alt="" coords="217,5,343,31"/>
+<area shape="poly" id="edge50_Node000000_Node000001" title=" " alt="" coords="183,15,217,15,217,21,183,21"/>
+<area shape="rect" id="Node000002" href="$struct_module_box_1_1_module_look_and_feel.html" title="Our LookAndFeel class and instance for this module box." alt="" coords="391,5,625,31"/>
+<area shape="poly" id="edge51_Node000001_Node000002" title=" " alt="" coords="356,15,391,15,391,21,356,21"/>
 </map>

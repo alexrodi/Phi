@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['wasexternallytriggered',['wasExternallyTriggered',['../class_impulse_processor.html#abf3bae8ba3c67788c0e9341352ec0852',1,'ImpulseProcessor']]],
-  ['wasresized',['wasResized',['../class_gain_u_i.html#a021c349a53e3a9827480a4ec81deb514',1,'GainUI::wasResized()'],['../class_impulse_u_i.html#a8e3c1ba8c5fe9a84864aa86107d67b25',1,'ImpulseUI::wasResized()'],['../class_output_u_i.html#a7f3cdc2d45df23c72b9b114d5d5e2c7e',1,'OutputUI::wasResized()'],['../class_string_u_i.html#ac606fb2253f4b23405bebd93074f18f5',1,'StringUI::wasResized()'],['../class_module_u_i.html#aed6dd59a40602163142303d07ceb8bfb',1,'ModuleUI::wasResized()']]],
-  ['waveform',['Waveform',['../class_waveform.html',1,'Waveform'],['../class_impulse_u_i.html#ae41ca44055f9d32428b73dfa5ecc694e',1,'ImpulseUI::waveForm()'],['../class_waveform.html#aa9bc132d6e131f598673e06193d3e90c',1,'Waveform::Waveform()']]],
-  ['width',['width',['../struct_module_u_i_1_1_props.html#a0543e35d040fd46468849b85191fb1ab',1,'ModuleUI::Props']]]
+  ['val_0',['val',['../namespace_phi_colour_ids_1_1_general.html#ad5785280327f8a2eae89bac134d7af6e',1,'PhiColourIds::General::Val'],['../namespace_phi_colour_ids_1_1_module.html#a4ba3da53b52cebcd5e02c01b6e301f51',1,'PhiColourIds::Module::Val'],['../namespace_phi_colour_ids_1_1_port.html#a5a62e2bc82be5aa46ec438fc2f70a4c9',1,'PhiColourIds::Port::Val'],['../namespace_phi_colour_ids_1_1_connection.html#a85c523819a8138914b5f7b9f395f8d49',1,'PhiColourIds::Connection::Val']]],
+  ['value_1',['value',['../struct_module_i_d.html#a4eaa8553e0fc1e24cf135ce2fb149e93',1,'ModuleID::value'],['../struct_port_i_d.html#a0794584c7dbc3ba2c7d96d8eecab6188',1,'PortID::value']]],
+  ['valuetreechildadded_2',['valueTreeChildAdded',['../struct_state.html#a86d27cd2e36ba424068b353620c955bb',1,'State']]],
+  ['valuetreechildremoved_3',['valueTreeChildRemoved',['../struct_state.html#a58b7aeb7304d9dde9fd42f88901076eb',1,'State']]],
+  ['valuetreepropertychanged_4',['valueTreePropertyChanged',['../struct_state.html#a79094e5f47ae589d77bf7206f6a1ef67',1,'State']]],
+  ['viewport_5',['viewport',['../struct_main_component.html#a54daf617256b87456ead66a2859d2969',1,'MainComponent']]]
 ];

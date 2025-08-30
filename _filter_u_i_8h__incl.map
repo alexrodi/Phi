@@ -1,0 +1,16 @@
+<map id="FilterUI.h" name="FilterUI.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="247,5,328,31"/>
+<area shape="rect" id="Node000002" href="$_module_u_i_8h.html" title=" " alt="" coords="155,79,291,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,33,245,70,241,67,275,29"/>
+<area shape="rect" id="Node000007" href="$_phi_dial_8h.html" title=" " alt="" coords="284,225,419,265"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="293,30,329,151,345,212,340,213,323,153,288,31"/>
+<area shape="rect" id="Node000003" href="$_phi_colours_8h.html" title=" " alt="" coords="5,152,108,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,106,97,149,95,144,196,102"/>
+<area shape="rect" id="Node000004" href="$_module_processor_8h.html" title=" " alt="" coords="132,152,315,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="226,104,226,138,221,138,221,104"/>
+<area shape="rect" id="Node000005" href="$_utils_8h.html" title=" " alt="" coords="194,233,258,258"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="226,177,228,219,222,219,221,178"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="234,313,341,339"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="237,257,272,301,268,304,233,260"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="338,267,308,304,304,301,334,264"/>
+</map>

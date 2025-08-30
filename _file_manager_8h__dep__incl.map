@@ -1,0 +1,14 @@
+<map id="FileManager.h" name="FileManager.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="53,5,167,31"/>
+<area shape="rect" id="Node000002" href="$_main_8cpp.html" title=" " alt="" coords="5,152,87,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,44,54,153,49,151,97,42"/>
+<area shape="rect" id="Node000003" href="$_main_component_8h.html" title=" " alt="" coords="105,79,246,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,39,167,77,163,80,128,43"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="144,113,68,154,66,149,141,108"/>
+<area shape="rect" id="Node000004" href="$_connections_8cpp.html" title=" " alt="" coords="111,152,240,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="178,118,178,152,173,152,173,118"/>
+<area shape="rect" id="Node000005" href="$_main_component_8cpp.html" title=" " alt="" coords="264,152,420,177"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="216,107,316,149,314,154,214,112"/>
+<area shape="rect" id="Node000006" href="$_patcher_8cpp.html" title=" " alt="" coords="445,152,541,177"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="240,104,445,150,444,155,239,110"/>
+</map>

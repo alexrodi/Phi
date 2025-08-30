@@ -1,0 +1,10 @@
+<map id="Friction" name="Friction">
+<area shape="rect" id="node1" href="dir_8064f1edcba7ab9b678165535fbcc953.html" title="Friction" alt="" coords="27,52,98,77"/>
+<area shape="rect" id="node2" href="dir_35d3f46ebf2e3a4dc07632ea0a786dc1.html" title="dsp" alt="" coords="7,125,52,151"/>
+<area shape="poly" id="edge1" href="dir_000003_000001.html" alt="" coords="60,79,43,114,38,112,55,77"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000003_000001.html" title="1" alt="" coords="45,105,55,120"/>
+<area shape="rect" id="node3" href="dir_67a0be856378ad6144fa3ec2cbbc70eb.html" title="ui" alt="" coords="77,125,115,151"/>
+<area shape="poly" id="edge2" href="dir_000003_000017.html" alt="" coords="71,77,87,112,82,114,66,79"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000003_000017.html" title="2" alt="" coords="86,98,95,113"/>
+<area shape="rect" id="clust1" href="dir_b69119677ac2846e12a57f7483b2cfb6.html" title="modules" alt="" coords="16,16,109,88"/>
+</map>

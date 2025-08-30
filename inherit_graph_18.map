@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_phi_colour_ids.html" title="PhiColourIds" alt="" coords="5,5,105,32"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,55,157,80"/>
+<area shape="rect" id="Node000001" href="$struct_connections_1_1_mouse_listener.html" title=" " alt="" coords="205,5,411,31"/>
+<area shape="poly" id="edge54_Node000000_Node000001" title=" " alt="" coords="153,49,248,28,249,33,154,54"/>
+<area shape="rect" id="Node000002" href="$struct_hover_popup_client_1_1_listener.html" title=" " alt="" coords="209,55,407,80"/>
+<area shape="poly" id="edge55_Node000000_Node000002" title=" " alt="" coords="171,65,209,65,209,70,171,70"/>
+<area shape="rect" id="Node000003" href="$struct_patcher_1_1_mouse_listener.html" title=" " alt="" coords="221,104,395,129"/>
+<area shape="poly" id="edge56_Node000000_Node000003" title=" " alt="" coords="154,80,249,101,248,107,153,86"/>
 </map>

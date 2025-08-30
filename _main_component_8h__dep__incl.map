@@ -1,4 +1,11 @@
 <map id="MainComponent.h" name="MainComponent.h">
-<area shape="rect" id="node2" href="$_main_8cpp.html" title="Main.cpp" alt="" coords="5,80,84,107"/>
-<area shape="rect" id="node3" href="$_main_component_8cpp.html" title="MainComponent.cpp" alt="" coords="109,80,263,107"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="199,5,341,31"/>
+<area shape="rect" id="Node000002" href="$_connections_8cpp.html" title=" " alt="" coords="5,79,135,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,38,104,81,102,76,224,33"/>
+<area shape="rect" id="Node000003" href="$_main_8cpp.html" title=" " alt="" coords="159,79,240,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="251,43,213,80,209,77,247,39"/>
+<area shape="rect" id="Node000004" href="$_main_component_8cpp.html" title=" " alt="" coords="264,79,420,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="294,39,332,77,328,80,290,43"/>
+<area shape="rect" id="Node000005" href="$_patcher_8cpp.html" title=" " alt="" coords="445,79,541,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="319,32,457,76,456,81,318,37"/>
 </map>
