@@ -127,8 +127,8 @@ private:
 
         // Ports
         colours[PhiColourIds::Port::IntletOutline] =         juce::Colour(0xff444466);
-        colours[PhiColourIds::Port::IntletFill] =            juce::Colour(0xff1f1f33);
-        colours[PhiColourIds::Port::OutletOutline] =         juce::Colour(0xff1f1f33);
+        colours[PhiColourIds::Port::IntletFill] =            juce::Colour(0xff1f1f33).darker();
+        colours[PhiColourIds::Port::OutletOutline] =         juce::Colour(0xff1f1f33).darker();
         colours[PhiColourIds::Port::OutletFill] =            juce::Colour(0xff444466);
         colours[PhiColourIds::Port::Text] =                  juce::Colour(0xffbbbbcc);
 
@@ -145,7 +145,7 @@ private:
         colours[PhiColourIds::General::TopBar] =             juce::Colours::darkgrey.darker().darker();
 
         // Modules
-        colours[PhiColourIds::Module::Highlight] =           juce::Colours::cyan.withSaturation(0.6f);
+        colours[PhiColourIds::Module::Highlight] =           juce::Colours::turquoise;
         colours[PhiColourIds::Module::Lowlight] =            juce::Colour::greyLevel(0.2f);
         colours[PhiColourIds::Module::DisabledHighlight] =   juce::Colours::grey;
         colours[PhiColourIds::Module::DisabledText] =        juce::Colours::grey;
@@ -176,7 +176,7 @@ private:
         colours[PhiColourIds::General::TopBar] =             juce::Colour(0xff1f1e1d).withBrightness(0.11f);
 
         // Modules
-        colours[PhiColourIds::Module::Highlight] =           juce::Colours::orange.withSaturation(0.5f);
+        colours[PhiColourIds::Module::Highlight] =           juce::Colours::orange.withSaturation(0.6f);
         colours[PhiColourIds::Module::Lowlight] =            juce::Colour(0xff1f1e1d).withBrightness(0.15f);
         colours[PhiColourIds::Module::DisabledHighlight] =   juce::Colour(0xff5c5a59);
         colours[PhiColourIds::Module::DisabledText] =        juce::Colour(0xff5c5a59);
