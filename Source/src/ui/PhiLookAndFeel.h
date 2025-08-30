@@ -17,28 +17,13 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
 {
     PhiLookAndFeel()
     {
-        theme.apply(*this);
-        
-        setColour(juce::PopupMenu::highlightedTextColourId,       findColour(PhiColourIds::Module::Text).withMultipliedBrightness(1.3f));
-        setColour(juce::PopupMenu::textColourId,                  findColour(PhiColourIds::Module::Text));
-        setColour(juce::PopupMenu::backgroundColourId,            findColour(PhiColourIds::Module::Background));
-        setColour(juce::PopupMenu::highlightedBackgroundColourId, findColour(PhiColourIds::Module::Lowlight));
-        setColour(juce::TextEditor::focusedOutlineColourId,       juce::Colours::transparentBlack);
-        setColour(juce::TextEditor::highlightedTextColourId,      juce::Colour::greyLevel(0.7f));
-        setColour(juce::ScrollBar::thumbColourId,                 juce::Colour::greyLevel(0.6f));
-        setColour(juce::Slider::textBoxHighlightColourId,         juce::Colour::greyLevel(0.2f));
-        setColour(juce::Slider::textBoxOutlineColourId,           juce::Colours::transparentBlack);
-        setColour(juce::TooltipWindow::backgroundColourId,        juce::Colours::grey);
-        setColour(juce::TooltipWindow::textColourId,              juce::Colours::darkgrey.darker());
-        setColour(juce::ColourSelector::backgroundColourId,       juce::Colours::transparentBlack);
-        setColour(juce::CaretComponent::caretColourId,            juce::Colour::greyLevel(0.8f));
-        setColour(juce::Label::backgroundWhenEditingColourId,     juce::Colour::greyLevel(0.3f));
+        applyTheme();
     }
     
     // This *must* be called after the lookandfeel has been set
     void setTheme(const PhiTheme& theme, bool isMainComponent) {
         this->theme = theme;
-        theme.apply(*this);
+        applyTheme();
         
         if (isMainComponent) {
             // Components out here have a neutral highlight colour
@@ -95,4 +80,24 @@ struct PhiLookAndFeel  : public juce::LookAndFeel_V4
 private:
     juce::Typeface::Ptr defaultFont = juce::Typeface::createSystemTypefaceFor(BinaryData::HelveticaNeue_ttc, BinaryData::HelveticaNeue_ttcSize);
     PhiTheme theme;
+    
+    void applyTheme() {
+        theme.apply(*this);
+        
+        setColour(juce::PopupMenu::highlightedTextColourId,       findColour(PhiColourIds::Module::Text).withMultipliedBrightness(1.3f));
+        setColour(juce::PopupMenu::textColourId,                  findColour(PhiColourIds::Module::Text));
+        setColour(juce::PopupMenu::backgroundColourId,            findColour(PhiColourIds::Module::Background));
+        setColour(juce::PopupMenu::highlightedBackgroundColourId, findColour(PhiColourIds::Module::Lowlight));
+        setColour(juce::ScrollBar::thumbColourId,                 findColour(PhiColourIds::Module::Outline));
+        setColour(juce::Slider::textBoxHighlightColourId,         findColour(PhiColourIds::Module::DisabledText));
+        setColour(juce::Slider::textBoxOutlineColourId,           juce::Colours::transparentBlack);
+        setColour(juce::TooltipWindow::backgroundColourId,        findColour(PhiColourIds::Module::Lowlight));
+        setColour(juce::TooltipWindow::textColourId,              findColour(PhiColourIds::Module::Text));
+        setColour(juce::ColourSelector::backgroundColourId,       juce::Colours::transparentBlack);
+        setColour(juce::CaretComponent::caretColourId,            findColour(PhiColourIds::Module::SelectedName));
+        setColour(juce::Label::backgroundWhenEditingColourId,     juce::Colours::transparentBlack);
+        setColour(juce::Label::textWhenEditingColourId,           findColour(PhiColourIds::Module::Text));
+        setColour(juce::TextEditor::focusedOutlineColourId,       juce::Colours::transparentBlack);
+        setColour(juce::TextEditor::highlightedTextColourId,      findColour(PhiColourIds::Module::Lowlight));
+    }
 };
